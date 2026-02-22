@@ -312,6 +312,89 @@ def profile_comparison(df):
     return result
 
 
+# ---------------------------------------------------------------------------
+# 5. Conditional / Interdependent Weight Exploration
+# ---------------------------------------------------------------------------
+def conditional_weight_analysis(df):
+    """Explore weight interdependencies: how changing one factor's weight
+    should affect others, based on pairwise return-correlation structure.
+
+    When ESG weight rises, financial weight drops (substitute relationship).
+    When market volatility is high, stability weight should rise.
+    This produces an interaction matrix for the research paper.
+    """
+    print("\n--- Weight Sensitivity: Conditional Interdependence ---")
+
+    return_col = None
+    for rc in ["price_momentum_3m", "price_momentum_6m", "price_momentum_1m"]:
+        if rc in df.columns and df[rc].notna().sum() > 10:
+            return_col = rc
+            break
+
+    # A. Pairwise factor correlation with returns
+    score_cols = [c for c in WEIGHT_NAMES if c in df.columns]
+    if return_col:
+        corr_rows = []
+        for c in score_cols:
+            r = df[[c, return_col]].dropna()
+            if len(r) > 10:
+                corr = r[c].corr(r[return_col])
+                corr_rows.append({"factor": c, "corr_with_return": corr})
+        corr_df = pd.DataFrame(corr_rows).sort_values("corr_with_return", ascending=False)
+        corr_df.to_csv(TABLES / "weight_factor_return_corr.csv", index=False)
+        print(f"  [OK] Saved weight_factor_return_corr.csv")
+        for _, r in corr_df.iterrows():
+            print(f"    {r['factor']:25s}: corr={r['corr_with_return']:+.3f}")
+
+    # B. Pairwise factor substitution matrix
+    # How rank correlation changes when one factor's weight is doubled
+    sub_rows = []
+    for f1 in score_cols:
+        for f2 in score_cols:
+            if f1 == f2:
+                continue
+            # Baseline: default weights
+            base_score = compute_preference(df, DEFAULT_WEIGHTS)
+            base_rank = base_score.rank(ascending=False)
+
+            # Shift: double f1's weight, halve f2's weight
+            shifted = DEFAULT_WEIGHTS.copy()
+            shifted[f1] = min(0.50, shifted.get(f1, 0.10) * 2)
+            shifted[f2] = max(0.01, shifted.get(f2, 0.10) * 0.5)
+            total = sum(shifted.values())
+            shifted = {k: v / total for k, v in shifted.items()}
+
+            new_score = compute_preference(df, shifted)
+            new_rank = new_score.rank(ascending=False)
+            kt, _ = kendalltau(base_rank, new_rank)
+
+            # Measure Sharpe change
+            new_sharpe = 0.0
+            if return_col:
+                new_sharpe = compute_portfolio_sharpe(df, shifted, return_col=return_col, top_n=20)
+            base_sharpe = compute_portfolio_sharpe(df, DEFAULT_WEIGHTS, return_col=return_col, top_n=20) if return_col else 0.0
+
+            sub_rows.append({
+                "increased_factor": f1, "decreased_factor": f2,
+                "kendall_tau": kt,
+                "sharpe_change": new_sharpe - base_sharpe,
+            })
+
+    sub_df = pd.DataFrame(sub_rows)
+    sub_df.to_csv(TABLES / "weight_interdependence_matrix.csv", index=False)
+    print(f"  [OK] Saved weight_interdependence_matrix.csv ({len(sub_df)} pairs)")
+
+    # C. Identify best complementary pairs (largest Sharpe improvement)
+    if len(sub_df) > 0:
+        best = sub_df.nlargest(5, "sharpe_change")
+        print("  Top 5 beneficial weight shifts:")
+        for _, r in best.iterrows():
+            print(f"    Increase {r['increased_factor']:20s} / Decrease {r['decreased_factor']:20s}: "
+                  f"Sharpe change = {r['sharpe_change']:+.3f}")
+
+    return sub_df
+
+
 def main():
     print("=" * 70)
     print("STEP 05: WEIGHT SENSITIVITY & OPTIMIZATION")
@@ -322,6 +405,7 @@ def main():
     grid_search_weights(df)
     rank_stability(df)
     profile_comparison(df)
+    conditional_weight_analysis(df)
 
     print(f"\n[DONE] Weight sensitivity analysis complete. Results in {TABLES}/")
     print("Next: python scripts/06_benchmark_comparison.py")

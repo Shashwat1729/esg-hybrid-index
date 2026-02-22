@@ -1,0 +1,617 @@
+========================================================================
+MULTI-FACTOR ESG-INTEGRATED INVESTMENT INDEX
+Research Summary Report
+========================================================================
+
+Generated from the complete analysis pipeline.
+All statistical tests use significance level alpha = 0.05.
+* indicates statistical significance at the 5% level.
+
+
+========================================================================
+1. DATASET OVERVIEW
+========================================================================
+
+  Total companies: 60
+  Total variables: 151
+    US: 40 companies (66.7%)
+    India: 20 companies (33.3%)
+  Sectors: 10
+    Technology: 12
+    Financial Services: 11
+    Healthcare: 8
+    Communication Services: 7
+    Consumer Defensive: 7
+    Consumer Cyclical: 6
+    Energy: 3
+    Basic Materials: 3
+    Industrials: 2
+    Utilities: 1
+
+  Key Score Statistics:
+  Score                         Mean      Std      Min      Max
+  ---------------------------------------------------------
+  ESG_composite                50.00     4.82    41.99    61.34
+  financial_score              50.03     7.40    35.85    72.13
+  market_score                 50.00     9.51    22.78    73.22
+  operational_score            49.90     4.22    42.61    61.64
+  pref_balanced                51.77     4.00    44.85    61.69
+
+
+========================================================================
+2. NORMALITY TESTS
+========================================================================
+
+  Variables tested: 14
+  Normal (Shapiro-Wilk, p>0.05): 8/14
+  Normal (Jarque-Bera, p>0.05):  10/14
+  Normal (K-S, p>0.05):          12/14
+
+  Implication: Most scores are non-normally distributed, supporting use of non-parametric tests.
+
+
+========================================================================
+3. CORRELATION ANALYSIS
+========================================================================
+
+  Total pairwise tests: 91
+  Significant Pearson (p<0.05):  35 (38.5%)
+  Significant Spearman (p<0.05): 36 (39.6%)
+
+  Strongest positive correlations:
+    pref_balanced <-> pref_financial_first: r=0.992 (p=0.0000)
+    pref_balanced <-> pref_esg_first: r=0.943 (p=0.0000)
+    pref_esg_first <-> pref_financial_first: r=0.904 (p=0.0000)
+    financial_score <-> pref_financial_first: r=0.855 (p=0.0000)
+    financial_score <-> pref_balanced: r=0.839 (p=0.0000)
+
+  Strongest negative correlations:
+    operational_score <-> value_score: r=-0.215 (p=0.0991)
+    G_score <-> risk_adjusted_score: r=-0.175 (p=0.1800)
+    market_score <-> value_score: r=-0.173 (p=0.1869)
+
+
+========================================================================
+4. ESG-FINANCIAL RELATIONSHIP
+========================================================================
+
+  Regressions run: 10
+  Significant (p<0.05): 2/10
+    ESG_composite -> roa: R2=0.0187, slope=0.0018, p=0.2977  
+    ESG_composite -> roe: R2=0.0053, slope=0.0056, p=0.5811  
+    ESG_composite -> net_margin: R2=0.0903, slope=0.7439, p=0.0197 *
+    ESG_composite -> financial_score: R2=0.0534, slope=0.3546, p=0.0756  
+    E_score -> roa: R2=0.0264, slope=0.0014, p=0.2150  
+    E_score -> financial_score: R2=0.0679, slope=0.2486, p=0.0443 *
+    S_score -> roa: R2=0.0012, slope=0.0003, p=0.7888  
+    S_score -> financial_score: R2=0.0180, slope=0.1233, p=0.3064  
+    G_score -> roa: R2=0.0025, slope=0.0004, p=0.7069  
+    G_score -> financial_score: R2=0.0001, slope=0.0110, p=0.9284  
+
+  Multiple Regression (with controls):
+    ESG_composite -> roa: coef=0.0117, p=0.1702, R2_adj=0.0622  
+    market_cap -> roa: coef=0.0019, p=0.8257, R2_adj=0.0622  
+    debt_to_equity -> roa: coef=0.0209, p=0.0151, R2_adj=0.0622 *
+    beta -> roa: coef=0.0043, p=0.6032, R2_adj=0.0622  
+    ESG_composite -> roe: coef=0.0282, p=0.5773, R2_adj=-0.0311  
+    market_cap -> roe: coef=-0.0377, p=0.4568, R2_adj=-0.0311  
+    debt_to_equity -> roe: coef=-0.0610, p=0.2244, R2_adj=-0.0311  
+    beta -> roe: coef=0.0131, p=0.7919, R2_adj=-0.0311  
+    ESG_composite -> financial_score: coef=1.1069, p=0.1152, R2_adj=0.5141  
+    market_cap -> financial_score: coef=4.9223, p=0.0000, R2_adj=0.5141 *
+    debt_to_equity -> financial_score: coef=2.7217, p=0.0002, R2_adj=0.5141 *
+    beta -> financial_score: coef=-0.0288, p=0.9664, R2_adj=0.5141  
+
+
+========================================================================
+5. SECTOR AND COUNTRY DIFFERENCES
+========================================================================
+
+  ANOVA tests: 14
+  Significant (p<0.05): 2/14
+    ESG_composite: F=1.02, p=0.4324, eta2=0.141 (Large)  
+    E_score: F=1.05, p=0.4149, eta2=0.145 (Large)  
+    S_score: F=1.85, p=0.0899, eta2=0.228 (Large)  
+    G_score: F=0.83, p=0.5800, eta2=0.118 (Medium)  
+    financial_score: F=2.12, p=0.0514, eta2=0.253 (Large)  
+    market_score: F=1.67, p=0.1297, eta2=0.211 (Large)  
+    operational_score: F=1.52, p=0.1754, eta2=0.196 (Large)  
+    pref_balanced: F=1.04, p=0.4182, eta2=0.143 (Large)  
+    pref_esg_first: F=0.58, p=0.7902, eta2=0.085 (Medium)  
+    pref_financial_first: F=1.41, p=0.2150, eta2=0.184 (Large)  
+    risk_adjusted_score: F=2.53, p=0.0215, eta2=0.288 (Large) *
+    value_score: F=1.68, p=0.1261, eta2=0.212 (Large)  
+    growth_score: F=0.73, p=0.6678, eta2=0.104 (Medium)  
+    stability_score: F=11.47, p=0.0000, eta2=0.647 (Large) *
+
+  Country difference tests: 14
+  Significant (t-test, p<0.05): 3/14
+    ESG_composite: Cohen's d=-0.239 (Small), p=0.3864  
+    E_score: Cohen's d=-0.362 (Small), p=0.1913  
+    S_score: Cohen's d=-0.063 (Small), p=0.8185  
+    G_score: Cohen's d=0.001 (Small), p=0.9983  
+    financial_score: Cohen's d=-0.593 (Medium), p=0.0344 *
+    market_score: Cohen's d=-0.018 (Small), p=0.9486  
+    operational_score: Cohen's d=0.853 (Large), p=0.0029 *
+    pref_balanced: Cohen's d=-0.495 (Small), p=0.0761  
+    pref_esg_first: Cohen's d=-0.340 (Small), p=0.2189  
+    pref_financial_first: Cohen's d=-0.485 (Small), p=0.0821  
+    risk_adjusted_score: Cohen's d=-0.069 (Small), p=0.8021  
+    value_score: Cohen's d=0.045 (Small), p=0.8700  
+    growth_score: Cohen's d=-1.637 (Large), p=0.0000 *
+    stability_score: Cohen's d=0.260 (Small), p=0.3460  
+
+
+========================================================================
+6. QUINTILE ANALYSIS (Q5 vs Q1)
+========================================================================
+
+  Variables tested: 7
+  Significant differences: 4/7
+    roa: Q5=0.127, Q1=0.069, diff=0.058, d=0.873 *
+    roe: Q5=0.353, Q1=0.319, diff=0.035, d=0.098  
+    net_margin: Q5=22.706, Q1=13.654, diff=9.052, d=0.846  
+    ESG_composite: Q5=53.555, Q1=49.294, diff=4.261, d=1.053 *
+    financial_score: Q5=59.719, Q1=44.267, diff=15.452, d=2.340 *
+    market_score: Q5=55.374, Q1=39.851, diff=15.523, d=1.593 *
+    operational_score: Q5=51.937, Q1=49.772, diff=2.165, d=0.494  
+
+
+========================================================================
+7. FACTOR CONTRIBUTIONS
+========================================================================
+
+  Factor contributions to balanced preference score:
+  Factor                               R2    Slope    p-value
+  --------------------------------------------------------
+  financial_score                  0.7036   0.4536     0.0000 *
+  growth_score                     0.4428   0.4074     0.0000 *
+  market_score                     0.1766   0.1767     0.0008 *
+  ESG_composite                    0.1391   0.3095     0.0033 *
+  stability_score                  0.1014   0.1274     0.0131 *
+  risk_adjusted_score              0.0713   0.1598     0.0392 *
+  operational_score                0.0660   0.2439     0.0475 *
+  value_score                      0.0139   0.0644     0.3695  
+
+
+========================================================================
+8. MULTICOLLINEARITY (VIF)
+========================================================================
+
+  Factor                              VIF        Level
+  --------------------------------------------------
+  ESG_composite                      1.16          Low
+  financial_score                    3.03          Low
+  market_score                       2.08          Low
+  operational_score                  1.26          Low
+  risk_adjusted_score                1.94          Low
+  value_score                        1.20          Low
+  growth_score                       2.93          Low
+  stability_score                    1.34          Low
+
+  All VIF values below 5 - no serious multicollinearity detected.
+
+
+========================================================================
+9. WEIGHT SENSITIVITY ANALYSIS
+========================================================================
+
+  Rank stability (100 weight perturbations, +/-20%):
+    Stable companies (std < 3): 98.3%
+    Average rank std:  1.10
+    Average rank range: 5.3
+
+  Grid search (ESG x Financial weights):
+    Best ESG weight: 0.1
+    Best Financial weight: 0.15
+    Best Sharpe: 0.5462
+    Total combinations tested: 99
+
+  Profile comparison:
+    esg_first vs balanced: Kendall tau=0.771, Top-10 overlap=9
+    esg_first vs financial_first: Kendall tau=0.716, Top-10 overlap=8
+    balanced vs financial_first: Kendall tau=0.923, Top-10 overlap=8
+
+
+========================================================================
+10. BENCHMARK COMPARISON
+========================================================================
+
+  Our Multi-Factor (Top 20):
+    N companies: 20
+    Avg ESG:       52.1
+    Avg Financial: 57.4
+    N sectors:     8
+  ESG-Only (Top 20):
+    N companies: 20
+    Avg ESG:       55.2
+    Avg Financial: 51.5
+    N sectors:     9
+  Financial-Only (Top 20):
+    N companies: 20
+    Avg ESG:       51.7
+    Avg Financial: 58.2
+    N sectors:     8
+  Growth-Only (Top 20):
+    N companies: 20
+    Avg ESG:       51.6
+    Avg Financial: 56.2
+    N sectors:     9
+  Full Universe:
+    N companies: 60
+    Avg ESG:       50.0
+    Avg Financial: 50.0
+    N sectors:     10
+
+  Simulated portfolio returns (avg_price_momentum_1m):
+    our_balanced_top20: 3.99%
+    our_balanced_top30: 3.22%
+    our_esg_first_top20: 2.47%
+    our_fin_first_top20: 3.55%
+    esg_only_top20: -1.28%
+    financial_only_top20: 1.03%
+    risk_adj_only_top20: 2.55%
+    growth_only_top20: 1.49%
+    full_universe: 0.65%
+
+
+========================================================================
+11. ADVANCED ANALYSIS
+========================================================================
+
+  PCA - Explained Variance:
+    PC1: eigenvalue=1.962, var=24.1%, cum=24.1%
+    PC2: eigenvalue=1.735, var=21.3%, cum=45.4%
+    PC3: eigenvalue=1.418, var=17.4%, cum=62.9%
+    PC4: eigenvalue=1.095, var=13.5%, cum=76.3%
+    PC5: eigenvalue=0.742, var=9.1%, cum=85.5%
+    PC6: eigenvalue=0.660, var=8.1%, cum=93.6%
+    PC7: eigenvalue=0.367, var=4.5%, cum=98.1%
+    PC8: eigenvalue=0.156, var=1.9%, cum=100.0%
+    Components to retain (Kaiser): 4
+
+  Hierarchical Clustering:
+    Optimal clusters: 6
+    Silhouette score: 0.246
+
+  Bootstrap CI (500 iterations):
+    Stable companies: 100.0%
+    Average CI width: 7.2 positions
+
+  Factor Ablation:
+    Remove financial_score: Kendall tau=0.746, mean rank shift=5.6
+    Remove market_score: Kendall tau=0.810, mean rank shift=4.3
+    Remove ESG_composite: Kendall tau=0.855, mean rank shift=3.4
+    Remove growth_score: Kendall tau=0.866, mean rank shift=3.2
+    Remove value_score: Kendall tau=0.885, mean rank shift=2.6
+    Remove stability_score: Kendall tau=0.901, mean rank shift=2.4
+    Remove risk_adjusted_score: Kendall tau=0.902, mean rank shift=2.3
+    Remove operational_score: Kendall tau=0.911, mean rank shift=2.1
+
+  Efficient Frontier:
+    Max Sharpe: return=18.26, risk=14.83, sharpe=1.231
+    Min Risk: return=15.23, risk=14.20, sharpe=1.073
+    Max Return: return=18.26, risk=14.83, sharpe=1.231
+
+  Cross-Validation (5-fold):
+    Avg train Sharpe: 1.519
+    Avg test Sharpe:  1.036
+    Overfit ratio:    1.65
+
+  Score Inequality (Gini):
+    ESG_composite: Gini=0.340 (Moderate)
+    financial_score: Gini=0.272 (Moderate)
+    market_score: Gini=0.188 (Moderate)
+    operational_score: Gini=0.318 (Moderate)
+    risk_adjusted_score: Gini=0.277 (Moderate)
+    value_score: Gini=0.152 (Moderate)
+    growth_score: Gini=0.368 (Moderate)
+    stability_score: Gini=0.229 (Moderate)
+    pref_balanced: Gini=0.323 (Moderate)
+
+
+========================================================================
+12. MULTI-HORIZON RETURN COMPARISON
+========================================================================
+
+  Strategy                        ret_1m shrp_1m    ret_3m shrp_3m    ret_6m shrp_6m
+  ----------------------------------------------------------------------------------
+  Our_MultiF_Top20                 +3.99  +0.529     +3.56  +0.313    +10.26  +0.612
+  Our_ESGFirst_Top20               +2.47  +0.346     +1.96  +0.170     +9.18  +0.537
+  ESG_Only_Top20                   -1.28  -0.233     -1.72  -0.192     +9.65  +0.660
+  Financial_Only_Top20             +1.03  +0.123     +0.60  +0.051     +8.43  +0.481
+  Growth_Only_Top20                +1.49  +0.215     +1.75  +0.186     +8.04  +0.527
+  Full_Universe                    +0.65  +0.082     +0.64  +0.063     +7.34  +0.496
+
+  Multi-factor beats universe: 3/3 horizons
+
+
+========================================================================
+13. ALPHA/BETA DECOMPOSITION
+========================================================================
+
+  Strategy                        Alpha   Beta   Excess       IR
+  ------------------------------------------------------------
+  Our_MultiF_Top20                +2.89   1.00    +2.92   +0.174
+  Our_ESGFirst_Top20              +1.55   1.04    +1.85   +0.108
+  ESG_Only_Top20                  +1.95   1.05    +2.32   +0.158
+  Financial_Only_Top20            +0.70   1.05    +1.10   +0.063
+  Growth_Only_Top20               -0.15   1.12    +0.70   +0.046
+
+
+========================================================================
+14. MARKET REGIME ANALYSIS
+========================================================================
+
+
+  BULL Market:
+    our_balanced        : return=+15.91%, excess= +0.80%, sharpe=+1.182
+    esg_only            : return=+15.67%, excess= +0.56%, sharpe=+1.057
+    financial_only      : return=+14.82%, excess= -0.29%, sharpe=+1.100
+    growth_only         : return=+13.94%, excess= -1.16%, sharpe=+1.003
+
+  BEAR Market:
+    our_balanced        : return= -4.62%, excess= +0.55%, sharpe=-0.567
+    esg_only            : return= -5.22%, excess= -0.05%, sharpe=-0.608
+    financial_only      : return= -5.41%, excess= -0.24%, sharpe=-0.662
+    growth_only         : return= -4.42%, excess= +0.75%, sharpe=-0.549
+
+
+========================================================================
+15. FACTOR MONOTONICITY
+========================================================================
+
+  Factor                        Q1     Q3     Q5   Spread   Mono
+  ---------------------------------------------------------
+  market_score                -4.5   +5.2  +18.5   +22.99    Yes
+  pref_balanced               +1.3   +5.3  +12.2   +10.96 Partial
+  stability_score             +5.1   +8.0  +15.0    +9.93 Partial
+  operational_score           +7.6  +11.6  +11.4    +3.76     No
+  risk_adjusted_score         +3.7   +9.1   +7.2    +3.55     No
+  growth_score                +5.2  +11.1   +8.7    +3.45 Partial
+  financial_score            +10.1   +4.0  +11.6    +1.46     No
+  ESG_composite              +10.5   +4.0   +7.4    -3.10     No
+  value_score                +11.3   +1.9   +4.8    -6.46     No
+
+  Monotonic factors: 1/9
+  Best predictor: market_score (Q5-Q1 spread = +22.99%)
+
+
+========================================================================
+16. DATA QUALITY & VARIABLE CLASSIFICATION
+========================================================================
+
+  Variable type classification (58 variables):
+    bounded_pct         : 17
+    count               : 14
+    continuous          : 9
+    rate                : 8
+    ratio               : 5
+    binary              : 3
+    ordinal             : 2
+
+  Advanced Outlier Detection (IQR + MAD + Z-score consensus):
+    Variables with outliers: 28/53
+    Total outlier observations flagged: 115
+    Most affected variables:
+      injury_rate                   : 9 outliers (15.0%)
+      price_to_book                 : 8 outliers (13.3%)
+      employees                     : 8 outliers (13.3%)
+      total_revenue                 : 8 outliers (13.3%)
+      free_cashflow                 : 7 outliers (17.5%)
+
+  Data Quality:
+    Avg missing before cleaning: 9.2%
+    Avg missing after cleaning:  0.0%
+
+
+========================================================================
+17. BINARY & ORDINAL VARIABLE ANALYSIS
+========================================================================
+
+  Binary variables tested: 3
+    Significant associations with ESG_composite: 0/3
+    Significant associations with financial_score: 0/3
+    Significant associations with pref_balanced: 0/3
+
+    carbon_reduction_target       : prop=0.35, ESG r=0.113 , Fin r=0.101 , Pref r=0.101 
+    human_rights_policy           : prop=0.48, ESG r=0.049 , Fin r=0.068 , Pref r=-0.027 
+    anti_corruption_policy        : prop=0.70, ESG r=0.024 , Fin r=0.173 , Pref r=0.121 
+
+  Phi Coefficients (binary-binary associations):
+    carbon_reduction_target x human_rights_policy: phi=0.024, p=0.8496  
+    carbon_reduction_target x anti_corruption_policy: phi=0.061, p=0.6366  
+    human_rights_policy x anti_corruption_policy: phi=0.160, p=0.2149  
+
+  Ordinal variables tested: 1
+    board_size: median=9, KW-H(sector)=13.842 (p=0.0860) , Spearman(pref)=0.152 (p=0.2459)
+
+
+========================================================================
+18. NON-PARAMETRIC ROBUSTNESS TESTS
+========================================================================
+
+  Friedman test (across score categories):
+    Chi-squared: 2.040
+    p-value:     0.5641
+    Result: No significant differences detected.
+
+  Wilcoxon signed-rank pairwise comparisons:
+    Total pairs tested: 6
+    Significant (p<0.05): 0/6
+    ESG_composite vs financial_score: W=913.0, p=0.9883  
+    ESG_composite vs market_score: W=870.0, p=0.7404  
+    ESG_composite vs operational_score: W=897.0, p=0.8946  
+    financial_score vs market_score: W=856.0, p=0.6640  
+    financial_score vs operational_score: W=804.0, p=0.4138  
+    market_score vs operational_score: W=810.0, p=0.4395  
+
+
+========================================================================
+19. RESULTS SUMMARY
+========================================================================
+
+  Sample: 60 companies, 10 sectors (US + India).
+  Balanced top-20: 1m return +3.99% (Sharpe 0.529)
+    vs full universe +0.65% (Sharpe 0.082).
+    Beats all single-factor alternatives: ESG-only (-1.28%), financial-only (+1.03%), growth-only (+1.49%).
+  Outperforms universe across 3/3 horizons tested.
+  Alpha = +2.89%, Beta = 1.00, IR = 0.174.
+  Score-weighted Sharpe (0.612) > random baselines (0.523).
+  Rank stability: 98.3% stable under +/-20% perturbation (avg std 1.10).
+  Cross-validation: train Sharpe 1.519, test Sharpe 1.036.
+  Rolling rebalance: beats benchmark 100% of periods (avg excess +3.23%).
+  Dominant factor: financial_score (R2 = 0.704).
+  Max VIF = 3.03 (no serious multicollinearity).
+  Bear-market excess return: +0.55%.
+  Best monotonic predictor: market_score (Q5-Q1 spread = +22.99%).
+
+
+========================================================================
+20. TOP RANKED COMPANIES
+========================================================================
+
+  Top 20 by Balanced Preference Score:
+  #    Ticker       Sector                    Country    Pref    ESG    Fin
+  -----------------------------------------------------------------------
+  1    GOOGL        Communication Services    US         61.7   56.5   60.4
+  2    RELIANCE.NS  Energy                    India      60.7   50.7   72.1
+  3    TCS.NS       Technology                India      60.1   53.3   71.7
+  4    BHARTIARTL.NS Communication Services    India      59.2   54.1   70.2
+  5    META         Communication Services    US         58.5   51.2   64.9
+  6    JNJ          Healthcare                US         57.3   51.3   54.6
+  7    NVDA         Technology                US         56.9   55.9   58.6
+  8    ULTRACEMCO.NS Basic Materials           India      56.4   61.3   49.2
+  9    PG           Consumer Defensive        US         56.0   59.4   48.2
+  10   PFE          Healthcare                US         55.8   49.6   53.6
+  11   INFY.NS      Technology                India      55.7   53.9   57.5
+  12   ITC.NS       Consumer Defensive        India      55.6   45.4   55.6
+  13   MARUTI.NS    Consumer Cyclical         India      55.5   50.1   52.6
+  14   AAPL         Technology                US         55.2   51.5   58.1
+  15   SBIN.NS      Financial Services        India      54.9   49.8   53.9
+  16   AMZN         Consumer Cyclical         US         54.7   53.4   49.1
+  17   V            Financial Services        US         54.4   55.6   54.4
+  18   MSFT         Technology                US         54.4   50.7   60.7
+  19   PM           Consumer Defensive        US         53.6   42.5   52.9
+  20   CVX          Energy                    US         53.1   46.6   49.0
+
+
+========================================================================
+21. FIGURES GENERATED
+========================================================================
+
+  Total figures: 30
+
+  - fig01_score_distributions.png
+  - fig02_esg_radar.png
+  - fig03_correlation_heatmap.png
+  - fig04_esg_vs_financial.png
+  - fig05_sector_boxplots.png
+  - fig06_country_comparison.png
+  - fig07_top20_rankings.png
+  - fig08_factor_contribution.png
+  - fig09_similarity_heatmap.png
+  - fig10_weight_sensitivity.png
+  - fig11_profile_comparison.png
+  - fig12_quintile_analysis.png
+  - fig13_esg_by_sector.png
+  - fig14_scatter_matrix.png
+  - fig15_grid_search_heatmap.png
+  - fig16_rank_stability.png
+  - fig17_missing_data.png
+  - fig18_portfolio_performance.png
+  - fig19_regression_diagnostics.png
+  - fig20_summary_dashboard.png
+  - fig21_pca_biplot.png
+  - fig22_dendrogram.png
+  - fig23_cdf_comparison.png
+  - fig24_bootstrap_ci.png
+  - fig25_factor_ablation.png
+  - fig26_efficient_frontier.png
+  - fig27_extended_scores_country.png
+  - fig28_decile_analysis.png
+  - fig29_gini_inequality.png
+  - fig30_company_profiles.png
+
+
+========================================================================
+22. TABLES GENERATED
+========================================================================
+
+  Total tables: 75
+
+  - advanced_bootstrap_ci.csv                          (   3.6 KB)
+  - advanced_cluster_metrics.csv                       (   0.2 KB)
+  - advanced_cluster_profiles.csv                      (   1.2 KB)
+  - advanced_cluster_sectors.csv                       (   0.7 KB)
+  - advanced_cv_weights.csv                            (   0.9 KB)
+  - advanced_efficient_frontier.csv                    ( 132.5 KB)
+  - advanced_factor_ablation.csv                       (   0.7 KB)
+  - advanced_factor_monotonicity.csv                   (   1.7 KB)
+  - advanced_gini_inequality.csv                       (   0.9 KB)
+  - advanced_kmeans_elbow.csv                          (   0.3 KB)
+  - advanced_optimal_portfolios.csv                    (   0.5 KB)
+  - advanced_pca_loadings.csv                          (   1.4 KB)
+  - advanced_pca_variance.csv                          (   0.5 KB)
+  - advanced_rank_reversals.csv                        (   1.8 KB)
+  - advanced_regime_analysis.csv                       (   1.4 KB)
+  - advanced_rolling_rebalance.csv                     (   5.7 KB)
+  - benchmark_alpha_beta.csv                           (   1.0 KB)
+  - benchmark_multi_horizon.csv                        (   1.5 KB)
+  - benchmark_portfolio_performance.csv                (   4.5 KB)
+  - benchmark_ranking_overlap.csv                      (   0.4 KB)
+  - benchmark_sector_by_country.csv                    (   4.6 KB)
+  - benchmark_sector_composition.csv                   (   0.9 KB)
+  - benchmark_sector_summary.csv                       (   0.5 KB)
+  - benchmark_strategy_scores.csv                      (   1.3 KB)
+  - benchmark_summary.csv                              (   0.7 KB)
+  - benchmark_us_vs_india.csv                          (   2.0 KB)
+  - benchmark_weighting_methods.csv                    (   0.5 KB)
+  - binary_phi_coefficients.csv                        (   0.3 KB)
+  - binary_variable_analysis.csv                       (   0.9 KB)
+  - bottom20_balanced.csv                              (   3.6 KB)
+  - bottom20_esg.csv                                   (   3.6 KB)
+  - bottom20_financial.csv                             (   3.6 KB)
+  - bottom20_growth.csv                                (   3.5 KB)
+  - bottom20_value.csv                                 (   3.7 KB)
+  - company_rankings.csv                               (  14.1 KB)
+  - correlation_pearson.csv                            (   8.0 KB)
+  - correlation_significance.csv                       (  14.4 KB)
+  - correlation_spearman.csv                           (   8.0 KB)
+  - country_differences.csv                            (   2.8 KB)
+  - data_quality_after.csv                             (  11.1 KB)
+  - data_quality_before.csv                            (  11.3 KB)
+  - decile_analysis.csv                                (   2.6 KB)
+  - descriptive_statistics.csv                         (   3.0 KB)
+  - esg_financial_regression.csv                       (   1.3 KB)
+  - factor_contributions.csv                           (   0.8 KB)
+  - friedman_test.csv                                  (   0.1 KB)
+  - heteroscedasticity.csv                             (   0.3 KB)
+  - multiple_regression.csv                            (   2.2 KB)
+  - normality_tests.csv                                (   2.2 KB)
+  - ordinal_variable_analysis.csv                      (   0.5 KB)
+  - outlier_report.csv                                 (   3.2 KB)
+  - pillar_correlations.csv                            (   0.3 KB)
+  - profile_rank_correlation.csv                       (   0.5 KB)
+  - quintile_analysis.csv                              (   1.8 KB)
+  - quintile_q5_vs_q1.csv                              (   1.0 KB)
+  - rank_stability.csv                                 (   2.7 KB)
+  - sector_anova.csv                                   (   1.8 KB)
+  - sector_means.csv                                   (   6.0 KB)
+  - sector_score_interaction.csv                       (   1.7 KB)
+  - sector_score_summary.csv                           (   4.0 KB)
+  - size_group_anova.csv                               (   0.6 KB)
+  - size_group_means.csv                               (   0.7 KB)
+  - top20_balanced.csv                                 (   3.6 KB)
+  - top20_esg.csv                                      (   3.6 KB)
+  - top20_financial.csv                                (   3.6 KB)
+  - top20_growth.csv                                   (   3.8 KB)
+  - top20_value.csv                                    (   3.7 KB)
+  - variable_type_classification.csv                   (   5.9 KB)
+  - vif_multicollinearity.csv                          (   0.3 KB)
+  - weight_factor_return_corr.csv                      (   0.4 KB)
+  - weight_grid_search.csv                             (  11.9 KB)
+  - weight_interdependence_matrix.csv                  (   6.2 KB)
+  - weight_profile_comparison.csv                      (   0.3 KB)
+  - weight_sensitivity_single.csv                      (   4.9 KB)
+  - wilcoxon_pairwise.csv                              (   0.5 KB)

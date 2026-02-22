@@ -1,0 +1,16 @@
+category,finding,significance
+Data,Sample of 60 companies across 10 sectors,N/A
+Data,US: 40 companies,N/A
+Data,India: 20 companies,N/A
+ESG-Financial,ESG_composite significantly predicts net_margin (R2=0.0903),p=0.0197
+ESG-Financial,E_score significantly predicts financial_score (R2=0.0679),p=0.0443
+Sector Differences,Significant sector differences in risk_adjusted_score (eta2=0.288),p=0.0215
+Sector Differences,Significant sector differences in stability_score (eta2=0.647),p=0.0000
+Country Differences,Significant country difference in financial_score (d=-0.593),p=0.0344
+Country Differences,Significant country difference in operational_score (d=0.853),p=0.0029
+Country Differences,Significant country difference in growth_score (d=-1.637),p=0.0000
+Robustness,98.3% of companies have stable rankings under weight perturbation,N/A
+Multicollinearity,Max VIF = 3.03 (financial_score),Low
+Portfolio Performance,"Balanced top-20: 1m return +3.99%, Sharpe 0.529",N/A
+Alpha/Beta,"Multi-factor alpha = +2.89%, beta = 1.00",N/A
+Robustness,Balanced strategy beats benchmark 100% of rolling periods,N/A

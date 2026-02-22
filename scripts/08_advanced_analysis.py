@@ -252,17 +252,24 @@ def bootstrap_rankings(df, n_bootstrap=500):
 # 5. Factor Ablation Study (Leave-One-Out)
 # ---------------------------------------------------------------------------
 def factor_ablation(df):
+    """Leave-one-out factor ablation: remove each factor and measure rank change.
+
+    Uses all 8 extended factors (not just the 4 core factors) for a complete
+    picture of each factor's marginal contribution to the composite score.
+    """
     print("\n--- Advanced 5: Factor Ablation Study ---")
     if "pref_balanced" not in df.columns:
         return
 
-    avail = [c for c in FACTOR_COLS if c in df.columns]
+    avail = [c for c in EXTENDED_FACTORS if c in df.columns]
     if len(avail) < 2:
         return
 
     base_weights = {
-        "ESG_composite": 0.25, "financial_score": 0.30,
-        "market_score": 0.20, "operational_score": 0.15,
+        "ESG_composite": 0.15, "financial_score": 0.25,
+        "market_score": 0.10, "operational_score": 0.10,
+        "risk_adjusted_score": 0.08, "value_score": 0.08,
+        "growth_score": 0.12, "stability_score": 0.05,
     }
     base_avail = {k: v for k, v in base_weights.items() if k in df.columns}
 
@@ -343,29 +350,51 @@ def rank_reversal_analysis(df):
 # 7. Mean-Variance Efficient Frontier Approximation
 # ---------------------------------------------------------------------------
 def efficient_frontier(df):
+    """Mean-variance efficient frontier using ACTUAL stock returns.
+
+    For each random weight combination, we select top-20 companies by
+    weighted score and measure their average return and return volatility.
+    This produces return-based Sharpe ratios (interpretable as risk-adjusted
+    performance) rather than score-based ratios which are meaningless.
+    """
     print("\n--- Advanced 7: Efficient Frontier Approximation ---")
-    # Use factor scores as "returns" and their std as "risk"
     avail = [c for c in FACTOR_COLS if c in df.columns]
     if len(avail) < 2 or "pref_balanced" not in df.columns:
         return
 
+    # Find best return column
+    return_col = None
+    for rc in ["price_momentum_6m", "price_momentum_3m", "price_momentum_1m"]:
+        if rc in df.columns and df[rc].notna().sum() > 10:
+            return_col = rc
+            break
+    if return_col is None:
+        print("  [SKIP] No return data for frontier")
+        return
+
     np.random.seed(42)
     n_portfolios = 1000
+    top_n = 20
 
-    # Generate random weight combinations
     rows = []
     for _ in range(n_portfolios):
         weights = np.random.dirichlet(np.ones(len(avail)))
         weight_dict = dict(zip(avail, weights))
 
-        # Compute portfolio score
+        # Compute composite score
         score = pd.Series(0.0, index=df.index)
         for col, w in weight_dict.items():
             score += w * df[col].fillna(50)
 
-        # "Return" = mean score, "Risk" = std of scores
-        ret = score.mean()
-        risk = score.std()
+        # Select top-N and measure actual returns
+        top_idx = score.nlargest(top_n).index
+        rets = df.loc[top_idx, return_col].dropna()
+
+        if len(rets) < 5:
+            continue
+
+        ret = rets.mean()
+        risk = rets.std()
         sharpe = ret / (risk + 1e-10)
 
         row = {"return": ret, "risk": risk, "sharpe": sharpe}
@@ -388,7 +417,7 @@ def efficient_frontier(df):
     ])
     summary.to_csv(TABLES / "advanced_optimal_portfolios.csv", index=False, encoding="utf-8")
 
-    print(f"  Generated {n_portfolios} random portfolios")
+    print(f"  Generated {len(result)} valid portfolios (of {n_portfolios} attempts)")
     print(f"  Max Sharpe: {best_sharpe['sharpe']:.3f}")
     print(f"  [OK] Saved advanced_efficient_frontier.csv, advanced_optimal_portfolios.csv")
     return result
@@ -398,16 +427,43 @@ def efficient_frontier(df):
 # 8. Cross-validation of Weight Selection
 # ---------------------------------------------------------------------------
 def cross_validate_weights(df):
+    """Cross-validate weight selection using ACTUAL stock returns.
+
+    For each fold: optimize weights on training set (maximize Sharpe of
+    top-N portfolio returns), then evaluate on test set.  This tests
+    whether optimal weights generalize out-of-sample.
+    """
     print("\n--- Advanced 8: Cross-Validation of Weight Selection ---")
     avail = [c for c in FACTOR_COLS if c in df.columns]
     if len(avail) < 2 or "pref_balanced" not in df.columns:
         return
+
+    # Find return column
+    return_col = None
+    for rc in ["price_momentum_6m", "price_momentum_3m", "price_momentum_1m"]:
+        if rc in df.columns and df[rc].notna().sum() > 10:
+            return_col = rc
+            break
 
     np.random.seed(42)
     n_folds = 5
     n = len(df)
     indices = np.random.permutation(n)
     fold_size = n // n_folds
+
+    def _portfolio_sharpe(sub_df, weights, ret_col, top_n=10):
+        """Select top_n by weighted score, return Sharpe of their actual returns."""
+        score = pd.Series(0.0, index=sub_df.index)
+        for i, col in enumerate(avail):
+            score += weights[i] * sub_df[col].fillna(50)
+        top_idx = score.nlargest(min(top_n, len(sub_df))).index
+        if ret_col and ret_col in sub_df.columns:
+            rets = sub_df.loc[top_idx, ret_col].dropna()
+            if len(rets) >= 3 and rets.std() > 1e-10:
+                return rets.mean() / rets.std()
+        # Fallback: score-based Sharpe (clearly labeled)
+        s = score.mean() / (score.std() + 1e-10)
+        return s
 
     rows = []
     for fold in range(n_folds):
@@ -417,20 +473,19 @@ def cross_validate_weights(df):
         train_df = df.iloc[train_idx]
         test_df = df.iloc[test_idx]
 
-        # Find "optimal" weights on training set (grid search simplified)
+        # Find optimal weights on training set
         best_sharpe = -999
         best_weights = None
-        for _ in range(200):
+        for _ in range(300):
             w = np.random.dirichlet(np.ones(len(avail)))
-            score = sum(w[i] * train_df[col].fillna(50) for i, col in enumerate(avail))
-            s = score.mean() / (score.std() + 1e-10)
+            s = _portfolio_sharpe(train_df, w, return_col, top_n=min(10, len(train_df) // 3))
             if s > best_sharpe:
                 best_sharpe = s
                 best_weights = w
 
-        # Apply to test set
-        test_score = sum(best_weights[i] * test_df[col].fillna(50) for i, col in enumerate(avail))
-        test_sharpe = test_score.mean() / (test_score.std() + 1e-10)
+        # Evaluate on test set
+        test_sharpe = _portfolio_sharpe(test_df, best_weights, return_col,
+                                         top_n=min(10, len(test_df) // 2))
 
         row = {
             "fold": fold + 1,
@@ -438,7 +493,8 @@ def cross_validate_weights(df):
             "test_sharpe": test_sharpe,
             "train_n": len(train_df),
             "test_n": len(test_df),
-            "overfit_ratio": best_sharpe / (test_sharpe + 1e-10),
+            "overfit_ratio": best_sharpe / (test_sharpe + 1e-10) if test_sharpe != 0 else float("inf"),
+            "return_col_used": return_col or "score_based",
         }
         for i, col in enumerate(avail):
             row[f"w_{col}"] = best_weights[i]
@@ -447,8 +503,8 @@ def cross_validate_weights(df):
     result = pd.DataFrame(rows)
     result.to_csv(TABLES / "advanced_cv_weights.csv", index=False, encoding="utf-8")
 
-    avg_overfit = result["overfit_ratio"].mean()
-    print(f"  {n_folds}-fold cross-validation")
+    avg_overfit = result["overfit_ratio"].replace([np.inf], np.nan).mean()
+    print(f"  {n_folds}-fold cross-validation (metric: {'return-based' if return_col else 'score-based'})")
     print(f"  Avg train Sharpe: {result['train_sharpe'].mean():.3f}")
     print(f"  Avg test Sharpe: {result['test_sharpe'].mean():.3f}")
     print(f"  Avg overfit ratio: {avg_overfit:.2f}")

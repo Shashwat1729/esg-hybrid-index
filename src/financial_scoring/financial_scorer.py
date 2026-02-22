@@ -67,9 +67,12 @@ class FinancialScorer:
             return df
 
         # For stability/valuation indicators, lower is often better (inverse)
+        # Save original values to restore after normalization
         inverse_financial = ["debt_to_equity", "trailing_pe", "price_to_book"]
+        originals = {}
         for col in inverse_financial:
             if col in available_indicators and col in df.columns:
+                originals[col] = df[col].copy()
                 df[col] = -df[col].astype(float)  # Invert so higher-is-better
 
         df = normalize_indicators(
@@ -123,6 +126,10 @@ class FinancialScorer:
         # Scale to 0-100 for interpretability
         df["financial_score"] = 50 + (df["financial_score"] * 20)
         df["financial_score"] = df["financial_score"].clip(0, 100)
+
+        # Restore original values for inverted columns
+        for col, orig_vals in originals.items():
+            df[col] = orig_vals
 
         return df
 
@@ -179,10 +186,12 @@ class MarketFactorScorer:
             return df
 
         # For volatility-type indicators, lower is better (inverse)
-        # Use temporary inverted columns to avoid corrupting original data
+        # Save original values to restore after normalization
         inverse_cols = ["price_volatility", "beta", "bid_ask_spread"]
+        market_originals = {}
         for col in inverse_cols:
             if col in df.columns:
+                market_originals[col] = df[col].copy()
                 df[col] = -df[col].astype(float)  # Invert so higher-is-better
 
         df = normalize_indicators(
@@ -232,5 +241,9 @@ class MarketFactorScorer:
         # Scale to 0-100
         df["market_score"] = 50 + (df["market_score"] * 20)
         df["market_score"] = df["market_score"].clip(0, 100)
+
+        # Restore original values for inverted columns
+        for col, orig_vals in market_originals.items():
+            df[col] = orig_vals
 
         return df

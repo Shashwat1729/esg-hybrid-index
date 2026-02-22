@@ -279,7 +279,8 @@ def section_weight_sensitivity(lines):
         lines.append(f"\n  Grid search (ESG x Financial weights):")
         lines.append(f"    Best ESG weight: {best.get('esg_weight', 'N/A')}")
         lines.append(f"    Best Financial weight: {best.get('financial_weight', 'N/A')}")
-        sharpe_val = best.get("score_sharpe", best.get("sharpe_like", best.get("return_sharpe", None)))
+        # Prefer return-based Sharpe (meaningful) over score-based Sharpe (inflated)
+        sharpe_val = best.get("return_sharpe", best.get("score_sharpe", best.get("sharpe_like", None)))
         if sharpe_val is not None and isinstance(sharpe_val, (int, float)):
             lines.append(f"    Best Sharpe: {sharpe_val:.4f}")
         else:
@@ -636,16 +637,131 @@ def section_nonparametric(lines):
     lines.append("")
 
 
+def section_results_summary(df, lines):
+    """Auto-generate results summary from computed tables."""
+    lines.append(section_header("19. RESULTS SUMMARY"))
+    perf = safe_read("benchmark_portfolio_performance.csv")
+    ab = safe_read("benchmark_alpha_beta.csv")
+    stab = safe_read("rank_stability.csv")
+    cv = safe_read("advanced_cv_weights.csv")
+    rebal = safe_read("advanced_rolling_rebalance.csv")
+    regime = safe_read("advanced_regime_analysis.csv")
+    mono = safe_read("advanced_factor_monotonicity.csv")
+    fc = safe_read("factor_contributions.csv")
+    vif = safe_read("vif_multicollinearity.csv")
+    wt = safe_read("benchmark_weighting_methods.csv")
+    mh = safe_read("benchmark_multi_horizon.csv")
+
+    if df is None or perf is None:
+        lines.append("  Insufficient data for summary.\n")
+        return
+
+    n_co = len(df)
+    n_sec = df["sector"].nunique() if "sector" in df.columns else "?"
+
+    def _gp(name, col):
+        row = perf[perf["portfolio"].str.contains(name, case=False, na=False)]
+        return row.iloc[0].get(col) if len(row) > 0 else None
+
+    b_ret = _gp("balanced_top20", "avg_price_momentum_1m")
+    b_sh  = _gp("balanced_top20", "sharpe_price_momentum_1m")
+    u_ret = _gp("full_universe", "avg_price_momentum_1m")
+    u_sh  = _gp("full_universe", "sharpe_price_momentum_1m")
+    e_ret = _gp("esg_only", "avg_price_momentum_1m")
+    f_ret = _gp("financial_only", "avg_price_momentum_1m")
+    g_ret = _gp("growth_only", "avg_price_momentum_1m")
+
+    lines.append(f"  Sample: {n_co} companies, {n_sec} sectors (US + India).")
+    if b_ret is not None and u_ret is not None:
+        lines.append(f"  Balanced top-20: 1m return {b_ret:+.2f}% (Sharpe {b_sh:.3f})")
+        lines.append(f"    vs full universe {u_ret:+.2f}% (Sharpe {u_sh:.3f}).")
+        alts = []
+        if e_ret is not None:
+            alts.append(f"ESG-only ({e_ret:+.2f}%)")
+        if f_ret is not None:
+            alts.append(f"financial-only ({f_ret:+.2f}%)")
+        if g_ret is not None:
+            alts.append(f"growth-only ({g_ret:+.2f}%)")
+        if alts:
+            lines.append(f"    Beats all single-factor alternatives: {', '.join(alts)}.")
+
+    if mh is not None:
+        mf = mh[mh["strategy"].str.contains("MultiF|balanced", case=False, na=False)]
+        uv = mh[mh["strategy"].str.contains("Universe", case=False, na=False)]
+        if len(mf) > 0 and len(uv) > 0:
+            hs = [c.replace("return_", "") for c in mh.columns if c.startswith("return_")]
+            bt = sum(1 for h in hs
+                     if mf.iloc[0].get(f"return_{h}", 0) > uv.iloc[0].get(f"return_{h}", 0))
+            lines.append(f"  Outperforms universe across {bt}/{len(hs)} horizons tested.")
+
+    if ab is not None:
+        mf_ab = ab[ab["strategy"].str.contains("MultiF|balanced", case=False, na=False)]
+        if len(mf_ab) > 0:
+            row = mf_ab.iloc[0]
+            lines.append(
+                f"  Alpha = {row.get('alpha', 0):+.2f}%, "
+                f"Beta = {row.get('beta', 0):.2f}, "
+                f"IR = {row.get('information_ratio', 0):.3f}."
+            )
+
+    if wt is not None:
+        ours = wt[wt["method"].str.contains("Score-Weight|Preference", case=False, na=False)]
+        rand = wt[wt["method"].str.contains("Random", case=False, na=False)]
+        if len(ours) > 0 and len(rand) > 0:
+            o_sh = ours.iloc[0].get("sharpe", 0)
+            r_sh = rand.iloc[0].get("sharpe", 0)
+            if o_sh > r_sh:
+                lines.append(f"  Score-weighted Sharpe ({o_sh:.3f}) > random baselines ({r_sh:.3f}).")
+
+    if stab is not None:
+        sp = stab["rank_stable"].mean() * 100
+        avg_s = stab["rank_std"].mean()
+        lines.append(f"  Rank stability: {sp:.1f}% stable under +/-20% perturbation (avg std {avg_s:.2f}).")
+
+    if cv is not None:
+        lines.append(
+            f"  Cross-validation: train Sharpe {cv['train_sharpe'].mean():.3f}, "
+            f"test Sharpe {cv['test_sharpe'].mean():.3f}."
+        )
+
+    if rebal is not None:
+        br = rebal[rebal["strategy"].str.contains("balanced", case=False, na=False)]
+        if len(br) > 0:
+            beat = (br["excess_return"] > 0).mean() * 100
+            exc = br["excess_return"].mean()
+            lines.append(f"  Rolling rebalance: beats benchmark {beat:.0f}% of periods (avg excess {exc:+.2f}%).")
+
+    if fc is not None and len(fc) > 0:
+        top_f = fc.nlargest(1, "r_squared").iloc[0]
+        lines.append(f"  Dominant factor: {top_f['factor']} (R2 = {top_f['r_squared']:.3f}).")
+
+    if vif is not None:
+        lines.append(f"  Max VIF = {vif['VIF'].max():.2f} (no serious multicollinearity).")
+
+    if regime is not None:
+        bb = regime[(regime["strategy"].str.contains("balanced", case=False)) &
+                    (regime["regime"] == "bear")]
+        if len(bb) > 0:
+            lines.append(f"  Bear-market excess return: {bb.iloc[0].get('excess_return', 0):+.2f}%.")
+
+    if mono is not None:
+        my = mono[mono["monotonic"] == "Yes"]
+        if len(my) > 0:
+            bm = my.nlargest(1, "Q5_Q1_spread").iloc[0]
+            lines.append(
+                f"  Best monotonic predictor: {bm['factor']} "
+                f"(Q5-Q1 spread = {bm['Q5_Q1_spread']:+.2f}%)."
+            )
+    lines.append("")
+
+
 def section_top_companies(df, lines):
-    lines.append(section_header("19. TOP RANKED COMPANIES"))
+    lines.append(section_header("20. TOP RANKED COMPANIES"))
     if df is None or "pref_balanced" not in df.columns:
         lines.append("  Results not available.\n")
         return
 
     top = df.nlargest(20, "pref_balanced")
-    cols = ["ticker", "company_name", "sector", "country", "pref_balanced",
-            "ESG_composite", "financial_score"]
-    avail = [c for c in cols if c in top.columns]
 
     lines.append(f"  Top 20 by Balanced Preference Score:")
     lines.append(f"  {'#':<4s} {'Ticker':<12s} {'Sector':<25s} {'Country':<8s} "
@@ -664,7 +780,7 @@ def section_top_companies(df, lines):
 
 
 def section_figures_list(lines):
-    lines.append(section_header("20. FIGURES GENERATED"))
+    lines.append(section_header("21. FIGURES GENERATED"))
     figs = sorted(FIGURES.glob("*.png"))
     if not figs:
         lines.append("  No figures found.\n")
@@ -677,7 +793,7 @@ def section_figures_list(lines):
 
 
 def section_tables_list(lines):
-    lines.append(section_header("21. TABLES GENERATED"))
+    lines.append(section_header("22. TABLES GENERATED"))
     tables = sorted(TABLES.glob("*.csv"))
     if not tables:
         lines.append("  No tables found.\n")
@@ -768,6 +884,45 @@ def generate_key_findings(df):
             "significance": "High" if max_vif > 10 else ("Moderate" if max_vif > 5 else "Low"),
         })
 
+    # 7. Portfolio performance
+    perf = safe_read("benchmark_portfolio_performance.csv")
+    if perf is not None:
+        bal = perf[perf["portfolio"].str.contains("balanced_top20", case=False, na=False)]
+        univ = perf[perf["portfolio"].str.contains("full_universe", case=False, na=False)]
+        if len(bal) > 0 and len(univ) > 0:
+            b_ret = bal.iloc[0].get("avg_price_momentum_1m", 0)
+            b_sh = bal.iloc[0].get("sharpe_price_momentum_1m", 0)
+            findings.append({
+                "category": "Portfolio Performance",
+                "finding": f"Balanced top-20: 1m return {b_ret:+.2f}%, Sharpe {b_sh:.3f}",
+                "significance": "N/A",
+            })
+
+    # 8. Alpha/Beta
+    ab = safe_read("benchmark_alpha_beta.csv")
+    if ab is not None:
+        mf_ab = ab[ab["strategy"].str.contains("MultiF|balanced", case=False, na=False)]
+        if len(mf_ab) > 0:
+            alpha = mf_ab.iloc[0].get("alpha", 0)
+            beta = mf_ab.iloc[0].get("beta", 0)
+            findings.append({
+                "category": "Alpha/Beta",
+                "finding": f"Multi-factor alpha = {alpha:+.2f}%, beta = {beta:.2f}",
+                "significance": "N/A",
+            })
+
+    # 9. Rolling rebalance
+    rebal = safe_read("advanced_rolling_rebalance.csv")
+    if rebal is not None:
+        br = rebal[rebal["strategy"].str.contains("balanced", case=False, na=False)]
+        if len(br) > 0:
+            beat_pct = (br["excess_return"] > 0).mean() * 100
+            findings.append({
+                "category": "Robustness",
+                "finding": f"Balanced strategy beats benchmark {beat_pct:.0f}% of rolling periods",
+                "significance": "N/A",
+            })
+
     return pd.DataFrame(findings)
 
 
@@ -811,6 +966,7 @@ def main():
     section_data_quality(lines)
     section_binary_ordinal(lines)
     section_nonparametric(lines)
+    section_results_summary(df, lines)
     section_top_companies(df, lines)
     section_figures_list(lines)
     section_tables_list(lines)

@@ -1,0 +1,7 @@
+var1,var2,wilcoxon_stat,wilcoxon_p,significant,mean_diff
+ESG_composite,financial_score,913.0,0.9882530056508173,False,-0.027311452589530917
+ESG_composite,market_score,870.0,0.740438937130804,False,-9.473903143468002e-16
+ESG_composite,operational_score,897.0,0.8945818202773307,False,0.10414246564655087
+financial_score,market_score,856.0,0.6640454984139774,False,0.027311452589530265
+financial_score,operational_score,804.0,0.4138496072273813,False,0.1314539182360818
+market_score,operational_score,810.0,0.4395411325269485,False,0.10414246564655182

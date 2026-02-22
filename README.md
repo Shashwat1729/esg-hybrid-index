@@ -7,7 +7,7 @@ This repository contains the complete codebase for constructing and evaluating a
 - **Objective**: Construct a transparent, replicable multi-factor index for mid-cap companies that combines ESG with financial, market, and operational quality factors
 - **Sample**: 60 companies (40 U.S. mid-caps from S&P MidCap 400 ESG, 20 Indian mid-caps from NIFTY Midcap 150 ESG)
 - **Benchmarks**: S&P MidCap 400 ESG Index, NIFTY Midcap 150 ESG Index, MSCI USA Mid Cap ESG Leaders Index
-- **Key Innovation**: Dynamic weight optimization across ten factor categories with empirical validation through 70+ statistical tests, PCA, clustering, bootstrap analysis, cross-validation, and type-aware data handling (binary, ordinal, continuous)
+- **Key Innovation**: Dynamic weight optimization across ten factor categories with empirical validation through 75+ statistical tests, PCA, clustering, bootstrap analysis, cross-validation, market regime analysis, and type-aware data handling (binary, ordinal, continuous)
 
 ## Repository Structure
 
@@ -39,7 +39,7 @@ Economic Thesis/
 │   ├── index_construction/        # ESG index normalization and aggregation
 │   └── similarity/                # Cosine similarity and preference scoring
 ├── reports/
-│   ├── tables/                    # 72 CSV outputs for research paper tables
+│   ├── tables/                    # 75+ CSV outputs for research paper tables
 │   ├── figures/                   # 30 PNG figures for research paper
 │   ├── research_summary.txt       # Compiled research summary
 │   └── key_findings.csv           # Key findings table
@@ -125,7 +125,7 @@ See `docs/data_sources.xlsx` for full documentation of each source.
 
 After running the pipeline, results are saved in `reports/`:
 
-- **72 tables** in `reports/tables/` covering descriptive statistics, normality tests, correlations, regressions, ANOVA, quintile/decile analysis, VIF, weight sensitivity, benchmark comparisons, PCA loadings, cluster profiles, bootstrap CIs, factor ablation, efficient frontier, company rankings, binary/ordinal variable analysis, non-parametric tests, outlier reports, and variable type classification
+- **75+ tables** in `reports/tables/` covering descriptive statistics, normality tests, correlations, regressions, ANOVA, quintile/decile analysis, VIF, weight sensitivity, benchmark comparisons, alpha/beta decomposition, multi-horizon returns, PCA loadings, cluster profiles, bootstrap CIs, factor ablation, efficient frontier, market regime analysis, factor monotonicity, company rankings, binary/ordinal variable analysis, non-parametric tests, outlier reports, and variable type classification
 - **30 figures** in `reports/figures/` including score distributions, correlation heatmaps, sector boxplots, radar charts, scatter matrices, PCA biplots, dendrograms, CDF comparisons, bootstrap confidence intervals, efficient frontier, Gini inequality, weight sensitivity heatmaps, and company profile dashboards
 - **Research summary** in `reports/research_summary.txt`
 - **Key findings** in `reports/key_findings.csv`

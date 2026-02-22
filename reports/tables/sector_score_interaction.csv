@@ -1,0 +1,19 @@
+sector,x_var,y_var,n,pearson_r,pearson_p,significant
+Technology,ESG_composite,financial_score,12,0.49946597881175664,0.09827102542339386,False
+Technology,ESG_composite,roa,12,0.3951761342311702,0.20358200213355765,False
+Technology,financial_score,market_score,12,0.015230031862620915,0.9625314326000158,False
+Communication Services,ESG_composite,financial_score,7,0.5533444152712625,0.1975580807781437,False
+Communication Services,ESG_composite,roa,7,0.2730142564408421,0.5535950078672407,False
+Communication Services,financial_score,market_score,7,0.14647889750531626,0.7539888356982765,False
+Consumer Cyclical,ESG_composite,financial_score,6,0.021212347726635078,0.9681862508032402,False
+Consumer Cyclical,ESG_composite,roa,6,-0.7470965275267244,0.08785237549368279,False
+Consumer Cyclical,financial_score,market_score,6,0.08126120798748353,0.8783764874959925,False
+Financial Services,ESG_composite,financial_score,11,-0.09570577113890952,0.7795417453381671,False
+Financial Services,ESG_composite,roa,11,0.286533829498573,0.39296835938236957,False
+Financial Services,financial_score,market_score,11,0.13075785736631115,0.7015634910271086,False
+Healthcare,ESG_composite,financial_score,8,0.1978791173397273,0.6385481133984888,False
+Healthcare,ESG_composite,roa,8,-0.014370538189399571,0.9730589502823874,False
+Healthcare,financial_score,market_score,8,0.4755786158130922,0.2336219899923208,False
+Consumer Defensive,ESG_composite,financial_score,7,-0.15848010062462528,0.734321707060372,False
+Consumer Defensive,ESG_composite,roa,7,0.10433899500853783,0.8238312256424675,False
+Consumer Defensive,financial_score,market_score,7,-0.2132345005325299,0.6461752684379244,False

@@ -5,12 +5,14 @@ Executes the complete analysis pipeline in order:
   01. Download data
   02. Clean data
   03. Build index
-  04. Statistical tests
-  05. Weight sensitivity
-  06. Benchmark comparison
-  08. Advanced analysis (PCA, clustering, bootstrap)
-  07. Visualizations (generates 30+ figures)
-  09. Generate research summary report
+  04. Statistical tests (75+ tables)
+  05. Weight sensitivity & optimization
+  06. Benchmark comparison (multi-horizon, alpha/beta)
+  08. Advanced analysis (PCA, clustering, bootstrap, regime)
+  07. Visualizations (30 figures)
+  09. Generate research summary report (22 sections)
+
+Note: Step 08 runs before 07 so that advanced tables are available for figures.
 
 Usage: python scripts/run_all.py
        python scripts/run_all.py --skip-download  (skip data download if already done)

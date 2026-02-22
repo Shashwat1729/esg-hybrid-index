@@ -1,0 +1,4 @@
+profile1,profile2,kendall_tau,spearman_r,top10_overlap,top20_overlap
+esg_first,balanced,0.7706214689265536,0.9279244234509589,9,18
+esg_first,financial_first,0.7163841807909604,0.8881355932203392,8,18
+balanced,financial_first,0.9231638418079096,0.988385662684079,8,19

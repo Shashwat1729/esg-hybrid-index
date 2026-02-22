@@ -351,7 +351,15 @@ def multi_horizon_comparison(df):
 # 7. Alpha/Beta Decomposition
 # ---------------------------------------------------------------------------
 def alpha_beta_analysis(df):
-    """Decompose each strategy's return into alpha + beta * benchmark."""
+    """Decompose each strategy's return into alpha + beta * benchmark.
+
+    For cross-sectional data (single time point, multiple companies), we
+    compute portfolio-level beta as the weighted average of member betas
+    (from the 'beta' column).  Alpha is then:
+        alpha = R_portfolio - beta_portfolio * R_benchmark
+    This avoids the trivial regression problem where regressing a subset's
+    returns against the same returns always yields alpha=0, beta=1.
+    """
     print("\n--- Benchmark: Alpha/Beta Decomposition ---")
 
     return_col = None
@@ -364,9 +372,8 @@ def alpha_beta_analysis(df):
         return
 
     # Benchmark: full universe return
-    bench_returns = df[return_col].dropna()
-    bench_mean = bench_returns.mean()
-    bench_std = bench_returns.std()
+    bench_mean = df[return_col].dropna().mean()
+    has_beta = "beta" in df.columns and df["beta"].notna().sum() > 10
 
     strategies = {}
     if "pref_balanced" in df.columns:
@@ -386,20 +393,16 @@ def alpha_beta_analysis(df):
         port_mean = port_rets.mean()
         port_std = port_rets.std()
 
-        # Beta = cov(port, bench) / var(bench)
-        # For cross-sectional: use company-level returns
-        merged = pd.DataFrame({
-            "port_ret": port_rets,
-            "bench_ret": df.loc[port_rets.index, return_col],
-        }).dropna()
-
-        if len(merged) > 3 and bench_std > 1e-10:
-            from numpy import polyfit
-            beta_val, alpha_val = polyfit(merged["bench_ret"], merged["port_ret"], 1)
+        # Portfolio beta = average beta of member stocks
+        if has_beta:
+            port_beta = sub["beta"].dropna().mean()
         else:
-            beta_val, alpha_val = 1.0, 0.0
+            port_beta = 1.0
 
-        # Excess return vs benchmark
+        # CAPM-style alpha: R_p - beta_p * R_benchmark
+        alpha_val = port_mean - port_beta * bench_mean
+
+        # Excess return and information ratio
         excess = port_mean - bench_mean
         tracking_error = (port_rets - bench_mean).std()
         info_ratio = excess / (tracking_error + 1e-10)
@@ -410,7 +413,7 @@ def alpha_beta_analysis(df):
             "benchmark_return": bench_mean,
             "excess_return": excess,
             "alpha": alpha_val,
-            "beta": beta_val,
+            "beta": port_beta,
             "sharpe": port_mean / (port_std + 1e-10),
             "information_ratio": info_ratio,
             "tracking_error": tracking_error,
@@ -428,6 +431,100 @@ def alpha_beta_analysis(df):
     return result
 
 
+# ---------------------------------------------------------------------------
+# 8. Equal-Weighted and Value-Weighted Benchmark
+# ---------------------------------------------------------------------------
+def equal_vs_value_weighted(df):
+    """Compare equal-weighted, value-weighted (by market cap), and our score-weighted approaches."""
+    print("\n--- Benchmark: Equal-Weight vs Value-Weight vs Score-Weight ---")
+
+    return_col = None
+    for rc in ["price_momentum_6m", "price_momentum_3m", "price_momentum_1m"]:
+        if rc in df.columns and df[rc].notna().sum() > 10:
+            return_col = rc
+            break
+    if return_col is None:
+        print("  [SKIP] No return data")
+        return
+
+    rows = []
+
+    # 1. Equal-weighted full universe
+    rets = df[return_col].dropna()
+    eq_ret = rets.mean()
+    eq_std = rets.std()
+    rows.append({
+        "method": "Equal-Weight (Full Universe)", "n": len(rets),
+        "return": eq_ret, "std": eq_std,
+        "sharpe": eq_ret / (eq_std + 1e-10),
+    })
+
+    # 2. Value-weighted (by market_cap) full universe
+    if "market_cap" in df.columns:
+        valid = df[[return_col, "market_cap"]].dropna()
+        if len(valid) > 5 and valid["market_cap"].sum() > 0:
+            weights = valid["market_cap"] / valid["market_cap"].sum()
+            vw_ret = (valid[return_col] * weights).sum()
+            # Weighted std: sqrt(sum(w_i * (r_i - vw_ret)^2))
+            vw_std = np.sqrt((weights * (valid[return_col] - vw_ret) ** 2).sum())
+            rows.append({
+                "method": "Value-Weight (Full Universe)", "n": len(valid),
+                "return": vw_ret, "std": vw_std,
+                "sharpe": vw_ret / (vw_std + 1e-10),
+            })
+
+    # 3. Our score-weighted top 20
+    if "pref_balanced" in df.columns:
+        top20 = df.nlargest(20, "pref_balanced")
+        t20_rets = top20[return_col].dropna()
+        rows.append({
+            "method": "Score-Weight Top 20 (Ours)", "n": len(t20_rets),
+            "return": t20_rets.mean(), "std": t20_rets.std(),
+            "sharpe": t20_rets.mean() / (t20_rets.std() + 1e-10),
+        })
+
+        # 4. Score-weighted using preference as portfolio weight
+        valid = top20[[return_col, "pref_balanced"]].dropna()
+        if len(valid) > 3 and valid["pref_balanced"].sum() > 0:
+            sw = valid["pref_balanced"] / valid["pref_balanced"].sum()
+            sw_ret = (valid[return_col] * sw).sum()
+            sw_std = np.sqrt((sw * (valid[return_col] - sw_ret) ** 2).sum())
+            rows.append({
+                "method": "Preference-Weight Top 20 (Ours)", "n": len(valid),
+                "return": sw_ret, "std": sw_std,
+                "sharpe": sw_ret / (sw_std + 1e-10),
+            })
+
+    # 5. Random top 20 baseline (average of 50 random selections)
+    # Use the AVERAGE within-portfolio Sharpe, not cross-draw std
+    np.random.seed(42)
+    random_rets_list = []
+    random_sharpes = []
+    for _ in range(50):
+        sample = df.sample(min(20, len(df)), replace=False)
+        r = sample[return_col].dropna()
+        random_rets_list.append(r.mean())
+        if len(r) > 2 and r.std() > 1e-10:
+            random_sharpes.append(r.mean() / r.std())
+        else:
+            random_sharpes.append(0.0)
+    random_avg = np.mean(random_rets_list)
+    random_within_std = np.mean([df.sample(20, replace=False)[return_col].dropna().std()
+                                  for _ in range(50)])
+    rows.append({
+        "method": "Random Top 20 (50 draws avg)", "n": 20,
+        "return": random_avg, "std": random_within_std,
+        "sharpe": np.mean(random_sharpes),
+    })
+
+    result = pd.DataFrame(rows)
+    result.to_csv(TABLES / "benchmark_weighting_methods.csv", index=False)
+    print(f"  [OK] Saved benchmark_weighting_methods.csv")
+    for _, r in result.iterrows():
+        print(f"    {r['method']:40s}: return={r['return']:+6.2f}%, sharpe={r['sharpe']:+.3f}")
+    return result
+
+
 def main():
     print("=" * 70)
     print("STEP 06: BENCHMARK INDEX COMPARISON")
@@ -441,6 +538,7 @@ def main():
     benchmark_summary(df)
     multi_horizon_comparison(df)
     alpha_beta_analysis(df)
+    equal_vs_value_weighted(df)
 
     print(f"\n[DONE] Benchmark comparison complete. Results in {TABLES}/")
     print("Next: python scripts/07_visualizations.py")

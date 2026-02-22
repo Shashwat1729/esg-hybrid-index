@@ -134,7 +134,7 @@ VARIABLE_TYPES = {
     "data_privacy_score": "bounded_pct",
     "tax_transparency_score": "bounded_pct",
     "esg_controversy_score": "bounded_pct",
-    "esg_risk_rating": "bounded_pct",
+    "esg_risk_rating": "ordinal",       # Typically discrete (1-5 or similar scale)
     "profit_margins": "bounded_pct",
     "gross_margins": "bounded_pct",
     "operating_margins": "bounded_pct",
@@ -188,15 +188,18 @@ VARIABLE_TYPES = {
     "gross_margin": "rate",
     "fcf_margin": "rate",
     "dividend_yield": "rate",
-    "payout_ratio": "rate",
     "revenue_growth": "rate",
     "earnings_growth": "rate",
     "earnings_quarterly_growth": "rate",
     "r_d_intensity": "rate",
-    "revenue_per_employee": "rate",
     "market_share": "rate",
     "emissions_intensity": "rate",
     "water_usage_intensity": "rate",
+
+    # --- Reclassified: payout_ratio can exceed 100% or go negative ---
+    "payout_ratio": "ratio",
+    # --- Reclassified: revenue_per_employee is a large-magnitude absolute value ---
+    "revenue_per_employee": "count",
 
     # --- Continuous (standard z-score normalization) ---
     "employee_turnover": "continuous",
@@ -356,6 +359,46 @@ def detect_outliers_zscore(series, threshold=3.0):
         return pd.Series(False, index=series.index)
     z = np.abs((series - mean) / std)
     return z > threshold
+
+
+def detect_multivariate_outliers(df, cols, threshold_pct=97.5):
+    """Detect multivariate outliers using Mahalanobis distance.
+
+    Mahalanobis distance accounts for correlations between variables,
+    catching observations that are unusual in multivariate space even if
+    they appear normal univariately (Rousseeuw & Van Zomeren, 1990).
+    """
+    from scipy.spatial.distance import mahalanobis
+    from scipy.stats import chi2
+
+    available = [c for c in cols if c in df.columns and pd.api.types.is_numeric_dtype(df[c])
+                 and classify_variable(c) not in ("binary", "ordinal")]
+    sub = df[available].dropna()
+    if len(sub) < len(available) + 5 or len(available) < 3:
+        return pd.Series(False, index=df.index, name="mahal_outlier")
+
+    try:
+        mean = sub.mean().values
+        cov = sub.cov().values
+        cov_inv = np.linalg.pinv(cov)  # Use pseudo-inverse for stability
+
+        distances = []
+        for _, row in sub.iterrows():
+            d = mahalanobis(row.values, mean, cov_inv)
+            distances.append(d)
+
+        dist_series = pd.Series(distances, index=sub.index, name="mahal_dist")
+        cutoff = chi2.ppf(threshold_pct / 100.0, df=len(available))
+        outlier_mask = pd.Series(False, index=df.index, name="mahal_outlier")
+        outlier_mask.loc[dist_series.index] = dist_series > np.sqrt(cutoff)
+
+        n_outliers = outlier_mask.sum()
+        print(f"  Mahalanobis outliers ({threshold_pct}th pctile, {len(available)} vars): "
+              f"{n_outliers} / {len(sub)} ({n_outliers/len(sub)*100:.1f}%)")
+        return outlier_mask
+    except Exception as e:
+        print(f"  Mahalanobis distance failed ({e}), skipping multivariate check")
+        return pd.Series(False, index=df.index, name="mahal_outlier")
 
 
 def comprehensive_outlier_report(df, cols):
@@ -619,8 +662,12 @@ def main():
             print(f"      Variables with >5% consensus outliers: "
                   f"{high_outlier['variable'].tolist()[:10]}")
 
-    # --- Step D: Adaptive winsorization by variable type ---
-    print("\n  [D] Applying adaptive winsorization...")
+    # --- Step D-1: Multivariate outlier detection (informational) ---
+    print("\n  [D-1] Multivariate outlier detection (Mahalanobis)...")
+    mahal_mask = detect_multivariate_outliers(df, numeric_in_data)
+
+    # --- Step D-2: Adaptive winsorization by variable type ---
+    print("\n  [D-2] Applying adaptive winsorization...")
     df = adaptive_winsorize(df, numeric_in_data)
 
     # --- Step E: Log transform highly skewed variables ---

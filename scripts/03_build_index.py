@@ -75,7 +75,7 @@ def _get_variable_type(col):
             sys.path.insert(0, clean_mod_path)
         # Direct lookup of known binary/ordinal variables
         BINARY_VARS = {"carbon_reduction_target", "human_rights_policy", "anti_corruption_policy"}
-        ORDINAL_VARS = {"board_size"}
+        ORDINAL_VARS = {"board_size", "esg_risk_rating"}
         if col in BINARY_VARS:
             return "binary"
         if col in ORDINAL_VARS:
@@ -182,13 +182,20 @@ def build_operational_score(df):
 
 
 def build_risk_adjusted_score(df):
-    """Compute risk-adjusted quality score combining returns with risk metrics."""
+    """Compute risk-adjusted quality score combining returns with risk metrics.
+
+    Note: max_drawdown_1y is typically negative (e.g. -0.30 = 30% drawdown).
+    A *less negative* drawdown is better, so higher_is_better=True is correct
+    (a value of -0.10 > -0.40, so z-scoring already puts less-negative values above).
+    We also include beta inverted so that low-beta stocks score higher.
+    """
     indicators = {
         "sharpe_ratio_1y": True,
         "sortino_ratio_1y": True,
-        "max_drawdown_1y": True,  # higher (less negative) is better
-        "price_volatility": False,  # lower is better
-        "return_skewness": True,  # positive skew preferred
+        "max_drawdown_1y": True,   # less negative = better (True is correct)
+        "price_volatility": False,  # lower vol = better
+        "beta": False,              # lower beta = less market risk
+        "return_skewness": True,    # positive skew preferred
     }
     df["risk_adjusted_score"] = _z_score_sub(df, indicators)
     return df
@@ -209,35 +216,63 @@ def build_value_score(df):
 
 
 def build_growth_score(df):
-    """Compute growth score from growth indicators."""
+    """Compute growth score from SIZE-GROWTH and REINVESTMENT indicators.
+
+    IMPORTANT: Price momentum (1m, 3m, 6m) is deliberately excluded
+    because these same variables are used as forward return proxies in
+    portfolio evaluation (scripts 05, 06, 08).  Including them would create
+    look-ahead bias / data leakage.
+
+    This score is kept DISTINCT from financial_score (profitability,
+    efficiency, stability, valuation) and operational_score (revenue per
+    employee, R&D, market share).  We use:
+      - total_revenue_log  : scale of revenue (larger = more established)
+      - net_income_log     : scale of earnings (larger = more profitable)
+      - free_cashflow      : cash reinvestment capacity
+      - r_d_intensity      : investment in future revenue streams (shared
+                             with operational but captures different aspect)
+      - ebitda_log         : operating-level scale of earnings
+    """
     indicators = {
-        "revenue_growth": True,
-        "earnings_growth": True,
-        "earnings_quarterly_growth": True,
-        "price_momentum_12m": True,
-        "price_momentum_6m": True,
+        "total_revenue_log": True,   # revenue scale (growth proxy)
+        "net_income_log": True,      # earnings scale (growth proxy)
+        "free_cashflow": True,       # cash generation for reinvestment
+        "r_d_intensity": True,       # investment in future growth
+        "ebitda_log": True,          # operating earnings scale
     }
     df["growth_score"] = _z_score_sub(df, indicators)
     return df
 
 
 def build_stability_score(df):
-    """Compute financial stability score."""
+    """Compute financial stability score.
+
+    Stability rewards low leverage, adequate liquidity, and strong cash coverage.
+    Payout ratio is included inverted: very high payouts reduce financial flexibility.
+    """
     indicators = {
         "current_ratio": True,
         "quick_ratio": True,
-        "debt_to_equity": False,
-        "debt_to_ebitda": False,
-        "cash_flow_to_debt": True,
+        "debt_to_equity": False,    # lower leverage = more stable
+        "debt_to_ebitda": False,    # lower = more stable
+        "cash_flow_to_debt": True,  # higher cash coverage = more stable
+        "payout_ratio": False,      # very high payout = less stable
     }
     df["stability_score"] = _z_score_sub(df, indicators)
     return df
 
 
 def build_sector_position(df):
-    """Compute sector percentile rank based on ESG composite."""
-    if "ESG_composite" in df.columns and "sector" in df.columns:
-        df["sector_position"] = df.groupby("sector")["ESG_composite"].transform(
+    """Compute sector percentile rank based on average of available factor scores.
+
+    Uses the mean of ESG, financial, market, and operational scores to give a
+    well-rounded within-sector ranking rather than relying on a single factor.
+    """
+    factor_cols = ["ESG_composite", "financial_score", "market_score", "operational_score"]
+    avail = [c for c in factor_cols if c in df.columns]
+    if avail and "sector" in df.columns:
+        composite = df[avail].mean(axis=1)
+        df["sector_position"] = composite.groupby(df["sector"]).transform(
             lambda x: x.rank(pct=True)
         )
     else:

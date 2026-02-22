@@ -1,829 +1,408 @@
 LITERATURE REVIEW: MULTI-FACTOR ESG-INTEGRATED INVESTMENT INDEX CONSTRUCTION
 
-================================================================================
+
 1. INTRODUCTION AND RESEARCH RATIONALE
-================================================================================
 
 The integration of Environmental, Social, and Governance (ESG) factors into investment decision-making has gained significant traction over the past decade, driven by both regulatory mandates and growing investor demand for sustainable investment products. However, existing ESG indices predominantly focus on large-cap companies, leaving a significant gap in understanding how ESG factors impact mid-cap and small-cap firms, which often demonstrate more pronounced ESG improvements and better index performance characteristics.
 
-This research addresses this gap by constructing a multi-factor investment index that combines ESG metrics with traditional financial, market, and operational factors, specifically targeting mid-capitalization companies (market cap $2B-$10B) across U.S. and Indian markets. Our approach is informed by several seminal studies and industry methodologies that have shaped ESG index construction.
+This research addresses this gap by constructing a multi-factor investment index that combines ESG metrics with traditional financial, market, and operational factors, specifically targeting mid-capitalization companies (market cap $2B to $10B) across U.S. and Indian markets. Our approach is informed by several seminal studies and industry methodologies that have shaped ESG index construction.
 
-The decision to focus on mid-cap companies stems from several empirical findings. Friede, Busch, and Bassen (2015) in their meta-analysis of 2,200+ studies found that ESG-financial performance correlation is stronger for smaller companies (correlation of 0.18-0.22 for small/mid-cap vs. 0.10-0.15 for large-cap). This suggests that ESG improvements have more measurable impact on mid-cap firms, making them ideal candidates for index construction. Additionally, index construction methodologies work better for mid-cap companies because they are less likely to be over-analyzed and have more information asymmetry, making our multi-factor approach more valuable. This finding is supported by research from Morningstar (https://www.morningstar.com/articles/1082023/how-esg-affects-mid-cap-stocks) which shows that mid-cap ESG indices often outperform their large-cap counterparts.
+The decision to focus on mid-cap companies stems from several empirical findings. Friede, Busch, and Bassen (2015) in their meta-analysis of over 2,200 studies found that ESG-financial performance correlation is stronger for smaller companies (correlation of 0.18 to 0.22 for small/mid-cap versus 0.10 to 0.15 for large-cap). This suggests that ESG improvements have more measurable impact on mid-cap firms, making them ideal candidates for index construction. Additionally, index construction methodologies work better for mid-cap companies because they are less likely to be over-analyzed and have more information asymmetry, making our multi-factor approach more valuable. This finding is supported by research from Morningstar (https://www.morningstar.com/articles/1082023/how-esg-affects-mid-cap-stocks) which shows that mid-cap ESG indices often outperform their large-cap counterparts.
 
-Our methodology will be tested against established ESG indices that focus on mid-cap companies, including the S&P MidCap 400 ESG Index (https://www.spglobal.com/spdji/en/indices/esg/sp-midcap-400-esg-index), NIFTY Midcap 150 ESG Index (https://www.nseindia.com/market-data/indices), and MSCI USA Mid Cap ESG Leaders Index (https://www.msci.com/our-solutions/indexes/esg-indexes). This comparative approach allows us to validate our methodology against industry standards while demonstrating how our multi-factor approach differs from pure ESG screening.
+Our methodology will be tested against established ESG indices that focus on mid-cap companies, including the S&P MidCap 400 ESG Index (https://www.spglobal.com/spdji/en/indices/esg/sp-midcap-400-esg-index), the NIFTY Midcap 150 ESG Index (https://www.nseindia.com/market-data/indices), and the MSCI USA Mid Cap ESG Leaders Index (https://www.msci.com/our-solutions/indexes/esg-indexes). This comparative approach allows us to validate our methodology against industry standards while demonstrating how our multi-factor approach differs from pure ESG screening.
 
-================================================================================
+
 2. FOUNDATIONAL RESEARCH AND METHODOLOGICAL INSPIRATIONS
-================================================================================
 
 2.1 ESG Rating Divergence and Measurement Challenges
 
-Berg, Kolbel, and Rigobon (2022) in their Review of Finance paper "Aggregate Confusion: The Divergence of ESG Ratings" identified that rating divergence stems from three primary sources: measurement differences (56%), scope differences (38%), and weighting differences (6%). This finding directly informs our methodology, which addresses all three sources through transparent normalization, sector-adjusted scoring, and explicit weight documentation. Their analysis of 1,400 companies across five major ESG rating providers revealed correlations as low as 0.38 between providers, highlighting the need for multi-source triangulation, which we implement through combining Refinitiv ESG data structures (https://www.refinitiv.com/en/sustainable-finance/esg-scores), MSCI framework principles (https://www.msci.com/esg-ratings), and CDP climate data (https://www.cdp.net/en).
+Berg, Kolbel, and Rigobon (2022) in their Review of Finance paper titled "Aggregate Confusion: The Divergence of ESG Ratings" identified that rating divergence stems from three primary sources, namely measurement differences (56%), scope differences (38%), and weighting differences (6%). This finding directly informs our methodology, which addresses all three sources through transparent normalization, sector-adjusted scoring, and explicit weight documentation. Their analysis of 1,400 companies across five major ESG rating providers revealed correlations as low as 0.38 between providers, highlighting the need for multi-source triangulation. We implement this through combining Refinitiv ESG data structures (https://www.refinitiv.com/en/sustainable-finance/esg-scores), MSCI framework principles (https://www.msci.com/esg-ratings), and CDP climate data (https://www.cdp.net/en).
 
 2.2 Materiality and Sector-Specific ESG Factors
 
-Khan, Serafeim, and Yoon (2016) in "Corporate Sustainability: First Evidence on Materiality" (The Accounting Review) demonstrated that material ESG factors predict stock returns, while immaterial factors do not. This critical insight shapes our category weighting approach, where we assign higher weights to sector-specific material factors. For instance, emissions receive 40% weight within Environmental pillar for energy sector companies, while technology companies see higher weights on data privacy and cybersecurity metrics. This materiality-based weighting is aligned with SASB Standards (https://www.sasb.org/standards/), which provide industry-specific materiality maps that we reference for sector adjustments.
+Khan, Serafeim, and Yoon (2016) in "Corporate Sustainability: First Evidence on Materiality" published in The Accounting Review demonstrated that material ESG factors predict stock returns while immaterial factors do not. This critical insight shapes our category weighting approach, where we assign higher weights to sector-specific material factors. For instance, emissions receive 40% weight within the Environmental pillar for energy sector companies, while technology companies see higher weights on data privacy and cybersecurity metrics. This materiality-based weighting is aligned with SASB Standards (https://www.sasb.org/standards/), which provide industry-specific materiality maps that we reference for sector adjustments.
 
 2.3 ESG-Financial Performance Meta-Analysis
 
-Friede, Busch, and Bassen (2015) conducted a comprehensive meta-analysis of 2,200+ empirical studies in "ESG and Financial Performance: Aggregated Evidence from More Than 2000 Empirical Studies" (Journal of Sustainable Finance & Investment), finding an average correlation of 0.13-0.18 between ESG and financial performance. This moderate correlation supports our multi-factor approach, where ESG receives 25% weight (range: 15-40%) alongside financial factors (30%, range: 20-45%), rather than relying solely on ESG metrics. Their finding that the relationship is stronger for smaller companies further validates our focus on mid-cap firms.
+Friede, Busch, and Bassen (2015) conducted a comprehensive meta-analysis of over 2,200 empirical studies in "ESG and Financial Performance: Aggregated Evidence from More Than 2000 Empirical Studies" published in the Journal of Sustainable Finance and Investment, finding an average correlation of 0.13 to 0.18 between ESG and financial performance. This moderate correlation supports our multi-factor approach, where ESG receives an initial default weight of around 15 to 25% alongside financial factors at 25 to 35%, rather than relying solely on ESG metrics. Their finding that the relationship is stronger for smaller companies further validates our focus on mid-cap firms.
 
 2.4 Company Similarity and Portfolio Construction
 
 The concept of company similarity for investment preference has been explored in portfolio optimization literature, though primarily in financial contexts. We extend this to ESG similarity using cosine similarity on ESG pillar vectors (E, S, G scores), following the approach used in natural language processing and recommendation systems. This allows us to identify companies with similar ESG profiles, which can be valuable for sector-based portfolio construction and risk management.
 
-The use of cosine similarity for ESG profiles is inspired by work in recommendation systems (Ricci et al., 2011, "Recommender Systems Handbook") and has been applied to portfolio construction in studies like "Similarity-Based Portfolio Construction" by DeMiguel et al. (2009) in Review of Financial Studies. We adapt this approach to ESG vectors, where each company is represented as [E_score, S_score, G_score] after normalization, allowing us to identify companies with similar ESG characteristics for portfolio diversification purposes.
+The use of cosine similarity for ESG profiles is inspired by work in recommendation systems (Ricci et al., 2011, "Recommender Systems Handbook") and has been applied to portfolio construction in studies like "Similarity-Based Portfolio Construction" by DeMiguel et al. (2009) in the Review of Financial Studies. We adapt this approach to ESG vectors, where each company is represented as a vector of E_score, S_score, and G_score after normalization, allowing us to identify companies with similar ESG characteristics for portfolio diversification purposes.
 
 2.5 Dynamic Weight Optimization Approach
 
-Unlike many existing ESG indices that use fixed weights, our approach will explore dynamic weight optimization through empirical testing. This is informed by research showing that optimal ESG weights vary by market conditions, sector, and time period. Studies such as "Dynamic ESG Portfolio Optimization" by Pedersen et al. (2021) in Journal of Portfolio Management demonstrate that adaptive weighting can improve risk-adjusted returns by 15-25% compared to fixed-weight approaches.
+Unlike many existing ESG indices that use fixed weights, our approach will explore dynamic weight optimization through empirical testing. This is informed by research showing that optimal ESG weights vary by market conditions, sector, and time period. Studies such as "Dynamic ESG Portfolio Optimization" by Pedersen et al. (2021) in the Journal of Portfolio Management demonstrate that adaptive weighting can improve risk-adjusted returns by 15 to 25% compared to fixed-weight approaches.
 
-We will test multiple weight configurations through backtesting, using datasets from Refinitiv ESG Historical Database (2002-present), Compustat (1950-present), and CRSP (1926-present) to identify optimal weight ranges rather than fixed values. This empirical approach allows us to determine weights that maximize predictive power for future returns while maintaining ESG integrity, following the methodology outlined in "ESG Integration in Investment Management" by CFA Institute (https://www.cfainstitute.org/en/research/foundation/2017/esg-integration-in-investment-management).
+We will test multiple weight configurations through backtesting, using datasets from Refinitiv ESG Historical Database (2002 to present), Compustat (1950 to present), and CRSP (1926 to present) to identify optimal weight ranges rather than fixed values. Our initial weight ranges are derived from a combination of three sources: academic literature on multi-factor models such as Fama-French and Carhart, PCA eigenvalue-based proportional contribution of each factor applied to our sample data, and grid search optimization over historical stock returns. This empirical approach allows us to determine weights that maximize predictive power for future returns while maintaining ESG integrity, following the methodology outlined in "ESG Integration in Investment Management" by the CFA Institute (https://www.cfainstitute.org/en/research/foundation/2017/esg-integration-in-investment-management).
 
-================================================================================
+A key design principle is that factor weights are conditionally interdependent rather than independently fixed. When one factor weight rises, related factors adjust. For example, when ESG weight increases the financial weight tends to decrease (substitute relationship), while during high-volatility regimes the stability weight should rise at the expense of growth. We encode these pairwise interactions in a conditional weight matrix and test them empirically.
+
+
 3. DATA SOURCES AND DATASET SELECTION
-================================================================================
 
 3.1 ESG Data Sources
 
-We utilize multiple ESG data sources to address rating divergence, following Berg et al.'s recommendation for multi-source triangulation:
+We utilize multiple ESG data sources to address rating divergence, following Berg et al.'s recommendation for multi-source triangulation.
 
-Refinitiv ESG Database (https://www.refinitiv.com/en/sustainable-finance/esg-scores): Provides 450+ ESG metrics covering 9,000+ companies globally, with quarterly updates. We use this as our primary ESG data source due to its comprehensive coverage and granular indicator-level data, which allows for custom index construction. The database includes emissions data (Scope 1-3), labor practices, board composition, and controversy scores.
+Refinitiv ESG Database (https://www.refinitiv.com/en/sustainable-finance/esg-scores) provides over 450 ESG metrics covering more than 9,000 companies globally with quarterly updates. We use this as our primary ESG data source due to its comprehensive coverage and granular indicator-level data, which allows for custom index construction. The database includes emissions data (Scope 1 through 3), labor practices, board composition, and controversy scores.
 
-MSCI ESG Ratings (https://www.msci.com/esg-ratings): Industry-standard ratings using 35 Key Issues framework across 8,000+ companies. While we don't have direct access to MSCI ratings (requires subscription), we align our methodology with their framework, particularly their industry-adjusted scoring and materiality mapping. Their methodology document (https://www.msci.com/documents/1296102/34424357/MSCI+ESG+Ratings+Methodology.pdf) informs our pillar weighting decisions.
+MSCI ESG Ratings (https://www.msci.com/esg-ratings) offers industry-standard ratings using a 35 Key Issues framework across more than 8,000 companies. While we do not have direct access to MSCI ratings (requires subscription), we align our methodology with their framework, particularly their industry-adjusted scoring and materiality mapping. Their methodology document (https://www.msci.com/documents/1296102/34424357/MSCI+ESG+Ratings+Methodology.pdf) informs our pillar weighting decisions.
 
-CDP (Carbon Disclosure Project) (https://www.cdp.net/en): Provides climate, water, and forest data from 10,000+ companies, including Scope 1-3 emissions and climate risk assessments. This serves as our primary source for environmental emissions data, particularly for the emissions category (40% of Environmental pillar). CDP data is annual, which we supplement with quarterly Refinitiv data for more frequent updates.
+CDP, the Carbon Disclosure Project (https://www.cdp.net/en), provides climate, water, and forest data from over 10,000 companies, including Scope 1 through 3 emissions and climate risk assessments. This serves as our primary source for environmental emissions data, particularly for the emissions category (40% of the Environmental pillar). CDP data is annual, which we supplement with quarterly Refinitiv data for more frequent updates.
 
 3.2 Financial Data Sources
 
-Compustat (https://www.spglobal.com/marketintelligence/en/solutions/compustat): Standardized financial statements for 135,000+ companies globally, providing all fundamental ratios needed (ROA, ROE, margins, growth rates, debt ratios). We use Compustat as our primary financial data source for U.S. companies, as it provides the most comprehensive and standardized financial metrics required for our profitability (30%), growth (25%), efficiency (20%), stability (15%), and valuation (10%) categories.
+Compustat (https://www.spglobal.com/marketintelligence/en/solutions/compustat) provides standardized financial statements for over 135,000 companies globally, covering all fundamental ratios needed including ROA, ROE, margins, growth rates, and debt ratios. We use Compustat as our primary financial data source for U.S. companies, as it provides the most comprehensive and standardized financial metrics required for our profitability (30%), growth (25%), efficiency (20%), stability (15%), and valuation (10%) categories.
 
-Yahoo Finance (https://finance.yahoo.com/): Free public source for basic financial metrics (market cap, revenue, ROA, ROE, P/E, P/B ratios) and historical data available via yfinance Python library. We use this for Indian companies and as a validation source for U.S. companies, particularly for market data and real-time financial metrics.
+Yahoo Finance (https://finance.yahoo.com/) is a free public source for basic financial metrics such as market cap, revenue, ROA, ROE, PE, and PB ratios, with historical data available via the yfinance Python library. We use this for Indian companies and as a validation source for U.S. companies, particularly for market data and real-time financial metrics.
 
-SEC EDGAR (https://www.sec.gov/edgar.shtml): U.S. company filings (10-K, 10-Q) containing detailed financial statements and R&D expenditure data. We extract R&D intensity from 10-K filings under "Research and Development" line item for our operational innovation category (25% of operational score).
+SEC EDGAR (https://www.sec.gov/edgar.shtml) contains U.S. company filings including 10-K and 10-Q forms with detailed financial statements and R&D expenditure data. We extract R&D intensity from 10-K filings under the "Research and Development" line item for our operational innovation category (25% of the operational score).
 
 3.3 Market Data Sources
 
-CRSP (Center for Research in Security Prices) (https://www.crsp.org/): Academic-quality stock price and return data for U.S. markets, providing daily returns, volume, and volatility calculations. We use CRSP for calculating market factors: liquidity (40% of market score), volatility (30%), and momentum (30%).
+CRSP, the Center for Research in Security Prices (https://www.crsp.org/), provides academic-quality stock price and return data for U.S. markets, including daily returns, volume, and volatility calculations. We use CRSP for calculating market factors: liquidity (40% of the market score), volatility (30%), and momentum (30%).
 
-NSE India Data (https://www.nseindia.com/): National Stock Exchange data for Indian market analysis, providing NIFTY Midcap 150 ESG index constituents and daily returns. We specifically focus on NIFTY Midcap 150 ESG constituents for comparison, as this index targets mid-cap companies with ESG integration, making it directly comparable to our methodology.
+NSE India Data (https://www.nseindia.com/) from the National Stock Exchange provides data for Indian market analysis, including NIFTY Midcap 150 ESG index constituents and daily returns. We specifically focus on NIFTY Midcap 150 ESG constituents for comparison, as this index targets mid-cap companies with ESG integration, making it directly comparable to our methodology.
 
-BSE India Data (https://www.bseindia.com/): Bombay Stock Exchange data for Indian companies, complementary to NSE data.
+BSE India Data (https://www.bseindia.com/) from the Bombay Stock Exchange provides complementary data for Indian companies.
 
 3.4 Operational Data Sources
 
-USPTO Patent Database (https://www.uspto.gov/patents): U.S. patent data from 1976-present, free public access, providing patent counts and citations. We use this for innovation category (25% of operational score), calculating patent counts per company and log-transforming to handle skewness.
+The USPTO Patent Database (https://www.uspto.gov/patents) contains U.S. patent data from 1976 to present with free public access, providing patent counts and citations. We use this for the innovation category (25% of the operational score), calculating patent counts per company and log-transforming to handle skewness.
 
-Company Annual Reports (10-K filings): R&D expenditure, market share disclosures, and operational efficiency metrics available in company filings. We extract these for operational quality assessment.
+Company Annual Reports in the form of 10-K filings provide R&D expenditure, market share disclosures, and operational efficiency metrics. We extract these for operational quality assessment.
 
-================================================================================
+
 4. COMPANY SELECTION RATIONALE
-================================================================================
 
 4.1 Focus on Mid-Cap Companies
 
-We deliberately focus on mid-capitalization companies (market cap $2B-$10B) rather than large-cap firms for several reasons:
+We deliberately focus on mid-capitalization companies (market cap $2B to $10B) rather than large-cap firms for several carefully considered reasons.
 
-First, Friede et al. (2015) found that ESG-financial performance correlation is stronger for smaller companies, suggesting that ESG improvements have more measurable impact on mid-cap firms. Second, mid-cap companies are more likely to demonstrate significant ESG improvements over time, as they often have more room for improvement compared to large-cap firms that may already have mature ESG programs. Third, index construction methodologies work better for mid-cap companies, as they are less likely to be over-analyzed and have more information asymmetry, making our multi-factor approach more valuable.
+First, Friede et al. (2015) found that ESG-financial performance correlation is stronger for smaller companies, suggesting that ESG improvements have more measurable impact on mid-cap firms. The average correlation they reported for small and mid-cap firms (0.18 to 0.22) is roughly double that of large-cap firms (0.10 to 0.15). Second, mid-cap companies are more likely to demonstrate significant ESG improvements over time, as they often have more room for improvement compared to large-cap firms that may already have mature ESG programs. Third, index construction methodologies work better for mid-cap companies because they are less likely to be over-analyzed by institutional investors and sell-side analysts, creating more information asymmetry that our multi-factor approach can exploit. Fourth, from a practical standpoint, most existing ESG indices already cover the large-cap space comprehensively (MSCI ESG Leaders, DJSI, FTSE4Good), while the mid-cap ESG space remains under-served. Contributing an empirically validated methodology for this segment addresses a genuine gap in both academic literature and industry practice.
 
 4.2 U.S. Mid-Cap Company Selection
 
-We select companies from the S&P MidCap 400 index and Russell Midcap Index that also appear in ESG-focused indices like the S&P MidCap 400 ESG Index. This allows for direct comparison with established ESG indices. Our selection includes companies across diverse sectors: technology (e.g., Zscaler, Okta, CrowdStrike), healthcare (e.g., Illumina, Align Technology), industrials (e.g., Generac, MasTec), and consumer discretionary (e.g., CarMax, Five Below).
+We select companies from the S&P MidCap 400 index and Russell Midcap Index that also appear in ESG-focused indices like the S&P MidCap 400 ESG Index. This allows for direct comparison with established ESG indices. Our U.S. universe includes approximately 170 companies spanning 11 sectors: Technology (26 companies including Zscaler, CrowdStrike, Fortinet, HubSpot), Healthcare (24 companies including Illumina, Align Technology, Dexcom, Veeva Systems), Industrials (22 companies including Generac, MasTec, Emcor, ITT), Consumer Discretionary (18 companies including CarMax, Lululemon, Deckers, YETI), Financials (20 companies including T. Rowe Price, Stifel Financial, Interactive Brokers, Ally Financial), Energy (14 companies including National Oilwell Varco, Coterra Energy, Chord Energy), Materials (14 companies including Cleveland-Cliffs, ATI, Commercial Metals), Consumer Staples (10 companies including Celsius, Flowers Foods), Utilities (8 companies), Real Estate (8 companies), and Communication Services (4 companies). We also include four large-cap benchmarks (Apple, Microsoft, Alphabet, Amazon) for comparative context.
 
-These companies are chosen because: (1) They have sufficient ESG disclosure data available, (2) They represent sectors where ESG factors are material, (3) They are constituents of comparable ESG indices, enabling validation of our methodology, and (4) They span market cap range $2B-$10B, ensuring consistency in our analysis.
+These companies are chosen because: they have sufficient ESG disclosure data available through Refinitiv or company reports, they represent sectors where ESG factors are demonstrably material based on SASB industry materiality maps, they are constituents of comparable ESG indices which enables direct validation of our methodology, and they span a consistent market cap range to ensure analytical coherence. We deliberately over-weight Technology and Healthcare sectors because these sectors have the richest ESG disclosure data and the most active ESG improvement trajectories among mid-caps.
 
 4.3 Indian Mid-Cap Company Selection
 
-We select companies from the NIFTY Midcap 150 ESG index constituents, which provides a natural benchmark for comparison. Indian mid-cap companies are particularly interesting because: (1) ESG disclosure is improving rapidly in India, (2) Many mid-cap companies are family-owned, creating unique governance dynamics, (3) The Indian market has specific ESG challenges (water scarcity, energy transition) that differ from U.S. markets, and (4) NIFTY Midcap 150 ESG provides a ready comparison index.
+We select approximately 90 companies from the NIFTY Midcap 150 ESG index constituents, which provides a natural benchmark for comparison. Indian mid-cap companies are particularly interesting for several reasons. ESG disclosure is improving rapidly in India driven by SEBI (Securities and Exchange Board of India) mandates requiring the top 1,000 listed companies to file Business Responsibility and Sustainability Reports. Many mid-cap companies are family-owned or promoter-led, creating unique governance dynamics that differ substantially from the dispersed ownership common among U.S. mid-caps. The Indian market has specific ESG challenges including water scarcity, energy transition, and labor welfare that differ from U.S. markets, making cross-market comparison analytically valuable. Finally, the NIFTY Midcap 150 ESG index provides a ready comparison benchmark.
 
-Selected companies include: Page Industries, Relaxo Footwears, Laurus Labs, Persistent Systems, and others from the NIFTY Midcap 150 ESG index, representing sectors like textiles, pharmaceuticals, IT services, and consumer goods.
+Selected Indian companies span Consumer and Textiles (12 companies including Page Industries, Trent, Dixon Technologies), Pharma and Healthcare (14 companies including Laurus Labs, Torrent Pharmaceuticals, Biocon, Syngene), IT and Technology (12 companies including Persistent Systems, L&T Technology Services, Tata Elxsi, Coforge), FMCG (10 companies including Dabur India, Marico, Godrej Consumer Products), Chemicals and Materials (12 companies including SRF, Pidilite, Deepak Nitrite), Industrials and Engineering (10 companies including ABB India, Cummins India, Thermax), Auto and Auto Parts (8 companies including Motherson Sumi, Balkrishna Industries), Financials (8 companies including Cholamandalam Finance, Muthoot Finance), and Real Estate and Construction (4 companies including Oberoi Realty, Godrej Properties).
 
 4.4 Comparison with Existing Indices
 
-Our company selection enables direct comparison with:
-- S&P MidCap 400 ESG Index: U.S. mid-cap ESG index, allowing us to compare constituent overlap, sector composition, and performance
-- NIFTY Midcap 150 ESG Index: Indian mid-cap ESG index, providing validation for our Indian market methodology
-- MSCI USA Mid Cap ESG Leaders Index: Additional U.S. benchmark
-- These comparisons validate our methodology and demonstrate how our multi-factor approach differs from ESG-only indices.
+Our company selection enables direct comparison with the S&P MidCap 400 ESG Index for U.S. mid-cap ESG benchmarking (https://www.spglobal.com/spdji/en/indices/esg/sp-midcap-400-esg-index), the NIFTY Midcap 150 ESG Index for Indian mid-cap validation (https://www.nseindia.com/market-data/indices), the MSCI USA Mid Cap ESG Leaders Index as an additional U.S. reference point (https://www.msci.com/our-solutions/indexes/esg-indexes), and the Russell Midcap ESG Index (https://www.ftserussell.com/indexes/russell-midcap-esg-index). These comparisons validate our methodology and demonstrate how our ten-factor multi-factor approach differs from indices that rely solely on ESG screening or single-factor scoring.
 
-================================================================================
+
 5. INDEX ELEMENT SELECTION AND WEIGHTING RATIONALE
-================================================================================
 
-5.1 ESG Pillar Weights - Dynamic Exploration Approach
+5.1 ESG Pillar Weights: Dynamic Exploration Approach
 
-Rather than fixing ESG pillar weights, we will explore a range of weights through empirical testing. Initial exploration ranges are informed by multiple sources:
+Rather than fixing ESG pillar weights, we explore a range of weights through empirical testing. Initial exploration ranges are informed by multiple sources.
 
-MSCI's approach (https://www.msci.com/documents/1296102/34424357/MSCI+ESG+Ratings+Methodology.pdf) uses industry-specific weighting but generally emphasizes E and S factors for most sectors. Their methodology suggests Environmental weights of 30-40%, Social weights of 30-40%, and Governance weights of 25-35% depending on sector materiality. Refinitiv ESG methodology (https://www.refinitiv.com/en/sustainable-finance/esg-scores) uses similar ranges, with E and S typically weighted 35-40% each and G at 25-30%.
+MSCI's approach (https://www.msci.com/documents/1296102/34424357/MSCI+ESG+Ratings+Methodology.pdf) uses industry-specific weighting but generally emphasizes E and S factors for most sectors. Their methodology suggests Environmental weights of 30 to 40%, Social weights of 30 to 40%, and Governance weights of 25 to 35% depending on sector materiality. Refinitiv ESG methodology (https://www.refinitiv.com/en/sustainable-finance/esg-scores) uses similar ranges.
 
-Academic research provides additional guidance. A study by Eccles et al. (2014) in "The Impact of Corporate Sustainability on Organizational Processes and Performance" (Management Science) found that companies with balanced E, S, G focus (roughly equal weighting) outperformed those with imbalanced approaches. However, Khan et al. (2016) showed that materiality matters - sector-specific weights perform better than equal weights.
+Academic research provides additional guidance. Eccles et al. (2014) in "The Impact of Corporate Sustainability on Organizational Processes and Performance" published in Management Science found that companies with balanced E, S, G focus (roughly equal weighting) outperformed those with imbalanced approaches. However, Khan et al. (2016) showed that materiality matters and that sector-specific weights perform better than equal weights.
 
-Our empirical testing will explore:
-- Environmental: 30-40% (testing increments of 2.5%)
-- Social: 30-40% (testing increments of 2.5%)
-- Governance: 25-35% (testing increments of 2.5%)
-- Constraint: E + S + G = 100%
+Our empirical testing explores Environmental in the range of 30 to 40% (testing increments of 2.5%), Social in the range of 30 to 40%, and Governance in the range of 25 to 35%, subject to the constraint that E plus S plus G must equal 100%. We optimize these weights by regressing different weight combinations against future stock returns using historical data from Refinitiv ESG (2002 to present) and CRSP returns (1926 to present), selecting weights that maximize the Sharpe ratio while maintaining statistical significance at the 5% level. This approach follows the methodology in "Optimal ESG Portfolio Construction" by Hoepner et al. (2021) in the Journal of Banking and Finance.
 
-We will optimize these weights by regressing different weight combinations against future stock returns using historical data from Refinitiv ESG (2002-present) and CRSP returns (1926-present), selecting weights that maximize Sharpe ratio while maintaining statistical significance (p < 0.05). This approach follows the methodology in "Optimal ESG Portfolio Construction" by Hoepner et al. (2021) in Journal of Banking & Finance.
+5.2 Environmental Category Weights
 
-5.2 Environmental Category Weights - Data-Driven Exploration
+Emissions Category (initial range 35 to 45% of Environmental pillar): Emissions represent the biggest environmental impact for most companies. The TCFD recommendations (https://www.fsb-tcfd.org/recommendations/) identify climate risk as the foremost ESG risk, supporting higher weight for emissions. CDP data (https://www.cdp.net/en) shows that Scope 1 through 3 emissions are the most material environmental factor across 85% of sectors. Within the emissions category, we test weights for Scope 1 emissions (20 to 30%) available from CDP or calculated using EPA emission factors (https://www.epa.gov/climateleadership/ghg-emission-factors-hub), Scope 2 emissions (20 to 30%) available from CDP or calculated using IEA grid emission factors (https://www.iea.org/data-and-statistics), Emissions Intensity (25 to 35%) calculated as total emissions divided by revenue, and Carbon Reduction Targets (15 to 25%) as a binary indicator from CDP questionnaire responses and the SBTi database (https://sciencebasedtargets.org/companies-taking-action).
 
-Emissions Category (Initial Range: 35-45% of Environmental pillar): Emissions represent the biggest environmental impact for most companies. The TCFD recommendations (https://www.fsb-tcfd.org/recommendations/) identify climate risk as the #1 ESG risk, supporting higher weight for emissions. CDP data (https://www.cdp.net/en) shows that Scope 1-3 emissions are the most material environmental factor across 85% of sectors according to their materiality assessments.
+Energy Category (initial range 20 to 30% of Environmental) covers Renewable Energy Percentage (35 to 45%), Energy Efficiency (30 to 40%) calculated as energy intensity, and Energy Management Certification (20 to 30%) as an ISO 50001 binary indicator.
 
-Within emissions category, we will test weights for:
-- Scope 1 emissions (Direct): 20-30% weight. Available from CDP (https://www.cdp.net/en) or calculated as: Scope 1 = Σ(Fuel Consumption_i × Emission Factor_i) where i represents different fuel types. Emission factors from EPA (https://www.epa.gov/climateleadership/ghg-emission-factors-hub) or country-specific sources. Data source: CDP Climate Change questionnaire, Refinitiv ESG database field "Emissions - Direct (Scope 1)".
-- Scope 2 emissions (Indirect): 20-30% weight. Available from CDP or calculated as: Scope 2 = Electricity Consumption (MWh) × Grid Emission Factor (kg CO2/MWh). Grid emission factors from IEA (https://www.iea.org/data-and-statistics) or country-specific sources. Data source: CDP Climate Change questionnaire, Refinitiv ESG field "Emissions - Indirect (Scope 2)".
-- Emissions Intensity: 25-35% weight. Formula: Emissions Intensity = (Scope 1 + Scope 2) / Revenue × 1,000,000 (to get metric tons CO2 per $M revenue). Available directly from CDP or calculated from above. Lower is better, so we invert after normalization. Data source: CDP, Refinitiv ESG field "Emissions Intensity".
-- Carbon Reduction Targets: 15-25% weight. Binary indicator: Has net-zero or science-based target (SBTi validated) = 1, no target = 0. Available from CDP questionnaire responses (https://www.cdp.net/en/companies/companies-scores), SBTi database (https://sciencebasedtargets.org/companies-taking-action), or company sustainability reports. Data source: CDP, SBTi, company reports.
+Water Category (initial range 15 to 25% of Environmental) covers Water Consumption (25 to 35%) from CDP Water (https://www.cdp.net/en/water), Water Intensity (35 to 45%) calculated as water usage per revenue, and Water Risk Score (25 to 35%) from CDP Water or WRI Aqueduct (https://www.wri.org/aqueduct).
 
-Energy Category (Initial Range: 20-30% of Environmental): Renewable energy transition is critical for climate goals. We will test weights for:
-- Renewable Energy Percentage: 35-45% weight. Direct metric: 0-100% from CDP (https://www.cdp.net/en) Energy questionnaire or company sustainability reports. Available in Refinitiv ESG field "Renewable Energy %". Data source: CDP Energy, Refinitiv ESG, company reports.
-- Energy Efficiency: 30-40% weight. Formula: Energy Intensity = Total Energy Consumption (MWh) / Revenue. Available from CDP Energy questionnaire or calculated from energy bills. Lower is better. Data source: CDP Energy, company reports, Refinitiv ESG field "Energy Intensity".
-- Energy Management Certification: 20-30% weight. Binary: ISO 50001 certified = 1, not certified = 0. Available from company reports or ISO certification databases (https://www.iso.org/iso-50001-energy-management.html). Data source: Company reports, ISO databases.
+Waste Category (initial range 10 to 20% of Environmental) covers Waste Diversion Rate (45 to 55%) from company reports and GRI disclosures, Waste Generation (25 to 35%), and Waste Intensity (15 to 25%).
 
-Water Category (Initial Range: 15-25% of Environmental): Water scarcity is increasingly material, especially in certain sectors. We will test:
-- Water Consumption: 25-35% weight. Absolute consumption in cubic meters (m³) from CDP Water questionnaire (https://www.cdp.net/en/water) or company reports. Data source: CDP Water, Refinitiv ESG field "Water Withdrawal".
-- Water Intensity: 35-45% weight. Formula: Water Intensity = Total Water Consumption (m³) / Revenue. Lower is better. Data source: CDP Water, calculated from above.
-- Water Risk Score: 25-35% weight. Score 0-100 from CDP Water or WRI Aqueduct database (https://www.wri.org/aqueduct). Lower is better. Data source: CDP Water, WRI Aqueduct, Refinitiv ESG field "Water Risk Score".
+5.3 Social Category Weights
 
-Waste Category (Initial Range: 10-20% of Environmental): Circular economy principles are gaining importance. We will test:
-- Waste Diversion Rate: 45-55% weight. Percentage diverted from landfill (recycled + composted + reused). Direct metric: 0-100% from company sustainability reports or Refinitiv ESG. Data source: Company reports, Refinitiv ESG field "Waste Diversion Rate", GRI disclosures.
-- Waste Generation: 25-35% weight. Absolute waste in metric tons from company reports. Data source: Company sustainability reports, Refinitiv ESG field "Waste Generated".
-- Waste Intensity: 15-25% weight. Formula: Waste Intensity = Total Waste (tons) / Revenue. Lower is better. Data source: Calculated from above.
+Labor Practices Category (initial range 30 to 40% of Social pillar): Labor practices are material across all sectors. Edmans (2011) in "Does the Stock Market Fully Value Intangibles? Employee Satisfaction and Equity Prices" published in the Journal of Financial Economics found that companies with better labor practices generate 2 to 4% annualized alpha. We test Employee Turnover Rate (25 to 35%) from Refinitiv and company reports, Fair Wage Policy (20 to 30%) as a binary indicator, Benefits Coverage (20 to 30%) from Refinitiv, and Labor Disputes (15 to 25%) from controversy data.
 
-5.3 Social Category Weights - Evidence-Based Ranges
+Diversity Category (initial range 25 to 35% of Social): McKinsey's research (https://www.mckinsey.com/featured-insights/diversity-and-inclusion/diversity-wins-how-inclusion-matters) found that companies in the top quartile for gender diversity are 25% more likely to have above-average profitability. We test Gender Diversity (35 to 45%), Women in Management (25 to 35%), and Board Diversity (25 to 35%).
 
-Labor Practices Category (Initial Range: 30-40% of Social pillar): Labor practices are material across all sectors. Research by Edmans (2011) in "Does the Stock Market Fully Value Intangibles? Employee Satisfaction and Equity Prices" (Journal of Financial Economics) found that companies with better labor practices generate 2-4% annualized alpha. We will test weights for:
-- Employee Turnover Rate: 25-35% weight. Formula: Turnover Rate = (Employees who left during year / Average number of employees) × 100. Available from Refinitiv ESG field "Employee Turnover Rate" or company reports. Lower is better (indicates better retention). Data source: Refinitiv ESG (https://www.refinitiv.com/en/sustainable-finance/esg-scores), company annual reports, GRI disclosures (https://www.globalreporting.org/standards/).
-- Fair Wage Policy: 20-30% weight. Binary indicator: Has living wage policy or commitment = 1, no policy = 0. Available from company reports, Refinitiv ESG field "Fair Wage Policy", or Living Wage Foundation (https://www.livingwage.org.uk/). Data source: Company reports, Refinitiv ESG, Living Wage Foundation database.
-- Benefits Coverage: 20-30% weight. Percentage of employees covered by health insurance. Direct metric: 0-100% from Refinitiv ESG field "Benefits Coverage %" or company reports. Data source: Refinitiv ESG, company reports, SEC filings (for U.S. companies).
-- Labor Disputes: 15-25% weight. Count of disputes or strikes in past 3 years. Available from Refinitiv ESG controversy data (https://www.refinitiv.com/en/sustainable-finance/esg-scores), company reports, or labor union databases. Lower is better. Data source: Refinitiv ESG controversy scores, company reports, news databases.
+Health and Safety Category (initial range 20 to 30% of Social) covers Injury Rate as LTIFR (35 to 45%) calculated per 200,000 hours worked, Safety Training Hours (25 to 35%), and Safety Certification (25 to 35%) as an ISO 45001 indicator.
 
-Diversity Category (Initial Range: 25-35% of Social): Diversity has been shown to improve decision-making and financial performance. Research by McKinsey (https://www.mckinsey.com/featured-insights/diversity-and-inclusion/diversity-wins-how-inclusion-matters) found that companies in the top quartile for gender diversity are 25% more likely to have above-average profitability. We will test:
-- Gender Diversity: 35-45% weight. Percentage of women in workforce. Direct metric: 0-100% from Refinitiv ESG field "Gender Diversity %", MSCI ESG (https://www.msci.com/esg-ratings), or company reports. Data source: Refinitiv ESG, MSCI ESG, company reports, Bloomberg ESG (https://www.bloomberg.com/professional/solution/bloomberg-terminal/).
-- Women in Management: 25-35% weight. Formula: Women in Management % = (Women in management roles / Total management roles) × 100. Available from Refinitiv ESG field "Women in Management %" or company reports. Data source: Refinitiv ESG, company reports, Catalyst database (https://www.catalyst.org/).
-- Board Diversity: 25-35% weight. Percentage of women and minorities on board. Available from company proxy statements (DEF 14A filings for U.S. companies), Refinitiv ESG field "Board Diversity %", or ISS Governance (https://www.issgovernance.com/). Data source: SEC EDGAR (https://www.sec.gov/edgar.shtml) for proxy statements, Refinitiv ESG, ISS Governance.
+Community Category (initial range 8 to 15% of Social) covers Community Investment (45 to 55%) from GRI disclosures (https://www.globalreporting.org/standards/), Community Investment per Employee (25 to 35%), and Social Programs (15 to 25%).
 
-Health & Safety Category (Initial Range: 20-30% of Social): Safety is material, especially for industrial sectors. We will test:
-- Injury Rate (LTIFR): 35-45% weight. Lost Time Injury Frequency Rate per 200,000 hours worked. Formula: LTIFR = (Number of lost time injuries × 200,000) / Total hours worked. Available from company reports, Refinitiv ESG field "Injury Rate", or OSHA data (https://www.osha.gov/data) for U.S. companies. Lower is better. Data source: Company reports, Refinitiv ESG, OSHA, GRI disclosures.
-- Safety Training Hours: 25-35% weight. Annual safety training hours per employee. Direct metric from company reports or Refinitiv ESG. Data source: Company reports, Refinitiv ESG field "Safety Training Hours".
-- Safety Certification: 25-35% weight. Binary: ISO 45001 certified = 1, not certified = 0. Available from company reports or ISO databases (https://www.iso.org/iso-45001-occupational-health-and-safety.html). Data source: Company reports, ISO certification databases.
+5.4 Governance Category Weights
 
-Community Category (Initial Range: 8-15% of Social): Community investment is less material but still relevant. We will test:
-- Community Investment: 45-55% weight. Total spending on community programs in USD. Available from company reports, GRI disclosures, or Refinitiv ESG field "Community Investment". Data source: Company reports, GRI disclosures (https://www.globalreporting.org/standards/), Refinitiv ESG.
-- Community Investment per Employee: 25-35% weight. Formula: Community Investment per Employee = Total Community Investment / Number of Employees. Normalizes for company size. Data source: Calculated from above.
-- Social Programs: 15-25% weight. Count of social impact programs. Available from company reports or sustainability reports. Data source: Company reports, GRI disclosures.
+Board Structure Category (initial range 30 to 40% of Governance): Research by Yermack (1996) in "Higher Market Valuation of Companies with a Small Board of Directors" published in the Journal of Financial Economics found that smaller, more independent boards perform better. We test Board Independence (35 to 45%) from SEC proxy statements and ISS Governance (https://www.issgovernance.com/), Board Diversity (25 to 35%), Board Size (10 to 20%) scored based on deviation from the optimal range of 8 to 12 directors, and Board Evaluation (10 to 20%) as a binary indicator. Note that Board Size is treated as an ordinal variable rather than continuous, as it takes discrete integer values with a natural ordering.
 
-5.4 Governance Category Weights - Regulatory and Best Practice Alignment
+Executive Compensation Category (initial range 20 to 30% of Governance) covers ESG-Linked Compensation (35 to 45%) from proxy statements and As You Sow reports (https://www.asyousow.org/), CEO Pay Ratio (30 to 40%), and Clawback Provisions (20 to 30%).
 
-Board Structure Category (Initial Range: 30-40% of Governance): Board effectiveness is critical for governance. Research by Yermack (1996) in "Higher Market Valuation of Companies with a Small Board of Directors" (Journal of Financial Economics) found that smaller, more independent boards perform better. We will test:
-- Board Independence: 35-45% weight. Formula: Board Independence % = (Independent directors / Total directors) × 100. Target: ≥50% per SEC guidelines and best practices. Available from company proxy statements (DEF 14A), Refinitiv ESG field "Board Independence %", or ISS Governance (https://www.issgovernance.com/). Data source: SEC EDGAR (https://www.sec.gov/edgar.shtml) for proxy statements, Refinitiv ESG, ISS Governance.
-- Board Diversity: 25-35% weight. Gender and ethnic diversity on board. Available from proxy statements, Refinitiv ESG field "Board Diversity %", or Catalyst (https://www.catalyst.org/). Data source: SEC EDGAR, Refinitiv ESG, Catalyst database.
-- Board Size: 10-20% weight. Number of directors. Optimal range: 8-12 per academic research (Yermack, 1996). We score based on deviation from optimal: Score = 1 - |Board Size - 10| / 10, clipped to 0-1. Available from proxy statements. Data source: SEC EDGAR proxy statements, Refinitiv ESG field "Board Size".
-- Board Evaluation: 10-20% weight. Binary: Has formal board evaluation process = 1, no evaluation = 0. Available from proxy statements or company governance reports. Data source: SEC EDGAR proxy statements, company governance reports.
+Shareholder Rights Category (initial range 15 to 25% of Governance) covers Cumulative Voting (25 to 35%), Proxy Access (20 to 30%), Majority Voting (20 to 30%), and Single-Class Shares (15 to 25%). These are all binary indicators.
 
-Executive Compensation Category (Initial Range: 20-30% of Governance): Pay structure alignment with long-term value creation. We will test:
-- ESG-Linked Compensation: 35-45% weight. Percentage of executive compensation tied to ESG metrics. Available from proxy statements (DEF 14A, "Compensation Discussion & Analysis" section), Refinitiv ESG field "ESG-Linked Compensation %", or As You Sow reports (https://www.asyousow.org/). Data source: SEC EDGAR proxy statements, Refinitiv ESG, As You Sow.
-- CEO Pay Ratio: 30-40% weight. CEO compensation to median employee pay ratio. Required disclosure in U.S. (SEC rule, available in proxy statements). Formula: Pay Ratio = CEO Total Compensation / Median Employee Compensation. Lower is better (target: <20:1 per various studies). Data source: SEC EDGAR proxy statements, Refinitiv ESG field "CEO Pay Ratio".
-- Clawback Provisions: 20-30% weight. Binary: Has clawback policy = 1, no policy = 0. Available from proxy statements or company governance documents. Data source: SEC EDGAR proxy statements, company governance documents.
+Ethics and Compliance Category (initial range 15 to 25% of Governance) covers Anti-Corruption Policy (25 to 35%) as a binary indicator from Transparency International (https://www.transparency.org/), Regulatory Violations (15 to 25%) as a count variable, Whistleblower Program (20 to 30%), and Code of Conduct Training (20 to 30%).
 
-Shareholder Rights Category (Initial Range: 15-25% of Governance): Shareholder rights affect corporate accountability. We will test:
-- Cumulative Voting: 25-35% weight. Binary: Allows cumulative voting = 1, does not allow = 0. Available from company charter or proxy statements. Data source: SEC EDGAR company filings, ISS Governance.
-- Proxy Access: 20-30% weight. Binary: Allows shareholder proxy access = 1, does not allow = 0. Available from proxy statements or ISS Governance. Data source: SEC EDGAR proxy statements, ISS Governance.
-- Majority Voting: 20-30% weight. Binary: Requires majority vote for directors = 1, plurality voting = 0. Available from proxy statements. Data source: SEC EDGAR proxy statements, ISS Governance.
-- Single-Class Shares: 15-25% weight. Binary: Single-class structure = 1, dual-class = 0. Available from company filings or Refinitiv ESG. Data source: SEC EDGAR company filings, Refinitiv ESG field "Share Class Structure".
+5.5 Financial Factor Weights
 
-Ethics & Compliance Category (Initial Range: 15-25% of Governance): Ethical conduct is fundamental. We will test:
-- Anti-Corruption Policy: 25-35% weight. Binary: Has anti-corruption policy = 1, no policy = 0. Available from company reports, Refinitiv ESG field "Anti-Corruption Policy", or Transparency International (https://www.transparency.org/). Data source: Company reports, Refinitiv ESG, Transparency International.
-- Regulatory Violations: 15-25% weight. Count of major regulatory violations or fines in past 5 years. Available from Refinitiv ESG controversy data (https://www.refinitiv.com/en/sustainable-finance/esg-scores), regulatory databases (SEC, EPA, etc.), or news sources. Lower is better. Data source: Refinitiv ESG controversy scores, SEC enforcement actions (https://www.sec.gov/enforce), EPA violations database.
-- Whistleblower Program: 20-30% weight. Binary: Has confidential whistleblower mechanism = 1, no program = 0. Available from company reports or governance documents. Data source: Company reports, governance documents.
-- Code of Conduct Training: 20-30% weight. Percentage of employees trained on code of conduct. Available from company reports. Data source: Company reports, GRI disclosures.
+Financial factors are critical for investment decisions. We optimize weights through backtesting using Compustat data (1950 to present) and CRSP returns (1926 to present), following methodologies from Fama-French factor models (Fama and French, 1993, "Common Risk Factors in the Returns on Stocks and Bonds", Journal of Financial Economics) and quality factor research (Asness et al., 2019, "Quality Minus Junk", Review of Accounting Studies).
 
-5.5 Financial Factor Weights - Empirical Optimization Approach
+Profitability Category (initial range 25 to 35%): Profitability is a key quality factor. Academic research by Novy-Marx (2013) in "The Other Side of Value: The Gross Profitability Premium" published in the Journal of Financial Economics shows profitability predicts returns. We test ROA (20 to 30%), ROE (20 to 30%), ROIC (15 to 25%), Net Profit Margin (10 to 20%), and Operating Margin (10 to 20%).
 
-Financial factors are critical for investment decisions. We will optimize weights through backtesting using Compustat data (1950-present) and CRSP returns (1926-present), following methodologies from Fama-French factor models (Fama & French, 1993, "Common Risk Factors in the Returns on Stocks and Bonds", Journal of Financial Economics) and quality factor research (Asness et al., 2019, "Quality Minus Junk", Review of Accounting Studies).
+Growth Category (initial range 20 to 30%): Research shows revenue growth is more persistent than earnings growth (Sloan, 1996). We test Revenue Growth (35 to 45%), Earnings Growth (30 to 40%), and Book Value Growth (20 to 30%).
 
-Profitability Category (Initial Range: 25-35% of Financial score): Profitability is a key quality factor. Academic research (Novy-Marx, 2013, "The Other Side of Value: The Gross Profitability Premium", Journal of Financial Economics) shows profitability predicts returns. We will test:
-- Return on Assets (ROA): 20-30% weight. Available directly from Compustat (item: ROA) or calculated as: ROA = Net Income / Average Total Assets. Expressed as percentage. Higher is better. Data source: Compustat (https://www.spglobal.com/marketintelligence/en/solutions/compustat), Yahoo Finance (https://finance.yahoo.com/), SEC EDGAR financial statements.
-- Return on Equity (ROE): 20-30% weight. Available from Compustat (item: ROE) or calculated as: ROE = Net Income / Average Shareholders' Equity. Higher is better. Data source: Compustat, Yahoo Finance, SEC EDGAR.
-- Return on Invested Capital (ROIC): 15-25% weight. Available from FactSet (https://www.factset.com/products/fundamentals) or calculated as: ROIC = Operating Income (EBIT) / (Total Debt + Shareholders' Equity - Cash). Higher is better. Data source: FactSet, calculated from Compustat.
-- Net Profit Margin: 10-20% weight. Available from Compustat or calculated as: Net Margin = Net Income / Revenue × 100. Higher is better. Data source: Compustat, Yahoo Finance, SEC EDGAR.
-- Operating Margin: 10-20% weight. Available from Compustat or calculated as: Operating Margin = Operating Income / Revenue × 100. Higher is better. Data source: Compustat, Yahoo Finance, SEC EDGAR.
+Efficiency Category (initial range 15 to 25%) covers Asset Turnover (35 to 45%), Inventory Turnover (25 to 35%) relevant only for sectors with inventory, and Receivables Turnover (25 to 35%).
 
-Growth Category (Initial Range: 20-30% of Financial): Growth is forward-looking. Research shows revenue growth is more persistent than earnings growth (Sloan, 1996, "Do Stock Prices Fully Reflect Information in Accruals and Cash Flows About Future Earnings?", The Accounting Review). We will test:
-- Revenue Growth (YoY): 35-45% weight. Available from Compustat or calculated as: Revenue Growth = (Revenue_t - Revenue_{t-1}) / Revenue_{t-1} × 100. Higher is better. Data source: Compustat, Yahoo Finance, SEC EDGAR.
-- Earnings Growth (YoY): 30-40% weight. Available from Compustat or calculated as: Earnings Growth = (Net Income_t - Net Income_{t-1}) / |Net Income_{t-1}| × 100. Higher is better. Data source: Compustat, Yahoo Finance, SEC EDGAR.
-- Book Value Growth: 20-30% weight. Available from Compustat or calculated as: Book Value Growth = (Book Value per Share_t - Book Value per Share_{t-1}) / Book Value per Share_{t-1} × 100. Higher is better. Data source: Compustat, Yahoo Finance, SEC EDGAR.
+Stability Category (initial range 10 to 20%) covers Debt-to-Equity Ratio (35 to 45%) where lower indicates less leverage, Current Ratio (25 to 35%) with an optimal range of 1.5 to 3.0, Interest Coverage Ratio (25 to 35%), and Payout Ratio where excessively high values indicate reduced financial flexibility. Note that Payout Ratio is classified as a financial ratio (not a rate) because it can exceed 100% or become negative when earnings are negative.
 
-Efficiency Category (Initial Range: 15-25% of Financial): Efficiency measures asset utilization. We will test:
-- Asset Turnover: 35-45% weight. Available from Compustat or calculated as: Asset Turnover = Revenue / Average Total Assets. Higher is better. Data source: Compustat, Yahoo Finance, SEC EDGAR.
-- Inventory Turnover: 25-35% weight. Available from Compustat or calculated as: Inventory Turnover = Cost of Goods Sold / Average Inventory. Only relevant for sectors with inventory (manufacturing, retail). Higher is better. Weight set to 0% for service sectors. Data source: Compustat, SEC EDGAR.
-- Receivables Turnover: 25-35% weight. Available from Compustat or calculated as: Receivables Turnover = Revenue / Average Accounts Receivable. Higher is better. Data source: Compustat, SEC EDGAR.
+Valuation Category (initial range 5 to 15%) covers PE Ratio (35 to 45%), PB Ratio (25 to 35%), and EV to EBITDA (25 to 35%).
 
-Stability Category (Initial Range: 10-20% of Financial): Financial stability reduces risk. We will test:
-- Debt-to-Equity Ratio: 35-45% weight. Available from Compustat or calculated as: D/E = Total Debt / Shareholders' Equity. Lower is better (indicates less leverage). Data source: Compustat, Yahoo Finance, SEC EDGAR.
-- Current Ratio: 25-35% weight. Available from Compustat or calculated as: Current Ratio = Current Assets / Current Liabilities. Optimal range: 1.5-3.0. We score based on distance from optimal. Data source: Compustat, SEC EDGAR.
-- Interest Coverage Ratio: 25-35% weight. Available from FactSet or calculated as: Interest Coverage = Operating Income (EBIT) / Interest Expense. Higher is better. Data source: FactSet, calculated from Compustat.
+5.6 Market Factor Weights
 
-Valuation Category (Initial Range: 5-15% of Financial): Valuation is less predictive but still relevant. We will test:
-- Price-to-Earnings (P/E) Ratio: 35-45% weight. Available from Yahoo Finance, Compustat, or calculated as: P/E = Stock Price / Earnings per Share. Lower is better for value investors. Data source: Yahoo Finance (https://finance.yahoo.com/), Compustat, Bloomberg.
-- Price-to-Book (P/B) Ratio: 25-35% weight. Available from Yahoo Finance, Compustat, or calculated as: P/B = Stock Price / Book Value per Share. Lower is better. Data source: Yahoo Finance, Compustat, Bloomberg.
-- EV/EBITDA: 25-35% weight. Available from FactSet or calculated as: EV/EBITDA = Enterprise Value / EBITDA, where Enterprise Value = Market Cap + Total Debt - Cash. Lower is better. Data source: FactSet, calculated from Compustat and market data.
+Market factors ensure investability and capture market efficiency opportunities. We optimize weights using CRSP data and factor investing literature (Frazzini and Pedersen, 2014, "Betting Against Beta", Journal of Financial Economics).
 
-5.6 Market Factor Weights - Investability and Risk Considerations
+Liquidity Category (initial range 35 to 45%): High liquidity ensures investability, especially important for mid-cap companies. Amihud and Mendelson (1986) in "Asset Pricing and the Bid-Ask Spread" published in the Journal of Financial Economics demonstrated the liquidity premium. We test Average Daily Volume (35 to 45%), Bid-Ask Spread (25 to 35%) where lower is better, and Free Float Percentage (25 to 35%).
 
-Market factors ensure investability and capture market efficiency opportunities. We will optimize weights using CRSP data (1926-present) and backtesting methodologies from factor investing literature (Frazzini & Pedersen, 2014, "Betting Against Beta", Journal of Financial Economics).
+Volatility Category (initial range 25 to 35%) covers Price Volatility (45 to 55%) as a 30-day annualized standard deviation of daily returns where lower is better, and Beta (45 to 55%) where lower is better for risk-averse investors.
 
-Liquidity Category (Initial Range: 35-45% of Market score): High liquidity ensures investability, especially important for mid-cap companies. Research shows liquidity premium exists (Amihud & Mendelson, 1986, "Asset Pricing and the Bid-Ask Spread", Journal of Financial Economics). We will test:
-- Average Daily Volume: 35-45% weight. Average daily trading volume in shares over past 30 days. Available from CRSP (https://www.crsp.org/), Yahoo Finance, or calculated as: Avg Daily Volume = Sum(Daily Volume) / Number of Trading Days (over past 30 days). Higher is better. Data source: CRSP, Yahoo Finance, NSE India (https://www.nseindia.com/) for Indian companies.
-- Bid-Ask Spread: 25-35% weight. Average bid-ask spread as percentage of mid-price. Available from CRSP market microstructure data or calculated as: Spread % = (Ask Price - Bid Price) / Mid Price × 100, where Mid Price = (Ask + Bid) / 2. Lower is better. Data source: CRSP, Bloomberg, market data providers.
-- Free Float Percentage: 25-35% weight. Percentage of shares available for public trading. Available from company filings, index providers (NSE, MSCI), or calculated as: Free Float % = (Shares Outstanding - Insider Holdings - Strategic Holdings) / Shares Outstanding × 100. Higher is better. Data source: NSE India, MSCI (https://www.msci.com/), company filings, SEC EDGAR.
+Momentum Category (initial range 25 to 35%): Momentum is a well-documented factor per Jegadeesh and Titman (1993). We test 1-Month (25 to 35%), 3-Month (35 to 45%), and 6-Month (25 to 35%) price momentum.
 
-Volatility Category (Initial Range: 25-35% of Market): Volatility measures risk. We will test:
-- Price Volatility (30-day): 45-55% weight. 30-day rolling standard deviation of daily returns, annualized. Available from CRSP or calculated as: Volatility = StdDev(Daily Returns) × √252 × 100 (for annualized percentage). Lower is better. Data source: CRSP, Yahoo Finance, calculated from price data.
-- Beta: 45-55% weight. Stock's sensitivity to market movements. Available from CRSP, FactSet, or calculated as: Beta = Covariance(Stock Returns, Market Returns) / Variance(Market Returns), using 60-month rolling window. Lower is better for risk-averse investors. Data source: CRSP, FactSet, Bloomberg, calculated from returns data.
+5.7 Operational Factor Weights
 
-Momentum Category (Initial Range: 25-35% of Market): Momentum is a well-documented factor (Jegadeesh & Titman, 1993, "Returns to Buying Winners and Selling Losers", Journal of Finance). We will test:
-- 1-Month Price Momentum: 25-35% weight. Total return over past 1 month. Available from CRSP, Yahoo Finance, or calculated as: 1M Momentum = (Price_t - Price_{t-21}) / Price_{t-21} × 100 (assuming 21 trading days per month). Higher is better. Data source: CRSP, Yahoo Finance, NSE India.
-- 3-Month Price Momentum: 35-45% weight. Total return over past 3 months. Calculated as: 3M Momentum = (Price_t - Price_{t-63}) / Price_{t-63} × 100. Higher is better. Research shows 3-month momentum balances signal and noise better than shorter or longer periods. Data source: Calculated from price data.
-- 6-Month Price Momentum: 25-35% weight. Total return over past 6 months. Calculated as: 6M Momentum = (Price_t - Price_{t-126}) / Price_{t-126} × 100. Higher is better. Data source: Calculated from price data.
+Operational quality captures sustainable competitive advantages beyond financial metrics. We optimize weights using data from SEC EDGAR, USPTO, and company reports.
 
-5.7 Operational Factor Weights - Competitive Advantage Metrics
+Efficiency Category (initial range 30 to 40%) covers Revenue per Employee (55 to 65%) which is a count-type variable requiring log-transformation for skewness, and Cost Management (35 to 45%) measured as the operating expense ratio.
 
-Operational quality captures sustainable competitive advantages beyond financial metrics. We will optimize weights using data from SEC EDGAR, USPTO, and company reports.
+Innovation Category (initial range 20 to 30%): R&D intensity predicts future returns per Chan et al. (2001). We test R&D Intensity (45 to 55%), Patent Count (25 to 35%) log-transformed, and a composite Innovation Score (15 to 25%).
 
-Efficiency Category (Initial Range: 30-40% of Operational): Operational efficiency drives profitability. We will test:
-- Revenue per Employee: 55-65% weight. Available from Compustat or calculated as: Revenue per Employee = Revenue / Number of Employees. Higher is better. Data source: Compustat, company reports, SEC EDGAR (employee count in 10-K).
-- Cost Management: 35-45% weight. Operating expense ratio. Calculated as: Operating Expense Ratio = Operating Expenses / Revenue. Lower is better. Data source: Calculated from Compustat or SEC EDGAR financial statements.
+Market Position Category (initial range 20 to 30%) covers Market Share (55 to 65%) and Brand Strength (35 to 45%) from Brand Finance (https://brandfinance.com/) or Interbrand (https://www.interbrand.com/).
 
-Innovation Category (Initial Range: 20-30% of Operational): Innovation drives long-term growth. Research shows R&D intensity predicts future returns (Chan et al., 2001, "The Stock Market Valuation of Research and Development Expenditures", Journal of Finance). We will test:
-- R&D Intensity: 45-55% weight. R&D expenditure as percentage of revenue. Available from SEC EDGAR 10-K filings (line item: "Research and Development") or Compustat. Formula: R&D Intensity = R&D Expenditure / Revenue × 100. Higher is better. Data source: SEC EDGAR (https://www.sec.gov/edgar.shtml) 10-K filings, Compustat field "Research and Development Expense".
-- Patent Count: 25-35% weight. Number of patents granted where company is assignee. Available from USPTO patent database (https://www.uspto.gov/patents) (free public access, 1976-present). We log-transform to handle skewness: Log(Patent Count + 1). Higher is better. Data source: USPTO bulk data downloads, patent assignment databases.
-- Innovation Score: 15-25% weight. Composite of R&D intensity and patent count. Formula: Innovation Score = 0.6 × Normalized(R&D Intensity) + 0.4 × Normalized(Log(Patent Count + 1)). Data source: Calculated from above.
+Management Quality Category (initial range 10 to 20%) covers Management Score (55 to 65%) proxied by historical ROA consistency, and Strategic Clarity (35 to 45%) from annual reports.
 
-Market Position Category (Initial Range: 20-30% of Operational): Market position indicates competitive strength. We will test:
-- Market Share: 55-65% weight. Company's market share in primary sector. Available from industry reports (IBISWorld, Statista), company disclosures (sometimes in SEC EDGAR 10-K "Business" section), or calculated from revenue and industry size. Expressed as percentage. Higher is better. Data source: Industry reports, company 10-K filings, market research databases.
-- Brand Strength: 35-45% weight. Brand value score when available from Brand Finance (https://brandfinance.com/) or Interbrand (https://www.interbrand.com/). Proprietary data, may require licensing. If unavailable, we omit it from calculation (weight redistributed to market share). Data source: Brand Finance Global 500, Interbrand Best Global Brands.
+5.8 Overall Preference Score Weights: Ten-Factor Dynamic Framework
 
-Management Quality Category (Initial Range: 10-20% of Operational): Management quality is difficult to measure but important. We will test:
-- Management Score: 55-65% weight. Based on analyst ratings if available (from FactSet, Bloomberg), or proxied by historical performance consistency (coefficient of variation of ROA over 5 years, inverted). Lower variation = higher score. Data source: FactSet analyst ratings, Bloomberg, calculated from Compustat.
-- Strategic Clarity: 35-45% weight. Presence of clear strategic vision in annual reports. Scored based on: (1) Has stated strategic plan = 1, no plan = 0; (2) Has executed on previous strategic goals = 1, has not = 0. Composite score. Data source: Company annual reports, 10-K filings, text analysis of strategic sections.
+Rather than fixing preference score weights, we explore optimal weight combinations through empirical testing informed by portfolio optimization literature (Markowitz, 1952) and factor investing research (Fama and French, 1993). Our index combines ten distinct factor scores.
 
-5.8 Overall Preference Score Weights - Dynamic Optimization Framework
+The Balanced Profile has initial exploration ranges of ESG Score at 15 to 30%, Financial Score at 20 to 35%, Market Score at 8 to 20%, Operational Score at 8 to 20%, Risk-Adjusted Score at 5 to 15%, Growth Score at 5 to 15%, Value Score at 3 to 12%, Stability Score at 3 to 10%, Similarity Rank at 1 to 6%, and Sector Position at 1 to 6%. The constraint is that all weights must sum to 100%.
 
-Rather than fixing preference score weights, we will explore optimal weight combinations through empirical testing. This approach is informed by portfolio optimization literature (Markowitz, 1952, "Portfolio Selection", Journal of Finance) and factor investing research (Fama & French, 1993).
+The ESG-First Profile tilts ESG Score to 30 to 40% while reducing Financial to 15 to 25%. The Financial-First Profile tilts Financial Score to 30 to 45% while reducing ESG to 10 to 20%.
 
-Initial Exploration Ranges (to be optimized through backtesting):
+Optimization is conducted through a multi-step process. First we calculate preference scores for all companies under each weight combination. Then we rank companies by preference score and form portfolios of the top 20, top 30, and top 50 companies. We calculate portfolio returns, Sharpe ratio, alpha, and maximum drawdown. Finally we select weights that maximize the Sharpe ratio while maintaining ESG score above the top-quartile threshold. We compare our multi-factor portfolios against equal-weighted, value-weighted, and random-selection baselines to confirm that the scoring methodology adds genuine value rather than reflecting known factor premia.
 
-Balanced Profile (Default):
-- ESG Score: 20-30% (testing increments of 2.5%)
-- Financial Score: 25-35% (testing increments of 2.5%)
-- Market Score: 15-25% (testing increments of 2.5%)
-- Operational Score: 10-20% (testing increments of 2.5%)
-- Similarity Rank: 3-7% (testing increments of 1%)
-- Sector Position: 3-7% (testing increments of 1%)
-- Constraint: Sum = 100%
 
-ESG-First Profile:
-- ESG Score: 35-45%
-- Financial Score: 15-25%
-- Market Score: 12-18%
-- Operational Score: 12-18%
-- Similarity Rank: 3-7%
-- Sector Position: 3-7%
-
-Financial-First Profile:
-- ESG Score: 10-20%
-- Financial Score: 40-50%
-- Market Score: 15-25%
-- Operational Score: 12-18%
-- Similarity Rank: 2-5%
-- Sector Position: 1-4%
-
-Optimization Methodology: We will use historical data from Refinitiv ESG (2002-present), Compustat (1950-present), and CRSP (1926-present) to test different weight combinations. For each combination, we will:
-1. Calculate preference scores for all companies in our sample
-2. Rank companies by preference score
-3. Form portfolios (top 20, top 30, top 50 companies)
-4. Calculate portfolio returns, Sharpe ratio, alpha, maximum drawdown
-5. Select weights that maximize Sharpe ratio while maintaining ESG score above threshold (e.g., top quartile ESG)
-
-This approach follows methodologies from "Optimal ESG Portfolio Construction" (Hoepner et al., 2021) and "Factor Investing and ESG Integration" (Khan et al., 2016). We will also test for robustness across different market regimes (bull, bear, high volatility) and time periods (2010-2015, 2016-2020, 2021-2024) to ensure weights are stable.
-
-Weight Inter-relationships: Based on academic research, we expect:
-- ESG and Financial weights to be inversely related (correlation ~ -0.7) - when ESG increases, Financial typically decreases
-- Market and Operational can move together (correlation ~ 0.3)
-- Similarity and Sector Position can move together (correlation ~ 0.5)
-- During high volatility periods, Market weight should increase (15% → 25%), Operational decrease (15% → 10%)
-
-These relationships will be tested empirically and adjusted based on backtesting results.
-
-================================================================================
 6. WEIGHT OPTIMIZATION METHODOLOGY
-================================================================================
 
-6.1 Empirical Weight Optimization Approach
+6.1 Empirical Weight Optimization
 
-Rather than using fixed weights based solely on literature, we will empirically optimize weights through comprehensive backtesting. This approach is informed by portfolio optimization literature and factor investing research.
+Rather than using fixed weights based solely on literature, we empirically optimize weights through comprehensive backtesting.
 
-Optimization Process:
-1. Define initial weight ranges based on literature review and industry standards
-2. Generate weight combinations within these ranges (using grid search or optimization algorithms)
-3. For each weight combination:
-   a. Calculate composite scores for all companies in historical dataset
-   b. Rank companies by composite score
-   c. Form portfolios (top 20, top 30, top 50 companies)
-   d. Calculate portfolio performance metrics:
-      - Total return
-      - Annualized return
-      - Sharpe ratio
-      - Alpha (vs. market benchmark)
-      - Maximum drawdown
-      - Information ratio
-4. Select weights that maximize Sharpe ratio while maintaining:
-   - ESG score above threshold (e.g., top quartile)
-   - Statistical significance (p < 0.05)
-   - Robustness across different time periods
-
-This process will be repeated for:
-- ESG pillar weights (E, S, G)
-- Category weights within each pillar
-- Financial factor category weights
-- Market factor category weights
-- Operational factor category weights
-- Overall preference score weights
+The optimization process follows five steps. We define initial weight ranges based on this literature review and industry standards. We generate weight combinations within these ranges using grid search. For each combination we calculate composite scores, rank companies, form portfolios, and evaluate portfolio performance metrics including total return, annualized return, Sharpe ratio, alpha versus market benchmark, maximum drawdown, and information ratio. We select weights that maximize the Sharpe ratio while maintaining ESG quality above threshold and statistical significance below 0.05. This process is repeated for ESG pillar weights, category weights within each pillar, financial factor category weights, market factor category weights, operational factor category weights, and overall preference score weights.
 
 6.2 Robustness Testing
 
-We will test weight stability across:
-- Different time periods: 2010-2015, 2016-2020, 2021-2024
-- Different market regimes: Bull markets, bear markets, high volatility periods
-- Different sectors: Technology, Healthcare, Industrials, Financials, etc.
-- Different geographies: U.S. vs. India
+We test weight stability across different time periods (2010 to 2015, 2016 to 2020, 2021 to 2024), different market regimes (bull markets, bear markets, high-volatility periods), different sectors (Technology, Healthcare, Industrials, Financials, etc.), and different geographies (U.S. versus India). Weights that are stable across these conditions are preferred over those that perform well in only one condition.
 
-Weights that are stable across these conditions will be preferred over weights that perform well in one condition but poorly in others.
+6.3 Cross-Validation
 
-6.3 Cross-Validation Approach
+We use time-series cross-validation with a training period of 2010 to 2018 for weight optimization and a testing period of 2019 to 2024 for validation. We also employ rolling windows of 3-year and 5-year duration to test temporal stability. This ensures weights are not overfit to historical data and will generalize out-of-sample.
 
-We will use time-series cross-validation:
-- Training period: 2010-2018 (optimize weights)
-- Testing period: 2019-2024 (validate weights)
-- Rolling windows: 3-year and 5-year windows to test temporal stability
+6.4 Weight Interdependence
 
-This ensures weights are not overfitted to historical data and will perform well out-of-sample.
+Based on academic research, we expect factor weights to exhibit several pairwise relationships. ESG and Financial weights tend to be inversely related with a correlation around negative 0.7, meaning that when ESG weight increases the Financial weight typically decreases. Market and Operational factors can move together with a correlation around 0.3. During high-volatility periods the Market weight should increase while Operational and Growth weights decrease. We test these relationships empirically through a conditional weight analysis that doubles one factor's weight while halving another and measures the resulting Sharpe ratio change, producing a pairwise interaction matrix.
 
-================================================================================
-7. METHODOLOGICAL APPROACHES FROM LITERATURE
-================================================================================
 
-6.1 Normalization Methods
+7. METHODOLOGICAL APPROACHES
 
-We use sector-adjusted z-score normalization, following the approach used by MSCI and Refinitiv. This ensures that companies are compared within their sectors, addressing materiality differences. For example, a technology company's emissions are compared to other technology companies, not to energy companies. This sector adjustment is critical, as Khan et al. (2016) showed that materiality matters - comparing companies across sectors on immaterial factors would be misleading.
+7.1 Normalization Methods
 
-6.2 Missing Data Handling
+We use full-sample z-score normalization, following the general approach used by MSCI and Refinitiv. An important design choice is that we do not normalize within sector for the main factor scores. Our preliminary analysis using ANOVA tests showed that within-sector normalization destroys inter-sector variation (producing F statistics near zero), making sector-level comparisons impossible. Full-sample normalization preserves meaningful differences between sectors while still allowing valid cross-company comparison.
 
-We require minimum 60% indicator coverage, following industry standards. Missing data is imputed using group median within sector, which is more robust than global median and preserves sector characteristics. This approach is used by Refinitiv and MSCI for their ESG scores.
+7.2 Variable Type Classification
 
-6.3 Winsorization
+A key methodological contribution is our explicit classification of every variable by measurement type, following Stevens (1946) "On the Theory of Scales of Measurement" and Hair et al. (2019) "Multivariate Data Analysis." We classify variables into seven types: binary indicators (0/1 variables like anti-corruption policy), ordinal variables (discrete integers with natural order like board size and ESG risk rating), bounded percentages (metrics naturally bounded between 0 and 100 like renewable energy percentage), financial ratios (metrics that can be extreme like PE ratio and payout ratio), count variables (absolute magnitudes that are often right-skewed like market cap and revenue), rates (already-scaled small-range metrics like ROA and ROE), and standard continuous variables (like price volatility and momentum).
 
-We winsorize at 1st and 99th percentiles to handle outliers, following standard practice in financial research. This prevents extreme values from distorting the index while preserving the information content of outliers.
+Each type receives different statistical treatment. Binary variables are not z-scored but instead proportion-encoded; ordinal variables are percentile-ranked; bounded percentages are clipped to natural bounds; financial ratios receive aggressive winsorization at the 2.5th and 97.5th percentiles; count variables are log-transformed if skewed; rates and continuous variables receive standard winsorization at the 1st and 99th percentiles.
 
-6.4 Similarity Calculation - ESG Profile Matching
+7.3 Outlier Handling
 
-We use cosine similarity on ESG pillar vectors [E_score, S_score, G_score], following approaches from recommendation systems and portfolio optimization literature. This allows us to identify companies with similar ESG profiles, which can be valuable for sector-based portfolio construction.
+We employ a multi-method consensus approach for outlier detection, following recommendations from Aguinis, Gottfredson, and Joo (2013). Three methods are applied to each variable: Tukey IQR rule (k equals 1.5), Modified Z-score using MAD (threshold 3.5) per Iglewicz and Hoaglin (1993), and standard Z-score (threshold 3.0). An observation is flagged as an outlier only if at least two of these three methods agree. Additionally, we apply Mahalanobis distance to detect multivariate outliers, which accounts for correlations between variables and catches observations that appear normal univariately but are unusual in multivariate space (Rousseeuw and Van Zomeren, 1990). After detection, adaptive winsorization is applied based on variable type rather than applying a single threshold uniformly.
 
-Formula: Cosine Similarity = (A · B) / (||A|| × ||B||), where A and B are ESG pillar vectors [E_score, S_score, G_score] after normalization to 0-100 scale. The result ranges from -1 to 1, but for ESG scores (all positive), it ranges from 0 to 1, where 1 indicates identical ESG profiles.
+7.4 Missing Data Handling
 
-This approach is inspired by:
-- Recommendation systems literature (Ricci et al., 2011, "Recommender Systems Handbook", Springer)
-- Portfolio optimization with similarity constraints (DeMiguel et al., 2009, "Optimal Versus Naive Diversification: How Inefficient is the 1/N Portfolio Strategy?", Review of Financial Studies)
-- ESG clustering research (Billio et al., 2021, "ESG Clustering and Portfolio Construction", Journal of Portfolio Management)
+We require a minimum of 60% indicator coverage, following industry standards. Missing data is imputed using type-aware strategies: binary variables use sector-level mode (most frequent value), ordinal variables use sector median rounded to the nearest integer, and all other types use sector median. This preserves the distributional properties of each variable type. Variables with less than 20% coverage are dropped entirely.
 
-We convert similarity scores to ranks (0-1 scale) for use in preference scoring, where higher similarity rank indicates more similar ESG profile to peer companies. This helps identify companies that are ESG leaders within their peer group.
+7.5 Similarity Calculation
 
-6.5 Sector Position Calculation
+We use cosine similarity on ESG pillar vectors (E_score, S_score, G_score), inspired by recommendation systems literature (Ricci et al., 2011) and portfolio optimization with similarity constraints (DeMiguel et al., 2009). The formula is Cosine Similarity equals the dot product of vectors A and B divided by the product of their norms, where A and B are normalized ESG pillar vectors. Similarity scores are converted to ranks on a 0 to 1 scale for use in preference scoring.
 
-Sector position measures a company's relative ESG performance within its sector. Formula: Sector Position = Percentile Rank(ESG_composite) within Sector, where Percentile Rank = (Number of companies with lower ESG_composite score / Total companies in sector) × 100.
+7.6 PCA-Based Weight Rationale
 
-This metric helps identify sector leaders and is particularly useful for sector-based portfolio construction. Research by Khan et al. (2016) showed that sector-relative ESG performance matters more than absolute performance for predicting returns.
+To provide data-driven justification for weight selection beyond literature survey, we apply Principal Component Analysis to the eight main factor scores. PCA decomposes the covariance structure of the factors and reveals how much variance each factor uniquely contributes. The absolute PCA loadings weighted by explained variance ratios produce a proportional contribution for each factor, which we convert into a suggested weight range (contribution plus or minus a margin). This ensures that the final weight ranges are empirically grounded in the actual data structure rather than being arbitrary.
 
-6.6 Normalization and Standardization Details
 
-All indicators are normalized using sector-adjusted z-score normalization before aggregation. This ensures comparability across sectors while preserving sector-specific characteristics. Formula: z_score = (x - μ_sector) / σ_sector, where μ_sector and σ_sector are mean and standard deviation within the company's sector.
-
-For indicators where lower is better (e.g., emissions intensity, injury rate), we invert the normalized score: inverted_score = 1 - normalized_score, then rescale to 0-100.
-
-Winsorization is applied at 1st and 99th percentiles to handle outliers, following standard practice in financial research (Kothari et al., 2005, "Performance Matched Discretionary Accrual Measures", Journal of Accounting and Economics).
-
-Missing data is imputed using group median within sector, which is more robust than global median and preserves sector characteristics. This approach is used by Refinitiv and MSCI for their ESG scores. We require minimum 60% indicator coverage to compute a category score, following industry standards.
-
-================================================================================
 8. DATASETS FOR TESTING AND VALIDATION
-================================================================================
 
-7.1 Primary Testing Dataset - Mid-Cap Company Selection
+8.1 Primary Testing Dataset
 
-We test our methodology on a sample of 60 mid-cap companies: 40 U.S. companies from S&P MidCap 400 ESG Index and 20 Indian companies from NIFTY Midcap 150 ESG Index. This sample size is sufficient for statistical analysis while remaining manageable for comprehensive data collection.
+We test our methodology on a sample of approximately 260 companies: around 170 U.S. mid-cap companies and around 90 Indian mid-cap companies. Of these, 60 are typically retained after data quality filters (sufficient coverage of financial and ESG metrics). This sample size is sufficient for the statistical analyses we perform including ANOVA, regression, PCA, and bootstrap confidence intervals.
 
-U.S. Mid-Cap Companies (40 companies):
+8.2 Validation Datasets
 
-Selected from S&P MidCap 400 ESG Index (https://www.spglobal.com/spdji/en/indices/esg/sp-midcap-400-esg-index) and Russell Midcap ESG Index constituents. These companies are chosen because:
-1. They are constituents of established ESG indices, enabling direct comparison
-2. Market cap range $2B-$10B (mid-cap definition)
-3. Sufficient ESG disclosure data available
-4. Represent diverse sectors where ESG factors are material
+Refinitiv ESG Historical Database (2002 to present, over 9,000 companies, quarterly updates, https://www.refinitiv.com/en/sustainable-finance/esg-scores) allows us to test ESG pillar weights by regressing scores against future financial performance and provides granular indicator-level data.
 
-Sample companies by sector:
-- Technology: Zscaler (ZS), Okta (OKTA), CrowdStrike (CRWD), Fortinet (FTNT), Qualys (QLYS), Varonis (VRNS), Elastic (ESTC), DigitalOcean (DOCN)
-- Healthcare: Illumina (ILMN), Align Technology (ALGN), Incyte (INCY), BioMarin (BMRN), Alkermes (ALKS), Ionis Pharmaceuticals (IONS), Exact Sciences (EXAS), Bio-Techne (TECH)
-- Industrials: Generac (GNRC), MasTec (MTZ), Armstrong World Industries (AWI), Griffon (GFF), Woodward (WWD), Comfort Systems (FIX), Construction Partners (ROAD), Dycom Industries (DY)
-- Consumer Discretionary: CarMax (KMX), Five Below (FIVE), Dicks Sporting Goods (DKS), Academy Sports (ASO), Hibbett Sports (HIBB), Boot Barn (BOOT), Williams-Sonoma (WSM), RH (RH)
-- Financials: T. Rowe Price (TROW), Franklin Resources (BEN), Invesco (IVZ), E*TRADE (ETFC), Stifel Financial (SF), Webster Financial (WBS), Prosperity Bancshares (PB), F.N.B. Corporation (FNB)
-- Energy: National Oilwell Varco (NOV), Oceaneering International (OII), Helix Energy (HLX), Nabors Industries (NBR), RPC Inc. (RES), ProPetro (PUMP), Select Energy (WTTR), Laredo Petroleum (LPI)
+Compustat Global Database (over 135,000 companies, 1950 to present, https://www.spglobal.com/marketintelligence/en/solutions/compustat) is the standard dataset in finance research for testing financial metric weights against future stock returns.
 
-These companies are publicly listed, have sufficient trading volume for investability, and are covered by major ESG data providers (Refinitiv, MSCI, CDP).
+CRSP Stock Returns (U.S. stocks, 1926 to present, https://www.crsp.org/) allows backtesting index performance with different weight slabs and testing market factor weights against actual returns.
 
-Indian Mid-Cap Companies (20 companies):
+NIFTY Midcap 150 ESG Index Data (https://www.nseindia.com/market-data/indices) allows testing against Indian benchmarks.
 
-Selected from NIFTY Midcap 150 ESG Index (https://www.nseindia.com/market-data/indices) constituents. These companies are chosen because:
-1. Direct constituents of NIFTY Midcap 150 ESG Index, enabling comparison
-2. Market cap range ₹5,000 crore - ₹20,000 crore (approximately $600M-$2.4B, mid-cap for Indian market)
-3. Improving ESG disclosure in India
-4. Represent key sectors in Indian economy
+Bloomberg ESG Data (over 11,800 companies, https://www.bloomberg.com/professional/solution/bloomberg-terminal/) provides an alternative ESG data source for triangulation.
 
-Sample companies by sector:
-- Textiles & Apparel: Page Industries (PAGEIND.NS), Relaxo Footwears (RELAXO.NS), Welspun India (WELSPUNIND.NS), Arvind (ARVIND.NS)
-- Pharmaceuticals: Laurus Labs (LAURUSLABS.NS), Ajanta Pharma (AJANTPHARM.NS), Glenmark Pharmaceuticals (GLENMARK.NS), Torrent Pharmaceuticals (TORNTPHARM.NS)
-- IT Services: Persistent Systems (PERSISTENT.NS), Mindtree (MINDTREE.NS), L&T Technology Services (LTTS.NS), Cyient (CYIENT.NS)
-- Consumer Goods: Dabur India (DABUR.NS), Marico (MARICO.NS), Godrej Consumer Products (GODREJCP.NS), Emami (EMAMILTD.NS)
-- Chemicals: SRF (SRF.NS), UPL (UPL.NS), Alkem Laboratories (ALKEM.NS), Aarti Industries (AARTIIND.NS)
+FactSet Fundamentals (over 100,000 companies, https://www.factset.com/products/fundamentals) offers more detailed financial data for certain metrics.
 
-These companies are listed on NSE (National Stock Exchange of India) and have ESG data available from Refinitiv or company sustainability reports. Many are family-owned, creating unique governance dynamics that are interesting for ESG analysis.
+USPTO Patent Database (1976 to present, https://www.uspto.gov/patents) provides free patent data for innovation metrics.
 
-Comparison Indices for Validation:
-- S&P MidCap 400 ESG Index: https://www.spglobal.com/spdji/en/indices/esg/sp-midcap-400-esg-index
-- NIFTY Midcap 150 ESG Index: https://www.nseindia.com/market-data/indices
-- MSCI USA Mid Cap ESG Leaders Index: https://www.msci.com/our-solutions/indexes/esg-indexes
-- Russell Midcap ESG Index: https://www.ftserussell.com/indexes/russell-midcap-esg-index
+SEC EDGAR (1994 to present, https://www.sec.gov/edgar.shtml) provides free access to all U.S. company filings.
 
-These indices provide benchmarks for:
-- Constituent overlap analysis (how many companies appear in both our index and benchmark)
-- Sector composition comparison
-- Performance benchmarking (returns, Sharpe ratio, alpha)
-- Weighting methodology comparison
+8.3 Academic Research Datasets
 
-7.2 Validation Datasets - Comprehensive Testing Framework
+Khan et al. (2016) Materiality Dataset provides companies with ESG materiality mapping by sector, supporting our sector-adjusted normalization. Berg et al. (2022) ESG Rating Divergence Dataset helps validate our multi-source triangulation. Friede et al. (2015) Meta-Analysis covering over 2,200 studies calibrates our ESG-Financial weight trade-offs.
 
-Refinitiv ESG Historical Database (2002-present, 9,000+ companies, quarterly updates): https://www.refinitiv.com/en/sustainable-finance/esg-scores
-- Allows us to test ESG pillar weights by regressing Refinitiv ESG scores against future financial performance
-- We can optimize E, S, G weights to maximize predictive power using historical data
-- Provides granular indicator-level data for testing category weights within pillars
-- Coverage: 9,000+ companies globally, quarterly updates since 2002
-- Key metrics: ESG scores, pillar scores, category scores, individual indicators
-- Use: Primary validation dataset for ESG weight optimization
 
-MSCI ESG Ratings (2007-present, 8,000+ companies, quarterly updates): https://www.msci.com/esg-ratings
-- Allows comparison of our methodology against MSCI ratings, validating our approach
-- MSCI methodology document: https://www.msci.com/documents/1296102/34424357/MSCI+ESG+Ratings+Methodology.pdf
-- Coverage: 8,000+ companies, 35 Key Issues framework
-- Use: Methodology alignment and validation
-
-CDP Climate Data (10,000+ companies, annual updates): https://www.cdp.net/en
-- Can be used as ground truth for environmental category weights
-- We optimize emissions, energy, water, waste weights to match CDP environmental assessments
-- Provides Scope 1-3 emissions, water data, forest data
-- Coverage: 10,000+ companies globally, annual updates
-- Use: Environmental category weight optimization and validation
-
-Compustat Global Database (135,000+ companies, 1950-present, quarterly updates): https://www.spglobal.com/marketintelligence/en/solutions/compustat
-- Standard dataset in finance research, used in thousands of academic papers
-- We test financial metric weights by regressing financial scores against future stock returns
-- Optimize profitability, growth, efficiency, stability, valuation weights to maximize Sharpe ratio and alpha
-- Coverage: 135,000+ companies globally, quarterly financial statements since 1950
-- Key metrics: All financial ratios, income statements, balance sheets, cash flow statements
-- Use: Primary validation dataset for financial weight optimization
-
-CRSP Stock Returns (U.S. stocks, 1926-present, daily/monthly updates): https://www.crsp.org/
-- Lets us backtest index performance with different weight slabs
-- Testing market factor weights (liquidity, volatility, momentum) against actual returns
-- Optimize for Sharpe ratio, maximum drawdown, alpha
-- Coverage: All U.S. stocks since 1926, daily and monthly returns, volume data
-- Use: Market factor weight optimization and backtesting
-
-NIFTY Midcap 150 ESG Index Data (NSE India, daily returns, quarterly rebalancing): https://www.nseindia.com/market-data/indices
-- Allows testing index construction against Indian benchmarks
-- Optimizing weights for Indian market conditions
-- Daily index returns and constituent data available
-- Use: Indian market validation and comparison
-
-Bloomberg ESG Data (11,800+ companies, quarterly updates): https://www.bloomberg.com/professional/solution/bloomberg-terminal/
-- Alternative ESG data source for validation
-- Coverage: 11,800+ companies, 120+ ESG indicators
-- Use: Multi-source triangulation and validation
-
-FactSet Fundamentals (100,000+ companies, quarterly updates): https://www.factset.com/products/fundamentals
-- Alternative financial data source, more detailed than Compustat for certain metrics
-- Provides EV/EBITDA, interest coverage, ROIC
-- Use: Financial metric validation and alternative calculations
-
-USPTO Patent Database (U.S. patents, 1976-present, ongoing updates): https://www.uspto.gov/patents
-- Free public access to U.S. patent data
-- Provides patent counts, citations, technology classifications
-- Use: Innovation category validation and patent-based metrics
-
-SEC EDGAR (U.S. company filings, 1994-present, quarterly/annual): https://www.sec.gov/edgar.shtml
-- Free access to all U.S. company filings (10-K, 10-Q, proxy statements)
-- Provides R&D expenditure, executive compensation, board composition, governance data
-- Use: Operational metrics (R&D), governance metrics, financial statement data
-
-Academic Research Datasets:
-- Khan et al. (2016) Materiality Dataset: Provides U.S. companies with ESG materiality mapping by sector. Supports our sector-adjusted normalization and category weight adjustments. Reference: Khan, M., Serafeim, G., & Yoon, A. (2016). Corporate Sustainability: First Evidence on Materiality. The Accounting Review, 91(6), 1697-1724.
-- Berg et al. (2022) ESG Rating Divergence Dataset: Provides companies with multiple ESG ratings, divergence analysis. Helps validate our multi-source triangulation approach. Reference: Berg, F., Kolbel, J. F., & Rigobon, R. (2022). Aggregate Confusion: The Divergence of ESG Ratings. Review of Finance, 26(6), 1315-1344.
-- Friede et al. (2015) Meta-Analysis: Covers 2,200+ studies on ESG-financial performance relationship. We use this to calibrate ESG-Financial weight trade-offs. Reference: Friede, G., Busch, T., & Bassen, A. (2015). ESG and Financial Performance: Aggregated Evidence from More Than 2000 Empirical Studies. Journal of Sustainable Finance & Investment, 5(4), 210-233.
-
-7.3 Academic Research Datasets
-
-Khan et al. (2016) Materiality Dataset: Provides U.S. companies with ESG materiality mapping by sector. This supports our sector-adjusted normalization and category weight adjustments.
-
-Berg et al. (2022) ESG Rating Divergence Dataset: Provides companies with multiple ESG ratings, divergence analysis. This helps us validate our multi-source triangulation approach.
-
-Friede et al. (2015) Meta-Analysis: Covers 2,200+ studies on ESG-financial performance relationship. We use this to calibrate ESG-Financial weight trade-offs, with our default 25% ESG / 30% Financial split reflecting the moderate correlation found in the literature.
-
-================================================================================
 9. COMPARISON WITH EXISTING INDICES
-================================================================================
 
-8.1 S&P MidCap 400 ESG Index
+9.1 S&P MidCap 400 ESG Index
 
-This index applies ESG screens to the S&P MidCap 400, excluding companies with low ESG scores. We compare our multi-factor approach to this ESG-only approach, demonstrating how incorporating financial, market, and operational factors provides additional insights. Our analysis shows constituent overlap, sector composition differences, and performance characteristics.
+This index applies ESG screens to the S&P MidCap 400, excluding companies with low ESG scores. We compare our multi-factor approach to this ESG-only approach, demonstrating how incorporating financial, market, and operational factors provides additional insights. Our analysis covers constituent overlap, sector composition differences, performance characteristics, and weighting methodology differences.
 
-8.2 NIFTY Midcap 150 ESG Index
+9.2 NIFTY Midcap 150 ESG Index
 
-This Indian mid-cap ESG index provides a direct benchmark for our Indian market analysis. We compare constituent selection, weighting methodology, and performance, showing how our multi-factor approach differs from pure ESG screening.
+This Indian mid-cap ESG index provides a direct benchmark for our Indian market analysis. We compare constituent selection, weighting methodology, and performance, showing how our multi-factor approach differs from pure ESG screening. We also evaluate whether our approach shows similar outperformance patterns in the Indian context despite the different market microstructure.
 
-8.3 MSCI USA Mid Cap ESG Leaders Index
+9.3 MSCI USA Mid Cap ESG Leaders Index
 
-This index selects mid-cap companies with high ESG ratings. We compare our methodology, showing how our multi-factor approach identifies different companies than pure ESG leaders, potentially providing better risk-adjusted returns.
+This index selects mid-cap companies with high ESG ratings. We compare our methodology to show how our ten-factor approach identifies different companies than pure ESG leaders, potentially providing better risk-adjusted returns while maintaining strong ESG quality.
 
-================================================================================
+9.4 Benchmarking Against Naive Strategies
+
+Beyond established indices, we compare against equal-weighted portfolios, value-weighted (market cap) portfolios, and random-selection baselines to confirm that our scoring methodology adds genuine predictive value. Our preliminary results show the multi-factor top-20 portfolio outperforms the full universe across one-month, three-month, and six-month horizons.
+
+
 10. EXPECTED CONTRIBUTIONS AND LIMITATIONS
-================================================================================
 
-9.1 Contributions
+10.1 Contributions
 
-This research contributes to the literature by: (1) Extending ESG index construction to mid-cap companies, where ESG factors may have more impact, (2) Integrating ESG with financial, market, and operational factors in a transparent, replicable framework, (3) Providing a methodology that addresses rating divergence through multi-source triangulation, (4) Enabling comparison across U.S. and Indian markets, and (5) Offering multiple investor profiles (ESG-first, balanced, financial-first) to accommodate different investment objectives.
+This research contributes to the literature by extending ESG index construction to mid-cap companies where ESG factors may have more impact, integrating ESG with nine additional factor scores (financial, market, operational, risk-adjusted, growth, value, stability, similarity, and sector position) in a transparent and replicable framework, providing a methodology that addresses rating divergence through multi-source triangulation, enabling comparison across U.S. and Indian markets, offering multiple investor profiles (ESG-first, balanced, financial-first) to accommodate different investment objectives, introducing variable type-aware data processing that treats binary, ordinal, and continuous data differently, and providing data-driven PCA-based weight rationale alongside empirical grid-search optimization.
 
-9.2 Limitations
+10.2 Limitations
 
-Key limitations include: (1) ESG data availability is better for larger companies, potentially biasing our mid-cap sample toward companies with better disclosure, (2) Some ESG metrics require subscription access (Refinitiv, MSCI, Bloomberg), limiting our ability to use all desired data sources, (3) Indian ESG data is less comprehensive than U.S. data, requiring more imputation, (4) Our sample size (60 companies) is sufficient for methodology validation but may not capture all sector-specific nuances, and (5) Backtesting is limited by data availability, particularly for historical ESG scores.
+Key limitations include that ESG data availability is better for larger companies, potentially biasing our mid-cap sample toward companies with better disclosure. Some ESG metrics require subscription access (Refinitiv, MSCI, Bloomberg), limiting our ability to use all desired data sources. Indian ESG data is less comprehensive than U.S. data, requiring more imputation. Our sample size of 60 companies after quality filters is sufficient for methodology validation but may not capture all sector-specific nuances. Backtesting is limited by data availability, particularly for historical ESG scores. The synthetic ESG data we generate correlates with financial quality and sector profiles but cannot fully replicate the distributional properties of real ESG ratings.
 
-================================================================================
+
 11. ADDITIONAL METHODOLOGICAL CONSIDERATIONS
-================================================================================
 
-10.1 Sector-Specific Weight Adjustments
+11.1 Sector-Specific Weight Adjustments
 
-Based on SASB Standards (https://www.sasb.org/standards/) materiality maps, we will adjust category weights by sector:
-- Energy sector: Emissions category weight increased to 45-50% (from base 35-45%), Energy category to 25-30%
-- Technology sector: Data privacy and cybersecurity metrics receive higher weight (when available), Emissions weight reduced to 30-35%
-- Financial sector: Governance weight increased to 35-40% (from base 25-35%), Environmental weight reduced
-- Healthcare sector: Social factors (health & safety, diversity) receive higher weight
-- Industrial sector: Environmental (emissions, waste) and Social (health & safety) receive higher weight
+Based on SASB Standards (https://www.sasb.org/standards/) materiality maps, we adjust category weights by sector. The Energy sector receives increased Emissions weight (45 to 50%) and Energy weight (25 to 30%). Technology receives higher weights on data privacy when available. Financial sector sees Governance weight increased to 35 to 40%. Healthcare gives higher weight to Social factors (health and safety, diversity). Industrial sector gives higher weight to Environmental (emissions, waste) and Social (health and safety) factors. These adjustments follow materiality principles from Khan et al. (2016) and SASB industry standards.
 
-These adjustments follow materiality principles from Khan et al. (2016) and SASB industry standards.
+11.2 Temporal Stability and Rebalancing
 
-10.2 Temporal Stability and Rebalancing
+We test weight stability over time using rolling windows (3-year and 5-year periods) to ensure weights are not overly sensitive to short-term market conditions. Rebalancing frequency is tested at quarterly, semi-annual, and annual intervals.
 
-We will test weight stability over time using rolling windows (3-year, 5-year periods) to ensure weights are not overly sensitive to short-term market conditions. Rebalancing frequency will be tested: quarterly vs. semi-annual vs. annual, with quarterly showing best results in preliminary analysis.
+11.3 Factor Monotonicity
 
-10.3 Missing Data Strategy
+An important validation criterion is factor monotonicity: whether companies in the top quintile of a given factor score also achieve higher forward returns than those in the bottom quintile. Our preliminary analysis shows that growth_score and market_score exhibit strong monotonic relationships with returns, while stability_score and risk_adjusted_score show inverse relationships under certain conditions. This informs our weight bounds: factors with negative monotonicity receive lower weight ceilings, and we investigate whether their scoring direction needs correction.
 
-For indicators with <60% coverage, we use sector median imputation. For indicators with <40% coverage, we exclude them from calculation and redistribute weights to available indicators. This approach balances data quality with coverage, following Refinitiv and MSCI practices.
 
-10.4 Outlier Handling
+12. TARGET CONFERENCES AND PUBLICATION VENUES
 
-Winsorization at 1st and 99th percentiles is applied before normalization. For extreme outliers (>5 standard deviations), we investigate data quality and may exclude if found to be data errors.
+This research is suitable for several academic conferences and journals. The PRI Academic Network Conference, held annually in September by the United Nations Principles for Responsible Investment, is a leading venue for ESG integration research and accepts papers on index construction and responsible investment methodologies. The GRASFI (Global Research Alliance for Sustainable Finance and Investment) Annual Conference, hosted by rotating partner universities (previously at Oxford, MIT Sloan, and Columbia), focuses specifically on sustainable finance research including ESG metrics and index design. The European Financial Management Association (EFMA) Annual Meeting and the Financial Management Association (FMA) Annual Meeting both accept papers on asset pricing, portfolio construction, and factor investing, making them relevant for our multi-factor index methodology. For the Indian market component, the NSE-NYU Conference on Indian Financial Markets is an ideal venue, as is the Asian Finance Association Annual Conference.
 
-================================================================================
-12. COMPREHENSIVE REFERENCES AND DATA SOURCE LINKS
-================================================================================
+In terms of journals, the Journal of Sustainable Finance and Investment, Journal of Portfolio Management, and Review of Finance are all natural homes for this type of work. The Journal of Banking and Finance and Journal of Financial Economics also regularly publish ESG-related index construction research.
+
+
+13. COMPREHENSIVE REFERENCES AND DATA SOURCE LINKS
 
 Academic Papers and Research:
-- Berg, F., Kolbel, J. F., & Rigobon, R. (2022). Aggregate Confusion: The Divergence of ESG Ratings. Review of Finance, 26(6), 1315-1344. https://academic.oup.com/rof/article/26/6/1315/6517253
-- Friede, G., Busch, T., & Bassen, A. (2015). ESG and Financial Performance: Aggregated Evidence from More Than 2000 Empirical Studies. Journal of Sustainable Finance & Investment, 5(4), 210-233. https://www.tandfonline.com/doi/abs/10.1080/20430795.2015.1118917
-- Khan, M., Serafeim, G., & Yoon, A. (2016). Corporate Sustainability: First Evidence on Materiality. The Accounting Review, 91(6), 1697-1724. https://meridian.allenpress.com/accounting-review/article/91/6/1697/98718
-- Eccles, R. G., Ioannou, I., & Serafeim, G. (2014). The Impact of Corporate Sustainability on Organizational Processes and Performance. Management Science, 60(11), 2835-2857. https://pubsonline.informs.org/doi/abs/10.1287/mnsc.2014.1984
-- Edmans, A. (2011). Does the Stock Market Fully Value Intangibles? Employee Satisfaction and Equity Prices. Journal of Financial Economics, 101(3), 621-640. https://www.sciencedirect.com/science/article/pii/S0304407611000276
-- Fama, E. F., & French, K. R. (1993). Common Risk Factors in the Returns on Stocks and Bonds. Journal of Financial Economics, 33(1), 3-56. https://www.sciencedirect.com/science/article/pii/0304407693900032
-- Jegadeesh, N., & Titman, S. (1993). Returns to Buying Winners and Selling Losers: Implications for Stock Market Efficiency. Journal of Finance, 48(1), 65-91. https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1540-6261.1993.tb04702.x
-- Yermack, D. (1996). Higher Market Valuation of Companies with a Small Board of Directors. Journal of Financial Economics, 40(2), 185-211. https://www.sciencedirect.com/science/article/pii/0304407695008385
-- Chan, L. K., Lakonishok, J., & Sougiannis, T. (2001). The Stock Market Valuation of Research and Development Expenditures. Journal of Finance, 56(6), 2431-2456. https://onlinelibrary.wiley.com/doi/abs/10.1111/0022-1082.00411
-- DeMiguel, V., Garlappi, L., & Uppal, R. (2009). Optimal Versus Naive Diversification: How Inefficient is the 1/N Portfolio Strategy? Review of Financial Studies, 22(5), 1915-1953. https://academic.oup.com/rfs/article/22/5/1915/1596662
-- Frazzini, A., & Pedersen, L. H. (2014). Betting Against Beta. Journal of Financial Economics, 111(1), 1-25. https://www.sciencedirect.com/science/article/pii/S0304407613001381
-- Novy-Marx, R. (2013). The Other Side of Value: The Gross Profitability Premium. Journal of Financial Economics, 108(1), 1-28. https://www.sciencedirect.com/science/article/pii/S0304407612001508
-- Sloan, R. G. (1996). Do Stock Prices Fully Reflect Information in Accruals and Cash Flows About Future Earnings? The Accounting Review, 71(3), 289-315. https://meridian.allenpress.com/accounting-review/article/71/3/289/98803
-- Amihud, Y., & Mendelson, H. (1986). Asset Pricing and the Bid-Ask Spread. Journal of Financial Economics, 17(2), 223-249. https://www.sciencedirect.com/science/article/pii/0304407686900616
-- Markowitz, H. (1952). Portfolio Selection. Journal of Finance, 7(1), 77-91. https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1540-6261.1952.tb01525.x
+Berg, F., Kolbel, J. F., and Rigobon, R. (2022). Aggregate Confusion: The Divergence of ESG Ratings. Review of Finance, 26(6), 1315-1344. https://academic.oup.com/rof/article/26/6/1315/6517253
+Friede, G., Busch, T., and Bassen, A. (2015). ESG and Financial Performance: Aggregated Evidence from More Than 2000 Empirical Studies. Journal of Sustainable Finance and Investment, 5(4), 210-233. https://www.tandfonline.com/doi/abs/10.1080/20430795.2015.1118917
+Khan, M., Serafeim, G., and Yoon, A. (2016). Corporate Sustainability: First Evidence on Materiality. The Accounting Review, 91(6), 1697-1724. https://meridian.allenpress.com/accounting-review/article/91/6/1697/98718
+Eccles, R. G., Ioannou, I., and Serafeim, G. (2014). The Impact of Corporate Sustainability on Organizational Processes and Performance. Management Science, 60(11), 2835-2857. https://pubsonline.informs.org/doi/abs/10.1287/mnsc.2014.1984
+Edmans, A. (2011). Does the Stock Market Fully Value Intangibles? Employee Satisfaction and Equity Prices. Journal of Financial Economics, 101(3), 621-640. https://www.sciencedirect.com/science/article/pii/S0304407611000276
+Fama, E. F., and French, K. R. (1993). Common Risk Factors in the Returns on Stocks and Bonds. Journal of Financial Economics, 33(1), 3-56. https://www.sciencedirect.com/science/article/pii/0304407693900032
+Jegadeesh, N., and Titman, S. (1993). Returns to Buying Winners and Selling Losers: Implications for Stock Market Efficiency. Journal of Finance, 48(1), 65-91. https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1540-6261.1993.tb04702.x
+Yermack, D. (1996). Higher Market Valuation of Companies with a Small Board of Directors. Journal of Financial Economics, 40(2), 185-211. https://www.sciencedirect.com/science/article/pii/0304407595008385
+Chan, L. K., Lakonishok, J., and Sougiannis, T. (2001). The Stock Market Valuation of Research and Development Expenditures. Journal of Finance, 56(6), 2431-2456. https://onlinelibrary.wiley.com/doi/abs/10.1111/0022-1082.00411
+DeMiguel, V., Garlappi, L., and Uppal, R. (2009). Optimal Versus Naive Diversification: How Inefficient is the 1/N Portfolio Strategy? Review of Financial Studies, 22(5), 1915-1953. https://academic.oup.com/rfs/article/22/5/1915/1596662
+Frazzini, A., and Pedersen, L. H. (2014). Betting Against Beta. Journal of Financial Economics, 111(1), 1-25. https://www.sciencedirect.com/science/article/pii/S0304407613001381
+Novy-Marx, R. (2013). The Other Side of Value: The Gross Profitability Premium. Journal of Financial Economics, 108(1), 1-28. https://www.sciencedirect.com/science/article/pii/S0304407612001508
+Sloan, R. G. (1996). Do Stock Prices Fully Reflect Information in Accruals and Cash Flows About Future Earnings? The Accounting Review, 71(3), 289-315. https://meridian.allenpress.com/accounting-review/article/71/3/289/98803
+Amihud, Y., and Mendelson, H. (1986). Asset Pricing and the Bid-Ask Spread. Journal of Financial Economics, 17(2), 223-249. https://www.sciencedirect.com/science/article/pii/0304407686900616
+Markowitz, H. (1952). Portfolio Selection. Journal of Finance, 7(1), 77-91. https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1540-6261.1952.tb01525.x
+Pedersen, L. H., Fitzgibbons, S., and Pomorski, L. (2021). Responsible Investing: The ESG-Efficient Frontier. Journal of Financial Economics, 142(2), 572-597.
+Asness, C. S., Frazzini, A., and Pedersen, L. H. (2019). Quality Minus Junk. Review of Accounting Studies, 24, 34-112.
+Aguinis, H., Gottfredson, R. K., and Joo, H. (2013). Best-Practice Recommendations for Defining, Identifying, and Handling Outliers. Organizational Research Methods, 16(2), 270-301.
+Hair, J. F., Black, W. C., Babin, B. J., and Anderson, R. E. (2019). Multivariate Data Analysis. 8th Edition. Cengage.
+Stevens, S. S. (1946). On the Theory of Scales of Measurement. Science, 103(2684), 677-680.
+Iglewicz, B., and Hoaglin, D. C. (1993). Volume 16: How to Detect and Handle Outliers. ASQ Press.
+Rousseeuw, P. J., and Van Zomeren, B. C. (1990). Unmasking Multivariate Outliers and Leverage Points. Journal of the American Statistical Association, 85(411), 633-639.
+Kothari, S. P., Leone, A. J., and Wasley, C. E. (2005). Performance Matched Discretionary Accrual Measures. Journal of Accounting and Economics, 39(1), 163-197.
+Conover, W. J., and Iman, R. L. (1981). Rank Transformations as a Bridge Between Parametric and Nonparametric Statistics. The American Statistician, 35(3), 124-129.
+Billio, M., Costola, M., Hristova, I., Latino, C., and Pelizzon, L. (2021). Inside the ESG Ratings: (Dis)agreement and Performance. Corporate Social Responsibility and Environmental Management, 28(5), 1426-1445.
+Giese, G., Lee, L. E., Melas, D., Nagy, Z., and Nishikawa, L. (2019). Foundations of ESG Investing: How ESG Affects Equity Valuation, Risk, and Performance. Journal of Portfolio Management, 45(5), 69-83.
 
 ESG Data Sources and Methodologies:
-- Refinitiv ESG Database: https://www.refinitiv.com/en/sustainable-finance/esg-scores
-- MSCI ESG Ratings: https://www.msci.com/esg-ratings
-- MSCI ESG Methodology: https://www.msci.com/documents/1296102/34424357/MSCI+ESG+Ratings+Methodology.pdf
-- MSCI ESG Methodology Process: https://www.msci.com/documents/1296102/34424357/MSCI+ESG+Ratings+Methodology+-+Process.pdf
-- Bloomberg ESG Data: https://www.bloomberg.com/professional/solution/bloomberg-terminal/
-- CDP (Carbon Disclosure Project): https://www.cdp.net/en
-- CDP Climate Data: https://www.cdp.net/en/companies/companies-scores
-- CDP Water Data: https://www.cdp.net/en/water
-- CDP Energy Data: https://www.cdp.net/en/companies/companies-scores
-- SASB Standards: https://www.sasb.org/standards/
-- GRI Standards: https://www.globalreporting.org/standards/
-- TCFD Recommendations: https://www.fsb-tcfd.org/recommendations/
-- SBTi (Science Based Targets initiative): https://sciencebasedtargets.org/companies-taking-action
+Refinitiv ESG Database: https://www.refinitiv.com/en/sustainable-finance/esg-scores
+MSCI ESG Ratings: https://www.msci.com/esg-ratings
+MSCI ESG Methodology: https://www.msci.com/documents/1296102/34424357/MSCI+ESG+Ratings+Methodology.pdf
+Bloomberg ESG Data: https://www.bloomberg.com/professional/solution/bloomberg-terminal/
+CDP (Carbon Disclosure Project): https://www.cdp.net/en
+CDP Climate Data: https://www.cdp.net/en/companies/companies-scores
+CDP Water Data: https://www.cdp.net/en/water
+SASB Standards: https://www.sasb.org/standards/
+GRI Standards: https://www.globalreporting.org/standards/
+TCFD Recommendations: https://www.fsb-tcfd.org/recommendations/
+SBTi (Science Based Targets initiative): https://sciencebasedtargets.org/companies-taking-action
 
 Financial and Market Data Sources:
-- Compustat: https://www.spglobal.com/marketintelligence/en/solutions/compustat
-- Yahoo Finance: https://finance.yahoo.com/
-- SEC EDGAR: https://www.sec.gov/edgar.shtml
-- FactSet Fundamentals: https://www.factset.com/products/fundamentals
-- CRSP: https://www.crsp.org/
-- NSE India: https://www.nseindia.com/
-- BSE India: https://www.bseindia.com/
+Compustat: https://www.spglobal.com/marketintelligence/en/solutions/compustat
+Yahoo Finance: https://finance.yahoo.com/
+SEC EDGAR: https://www.sec.gov/edgar.shtml
+FactSet Fundamentals: https://www.factset.com/products/fundamentals
+CRSP: https://www.crsp.org/
+NSE India: https://www.nseindia.com/
+BSE India: https://www.bseindia.com/
 
 Operational and Innovation Data Sources:
-- USPTO Patent Database: https://www.uspto.gov/patents
-- EPA Emission Factors: https://www.epa.gov/climateleadership/ghg-emission-factors-hub
-- IEA Grid Emission Factors: https://www.iea.org/data-and-statistics
-- WRI Aqueduct (Water Risk): https://www.wri.org/aqueduct
-- ISO 50001: https://www.iso.org/iso-50001-energy-management.html
-- ISO 45001: https://www.iso.org/iso-45001-occupational-health-and-safety.html
+USPTO Patent Database: https://www.uspto.gov/patents
+EPA Emission Factors: https://www.epa.gov/climateleadership/ghg-emission-factors-hub
+IEA Grid Emission Factors: https://www.iea.org/data-and-statistics
+WRI Aqueduct (Water Risk): https://www.wri.org/aqueduct
+ISO 50001: https://www.iso.org/iso-50001-energy-management.html
+ISO 45001: https://www.iso.org/iso-45001-occupational-health-and-safety.html
 
 Governance and Compliance Data Sources:
-- ISS Governance: https://www.issgovernance.com/
-- Catalyst (Diversity Data): https://www.catalyst.org/
-- Living Wage Foundation: https://www.livingwage.org.uk/
-- Transparency International: https://www.transparency.org/
-- SEC Enforcement Actions: https://www.sec.gov/enforce
-- EPA Violations Database: https://www.epa.gov/enforcement
-- OSHA Data: https://www.osha.gov/data
+ISS Governance: https://www.issgovernance.com/
+Catalyst (Diversity Data): https://www.catalyst.org/
+Living Wage Foundation: https://www.livingwage.org.uk/
+Transparency International: https://www.transparency.org/
+As You Sow: https://www.asyousow.org/
+SEC Enforcement Actions: https://www.sec.gov/enforce
+EPA Violations Database: https://www.epa.gov/enforcement
+OSHA Data: https://www.osha.gov/data
 
 Index Benchmarks and Comparison Indices:
-- S&P MidCap 400 ESG Index: https://www.spglobal.com/spdji/en/indices/esg/sp-midcap-400-esg-index
-- NIFTY Midcap 150 ESG Index: https://www.nseindia.com/market-data/indices
-- MSCI USA Mid Cap ESG Leaders Index: https://www.msci.com/our-solutions/indexes/esg-indexes
-- Russell Midcap ESG Index: https://www.ftserussell.com/indexes/russell-midcap-esg-index
-- Morningstar ESG Research: https://www.morningstar.com/articles/1082023/how-esg-affects-mid-cap-stocks
+S&P MidCap 400 ESG Index: https://www.spglobal.com/spdji/en/indices/esg/sp-midcap-400-esg-index
+NIFTY Midcap 150 ESG Index: https://www.nseindia.com/market-data/indices
+MSCI USA Mid Cap ESG Leaders Index: https://www.msci.com/our-solutions/indexes/esg-indexes
+Russell Midcap ESG Index: https://www.ftserussell.com/indexes/russell-midcap-esg-index
+Morningstar ESG Research: https://www.morningstar.com/articles/1082023/how-esg-affects-mid-cap-stocks
 
 Industry Reports and Frameworks:
-- McKinsey Diversity Research: https://www.mckinsey.com/featured-insights/diversity-and-inclusion/diversity-wins-how-inclusion-matters
-- CFA Institute ESG Integration: https://www.cfainstitute.org/en/research/foundation/2017/esg-integration-in-investment-management
-- Brand Finance Global 500: https://brandfinance.com/
-- Interbrand Best Global Brands: https://www.interbrand.com/
+McKinsey Diversity Research: https://www.mckinsey.com/featured-insights/diversity-and-inclusion/diversity-wins-how-inclusion-matters
+CFA Institute ESG Integration: https://www.cfainstitute.org/en/research/foundation/2017/esg-integration-in-investment-management
+Brand Finance Global 500: https://brandfinance.com/
+Interbrand Best Global Brands: https://www.interbrand.com/
 
-================================================================================
-13. COMPREHENSIVE INDEX ELEMENTS SUMMARY
-================================================================================
 
-This section provides a complete summary of all index elements, their data sources, calculation methods, and weight exploration ranges. All elements listed below are real metrics available from the data sources mentioned, or can be calculated using the provided formulas.
-
-ESG COMPOSITE SCORE (25% of preference score, exploration range: 15-40%)
-
-Environmental Pillar (35% of ESG, range: 30-40%):
-Emissions Category (40% of Environmental, range: 35-45%):
-- Scope 1 Emissions: Data source - CDP Climate Change questionnaire, Refinitiv ESG field "Emissions - Direct (Scope 1)". If not available, calculated as: Scope 1 = Σ(Fuel Consumption_i × Emission Factor_i). Emission factors from EPA (https://www.epa.gov/climateleadership/ghg-emission-factors-hub) or country-specific sources. Weight exploration: 20-30% within emissions category.
-- Scope 2 Emissions: Data source - CDP Climate Change questionnaire, Refinitiv ESG field "Emissions - Indirect (Scope 2)". If not available, calculated as: Scope 2 = Electricity Consumption (MWh) × Grid Emission Factor (kg CO2/MWh). Grid factors from IEA (https://www.iea.org/data-and-statistics) or country sources. Weight: 20-30%.
-- Emissions Intensity: Data source - CDP or calculated. Formula: Emissions Intensity = (Scope 1 + Scope 2) / Revenue × 1,000,000 (metric tons CO2 per $M revenue). Available in Refinitiv ESG field "Emissions Intensity". Weight: 25-35%.
-- Carbon Reduction Targets: Data source - CDP questionnaire (https://www.cdp.net/en/companies/companies-scores), SBTi database (https://sciencebasedtargets.org/companies-taking-action), company sustainability reports. Binary: Has net-zero or SBTi-validated target = 1, no target = 0. Weight: 15-25%.
-
-Energy Category (25% of Environmental, range: 20-30%):
-- Renewable Energy Percentage: Data source - CDP Energy questionnaire, Refinitiv ESG field "Renewable Energy %", company sustainability reports. Direct metric: 0-100%. Weight: 35-45%.
-- Energy Efficiency: Data source - CDP Energy questionnaire or calculated. Formula: Energy Intensity = Total Energy Consumption (MWh) / Revenue. Available in Refinitiv ESG field "Energy Intensity". Lower is better. Weight: 30-40%.
-- Energy Management Certification: Data source - Company reports, ISO certification databases (https://www.iso.org/iso-50001-energy-management.html). Binary: ISO 50001 certified = 1, not certified = 0. Weight: 20-30%.
-
-Water Category (20% of Environmental, range: 15-25%):
-- Water Consumption: Data source - CDP Water questionnaire (https://www.cdp.net/en/water), Refinitiv ESG field "Water Withdrawal", company reports. Direct metric: cubic meters (m³). Weight: 25-35%.
-- Water Intensity: Data source - CDP Water or calculated. Formula: Water Intensity = Total Water Consumption (m³) / Revenue. Lower is better. Weight: 35-45%.
-- Water Risk Score: Data source - CDP Water, WRI Aqueduct database (https://www.wri.org/aqueduct), Refinitiv ESG field "Water Risk Score". Score 0-100, lower is better. Weight: 25-35%.
-
-Waste Category (15% of Environmental, range: 10-20%):
-- Waste Diversion Rate: Data source - Company sustainability reports, Refinitiv ESG field "Waste Diversion Rate", GRI disclosures (https://www.globalreporting.org/standards/). Direct metric: 0-100% (percentage diverted from landfill). Weight: 45-55%.
-- Waste Generation: Data source - Company sustainability reports, Refinitiv ESG field "Waste Generated". Direct metric: metric tons. Weight: 25-35%.
-- Waste Intensity: Calculated. Formula: Waste Intensity = Total Waste (tons) / Revenue. Lower is better. Weight: 15-25%.
-
-Social Pillar (35% of ESG, range: 30-40%):
-Labor Practices Category (35% of Social, range: 30-40%):
-- Employee Turnover Rate: Data source - Refinitiv ESG field "Employee Turnover Rate", company annual reports, GRI disclosures. Formula: Turnover Rate = (Employees who left during year / Average number of employees) × 100. Lower is better. Weight: 25-35%.
-- Fair Wage Policy: Data source - Company reports, Refinitiv ESG field "Fair Wage Policy", Living Wage Foundation (https://www.livingwage.org.uk/). Binary: Has living wage policy = 1, no policy = 0. Weight: 20-30%.
-- Benefits Coverage: Data source - Refinitiv ESG field "Benefits Coverage %", company reports, SEC filings (for U.S. companies). Direct metric: 0-100% (percentage of employees covered by health insurance). Weight: 20-30%.
-- Labor Disputes: Data source - Refinitiv ESG controversy data (https://www.refinitiv.com/en/sustainable-finance/esg-scores), company reports, labor union databases. Count of disputes or strikes in past 3 years. Lower is better. Weight: 15-25%.
-
-Diversity Category (30% of Social, range: 25-35%):
-- Gender Diversity: Data source - Refinitiv ESG field "Gender Diversity %", MSCI ESG (https://www.msci.com/esg-ratings), Bloomberg ESG (https://www.bloomberg.com/professional/solution/bloomberg-terminal/), company reports. Direct metric: 0-100% (percentage of women in workforce). Weight: 35-45%.
-- Women in Management: Data source - Refinitiv ESG field "Women in Management %", company reports, Catalyst database (https://www.catalyst.org/). Formula: Women in Management % = (Women in management roles / Total management roles) × 100. Weight: 25-35%.
-- Board Diversity: Data source - Company proxy statements (DEF 14A filings from SEC EDGAR https://www.sec.gov/edgar.shtml), Refinitiv ESG field "Board Diversity %", ISS Governance (https://www.issgovernance.com/). Direct metric: percentage of women and minorities on board. Weight: 25-35%.
-
-Health & Safety Category (25% of Social, range: 20-30%):
-- Injury Rate (LTIFR): Data source - Company reports, Refinitiv ESG field "Injury Rate", OSHA data (https://www.osha.gov/data) for U.S. companies, GRI disclosures. Formula: LTIFR = (Number of lost time injuries × 200,000) / Total hours worked. Lower is better. Weight: 35-45%.
-- Safety Training Hours: Data source - Company reports, Refinitiv ESG field "Safety Training Hours". Direct metric: annual safety training hours per employee. Weight: 25-35%.
-- Safety Certification: Data source - Company reports, ISO certification databases (https://www.iso.org/iso-45001-occupational-health-and-safety.html). Binary: ISO 45001 certified = 1, not certified = 0. Weight: 25-35%.
-
-Community Category (10% of Social, range: 8-15%):
-- Community Investment: Data source - Company reports, GRI disclosures (https://www.globalreporting.org/standards/), Refinitiv ESG field "Community Investment". Direct metric: total spending on community programs in USD. Weight: 45-55%.
-- Community Investment per Employee: Calculated. Formula: Community Investment per Employee = Total Community Investment / Number of Employees. Normalizes for company size. Weight: 25-35%.
-- Social Programs: Data source - Company reports, GRI disclosures. Direct metric: count of social impact programs. Weight: 15-25%.
-
-Governance Pillar (30% of ESG, range: 25-35%):
-Board Structure Category (35% of Governance, range: 30-40%):
-- Board Independence: Data source - Company proxy statements (DEF 14A from SEC EDGAR https://www.sec.gov/edgar.shtml), Refinitiv ESG field "Board Independence %", ISS Governance (https://www.issgovernance.com/). Formula: Board Independence % = (Independent directors / Total directors) × 100. Target: ≥50% per SEC guidelines. Weight: 35-45%.
-- Board Diversity: Data source - SEC EDGAR proxy statements, Refinitiv ESG field "Board Diversity %", Catalyst database (https://www.catalyst.org/). Direct metric: gender and ethnic diversity on board. Weight: 25-35%.
-- Board Size: Data source - SEC EDGAR proxy statements, Refinitiv ESG field "Board Size". Optimal range: 8-12 per academic research (Yermack, 1996). Scoring: Score = 1 - |Board Size - 10| / 10, clipped to 0-1. Weight: 10-20%.
-- Board Evaluation: Data source - SEC EDGAR proxy statements, company governance reports. Binary: Has formal board evaluation process = 1, no evaluation = 0. Weight: 10-20%.
-
-Executive Compensation Category (25% of Governance, range: 20-30%):
-- ESG-Linked Compensation: Data source - SEC EDGAR proxy statements (DEF 14A, "Compensation Discussion & Analysis" section), Refinitiv ESG field "ESG-Linked Compensation %", As You Sow reports (https://www.asyousow.org/). Direct metric: percentage of executive compensation tied to ESG metrics. Weight: 35-45%.
-- CEO Pay Ratio: Data source - SEC EDGAR proxy statements (SEC required disclosure), Refinitiv ESG field "CEO Pay Ratio". Formula: Pay Ratio = CEO Total Compensation / Median Employee Compensation. Lower is better (target: <20:1). Weight: 30-40%.
-- Clawback Provisions: Data source - SEC EDGAR proxy statements, company governance documents. Binary: Has clawback policy = 1, no policy = 0. Weight: 20-30%.
-
-Shareholder Rights Category (20% of Governance, range: 15-25%):
-- Cumulative Voting: Data source - SEC EDGAR company filings, ISS Governance. Binary: Allows cumulative voting = 1, does not allow = 0. Weight: 25-35%.
-- Proxy Access: Data source - SEC EDGAR proxy statements, ISS Governance. Binary: Allows shareholder proxy access = 1, does not allow = 0. Weight: 20-30%.
-- Majority Voting: Data source - SEC EDGAR proxy statements, ISS Governance. Binary: Requires majority vote for directors = 1, plurality voting = 0. Weight: 20-30%.
-- Single-Class Shares: Data source - SEC EDGAR company filings, Refinitiv ESG field "Share Class Structure". Binary: Single-class structure = 1, dual-class = 0. Weight: 15-25%.
-
-Ethics & Compliance Category (20% of Governance, range: 15-25%):
-- Anti-Corruption Policy: Data source - Company reports, Refinitiv ESG field "Anti-Corruption Policy", Transparency International (https://www.transparency.org/). Binary: Has anti-corruption policy = 1, no policy = 0. Weight: 25-35%.
-- Regulatory Violations: Data source - Refinitiv ESG controversy data (https://www.refinitiv.com/en/sustainable-finance/esg-scores), SEC enforcement actions (https://www.sec.gov/enforce), EPA violations database (https://www.epa.gov/enforcement), regulatory databases. Count of major regulatory violations or fines in past 5 years. Lower is better. Weight: 15-25%.
-- Whistleblower Program: Data source - Company reports, governance documents. Binary: Has confidential whistleblower mechanism = 1, no program = 0. Weight: 20-30%.
-- Code of Conduct Training: Data source - Company reports, GRI disclosures. Direct metric: percentage of employees trained on code of conduct. Weight: 20-30%.
-
-FINANCIAL SCORE (30% of preference score, exploration range: 20-45%)
-
-Profitability Category (30% of Financial, range: 25-35%):
-- ROA: Data source - Compustat item ROA (https://www.spglobal.com/marketintelligence/en/solutions/compustat), Yahoo Finance (https://finance.yahoo.com/), SEC EDGAR financial statements. Formula: ROA = Net Income / Average Total Assets. Expressed as percentage. Higher is better. Weight: 20-30% within profitability.
-- ROE: Data source - Compustat item ROE, Yahoo Finance, SEC EDGAR. Formula: ROE = Net Income / Average Shareholders' Equity. Higher is better. Weight: 20-30%.
-- ROIC: Data source - FactSet (https://www.factset.com/products/fundamentals) or calculated. Formula: ROIC = Operating Income (EBIT) / (Total Debt + Shareholders' Equity - Cash). Higher is better. Weight: 15-25%.
-- Net Margin: Data source - Compustat or calculated. Formula: Net Margin = Net Income / Revenue × 100. Higher is better. Weight: 10-20%.
-- Operating Margin: Data source - Compustat or calculated. Formula: Operating Margin = Operating Income / Revenue × 100. Higher is better. Weight: 10-20%.
-
-Growth Category (25% of Financial, range: 20-30%):
-- Revenue Growth: Data source - Compustat or calculated. Formula: Revenue Growth = (Revenue_t - Revenue_{t-1}) / Revenue_{t-1} × 100. Higher is better. Weight: 35-45% within growth.
-- Earnings Growth: Data source - Compustat or calculated. Formula: Earnings Growth = (Net Income_t - Net Income_{t-1}) / |Net Income_{t-1}| × 100. Higher is better. Weight: 30-40%.
-- Book Value Growth: Data source - Compustat or calculated. Formula: Book Value Growth = (Book Value per Share_t - Book Value per Share_{t-1}) / Book Value per Share_{t-1} × 100. Higher is better. Weight: 20-30%.
-
-Efficiency Category (20% of Financial, range: 15-25%):
-- Asset Turnover: Data source - Compustat or calculated. Formula: Asset Turnover = Revenue / Average Total Assets. Higher is better. Weight: 35-45% within efficiency.
-- Inventory Turnover: Data source - Compustat or SEC EDGAR. Formula: Inventory Turnover = Cost of Goods Sold / Average Inventory. Only relevant for sectors with inventory (manufacturing, retail). Higher is better. Weight: 25-35% (set to 0% for service sectors).
-- Receivables Turnover: Data source - Compustat or SEC EDGAR. Formula: Receivables Turnover = Revenue / Average Accounts Receivable. Higher is better. Weight: 25-35%.
-
-Stability Category (15% of Financial, range: 10-20%):
-- Debt-to-Equity Ratio: Data source - Compustat, Yahoo Finance, SEC EDGAR. Formula: D/E = Total Debt / Shareholders' Equity. Lower is better (indicates less leverage). Weight: 35-45% within stability.
-- Current Ratio: Data source - Compustat, SEC EDGAR. Formula: Current Ratio = Current Assets / Current Liabilities. Optimal range: 1.5-3.0. Scored based on distance from optimal. Weight: 25-35%.
-- Interest Coverage Ratio: Data source - FactSet or calculated. Formula: Interest Coverage = Operating Income (EBIT) / Interest Expense. Higher is better. Weight: 25-35%.
-
-Valuation Category (10% of Financial, range: 5-15%):
-- P/E Ratio: Data source - Yahoo Finance (https://finance.yahoo.com/), Compustat, Bloomberg. Formula: P/E = Stock Price / Earnings per Share. Lower is better for value investors. Weight: 35-45% within valuation.
-- P/B Ratio: Data source - Yahoo Finance, Compustat, Bloomberg. Formula: P/B = Stock Price / Book Value per Share. Lower is better. Weight: 25-35%.
-- EV/EBITDA: Data source - FactSet or calculated. Formula: EV/EBITDA = Enterprise Value / EBITDA, where Enterprise Value = Market Cap + Total Debt - Cash. Lower is better. Weight: 25-35%.
-
-MARKET SCORE (20% of preference score, exploration range: 15-25%)
-
-Liquidity Category (40% of Market, range: 35-45%):
-- Average Daily Volume: Data source - CRSP (https://www.crsp.org/), Yahoo Finance (https://finance.yahoo.com/), NSE India (https://www.nseindia.com/) for Indian companies. Formula: Avg Daily Volume = Sum(Daily Volume) / Number of Trading Days (over past 30 days). Higher is better. Weight: 35-45% within liquidity.
-- Bid-Ask Spread: Data source - CRSP market microstructure data, Bloomberg. Formula: Spread % = (Ask Price - Bid Price) / Mid Price × 100, where Mid Price = (Ask + Bid) / 2. Lower is better. Weight: 25-35%.
-- Free Float Percentage: Data source - NSE India, MSCI (https://www.msci.com/), company filings, SEC EDGAR. Formula: Free Float % = (Shares Outstanding - Insider Holdings - Strategic Holdings) / Shares Outstanding × 100. Higher is better. Weight: 25-35%.
-
-Volatility Category (30% of Market, range: 25-35%):
-- Price Volatility (30-day): Calculated from price data. Formula: Volatility = StdDev(Daily Returns) × √252 × 100 (for annualized percentage). Data sources: CRSP, Yahoo Finance, NSE India. Lower is better. Weight: 45-55% within volatility.
-- Beta: Data source - CRSP, FactSet, Bloomberg or calculated. Formula: Beta = Covariance(Stock Returns, Market Returns) / Variance(Market Returns), using 60-month rolling window. Lower is better for risk-averse investors. Weight: 45-55%.
-
-Momentum Category (30% of Market, range: 25-35%):
-- 1-Month Price Momentum: Calculated from price data. Formula: 1M Momentum = (Price_t - Price_{t-21}) / Price_{t-21} × 100 (assuming 21 trading days per month). Data sources: CRSP, Yahoo Finance, NSE India. Higher is better. Weight: 25-35% within momentum.
-- 3-Month Price Momentum: Calculated. Formula: 3M Momentum = (Price_t - Price_{t-63}) / Price_{t-63} × 100. Higher is better. Research shows 3-month momentum balances signal and noise better than shorter or longer periods. Weight: 35-45%.
-- 6-Month Price Momentum: Calculated. Formula: 6M Momentum = (Price_t - Price_{t-126}) / Price_{t-126} × 100. Higher is better. Weight: 25-35%.
-
-OPERATIONAL SCORE (15% of preference score, exploration range: 10-20%)
-
-Efficiency Category (35% of Operational, range: 30-40%):
-- Revenue per Employee: Data source - Compustat, SEC EDGAR 10-K (employee count), company reports. Formula: Revenue per Employee = Revenue / Number of Employees. Higher is better. Weight: 55-65% within efficiency.
-- Cost Management: Calculated from financial statements. Formula: Operating Expense Ratio = Operating Expenses / Revenue. Data sources: Compustat, SEC EDGAR. Lower is better. Weight: 35-45%.
-
-Innovation Category (25% of Operational, range: 20-30%):
-- R&D Intensity: Data source - SEC EDGAR 10-K filings (line item: "Research and Development"), Compustat field "Research and Development Expense". Formula: R&D Intensity = R&D Expenditure / Revenue × 100. Higher is better. Weight: 45-55% within innovation.
-- Patent Count: Data source - USPTO patent database (https://www.uspto.gov/patents) (free public access, 1976-present). Count patents where company is assignee. We log-transform to handle skewness: Log(Patent Count + 1). Higher is better. Weight: 25-35%.
-- Innovation Score: Composite. Formula: Innovation Score = 0.6 × Normalized(R&D Intensity) + 0.4 × Normalized(Log(Patent Count + 1)). Calculated from above. Weight: 15-25%.
-
-Market Position Category (25% of Operational, range: 20-30%):
-- Market Share: Data source - Industry reports (IBISWorld, Statista), company disclosures (sometimes in SEC EDGAR 10-K "Business" section), market research databases. Expressed as percentage. Higher is better. Weight: 55-65% within market position.
-- Brand Strength: Data source - Brand Finance Global 500 (https://brandfinance.com/), Interbrand Best Global Brands (https://www.interbrand.com/). Proprietary data, may require licensing. If unavailable, weight redistributed to market share. Weight: 35-45% (0% if data unavailable).
-
-Management Quality Category (15% of Operational, range: 10-20%):
-- Management Score: Data source - FactSet analyst ratings, Bloomberg, or calculated from historical performance consistency (coefficient of variation of ROA over 5 years, inverted). Lower variation = higher score. Weight: 55-65% within management quality.
-- Strategic Clarity: Scored from annual reports using text analysis. Scored based on: (1) Has stated strategic plan = 1, no plan = 0; (2) Has executed on previous strategic goals = 1, has not = 0. Composite score. Data source: Company annual reports, 10-K filings. Weight: 35-45%.
-
-SIMILARITY AND SECTOR POSITION (10% combined of preference score):
-- Similarity Rank (5%): Cosine similarity on ESG pillar vectors [E_score, S_score, G_score]. Formula: Cosine Similarity = (A · B) / (||A|| × ||B||), where A and B are ESG pillar vectors. Converted to rank (0-1 scale). Higher is better.
-- Sector Position (5%): Percentile rank within sector based on ESG composite score. Formula: Sector Position = Percentile Rank(ESG_composite) within Sector, where Percentile Rank = (Number of companies with lower ESG_composite score / Total companies in sector) × 100. Higher is better.
-
-All weights listed above are exploration ranges that will be optimized through empirical backtesting using historical data from Refinitiv ESG (2002-present, 9,000+ companies), Compustat (1950-present, 135,000+ companies), and CRSP (1926-present, all U.S. stocks). Final weights will be selected based on maximizing Sharpe ratio while maintaining ESG integrity (top quartile ESG required) and statistical significance (p < 0.05). The optimization process will test multiple weight combinations, evaluate portfolio performance metrics (returns, Sharpe ratio, alpha, maximum drawdown), and select weights that are robust across different time periods and market regimes.
-
-================================================================================
 END OF LITERATURE REVIEW
-================================================================================

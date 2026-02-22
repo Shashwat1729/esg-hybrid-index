@@ -1,0 +1,20 @@
+country,sector,count_universe,pct_universe,count_top,pct_top
+US,Technology,9,22.5,4,26.666666666666668
+US,Communication Services,6,15.0,2,13.333333333333334
+US,Consumer Cyclical,4,10.0,1,6.666666666666667
+US,Financial Services,5,12.5,1,6.666666666666667
+US,Healthcare,7,17.5,3,20.0
+US,Consumer Defensive,4,10.0,2,13.333333333333334
+US,Energy,2,5.0,1,6.666666666666667
+US,Basic Materials,1,2.5,1,6.666666666666667
+US,Utilities,1,2.5,0,0.0
+US,Industrials,1,2.5,0,0.0
+India,Energy,1,5.0,1,6.666666666666667
+India,Technology,3,15.0,3,20.0
+India,Financial Services,6,30.0,3,20.0
+India,Consumer Defensive,3,15.0,2,13.333333333333334
+India,Communication Services,1,5.0,1,6.666666666666667
+India,Industrials,1,5.0,1,6.666666666666667
+India,Basic Materials,2,10.0,2,13.333333333333334
+India,Consumer Cyclical,2,10.0,1,6.666666666666667
+India,Healthcare,1,5.0,1,6.666666666666667

@@ -1,0 +1,2 @@
+variable,n,median,mode,min,max,n_unique,spearman_r_ESG_composite,spearman_p_ESG_composite,spearman_r_G_score,spearman_p_G_score,spearman_r_financial_score,spearman_p_financial_score,spearman_r_pref_balanced,spearman_p_pref_balanced,kruskal_H_sector,kruskal_p_sector
+board_size,60,9.0,5.0,5.0,14.0,10,0.15023644648474924,0.2518929996619277,0.4204941882059184,0.0008223722384957106,0.07780401446444837,0.5545965318633028,0.15213888193371813,0.2458686276555027,13.842161804156028,0.08597331175503158

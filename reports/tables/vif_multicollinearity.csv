@@ -1,0 +1,9 @@
+factor,VIF,multicollinearity
+ESG_composite,1.1574916535132334,Low
+financial_score,3.0305900535014283,Low
+market_score,2.07892219705654,Low
+operational_score,1.2619297782192627,Low
+risk_adjusted_score,1.9415658635146835,Low
+value_score,1.1988252979358844,Low
+growth_score,2.9309584389107353,Low
+stability_score,1.3378585542902162,Low

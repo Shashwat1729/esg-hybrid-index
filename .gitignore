@@ -42,5 +42,9 @@ desktop.ini
 # Logs
 *.log
 
-reports/*
+# Keep research_summary.txt and key_findings.csv tracked
+!reports/research_summary.txt
+!reports/key_findings.csv
+docs/*
+
 .venv/*
