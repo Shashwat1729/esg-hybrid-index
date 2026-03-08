@@ -1,0 +1,2 @@
+train_start,train_end,holdout_start,holdout_end,n_winners,avg_return,median_return,std_return,n_holdout_obs,sharpe,pct_positive
+2014,2021,2022,2023,20,0.12393757773348765,-0.09913482641734267,4.4951879019057,40,0.02757116730942174,50.0

@@ -1,0 +1,141 @@
+% Auto-generated Results chapter. All numbers and tables are read from existing CSVs.
+
+\chapter{Results}
+
+\label{ch:results}
+
+\section{Time-split Evaluation}
+
+This section reports time-split evaluation summaries. If the file name contains "synthetic" the output was generated on a synthetic panel to validate the pipeline. Replace with real panel outputs when available.
+
+\begin{figure}[ht]
+
+\centering
+
+\includegraphics[width=0.8\textwidth]{Figures/timesplit_sharpe_synthetic.png}
+
+\caption{Time-split Evaluation}
+
+\label{fig:timesplit}
+
+\end{figure}
+
+\noindent
+
+The following table shows the first rows of the corresponding CSV file:
+
+\input{Tables/table_timesplit_evaluation_synthetic_summary.tex}
+
+This table has 1 row(s) and 11 column(s). Columns: train_start, train_end, holdout_start, holdout_end, n_winners, avg_return, median_return, std_return, n_holdout_obs, sharpe, pct_positive.
+
+For the evaluated split (training window 2014--2021, holdout 2022--2023) the top-20 selected portfolio produced an average holdout return of 0.123938 (units as recorded in the `ret` column), a median holdout return of -0.099135, sample standard deviation 4.49519, and a Sharpe ratio of 0.027571. Exactly 50\% of observed holdout returns were positive. These figures are reported from `Tables/timesplit_evaluation_synthetic_summary.csv` and reflect the synthetic panel used to validate the evaluation pipeline; when real historical panel data is supplied the same procedure will produce analogous summary files.
+
+\section{Benchmark summary and portfolio performance}
+
+\begin{figure}[ht]
+
+\centering
+
+\includegraphics[width=0.8\textwidth]{Figures/fig18_portfolio_performance.png}
+
+\caption{Benchmark summary and portfolio performance}
+
+\label{fig:benchmark}
+
+\end{figure}
+
+\noindent
+
+The following table shows the first rows of the corresponding CSV file:
+
+\input{Tables/table_benchmark_summary.tex}
+
+This table has 5 row(s) and 10 column(s). Columns: index, n_companies, avg_ESG, avg_financial, avg_market, avg_risk_adj, n_sectors, us_pct, sector_hhi, effective_n_sectors.
+
+Key factual points from the benchmark summary: the ``Our Multi-Factor (Top 20)'' portfolio (top 20 by composite score) has average ESG score 52.1432 and average financial score 57.3635 in the snapshot used to build these tables. The full-universe baseline (60 companies in the processed sample) reports an effective number of sectors of 7.40741. The CSV `Tables/benchmark_summary.csv` contains the full breakdown and is the authoritative source for these numbers.
+
+\section{Principal component analysis: explained variance}
+
+\begin{figure}[ht]
+
+\centering
+
+\includegraphics[width=0.8\textwidth]{Figures/fig21_pca_biplot.png}
+
+\caption{Principal component analysis: explained variance}
+
+\label{fig:pca}
+
+\end{figure}
+
+\noindent
+
+The following table shows the first rows of the corresponding CSV file:
+
+\input{Tables/table_advanced_pca_variance.tex}
+
+This table has 8 row(s) and 4 column(s). Columns: component, eigenvalue, variance_explained, cumulative_variance.
+
+Principal component analysis (PCA) on the factor set shows that the first principal component explains 24.12\% of variance (variance_explained = 0.241153). The first six components together account for roughly 93.57\% of variance (cumulative_variance = 0.935693 for PC6), indicating that a low-dimensional representation captures most of the cross-sectional variation in the constructed factors. See `Tables/advanced_pca_variance.csv` for the full PCA variance table.
+
+\section{Weight sensitivity and grid search}
+
+\begin{figure}[ht]
+
+\centering
+
+\includegraphics[width=0.8\textwidth]{Figures/fig10_weight_sensitivity.png}
+
+\caption{Weight sensitivity and grid search}
+
+\label{fig:weights}
+
+\end{figure}
+
+\noindent
+
+The following table shows the first rows of the corresponding CSV file:
+
+\input{Tables/table_weight_grid_search.tex}
+
+This table has 99 row(s) and 11 column(s). Columns: esg_weight, financial_weight, risk_adj_weight, market_weight, operational_weight, mean_score, std_score, score_sharpe, return_sharpe, kendall_vs_base, top10_overlap.
+
+The weight-sensitivity grid search covers 99 weight combinations (see `Tables/weight_grid_search.csv`). The snippet above shows representative rows; the grid search is used to assess score and return stability across plausible weightings and to identify regions of robust performance. The full CSV contains the complete parameter sweep and associated metrics.
+
+\section{Efficient frontier and optimal portfolios}
+
+\begin{figure}[ht]
+
+\centering
+
+\includegraphics[width=0.8\textwidth]{Figures/fig26_efficient_frontier.png}
+
+\caption{Efficient frontier and optimal portfolios}
+
+\label{fig:efront}
+
+\end{figure}
+
+\noindent
+
+The following table shows the first rows of the corresponding CSV file:
+
+\input{Tables/table_advanced_efficient_frontier.tex}
+
+This table has 1000 row(s) and 7 column(s). Columns: return, risk, sharpe, w_ESG_composite, w_financial_score, w_market_score, w_operational_score.
+
+The efficient frontier dataset contains 1000 candidate portfolios derived from the optimization routine; sample rows are shown above. The frontier is used to visualise the trade-off between return and risk for portfolios composed from the computed factor scores. See `Tables/advanced_efficient_frontier.csv` for the complete set of candidate portfolios and exact weight vectors.
+
+\section{Concise numeric summary}
+
+For easy reference, the key numeric facts from the tables included above (all values are taken directly from the CSV files in `Thesis_report/Tables/`) are:
+
+\begin{itemize}
+	\item Time-split evaluation (synthetic): training window 2014--2021; holdout 2022--2023; top-20 portfolio average holdout return = 0.12394, median = -0.09914, sample std = 4.49519, Sharpe = 0.02757, percent positive = 50\%.
+	\item Benchmark snapshot: the ``Our Multi-Factor (Top 20)'' portfolio reports average ESG score = 52.1432 in the provided benchmark table.
+	\item PCA: the first principal component explains 24.12\% of variance (variance_explained = 0.241153). The first six components together explain roughly 93.57\% of variance (cumulative_variance for PC6 = 0.935693).
+	\item Weight grid search: the best grid point by return–Sharpe observed in `Tables/weight_grid_search.csv` has return–Sharpe = 0.54616 (see the full CSV for the exact weight vector and other diagnostics).
+	\item Efficient frontier: the candidate portfolio with maximum Sharpe (from `Tables/advanced_efficient_frontier.csv`) has Sharpe = 1.23087, expected return = 18.2586, and risk = 14.8338 (these figures are reported exactly in the CSV).
+\end{itemize}
+
+These concise numbers are included to support a quick factual read of the Results chapter (all numeric claims reference the CSV files included in the `Thesis_report/Tables/` folder).

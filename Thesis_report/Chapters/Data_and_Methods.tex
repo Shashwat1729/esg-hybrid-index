@@ -1,0 +1,37 @@
+% Auto-generated Data and Methods chapter. Facts are derived from files in reports/ and data/processed/.
+
+\chapter{Data and Methods}
+
+\label{ch:data_methods}
+
+\section{Data sources}
+
+The analysis uses processed data stored in the project's `data/processed` directory. Key processed files include `indexed_data.csv` and `clean_data.csv`. These contain company-level attributes, composite scores, and normalized factors used to build the index and run the experiments. The tables under `reports/tables` were produced by the analysis scripts and are referenced directly in the Results chapter.
+
+For the standalone report package, local copies of the referenced tables and figures have been placed in the `Tables/` and `Figures/` directories at the root of this `Thesis_report` folder. These files are exact copies of the CSVs and PNGs produced by the analysis pipeline and are the factual sources for the Results chapter.
+
+\\subsection{Software and data citation}
+
+The analysis uses Python data libraries for processing and visualization; key tools include pandas, NumPy and Matplotlib which are cited here \cite{pandas_dev_2020, numpy, matplotlib}. Market and price data used to compute returns were obtained from public sources such as Yahoo Finance \cite{yahoo_finance}, and all derived tables included in this report are produced by the project's scripts and saved under `Tables/` and `Figures/`.
+
+\section{Evaluation protocol}
+
+Time-split evaluation uses train/holdout windows. Winners are selected using the latest available ranking within the training window and evaluated on holdout returns. The scripts produce summary CSVs and figures for each split; these outputs are included in the Results chapter. The evaluation code is in `scripts/07_time_split_evaluation.py`.
+
+\section{Included tables}
+
+The following processed tables from `reports/tables/` are included in the Results chapter:
+
+\begin{itemize}
+
+\item Time-split Evaluation -- source file: Tables/timesplit_evaluation_synthetic_summary.csv
+
+\item Benchmark summary and portfolio performance -- source file: Tables/benchmark_summary.csv
+
+\item Principal component analysis: explained variance -- source file: Tables/advanced_pca_variance.csv
+
+\item Weight sensitivity and grid search -- source file: Tables/weight_grid_search.csv
+
+\item Efficient frontier and optimal portfolios -- source file: Tables/advanced_efficient_frontier.csv
+
+\end{itemize}
