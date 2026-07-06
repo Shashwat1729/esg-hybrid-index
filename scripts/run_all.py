@@ -11,6 +11,16 @@ Executes the complete analysis pipeline in order:
   08. Advanced analysis (PCA, clustering, bootstrap, regime)
   07. Visualizations (30 figures)
   09. Generate research summary report (22 sections)
+  10. ESG benchmarking & external provider validation
+  11. Profile justification analysis
+  15. Robustness analysis: high-cap generalization
+  16. Financial validation (turnover, capacity, transaction costs)
+  17. Proxy validation (provenance audit & alternative proxies)
+  18. Sector-based cross-validation (leave-one-sector-out)
+  19. Synthetic sensitivity (noise injection & factor dropout)
+  20. Subsampling stability (rolling-window & bootstrap stability)
+  13. Compute summary statistics
+  14. Pipeline health checks (final validation)
 
 Note: Step 08 runs before 07 so that advanced tables are available for figures.
 
@@ -33,11 +43,21 @@ SCRIPTS = [
     ("03_build_index.py", "Build multi-factor composite index"),
     ("04_statistical_tests.py", "Run comprehensive statistical tests"),
     ("05_weight_sensitivity.py", "Weight sensitivity and optimization analysis"),
-        ("06_benchmark_comparison.py", "Compare with benchmark indices"),
-        ("07_time_split_evaluation.py", "Time-split evaluation (fixed/rolling/expanding)"),
+    ("06_benchmark_comparison.py", "Compare with benchmark indices"),
+    ("07b_cross_sectional_validation.py", "Cross-sectional validation (IC, quintiles, bootstrap, circularity check)"),
     ("08_advanced_analysis.py", "PCA, clustering, bootstrap, efficient frontier"),
     ("07_visualizations.py", "Generate all research figures"),
     ("09_generate_report.py", "Compile summary report and key findings"),
+    ("10_esg_benchmarking.py", "ESG benchmarking & external provider validation"),
+    ("11_profile_justification.py", "Profile justification analysis"),
+    ("15_robustness_highcap.py", "Robustness analysis: high-cap generalization"),
+    ("16_financial_validation.py", "Financial validation: turnover, capacity, transaction costs"),
+    ("17_proxy_validation.py", "Proxy validation: provenance audit & alternative proxies"),
+    ("18_sector_cv.py", "Sector cross-validation: leave-one-sector-out stability"),
+    ("19_synthetic_sensitivity.py", "Synthetic sensitivity: noise injection & factor dropout"),
+    ("20_subsampling_stability.py", "Subsampling stability: rolling-window & bootstrap stability"),
+    ("13_compute_summaries.py", "Compute summary statistics across all analyses"),
+    ("14_run_checks.py", "Pipeline health checks and final validation"),
 ]
 
 

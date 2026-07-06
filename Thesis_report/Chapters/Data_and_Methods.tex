@@ -1,37 +1,170 @@
-% Auto-generated Data and Methods chapter. Facts are derived from files in reports/ and data/processed/.
-
-\chapter{Data and Methods}
-
+\chapter{Data and Methodology}
 \label{ch:data_methods}
+This chapter keeps the method and cuts the rambling btis. Appendix~A still has the longer technical stuff if anyone wants teh full machinery.
 
-\section{Data sources}
+\section{Data Collection}
+\label{sec:data_collection}
+\subsection{Company Universe}
+\label{sec:company_universe}
+The study starts with 281 listed firms from the United States and India. After running coverage checks the final scoring universe contains 276 mid-cap companies, with 186 from the U.S. and 90 from India, while five U.S. large-cap names stay only as outside comparison points. We wanted breadth not a theme basket, and the two-country split felt reasoanble for a thesis like this.
+\begin{table}[!htbp]
+\centering
+\caption{Mid-cap company universe by sector and country ($n=276$).}\label{tab:sector_distribution}\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{GICS Sector} & \textbf{US} & \textbf{India} & \textbf{Total} \\
+\midrule
+Consumer Cyclical & 19 & 19 & 38 \\
+Technology & 23 & 12 & 35 \\
+Healthcare & 27 & 13 & 40 \\
+Industrials & 27 & 10 & 37 \\
+Financial Services & 20 & 8 & 28 \\
+Consumer Defensive & 11 & 10 & 21 \\
+Basic Materials & 12 & 10 & 22 \\
+Energy & 13 & 0 & 13 \\
+Real Estate & 11 & 5 & 16 \\
+Utilities & 11 & 0 & 11 \\
+Communication Services & 7 & 1 & 8 \\
+\midrule
+\textbf{Total} & \textbf{186} & \textbf{90} & \textbf{276} \\
+\bottomrule
+\end{tabular}
+\end{table}
+The U.S. firms come mainly from the S\&P MidCap~400 ESG universe and the Indian firms from NSE mid-cap lists \cite{nse_esg}. That gives a useful mix of markets with very different disclosure habits.
 
-The analysis uses processed data stored in the project's `data/processed` directory. Key processed files include `indexed_data.csv` and `clean_data.csv`. These contain company-level attributes, composite scores, and normalized factors used to build the index and run the experiments. The tables under `reports/tables` were produced by the analysis scripts and are referenced directly in the Results chapter.
+\subsection{Data Sources and ESG Proxies}
+\label{sec:data_sources}
+Yahoo Finance supplied most fundamentals and two years of daily market data through \texttt{yfinance} \cite{yahoo_finance,yfinance}. SEC EDGAR added filing-level governance and R\&D disclosures for U.S. firms \cite{sec_edgar}. All values are taken as a March~2026 cross-sectional snapshot, and Indian monetary figures are converted once at 83 INR/USD before cleaning.
+The ESG block has 32 indicators across environmental, social, and governance pillars. Not all of them are directly observed, so we use a blunt hierarchy: real Yahoo or SEC fields first, a small set of auditable financial proxies next, then sector or global imputation, and after that we leave the rest missing. It's not elegant, but it's honest, nad the provenance stays traceable.
 
-For the standalone report package, local copies of the referenced tables and figures have been placed in the `Tables/` and `Figures/` directories at the root of this `Thesis_report` folder. These files are exact copies of the CSVs and PNGs produced by the analysis pipeline and are the factual sources for the Results chapter.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{Figures/fig17_missing_data.png}
+\caption{Missing-data heatmap across the 276 companies. ESG columns are visibly sparser than financial ones, which is annoying but expected.}\label{fig:missing_data}
+\end{figure}
 
-\\subsection{Software and data citation}
+\section{Variable Types, Cleaning, and Normalisation}
+\label{sec:var_types}
+We classify variables before transforming them becuase a bounded percentage should not be treated like a heavy-tailed ratio. The early draft did that and the rankings looked wierd fast.
+\begin{table}[!htbp]
+\centering
+\caption{Variable-type system used in preprocessing.}\label{tab:ch3_vartypes}\small
+\begin{tabular}{@{}llp{3.6cm}p{5.2cm}@{}}
+\toprule
+\textbf{Type} & \textbf{Count} & \textbf{Examples} & \textbf{Statistical Treatment} \\
+\midrule
+Binary & 3 & \texttt{carbon\_reduction\_target}, \texttt{human\_rights\_policy}, \texttt{anti\_corruption\_policy} & Validate $\{0,1\}$; mode imputation; proportion-encode in group scores; down-weight zero-variance cases \\
+Ordinal & 2 & \texttt{board\_size}, \texttt{esg\_risk\_rating} & Rank-transform and percentile-scale to $[0,100]$ \\
+Bounded \% & 20 & \texttt{board\_independence\_pct}, \texttt{renewable\_energy\_pct}, \texttt{gender\_diversity\_pct} & Clip to natural bounds and min-max scale \\
+Ratio & 7 & \texttt{trailing\_pe}, \texttt{debt\_to\_equity}, \texttt{price\_to\_book} & MAD-aware winsorization, then z-score \\
+Count & 12 & \texttt{market\_cap}, \texttt{total\_revenue}, \texttt{employees}, \texttt{scope1\_emissions} & $\log(1+x)$ for strong skew, then z-score \\
+Rate & 8 & \texttt{roa}, \texttt{roe}, \texttt{net\_margin}, \texttt{emissions\_intensity} & Winsorize and z-score \\
+Continuous & 6 & \texttt{beta}, \texttt{price\_momentum\_1m}, \texttt{employee\_turnover} & Winsorize and z-score \\
+\bottomrule
+\end{tabular}
+\end{table}
+We then apply a 60\% minimum coverage filter, winsorize rather than delete outliers, log-transform the most skewed counts, and impute by sector median with a global fallback. Short version: strict enough to stop nonsense, loose enough that half the sample does not vanish.
 
-The analysis uses Python data libraries for processing and visualization; key tools include pandas, NumPy and Matplotlib which are cited here \cite{pandas_dev_2020, numpy, matplotlib}. Market and price data used to compute returns were obtained from public sources such as Yahoo Finance \cite{yahoo_finance}, and all derived tables included in this report are produced by the project's scripts and saved under `Tables/` and `Figures/`.
+\section{Scoring and Aggregation}
+\label{sec:index_construction}
+Most ratio, rate, count, and continuous variables are standadised, while ordinal fields are coverted to rank percentiles:
+\begin{equation}
+z_i = \frac{x_i - \bar{x}}{s}
+\label{eq:zscore}
+\end{equation}
+\begin{equation}
+x_i^{\text{rank}} = \frac{\text{rank}(x_i) - 1}{n - 1} \times 100
+\label{eq:rankpct}
+\end{equation}
+Indicators where lower raw values mean better ESG performance, such as emissions, injury rates, and risk ratings, are flipped after scaling so every score points the same way.
+Each company then receives a weighted composite score:
+\begin{equation}
+S_i = \sum_{k=1}^{K} w_k \cdot F_k(i)
+\label{eq:ch3_composite}
+\end{equation}
 
-\section{Evaluation protocol}
+\subsection{Factor 1: ESG Composite Score}
+\label{sec:esg_composite}
+The ESG factor rolls normalised indicators into environmental, social, and governance pillars and then into one summary score. It's the main sustainability block, just written shorter this time.
+\begin{equation}
+F_{\text{ESG}}(i) = w_E \cdot E_i + w_S \cdot S_i + w_G \cdot G_i
+\label{eq:esg_composite}
+\end{equation}
+\subsubsection{Sector-Materiality ESG Weighting}
+\label{sec:sasb_materiality}
+We let the E/S/G split move by sector in a SASB-style way. Carbon matters more for energy than for software, and pretending otherwise never felt convincing.
+\begin{table}[!htbp]
+\centering
+\caption{SASB-inspired E/S/G pillar weights.}\label{tab:sasb_weights}\small
+\begin{tabular}{@{}lrrrl@{}}
+\toprule
+\textbf{Sector} & \textbf{E} & \textbf{S} & \textbf{G} & \textbf{Rationale} \\
+\midrule
+Energy & 0.55 & 0.20 & 0.25 & GHG and ecological impacts \\
+Technology & 0.20 & 0.45 & 0.35 & Data privacy and human capital \\
+Financials & 0.15 & 0.35 & 0.50 & Governance and systemic risk \\
+Healthcare & 0.25 & 0.40 & 0.35 & Drug safety and access \\
+Industrials & 0.40 & 0.30 & 0.30 & Environmental management and worker safety \\
+Basic Materials & 0.50 & 0.25 & 0.25 & Resource use and pollution \\
+\emph{Default} & 0.20 & 0.35 & 0.45 & Fallback for unlisted sectors \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-Time-split evaluation uses train/holdout windows. Winners are selected using the latest available ranking within the training window and evaluated on holdout returns. The scripts produce summary CSVs and figures for each split; these outputs are included in the Results chapter. The evaluation code is in `scripts/07_time_split_evaluation.py`.
+\subsection{Factor 2: Financial Score}
+\label{sec:financial_score}
+The financial factor compresses profitability, scale, efficiency, stability, and valuation into one investability score. It stays prominent since this is still an index for people who may actually buy the stocks.
+\subsection{Factor 3: Market Score}
+\label{sec:market_score}
+The market factor captures liquidity, volatility, and momentum from daily prices and volumes. It's useful, but we keep an eye on circularity later becuase market-based signals can flatter themselves.
+\subsection{Factors 4--9 in Brief}
+Operational is execution proxies, risk-adjusted is return quality, growth is sales trend, value is cheap multiples, stability is balance-sheet calm, and sector position is peer percentile. That's enough detail, honestly.
+We also compute peer similarity in ESG-pillar space as a diagnostic rather than a core ranking input:
+\begin{equation}
+\text{Sim}(i) = \frac{\mathbf{f}_i \cdot \mathbf{c}_s}{\|\mathbf{f}_i\| \cdot \|\mathbf{c}_s\|}
+\label{eq:cosine_sim}
+\end{equation}
+Before preference scoring, each factor is put back onto a common scale using $\tilde{F}_k(i) = \frac{F_k^{\text{scaled}}(i) - \bar{F}_k}{\sigma_{F_k}} \times 10 + 50$, so the profile weights mean what they say.
+The final preference score is rank-based:
+\begin{equation}
+P_i^{(p)} = \sum_{k=1}^{9} w_k^{(p)} \cdot r_k(x_i)
+\label{eq:rank_pref}
+\end{equation}
 
-\section{Included tables}
+\section{Investor Preference Profiles}
+\label{sec:investor_profiles}
+The final ranking is reported under three profile weight sets. They are meant to look like real investor stances, not fancy optimiser output.
+\begin{table}[!htbp]
+\centering
+\caption{Investor preference profile weights across nine factors (\%).}\label{tab:ch3_profile_weights}\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Factor} & \textbf{ESG-First} & \textbf{Balanced} & \textbf{Financial-First} \\
+\midrule
+ESG Composite & 55 & 22 & 5 \\
+Financial Score & 8 & 18 & 25 \\
+Market Score & 2 & 5 & 10 \\
+Operational Score & 5 & 6 & 8 \\
+Risk-Adjusted Score & 8 & 15 & 18 \\
+Growth Score & 6 & 14 & 15 \\
+Value Score & 3 & 4 & 7 \\
+Stability Score & 6 & 8 & 7 \\
+Sector Position & 7 & 8 & 5 \\
+\midrule
+\textbf{Total} & \textbf{100} & \textbf{100} & \textbf{100} \\
+\bottomrule
+\end{tabular}
+\end{table}
+ESG-First leans hard into sustainability, Balanced is the most practical compromise, and Financial-First treats ESG more like a screen than a mission. None of these is sacred, but they cover the main investor moods pretty well.
 
-The following processed tables from `reports/tables/` are included in the Results chapter:
+\section{Validation and Reproducibility}
+\label{sec:validation_setup}
+We validate the index with bootstrap stability checks, cross-provider ESG comparison, and simple factor characterisation. The return proxy is still trailing momentum, so we do not pretend this solves every circularity issue, but it does show where the weak spots are.
+\label{sec:reproducibility}
+Everything is implemented in Python with YAML configuration files, and every major table or figure is generated from the same pipeline, so rerunning the workflow is dull but doable.
 
-\begin{itemize}
-
-\item Time-split Evaluation -- source file: Tables/timesplit_evaluation_synthetic_summary.csv
-
-\item Benchmark summary and portfolio performance -- source file: Tables/benchmark_summary.csv
-
-\item Principal component analysis: explained variance -- source file: Tables/advanced_pca_variance.csv
-
-\item Weight sensitivity and grid search -- source file: Tables/weight_grid_search.csv
-
-\item Efficient frontier and optimal portfolios -- source file: Tables/advanced_efficient_frontier.csv
-
-\end{itemize}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{Figures/fig01_score_distributions.png}
+\caption{Factor score distributions after normalisation. Most sit between 30 and 70 with roughly Gaussian shapes,  except financial\_score which clusters tighter than we'd like.}\label{fig:score_dists}
+\end{figure}

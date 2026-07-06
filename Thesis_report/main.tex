@@ -7,20 +7,8 @@
 % Siddhant Shrivastava
 % https://github.com/sidcode/bits-pilani-thesis-template-latex
 %
-% This template is heavily based on the work of Darshit Shah, Steven Gunn and Sunil Patel
-% Darshit Shah
-% https://github.com/darnir/BPHC-LaTeX-Report-Class
-% Steven Gunn
-% http://users.ecs.soton.ac.uk/srg/softwaretools/document/templates/
-% and
-% Sunil Patel
-% http://www.sunilpatel.co.uk/thesis-template/
-%
 % License:
 % CC BY-NC-SA 4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
-%
-% Note:
-% Make sure to edit document variables in the Thesis.cls file
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -28,176 +16,113 @@
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %-------------------------------------------------------------------------------
 
-\documentclass[11pt, a4paper, oneside]{Thesis} % Paper size, default font size
-                                               % and one-sided paper
+\documentclass[11pt, a4paper, oneside]{Thesis}
 
-\graphicspath{{Figures/}} % Specifies the directory where pictures are stored for this standalone report
+\graphicspath{{Figures/}}
 \usepackage{float}
-% \usepackage{algorithm}
-% \usepackage{algorithmic}
-% \usepackage{graphicx}
-% \usepackage{caption}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{longtable}
 \usepackage[backend=bibtex]{biblatex}
 \bibliography{Bibliography.bib}
 
-\title{\ttitle} % Defines the thesis title - don't touch this
+\title{\ttitle}
 
 \begin{document}
 
-\frontmatter % Use roman numbering style (i, ii...) for the pre-content pages
+\frontmatter
 
-\setstretch{1.3} % Line spacing of 1.3
+\setstretch{1.3}
 
-% Define page headers using FancyHdr package and set up for one-sided printing
-\fancyhead{} % Clears all page headers and footers
-\rhead{\thepage} % Sets the right side header to show the page number
-\lhead{} % Clears the left side page header
+\fancyhead{}
+\rhead{\thepage}
+\lhead{}
 
-\pagestyle{fancy} % Finally, use the "fancy" page style to implement the
-                  %FancyHdr headers
+\pagestyle{fancy}
 
-% Input all the variables used in the document. Please fill out the
-% variables.tex file with all your details.
 \input{variables}
+
 %-------------------------------------------------------------------------------
 %   NON-CONTENT PAGES
 %-------------------------------------------------------------------------------
 \maketitle
 \Declaration
 \Certificate
-% \Quotation{Insert Random Quote here. Publish like a boss.}{Shashwat Bajpai}
 
 \begin{abstract}
-
-This thesis develops a reproducible pipeline for constructing and evaluating a multi-factor investment index that integrates environmental, social and governance (ESG) indicators with financial and market signals. The work implements score construction, weight sensitivity analysis, and a time-split evaluation framework to assess out-of-sample performance under fixed, rolling and expanding windows. Results and supporting tables/figures are produced by the analysis scripts and are included in the Results chapter; all figures and tables referenced are generated from the project's `reports/` outputs so the document reports actual files produced by the pipeline.
-
+We present a transparent, nine-factor investment index that integrates environmental, social and governance (ESG) indicators with financial and operational metrics in a single, reproducible framework. The model is evaluated on 276 mid-cap companies (186~US, 90~India) across 11 GICS sectors, and we place all factor scores on a common 0--100 scale using variable-type-aware normalisation and consensus-based outlier detection. Because ESG measurement still relies on proxy scores derived from 12 financial observables with sector-imputed fallbacks, we interpret the apparent ESG--financial fit ($R^2 = 0.544$) as a proxy artefact rather than independent empirical evidence. We therefore treat the framework primarily as a disciplined stock-selection and portfolio-characterisation tool. Cross-provider validation against MSCI, S\&P~Global, and Sustainalytics ($N{=}10$) remains consistent with the ESG rating divergence documented in the literature. At the same time, a maximum VIF of 2.80 and three principal components explaining 67.4\% of variance indicate limited multicollinearity in the revised factor structure. In portfolio testing, the Balanced strategy shows strong defensive behaviour, with bear-market excess return of $+7.27\%$, rolling excess performance of $+7.38\%$, and bear-period excess of $+10.65\%$ in the updated benchmark summary. Robustness checks also improve: ranking stability reaches Kendall $\tau = 1.000$, cross-validation reports an overfit ratio of 0.499, and factor ablation shows that \texttt{growth\_score} is now the most influential component for rank disruption ($\tau = 0.777$). Profile differentiation remains meaningful but incomplete, as ESG-First and Financial-First record Kendall $\tau = 0.593$ with 7 of the top 10 holdings overlapping. Quintile analysis continues to produce large effect sizes, with Cohen's $d$ up to 2.781 for financial score and 1.906 for ESG composite separation. Overall, we find that the multi-factor approach yields differentiated, defensible portfolios, but the scoring architecture is more reliable than the current return-optimisation layer.
 \end{abstract}
 
 \begin{acknowledgements}
-I gratefully acknowledge the project supervisors, data providers, and the open-source tools used throughout this work. The processed datasets used in the analysis are stored under `data/processed/`, and the derived tables and plots are saved under `reports/`. Thank you to collaborators who reviewed early drafts of the analysis and to the maintainers of the libraries used (pandas, numpy, scikit-learn, matplotlib).
+I would like to sincerely thank my supervisor, Mr.\ Nandan Mishra, for his guidance on index construction and the practical side of quantitative portfolio design. I am equally grateful to my co-supervisor, Dr.\ Dushyant Kumar, for his detailed feedback on the econometric methodology and for keeping me honest about the statistical assumptions. Thanks are also due to the open-source community behind pandas, NumPy, scikit-learn, statsmodels, and matplotlib---tools without which this work would not have been possible. Any errors that remain are, of course, entirely my own.
 \end{acknowledgements}
 
 %-------------------------------------------------------------------------------
 %	LIST OF CONTENTS/FIGURES/TABLES PAGES
 %-------------------------------------------------------------------------------
 
-% The page style headers have been "empty" all this time, now use the "fancy"
-% headers as defined before to bring them back
 \pagestyle{fancy}
 
-% \lhead{\emph{Contents}} % Set the left side page header to "Contents"
-\tableofcontents % Write out the Table of Contents
+\tableofcontents
 
-% Set the left side page header to "List of Figures"
-% \lhead{\emph{List of Figures}}
-\listoffigures % Write out the List of Figures
+\listoffigures
 
- % Set the left side page header to "List of Tables"
-% \lhead{\emph{List of Tables}}
-\listoftables % Write out the List of Tables
+\listoftables
 
 %-------------------------------------------------------------------------------
 %	ABBREVIATIONS
 %-------------------------------------------------------------------------------
 
-\clearpage % Start a new page
+\clearpage
 
- % Set the line spacing to 1.5, this makes the following tables easier to read
 \setstretch{1.5}
 
-% \lhead{\emph{Abbreviations}} % Set the left side page header to "Abbreviations"
-\listofsymbols{ll} % Include a list of Abbreviations (a table of two columns)
+\listofsymbols{ll}
 {
-	extbf{ESG} & Environmental, Social and Governance \\
-	extbf{CAGR} & Compound Annual Growth Rate \\
-	extbf{ROI} & Return on Investment \\
-	extbf{AUM} & Assets Under Management \\
-	extbf{PCA} & Principal Component Analysis \\
-	extbf{CAPM} & Capital Asset Pricing Model \\
-	extbf{Sharpe} & Sharpe Ratio \\
-	extbf{VaR} & Value at Risk \\
-	extbf{HHI} & Herfindahl--Hirschman Index \\
-	extbf{ROC} & Return on Capital
+	\textbf{ESG}    & Environmental, Social and Governance \\
+	\textbf{AUM}    & Assets Under Management \\
+	\textbf{PCA}    & Principal Component Analysis \\
+	\textbf{VIF}    & Variance Inflation Factor \\
+	\textbf{HHI}    & Herfindahl--Hirschman Index \\
+	\textbf{ROA}    & Return on Assets \\
+	\textbf{ROE}    & Return on Equity \\
+	\textbf{MAD}    & Median Absolute Deviation \\
+	\textbf{OLS}    & Ordinary Least Squares \\
+	\textbf{GICS}   & Global Industry Classification Standard \\
+	\textbf{XBRL}   & eXtensible Business Reporting Language \\
+	\textbf{ANOVA}  & Analysis of Variance \\
+	\textbf{IQR}    & Interquartile Range \\
 }
 
-%-------------------------------------------------------------------------------
-%	PHYSICAL CONSTANTS/OTHER DEFINITIONS
-%-------------------------------------------------------------------------------
-
-% \clearpage % Start a new page
-
-% % Set the left side page header to "Physical Constants"
-% \lhead{\emph{Physical Constants}}
-
-%  % Include a list of Physical Constants (a four column table)
-% \listofconstants{lrcl}
-% {
-% Speed of Light & $c$ & $=$ & $2.997\ 924\ 58\times10^{8}\ \mbox{ms}^{-\mbox{s}}$ (exact)\\
-% % Constant Name & Symbol & = & Constant Value (with units) \\
-% }
-
-%-------------------------------------------------------------------------------
-%	SYMBOLS
-%-------------------------------------------------------------------------------
-
-\clearpage % Start a new page
-
-% \lhead{\emph{Glossary}} % Set the left side page header to "Symbols"
-
-% \listofnomenclature % List the nomenclature. (We use the glossaries package)
-
-% %-------------------------------------------------------------------------------
-% %	DEDICATION
-% %-------------------------------------------------------------------------------
-
-% \setstretch{1.3} % Return the line spacing back to 1.3
-
-% \pagestyle{empty} % Page style needs to be empty for this page
-
-% % Dedication text
-% \Dedicatory{Dedicate this to someone, anyone.}
-
-% \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
+\clearpage
 
 %-------------------------------------------------------------------------------
 %	THESIS CONTENT - CHAPTERS
 %-------------------------------------------------------------------------------
 
-\mainmatter % Begin numeric (1,2,3...) page numbering
+\mainmatter
 
-\pagestyle{fancy} % Return the page headers back to the "fancy" style
+\pagestyle{fancy}
 
-% Include the chapters of the thesis as separate files from the Chapters folder
-% Uncomment the lines as you write the chapters
-
-% Replaced placeholder chapters with the thesis data, methods and results
+\input{Chapters/Introduction}
+\input{Chapters/Literature_Review}
 \input{Chapters/Data_and_Methods}
 \input{Chapters/Results}
-% \input{Chapters/MoBADB_imp}
-% \input{Chapters/Results}
-% \input{Chapters/Chapter3}
-% \input{Chapters/Chapter4}
-% \input{Chapters/Chapter5}
-% \input{Chapters/Chapter6}
-%\input{Chapters/Chapter7}
+\input{Chapters/FutureWork}
 
 %-------------------------------------------------------------------------------
 %	THESIS CONTENT - APPENDICES
 %-------------------------------------------------------------------------------
 
-\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
+\addtocontents{toc}{\vspace{2em}}
 
-\appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
-
-% Include the appendices of the thesis as separate files from the Appendices
-% folder
-% Uncomment the lines as you write the Appendices
+\appendix
 
 \input{Appendices/AppendixA}
-%\input{Appendices/AppendixB}
-%\input{Appendices/AppendixC}
+\input{Appendices/AppendixB}
+\input{Appendices/AppendixC_ProfileJustification}
 
-\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
+\addtocontents{toc}{\vspace{2em}}
 
 \backmatter
 
@@ -207,7 +132,7 @@ I gratefully acknowledge the project supervisors, data providers, and the open-s
 
 \label{Bibliography}
 
-\lhead{\emph{Bibliography}} % Change the page header to say "Bibliography"
+\lhead{\emph{Bibliography}}
 
 \printbibliography
 

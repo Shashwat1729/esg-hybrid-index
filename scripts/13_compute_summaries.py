@@ -1,5 +1,7 @@
-"""Compute short numeric summaries from Thesis_report/Tables CSVs and print a JSON
-that can be copied into the Results chapter.
+"""Compute short numeric summaries from pipeline CSV outputs and print JSON
+that can be referenced in the Results chapter.
+
+Searches reports/tables/ first, then Thesis_report/Tables/ as fallback.
 
 Run from the repo root:
     python scripts/13_compute_summaries.py
@@ -8,33 +10,50 @@ import json
 from pathlib import Path
 import pandas as pd
 
-root = Path('Thesis_report') / 'Tables'
+dirs = [Path('reports') / 'tables', Path('Thesis_report') / 'Tables']
 out = {}
 
 def read_csv(name):
-    p = root / name
-    if p.exists():
-        try:
-            return pd.read_csv(p)
-        except Exception as e:
-            return None
+    for d in dirs:
+        p = d / name
+        if p.exists():
+            try:
+                return pd.read_csv(p)
+            except Exception:
+                pass
     return None
 
-# timesplit
-df = read_csv('timesplit_evaluation_synthetic_summary.csv')
+# --- Predictive validation (new) ---
+df = read_csv('predictive_validation_summary.csv')
 if df is not None and len(df):
-    out['timesplit'] = df.iloc[0].to_dict()
+    ic_vals = df['ic_spearman'] if 'ic_spearman' in df.columns else pd.Series()
+    out['predictive_validation'] = {
+        'n_pairs': len(df),
+        'mean_ic': float(ic_vals.mean()) if len(ic_vals) else None,
+        'max_abs_ic': float(ic_vals.abs().max()) if len(ic_vals) else None,
+        'n_significant': int(df['ic_significant'].sum()) if 'ic_significant' in df.columns else None,
+    }
 
-# benchmark
+# --- Bootstrap stability ---
+df = read_csv('predictive_validation_bootstrap.csv')
+if df is not None and len(df):
+    tau_row = df[df['metric'] == 'kendall_tau_mean']
+    if len(tau_row):
+        out['bootstrap'] = {'kendall_tau_mean': float(tau_row['value'].iloc[0])}
+
+# --- Benchmark ---
 df = read_csv('benchmark_summary.csv')
 if df is not None and len(df):
     try:
         row = df[df['index'].str.contains('Our Multi-Factor', na=False)].iloc[0]
-        out['benchmark'] = {'our_avg_esg': float(row.get('avg_ESG', row.get('Avg_ESG', 0)))}
+        out['benchmark'] = {
+            'our_avg_esg': float(row.get('avg_ESG', 0)),
+            'our_avg_financial': float(row.get('avg_financial', 0)),
+        }
     except Exception:
         out['benchmark'] = {'note': 'Our Multi-Factor row not found; table available.'}
 
-# pca
+# --- PCA ---
 df = read_csv('advanced_pca_variance.csv')
 if df is not None and len(df):
     out['pca'] = {
@@ -42,29 +61,41 @@ if df is not None and len(df):
         'pc6_cum': float(df.loc[5, 'cumulative_variance']) if 'cumulative_variance' in df.columns and len(df) > 5 else None,
     }
 
-# weight grid
+# --- Weight grid ---
 df = read_csv('weight_grid_search.csv')
 if df is not None and len(df):
-    # try common column names
-    cand = [c for c in df.columns if 'return' in c.lower() and 'sharpe' in c.lower()]
-    if cand:
-        best = df.loc[df[cand[0]].idxmax()]
-    else:
-        # fall back to 'return_sharpe' or 'sharpe'
-        if 'return_sharpe' in df.columns:
-            best = df.loc[df['return_sharpe'].idxmax()]
-        elif 'sharpe' in df.columns:
-            best = df.loc[df['sharpe'].idxmax()]
-        else:
-            best = None
-    if best is not None:
-        out['weight_grid'] = {'best_return_sharpe': float(best.get('return_sharpe', best.get('returnSharpe', best.get('sharpe', 0))))}
+    col = None
+    if 'return_sharpe' in df.columns:
+        col = 'return_sharpe'
+    elif 'sharpe' in df.columns:
+        col = 'sharpe'
+    if col:
+        best = df.loc[df[col].idxmax()]
+        out['weight_grid'] = {'best_return_sharpe': float(best[col])}
 
-# efficient frontier
-df = read_csv('advanced_efficient_frontier.csv')
+# --- Factor tilt sensitivity (renamed from efficient frontier) ---
+df = read_csv('advanced_factor_tilt_sensitivity.csv')
+if df is None:
+    df = read_csv('advanced_efficient_frontier.csv')  # legacy fallback
 if df is not None and len(df):
-    if 'sharpe' in df.columns:
-        best = df.loc[df['sharpe'].idxmax()]
-        out['efront'] = {'max_sharpe': float(best['sharpe']), 'ret': float(best.get('return', best.get('ret', None))), 'risk': float(best.get('risk', None))}
+    csir_col = 'cross_sectional_ir' if 'cross_sectional_ir' in df.columns else 'sharpe'
+    if csir_col in df.columns:
+        best = df.loc[df[csir_col].idxmax()]
+        out['factor_tilt'] = {
+            'best_csir': float(best[csir_col]),
+            'ret': float(best.get('return', best.get('ret', 0))),
+            'risk': float(best.get('risk', 0)),
+        }
 
-print(json.dumps(out, indent=2))
+# --- Quintile spreads ---
+df = read_csv('predictive_validation_spreads.csv')
+if df is not None and len(df):
+    pos = df[df['spread'] > 0]
+    out['quintile_spreads'] = {
+        'n_positive': len(pos),
+        'n_total': len(df),
+        'best_factor': df.loc[df['spread'].idxmax(), 'factor'] if len(df) else None,
+        'best_spread': float(df['spread'].max()) if len(df) else None,
+    }
+
+print(json.dumps(out, indent=2, default=str))

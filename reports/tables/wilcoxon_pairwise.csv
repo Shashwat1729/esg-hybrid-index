@@ -1,7 +1,7 @@
-var1,var2,wilcoxon_stat,wilcoxon_p,significant,mean_diff
-ESG_composite,financial_score,913.0,0.9882530056508173,False,-0.027311452589530917
-ESG_composite,market_score,870.0,0.740438937130804,False,-9.473903143468002e-16
-ESG_composite,operational_score,897.0,0.8945818202773307,False,0.10414246564655087
-financial_score,market_score,856.0,0.6640454984139774,False,0.027311452589530265
-financial_score,operational_score,804.0,0.4138496072273813,False,0.1314539182360818
-market_score,operational_score,810.0,0.4395411325269485,False,0.10414246564655182
+var1,var2,wilcoxon_stat,wilcoxon_p,wilcoxon_r,wilcoxon_r_size,significant,mean_diff
+ESG_composite,financial_score,17475.0,0.2171527537166582,0.07428617311113535,negligible,False,-0.353677856956907
+ESG_composite,market_score,18602.0,0.7002316355108369,0.023174746312448213,negligible,False,-0.23305454034005973
+ESG_composite,operational_score,17207.0,0.15098626578421784,0.08644044319281072,negligible,False,1.1522700791694147
+financial_score,market_score,17990.0,0.39748875180184495,0.05093012097320606,negligible,False,0.12062331661684744
+financial_score,operational_score,16402.0,0.04109406294379825,0.12294884947316259,small,True,1.5059479361263224
+market_score,operational_score,17282.0,0.16772485838701923,0.0830392266268391,negligible,False,1.3853246195094746

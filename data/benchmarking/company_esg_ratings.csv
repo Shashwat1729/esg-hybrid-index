@@ -1,0 +1,28 @@
+company,ticker,sector,country,msci_rating,sustainalytics_risk,sp_global_score
+Apple,AAPL,Technology,US,BBB,16.4,53
+Microsoft,MSFT,Technology,US,AAA,13.2,85
+Alphabet,GOOGL,Communication Services,US,BBB,18.3,65
+Amazon,AMZN,Consumer Cyclical,US,BBB,25.8,37
+Meta Platforms,META,Technology,US,A,23.7,42
+NVIDIA,NVDA,Technology,US,AA,14.8,59
+JPMorgan Chase,JPM,Financials,US,A,26.8,62
+Johnson & Johnson,JNJ,Healthcare,US,BBB,27.1,58
+ExxonMobil,XOM,Energy,US,BBB,32.5,45
+Procter & Gamble,PG,Consumer Staples,US,A,18.4,72
+Nestle,NESN,Consumer Staples,Switzerland,AA,19.8,73
+Unilever,ULVR,Consumer Staples,UK,AA,20.5,82
+Siemens,SIE,Industrials,Germany,AA,18.6,81
+TotalEnergies,TTE,Energy,France,BBB,30.2,68
+ASML,ASML,Technology,Netherlands,AA,12.5,76
+Toyota,TM,Consumer Cyclical,Japan,A,19.2,63
+Samsung Electronics,005930,Technology,South Korea,A,20.1,67
+Tata Consultancy Services,TCS,Technology,India,AA,14.3,79
+TSMC,TSM,Technology,Taiwan,AA,15.1,80
+Reliance Industries,RELIANCE,Energy,India,BBB,33.8,51
+Philip Morris International,PM,Consumer Staples,US,A,28.3,48
+Saudi Aramco,2222,Energy,Saudi Arabia,CCC,42.1,22
+Glencore,GLEN,Basic Materials,Switzerland,B,37.2,34
+Orsted,ORSTED,Utilities,Denmark,AAA,10.8,87
+Vestas Wind Systems,VWS,Industrials,Denmark,AA,15.2,82
+NextEra Energy,NEE,Utilities,US,AA,16.5,74
+Schneider Electric,SU,Industrials,France,AAA,11.4,89

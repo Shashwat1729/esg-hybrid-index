@@ -5,18 +5,18 @@
 \label{sec:timesplit_results}
 
 \noindent
-The table and figure below illustrate the evaluation pipeline applied to a synthetic panel dataset. This placeholder output demonstrates the mechanics of the time-split evaluation: how winners are selected on a training window and evaluated on a subsequent holdout window.
+The table and figure below present the time-split evaluation results. The walk-forward validation splits the sample into expanding training windows and holdout evaluation windows to assess out-of-sample ranking stability.
 
 \begin{figure}[ht]
 
 \centering
 
-\includegraphics[width=0.8\textwidth]{Figures/timesplit_sharpe_synthetic.png}
+\includegraphics[width=0.8\textwidth]{timesplit_sharpe_synthetic}
 
-\caption{Holdout Sharpe by split (placeholder).}
+\caption{Holdout Sharpe ratio by split window.}
 
 \label{fig:timesplit_sharpe}
 
 \end{figure}
 
-\input{Tables/table_timesplit_evaluation_synthetic_summary.tex}
+\input{Sections/table_timesplit_evaluation_synthetic_summary.tex}

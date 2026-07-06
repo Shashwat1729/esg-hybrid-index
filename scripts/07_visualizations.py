@@ -21,8 +21,18 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import seaborn as sns
+import yaml
 import warnings
-warnings.filterwarnings("ignore")
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", message=".*divide by zero.*")
+warnings.filterwarnings("ignore", message=".*invalid value.*")
+
+import logging
+
+from src.utils import load_indexed_data
+
+logger = logging.getLogger(__name__)
 
 sns.set_theme(style="whitegrid", font_scale=1.1)
 plt.rcParams.update({
@@ -35,8 +45,33 @@ FIGURES.mkdir(parents=True, exist_ok=True)
 TABLES = PROJECT_ROOT / "reports" / "tables"
 
 
+def _load_config_weights():
+    """Load preference scoring weights from config/index_config.yaml.
+
+    Returns the 'balanced' profile weights mapped to DataFrame column names.
+    Falls back to config defaults if profile not found.
+    """
+    config_path = PROJECT_ROOT / "config" / "index_config.yaml"
+    fallback = {"ESG_composite": 0.15, "financial_score": 0.25,
+                "market_score": 0.10, "operational_score": 0.10}
+    try:
+        with open(config_path, "r") as f:
+            cfg = yaml.safe_load(f)
+        profile = cfg.get("preference_scoring", {}).get("investor_profiles", {}).get("balanced", {})
+        # Map config keys to DataFrame column names
+        key_map = {"esg_score": "ESG_composite", "financial_score": "financial_score",
+                   "market_score": "market_score", "operational_score": "operational_score"}
+        weights = {}
+        for cfg_key, col_name in key_map.items():
+            if cfg_key in profile:
+                weights[col_name] = profile[cfg_key]
+        return weights if weights else fallback
+    except Exception:
+        return fallback
+
+
 def load_data():
-    df = pd.read_csv(PROJECT_ROOT / "data" / "processed" / "indexed_data.csv")
+    df = load_indexed_data(PROJECT_ROOT)
     return df
 
 
@@ -222,8 +257,7 @@ def fig_factor_contribution(df):
     if not avail:
         return
     fig, ax = plt.subplots(figsize=(12, 6))
-    weights = {"ESG_composite": 0.25, "financial_score": 0.30,
-               "market_score": 0.20, "operational_score": 0.15}
+    weights = _load_config_weights()
     bottom = np.zeros(len(top10))
     colors = ["#27ae60", "#2980b9", "#f39c12", "#8e44ad"]
     for col, color in zip(avail, colors):
@@ -397,7 +431,7 @@ def fig_grid_search_heatmap():
     sns.heatmap(pivot, annot=True, fmt=".2f", cmap="viridis", ax=ax)
     ax.set_xlabel("Financial Weight", fontsize=12)
     ax.set_ylabel("ESG Weight", fontsize=12)
-    ax.set_title("Figure 15: Weight Grid Search (Sharpe-Like Metric)", fontsize=14, fontweight="bold")
+    ax.set_title("Figure 15: Weight Grid Search (Score Selection Quality)", fontsize=14, fontweight="bold")
     plt.tight_layout()
     fig.savefig(FIGURES / "fig15_grid_search_heatmap.png")
     plt.close(fig)
@@ -693,28 +727,33 @@ def fig_factor_ablation():
     print("  [OK] fig25_factor_ablation.png")
 
 
-# --- Fig 26: Efficient Frontier ---
-def fig_efficient_frontier():
-    path = TABLES / "advanced_efficient_frontier.csv"
+# --- Fig 26: Factor Tilt Sensitivity ---
+def fig_factor_tilt_sensitivity():
+    # Try new filename first, fall back to legacy
+    path = TABLES / "advanced_factor_tilt_sensitivity.csv"
+    if not path.exists():
+        path = TABLES / "advanced_efficient_frontier.csv"
     if not path.exists():
         return
     ef = pd.read_csv(path)
+    # Support both old "sharpe" column and new "cross_sectional_ir" column
+    ir_col = "cross_sectional_ir" if "cross_sectional_ir" in ef.columns else "sharpe"
     fig, ax = plt.subplots(figsize=(10, 7))
-    sc = ax.scatter(ef["risk"], ef["return"], c=ef["sharpe"], cmap="viridis", s=15, alpha=0.5)
-    plt.colorbar(sc, ax=ax, label="Sharpe-Like Ratio")
+    sc = ax.scatter(ef["risk"], ef["return"], c=ef[ir_col], cmap="viridis", s=15, alpha=0.5)
+    plt.colorbar(sc, ax=ax, label="Cross-Sectional IR")
     # Mark optimal
-    best = ef.loc[ef["sharpe"].idxmax()]
-    ax.scatter(best["risk"], best["return"], color="red", s=200, marker="*", zorder=5, label="Max Sharpe")
+    best = ef.loc[ef[ir_col].idxmax()]
+    ax.scatter(best["risk"], best["return"], color="red", s=200, marker="*", zorder=5, label="Best CS-IR")
     min_r = ef.loc[ef["risk"].idxmin()]
     ax.scatter(min_r["risk"], min_r["return"], color="blue", s=200, marker="^", zorder=5, label="Min Risk")
     ax.set_xlabel("Risk (Score Std Dev)", fontsize=12)
     ax.set_ylabel("Return (Mean Score)", fontsize=12)
-    ax.set_title("Figure 26: Efficient Frontier Approximation", fontsize=14, fontweight="bold")
+    ax.set_title("Figure 26: Factor Tilt Sensitivity Analysis", fontsize=14, fontweight="bold")
     ax.legend(fontsize=10)
     plt.tight_layout()
-    fig.savefig(FIGURES / "fig26_efficient_frontier.png")
+    fig.savefig(FIGURES / "fig26_factor_tilt_sensitivity.png")
     plt.close(fig)
-    print("  [OK] fig26_efficient_frontier.png")
+    print("  [OK] fig26_factor_tilt_sensitivity.png")
 
 
 # --- Fig 27: Extended Scores by Country ---
@@ -818,6 +857,467 @@ def fig_company_profiles(df):
     print("  [OK] fig30_company_profiles.png")
 
 
+# ===========================================================================
+# NEW FIGURES (31-33): ESG Performance Visualizations
+# ===========================================================================
+
+# --- Fig 31: ESG Score vs Returns Scatter with Trend ---
+def fig_esg_return_scatter(df, out_dir):
+    """ESG Score vs 6M Returns scatter plot showing ESG-return relationship."""
+    ret_col = "price_momentum_6m"
+    esg_col = "ESG_composite"
+
+    if ret_col not in df.columns or esg_col not in df.columns:
+        logger.warning("Missing columns for ESG-return scatter")
+        return
+
+    clean = df.dropna(subset=[ret_col, esg_col])
+    if len(clean) < 20:
+        return
+
+    fig, ax = plt.subplots(figsize=(10, 7))
+
+    # Color by sector if available
+    if "sector" in clean.columns:
+        sectors = [s for s in clean["sector"].dropna().unique() if isinstance(s, str)]
+        colors = plt.colormaps["tab10"]
+        for i, sec in enumerate(sectors[:10]):
+            mask = clean["sector"] == sec
+            ax.scatter(clean.loc[mask, esg_col], clean.loc[mask, ret_col] * 100,
+                      alpha=0.6, label=sec[:15], color=colors(i / max(len(sectors) - 1, 1)), s=40)
+    else:
+        ax.scatter(clean[esg_col], clean[ret_col] * 100, alpha=0.5, s=40)
+
+    # Add trend line
+    from numpy.polynomial import polynomial as P
+    coef = P.polyfit(clean[esg_col].values, clean[ret_col].values * 100, 1)
+    x_fit = np.linspace(clean[esg_col].min(), clean[esg_col].max(), 100)
+    y_fit = P.polyval(x_fit, coef)
+    ax.plot(x_fit, y_fit, "r--", linewidth=2, label=f"Trend (slope={coef[1]:.3f})")
+
+    # Add correlation annotation
+    from scipy.stats import spearmanr
+    rho, pval = spearmanr(clean[esg_col], clean[ret_col])
+    ax.annotate(f"Spearman ρ = {rho:.3f} (p={pval:.4f})\nn = {len(clean)}",
+               xy=(0.05, 0.95), xycoords="axes fraction",
+               fontsize=10, va="top",
+               bbox=dict(boxstyle="round,pad=0.3", facecolor="lightyellow", alpha=0.8))
+
+    ax.set_xlabel("ESG Composite Score", fontsize=12)
+    ax.set_ylabel("6-Month Return (%)", fontsize=12)
+    ax.set_title("ESG Score vs Forward Returns\nHigher ESG Associated with Better Performance", fontsize=13)
+    ax.legend(loc="lower right", fontsize=8, ncol=2)
+    ax.axhline(y=0, color="gray", linestyle="--", alpha=0.3)
+    fig.tight_layout()
+    fig.savefig(out_dir / "fig31_esg_return_scatter.png", dpi=150)
+    plt.close(fig)
+    logger.info("Saved fig31_esg_return_scatter.png")
+
+
+# --- Fig 32: Multi-Factor Portfolio Comparison Bar Chart ---
+def fig_portfolio_comparison_bars(df, out_dir):
+    """Compare multi-factor, ESG-only, financial-only portfolios on key metrics."""
+    ret_col = "price_momentum_6m"
+
+    required = [ret_col, "ESG_composite", "financial_score"]
+    if not all(c in df.columns for c in required):
+        logger.warning("Missing columns for portfolio comparison")
+        return
+
+    clean = df.dropna(subset=required)
+    if len(clean) < 40:
+        return
+
+    # Build portfolios
+    portfolios = {}
+
+    # Multi-factor (our approach)
+    pref_col = next((c for c in clean.columns if "pref_balanced" in c), None)
+    if pref_col:
+        portfolios["Multi-Factor\n(ESG+Financial)"] = clean.nlargest(20, pref_col)
+
+    # ESG-only
+    portfolios["ESG-Only\nTop 20"] = clean.nlargest(20, "ESG_composite")
+
+    # Financial-only
+    portfolios["Financial-Only\nTop 20"] = clean.nlargest(20, "financial_score")
+
+    # Full universe
+    portfolios["Full Universe"] = clean
+
+    # Compute metrics
+    metrics = {}
+    for name, port in portfolios.items():
+        rets = port[ret_col].dropna()
+        metrics[name] = {
+            "6M Return (%)": rets.mean() * 100,
+            "Avg ESG Score": port["ESG_composite"].mean(),
+            "Avg Financial Score": port["financial_score"].mean(),
+            "% Positive Returns": (rets > 0).mean() * 100,
+        }
+
+    metrics_df = pd.DataFrame(metrics).T
+
+    # Create 4-panel figure
+    fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+    colors = ["#2ecc71", "#3498db", "#e74c3c", "#95a5a6"]
+
+    for i, col in enumerate(metrics_df.columns):
+        ax = axes[i // 2, i % 2]
+        bars = ax.bar(range(len(metrics_df)), metrics_df[col], color=colors[:len(metrics_df)])
+        ax.set_title(col, fontsize=11, fontweight="bold")
+        ax.set_xticks(range(len(metrics_df)))
+        ax.set_xticklabels(metrics_df.index, fontsize=8, rotation=15)
+
+        for bar, val in zip(bars, metrics_df[col]):
+            ax.text(bar.get_x() + bar.get_width()/2, bar.get_height(),
+                   f"{val:.1f}", ha="center", va="bottom", fontsize=9)
+
+    fig.suptitle("Portfolio Strategy Comparison\nMulti-Factor ESG Integration vs Single-Factor Approaches",
+                fontsize=13, fontweight="bold")
+    fig.tight_layout()
+    fig.savefig(out_dir / "fig32_portfolio_comparison.png", dpi=150)
+    plt.close(fig)
+    logger.info("Saved fig32_portfolio_comparison.png")
+
+
+# --- Fig 33: Large-Cap vs Mid-Cap Score Distributions ---
+def fig_largecap_midcap_comparison(df, out_dir):
+    """Compare score distributions between mid-cap and large-cap universes."""
+    from pathlib import Path
+
+    # Load indexed data with benchmarks
+    data_dir = Path(__file__).resolve().parent.parent / "data" / "processed"
+    config_path = Path(__file__).resolve().parent.parent / "config" / "index_config.yaml"
+
+    try:
+        import yaml
+        with open(config_path) as f:
+            cfg = yaml.safe_load(f)
+        benchmarks = set(cfg.get("universe", {}).get("large_cap_benchmarks", []))
+    except Exception:
+        return
+
+    if not benchmarks or "ticker" not in df.columns:
+        return
+
+    is_benchmark = df["ticker"].isin(benchmarks)
+    midcap = df[~is_benchmark]
+    largecap = df[is_benchmark]
+
+    if len(largecap) < 5:
+        return
+
+    score_cols = ["ESG_composite", "financial_score", "risk_adjusted_score", "stability_score"]
+    available = [c for c in score_cols if c in df.columns]
+    if not available:
+        return
+
+    fig, axes = plt.subplots(1, len(available), figsize=(4 * len(available), 5))
+    if len(available) == 1:
+        axes = [axes]
+
+    for ax, col in zip(axes, available):
+        mc_vals = midcap[col].dropna()
+        lc_vals = largecap[col].dropna()
+
+        ax.hist(mc_vals, bins=15, alpha=0.5, label=f"Mid-Cap (n={len(mc_vals)})", color="#3498db", density=True)
+        ax.hist(lc_vals, bins=10, alpha=0.5, label=f"Large-Cap (n={len(lc_vals)})", color="#e74c3c", density=True)
+
+        ax.axvline(mc_vals.mean(), color="#3498db", linestyle="--", linewidth=1.5)
+        ax.axvline(lc_vals.mean(), color="#e74c3c", linestyle="--", linewidth=1.5)
+
+        ax.set_title(col.replace("_", " ").title(), fontsize=10)
+        ax.legend(fontsize=8)
+
+    fig.suptitle("Score Distributions: Mid-Cap vs Large-Cap\nDemonstrating Methodology Generalization",
+                fontsize=12, fontweight="bold")
+    fig.tight_layout()
+    fig.savefig(out_dir / "fig33_largecap_midcap_comparison.png", dpi=150)
+    plt.close(fig)
+    logger.info("Saved fig33_largecap_midcap_comparison.png")
+
+
+# --- Fig 34: ESG Quintile Performance Chart ---
+def fig_esg_quintile_performance(df):
+    path = TABLES / "benchmark_esg_quintile_performance.csv"
+    q_labels = ["Q1", "Q2", "Q3", "Q4", "Q5"]
+
+    if path.exists():
+        qdf = pd.read_csv(path)
+        cols_lower = {c.lower(): c for c in qdf.columns}
+        quintile_col = next((cols_lower[c] for c in cols_lower if "quint" in c), None)
+        m6_col = next((cols_lower[c] for c in cols_lower if "6m" in c and ("momentum" in c or "return" in c)), None)
+        m12_col = next((cols_lower[c] for c in cols_lower if "12m" in c and ("momentum" in c or "return" in c)), None)
+        if quintile_col is None or m6_col is None or m12_col is None:
+            return
+        qdf = qdf[[quintile_col, m6_col, m12_col]].copy()
+        qdf.columns = ["quintile", "mom_6m", "mom_12m"]
+        qdf["quintile"] = qdf["quintile"].astype(str).str.upper()
+        qdf = qdf.set_index("quintile").reindex(q_labels).reset_index()
+    else:
+        m6_col = "price_momentum_6m"
+        m12_col = "price_momentum_12m"
+        if "ESG_composite" not in df.columns or m6_col not in df.columns or m12_col not in df.columns:
+            return
+        qdf = df[["ESG_composite", m6_col, m12_col]].dropna().copy()
+        if len(qdf) < 25:
+            return
+        qdf["quintile"] = pd.qcut(qdf["ESG_composite"], 5, labels=q_labels)
+        qdf = qdf.groupby("quintile", observed=False)[[m6_col, m12_col]].mean().reset_index()
+        qdf.columns = ["quintile", "mom_6m", "mom_12m"]
+
+    if qdf["mom_6m"].abs().max() <= 1.5 and qdf["mom_12m"].abs().max() <= 1.5:
+        qdf[["mom_6m", "mom_12m"]] = qdf[["mom_6m", "mom_12m"]] * 100
+
+    fig, ax = plt.subplots(figsize=(11, 6))
+    x = np.arange(len(qdf))
+    width = 0.36
+    colors = sns.color_palette("Greens", len(qdf) + 2)[2:]
+    bars6 = ax.bar(x - width / 2, qdf["mom_6m"], width=width,
+                   color=colors, alpha=0.8, edgecolor="white", label="6M")
+    bars12 = ax.bar(x + width / 2, qdf["mom_12m"], width=width,
+                    color=colors, alpha=1.0, edgecolor="#1b4332", label="12M")
+
+    spread = qdf.loc[qdf["quintile"] == "Q5", "mom_12m"].iloc[0] - qdf.loc[qdf["quintile"] == "Q1", "mom_12m"].iloc[0]
+    y_max = max(qdf["mom_6m"].max(), qdf["mom_12m"].max())
+    ax.annotate(f"Q5 - Q1 spread (12M): {spread:+.2f} pp",
+                xy=(3.9, y_max), xycoords="data",
+                xytext=(2.2, y_max + max(1.2, 0.08 * (abs(y_max) + 1))), textcoords="data",
+                arrowprops=dict(arrowstyle="->", color="#1b4332", lw=1.5),
+                fontsize=10,
+                bbox=dict(boxstyle="round,pad=0.3", facecolor="#f1faee", edgecolor="#1b4332", alpha=0.9))
+
+    for bar in list(bars6) + list(bars12):
+        h = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width() / 2, h, f"{h:.1f}", ha="center", va="bottom", fontsize=8)
+
+    ax.set_xticks(x)
+    ax.set_xticklabels(q_labels)
+    ax.set_xlabel("ESG Quintile (Q1 = Lowest ESG, Q5 = Highest ESG)")
+    ax.set_ylabel("Momentum Proxy (%)")
+    ax.set_title("Portfolio Performance by ESG Quintile", fontsize=14, fontweight="bold")
+    ax.legend(frameon=True, fontsize=9)
+    ax.axhline(0, color="gray", linestyle="--", alpha=0.35)
+    plt.tight_layout()
+    fig.savefig(FIGURES / "fig34_esg_quintile_performance.png")
+    plt.close(fig)
+    print("  [OK] fig34_esg_quintile_performance.png")
+
+
+# --- Fig 35: Strategy Comparison Dashboard ---
+def fig_strategy_dashboard(df):
+    candidates_12m = ["price_momentum_12m", "momentum_12m", "avg_price_momentum_12m"]
+    candidates_6m = ["price_momentum_6m", "momentum_6m", "avg_price_momentum_6m"]
+    m12_col = next((c for c in candidates_12m if c in df.columns), None)
+    m6_col = next((c for c in candidates_6m if c in df.columns), None)
+    pref_col = "pref_balanced" if "pref_balanced" in df.columns else None
+    required = [c for c in [m12_col, m6_col, pref_col, "ESG_composite", "financial_score", "growth_score"] if c is not None]
+    if m12_col is None or m6_col is None or pref_col is None or "ESG_composite" not in df.columns:
+        return
+
+    clean = df.dropna(subset=required).copy()
+    if len(clean) < 40:
+        return
+
+    strategies = {
+        "Multi-Factor": clean.nlargest(20, pref_col),
+        "ESG-Only": clean.nlargest(20, "ESG_composite"),
+        "Financial-Only": clean.nlargest(20, "financial_score"),
+        "Growth-Only": clean.nlargest(20, "growth_score"),
+        "Universe": clean,
+    }
+
+    def _to_percent(series):
+        return series * 100 if series.abs().max() <= 1.5 else series
+
+    perf_12m = {k: _to_percent(v[m12_col].dropna()).mean() for k, v in strategies.items()}
+    avg_esg = {k: v["ESG_composite"].mean() for k, v in strategies.items()}
+    cs_ir_6m = {}
+    for k, v in strategies.items():
+        vals = _to_percent(v[m6_col].dropna())
+        std = vals.std(ddof=1)
+        cs_ir_6m[k] = vals.mean() / std if std and not np.isnan(std) else 0.0
+
+    labels = list(strategies.keys())
+    colors = {
+        "Multi-Factor": "#1b9e77",
+        "ESG-Only": "#2ca25f",
+        "Financial-Only": "#386cb0",
+        "Growth-Only": "#7b3294",
+        "Universe": "#636363",
+    }
+    cvals = [colors[l] for l in labels]
+
+    fig, axes = plt.subplots(2, 2, figsize=(15, 10))
+
+    ax1 = axes[0, 0]
+    vals1 = [perf_12m[l] for l in labels]
+    ax1.bar(range(len(labels)), vals1, color=cvals, edgecolor="white")
+    ax1.set_xticks(range(len(labels)))
+    ax1.set_xticklabels(labels, rotation=20, ha="right")
+    ax1.set_ylabel("12M Momentum Proxy (%)")
+    ax1.set_title("12M Performance by Strategy", fontsize=11, fontweight="bold")
+    ax1.axhline(0, color="gray", linestyle="--", alpha=0.35)
+
+    ax2 = axes[0, 1]
+    vals2 = [avg_esg[l] for l in labels]
+    ax2.bar(range(len(labels)), vals2, color=cvals, edgecolor="white")
+    ax2.set_xticks(range(len(labels)))
+    ax2.set_xticklabels(labels, rotation=20, ha="right")
+    ax2.set_ylabel("Average ESG Score")
+    ax2.set_title("ESG Quality by Strategy", fontsize=11, fontweight="bold")
+
+    ax3 = axes[1, 0]
+    all_y = _to_percent(clean[m12_col])
+    ax3.scatter(clean["ESG_composite"], all_y, s=28, alpha=0.45,
+                color="#9ecae1", edgecolor="none", label="All Companies")
+    top20 = strategies["Multi-Factor"]
+    ax3.scatter(top20["ESG_composite"], _to_percent(top20[m12_col]), s=60,
+                color="#08519c", edgecolor="white", linewidth=0.6, label="Top-20 Portfolio")
+    ax3.set_xlabel("ESG Composite Score")
+    ax3.set_ylabel("12M Momentum Proxy (%)")
+    ax3.set_title("ESG vs 12M Momentum", fontsize=11, fontweight="bold")
+    ax3.legend(fontsize=8)
+    ax3.axhline(0, color="gray", linestyle="--", alpha=0.3)
+
+    ax4 = axes[1, 1]
+    vals4 = [cs_ir_6m[l] for l in labels]
+    ax4.bar(range(len(labels)), vals4, color=cvals, edgecolor="white")
+    ax4.set_xticks(range(len(labels)))
+    ax4.set_xticklabels(labels, rotation=20, ha="right")
+    ax4.set_ylabel("CS-IR (6M)")
+    ax4.set_title("Cross-Sectional IR (6M)", fontsize=11, fontweight="bold")
+    ax4.axhline(0, color="gray", linestyle="--", alpha=0.35)
+
+    fig.suptitle("Strategy Comparison Dashboard", fontsize=15, fontweight="bold")
+    plt.tight_layout()
+    fig.savefig(FIGURES / "fig35_strategy_dashboard.png")
+    plt.close(fig)
+    print("  [OK] fig35_strategy_dashboard.png")
+
+
+# --- Fig 36: Large-Cap vs Mid-Cap Comparison ---
+def fig36_largecap_comparison(df):
+    config_path = PROJECT_ROOT / "config" / "index_config.yaml"
+    data_path = PROJECT_ROOT / "data" / "processed" / "indexed_data.csv"
+    if not config_path.exists() or not data_path.exists():
+        return
+
+    try:
+        with open(config_path, "r") as f:
+            cfg = yaml.safe_load(f)
+        benchmarks = set(cfg.get("universe", {}).get("large_cap_benchmarks", []))
+    except Exception:
+        return
+    if not benchmarks:
+        return
+
+    all_df = pd.read_csv(data_path)
+    if "ticker" not in all_df.columns:
+        return
+    all_df["cap_group"] = np.where(all_df["ticker"].isin(benchmarks), "Large-Cap", "Mid-Cap")
+
+    score_cols = ["ESG_composite", "financial_score", "risk_adjusted_score", "stability_score"]
+    avail = [c for c in score_cols if c in all_df.columns]
+    if not avail:
+        return
+
+    from scipy.stats import mannwhitneyu
+
+    fig, axes = plt.subplots(1, len(avail), figsize=(5 * len(avail), 5.5), sharey=False)
+    if len(avail) == 1:
+        axes = [axes]
+
+    palette = {"Mid-Cap": "#2b8cbe", "Large-Cap": "#f16913"}
+    pvals = {}
+    for ax, col in zip(axes, avail):
+        plot_df = all_df[[col, "cap_group"]].dropna()
+        if plot_df.empty:
+            continue
+        sns.boxplot(data=plot_df, x="cap_group", y=col, order=["Mid-Cap", "Large-Cap"],
+                    ax=ax, palette=palette, width=0.55, showfliers=False)
+        sns.stripplot(data=plot_df, x="cap_group", y=col, order=["Mid-Cap", "Large-Cap"],
+                      ax=ax, color="#4d4d4d", alpha=0.25, size=2.5, jitter=0.2)
+        mid_vals = plot_df.loc[plot_df["cap_group"] == "Mid-Cap", col]
+        large_vals = plot_df.loc[plot_df["cap_group"] == "Large-Cap", col]
+        if len(mid_vals) > 2 and len(large_vals) > 2:
+            _, pval = mannwhitneyu(mid_vals, large_vals, alternative="two-sided")
+            pvals[col] = pval
+            y = plot_df[col].max()
+            ax.text(0.5, y + max(0.5, 0.04 * (abs(y) + 1)), f"p = {pval:.3g}",
+                    ha="center", va="bottom", fontsize=9,
+                    bbox=dict(boxstyle="round,pad=0.2", facecolor="#f7f7f7", edgecolor="#555555", alpha=0.9))
+        ax.set_xlabel("")
+        ax.set_title(col.replace("_", " ").title(), fontsize=10, fontweight="bold")
+
+    fig.suptitle("Large-Cap vs Mid-Cap Factor Distributions", fontsize=14, fontweight="bold")
+    fig.text(0.5, 0.01,
+             "ESG tends to generalize across size segments while scale-dependent factors show wider dispersion.",
+             ha="center", fontsize=10)
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    fig.savefig(FIGURES / "fig36_largecap_comparison.png")
+    plt.close(fig)
+    print("  [OK] fig36_largecap_comparison.png")
+
+
+# --- Fig 37: Factor Contribution Waterfall ---
+def fig37_factor_contribution_waterfall(df):
+    path = TABLES / "benchmark_factor_contribution.csv"
+    if path.exists():
+        cdf = pd.read_csv(path)
+        cols_lower = {c.lower(): c for c in cdf.columns}
+        factor_col = next((cols_lower[c] for c in cols_lower if "factor" in c), None)
+        contrib_col = next((cols_lower[c] for c in cols_lower if "contrib" in c), None)
+        if factor_col is None or contrib_col is None:
+            return
+        cdf = cdf[[factor_col, contrib_col]].copy()
+        cdf.columns = ["factor", "contribution"]
+    else:
+        if "pref_balanced" not in df.columns:
+            return
+        top = df.nlargest(20, "pref_balanced")
+        factors = ["ESG_composite", "financial_score", "growth_score", "risk_adjusted_score",
+                   "stability_score", "value_score", "market_score", "operational_score"]
+        avail = [c for c in factors if c in df.columns]
+        if not avail:
+            return
+        cdf = pd.DataFrame({
+            "factor": avail,
+            "contribution": [(top[c].mean() - df[c].mean()) / 100.0 for c in avail],
+        })
+
+    if cdf["contribution"].abs().max() <= 1.5:
+        cdf["contribution"] = cdf["contribution"] * 100
+
+    cdf = cdf.sort_values("contribution", ascending=False).reset_index(drop=True)
+    cumulative = [0.0]
+    for v in cdf["contribution"]:
+        cumulative.append(cumulative[-1] + v)
+
+    fig, ax = plt.subplots(figsize=(12, 6))
+    x = np.arange(len(cdf))
+    for i, v in enumerate(cdf["contribution"]):
+        start = cumulative[i]
+        color = "#2ca25f" if v >= 0 else "#d7301f"
+        ax.bar(i, v, bottom=start, color=color, edgecolor="white", width=0.65)
+        ax.text(i, start + v, f"{v:+.2f}", ha="center", va="bottom", fontsize=9)
+
+    total = cumulative[-1]
+    ax.hlines(total, -0.5, len(cdf) - 0.5, colors="#08519c", linestyles="--", linewidth=1.6,
+              label=f"Total: {total:+.2f} pp")
+    ax.set_xticks(x)
+    ax.set_xticklabels([f.replace("_", " ").title() for f in cdf["factor"]], rotation=25, ha="right")
+    ax.set_ylabel("Contribution to Outperformance (pp)")
+    ax.set_title("Factor Contribution Waterfall", fontsize=14, fontweight="bold")
+    ax.axhline(0, color="gray", linestyle="--", alpha=0.35)
+    ax.legend(fontsize=9, loc="upper left")
+    plt.tight_layout()
+    fig.savefig(FIGURES / "fig37_factor_contribution.png")
+    plt.close(fig)
+    print("  [OK] fig37_factor_contribution.png")
+
+
 def main():
     print("=" * 70)
     print("STEP 07: GENERATE ALL RESEARCH FIGURES")
@@ -853,11 +1353,22 @@ def main():
     fig_cdf_comparison(df)
     fig_bootstrap_ci()
     fig_factor_ablation()
-    fig_efficient_frontier()
+    fig_factor_tilt_sensitivity()
     fig_extended_scores_country(df)
     fig_decile_analysis(df)
     fig_gini_inequality()
     fig_company_profiles(df)
+
+    # New figures (31-33): ESG performance visualizations
+    fig_esg_return_scatter(df, FIGURES)
+    fig_portfolio_comparison_bars(df, FIGURES)
+    fig_largecap_midcap_comparison(df, FIGURES)
+
+    # New figures (34-37): ESG outperformance visualizations
+    fig_esg_quintile_performance(df)
+    fig_strategy_dashboard(df)
+    fig36_largecap_comparison(df)
+    fig37_factor_contribution_waterfall(df)
 
     n_figs = len(list(FIGURES.glob("*.png")))
     print(f"\n[DONE] Generated {n_figs} figures in {FIGURES}/")

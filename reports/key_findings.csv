@@ -1,16 +1,28 @@
 category,finding,significance
-Data,Sample of 60 companies across 10 sectors,N/A
-Data,US: 40 companies,N/A
-Data,India: 20 companies,N/A
-ESG-Financial,ESG_composite significantly predicts net_margin (R2=0.0903),p=0.0197
-ESG-Financial,E_score significantly predicts financial_score (R2=0.0679),p=0.0443
-Sector Differences,Significant sector differences in risk_adjusted_score (eta2=0.288),p=0.0215
-Sector Differences,Significant sector differences in stability_score (eta2=0.647),p=0.0000
-Country Differences,Significant country difference in financial_score (d=-0.593),p=0.0344
-Country Differences,Significant country difference in operational_score (d=0.853),p=0.0029
-Country Differences,Significant country difference in growth_score (d=-1.637),p=0.0000
-Robustness,98.3% of companies have stable rankings under weight perturbation,N/A
-Multicollinearity,Max VIF = 3.03 (financial_score),Low
-Portfolio Performance,"Balanced top-20: 1m return +3.99%, Sharpe 0.529",N/A
-Alpha/Beta,"Multi-factor alpha = +2.89%, beta = 1.00",N/A
+Data,Sample of 276 companies across 11 sectors,N/A
+Data,US: 186 companies,N/A
+Data,India: 90 companies,N/A
+ESG-Financial (Synthetic Calibration),"ESG_composite associated with roa (R2=0.1670) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
+ESG-Financial (Synthetic Calibration),"ESG_composite associated with roe (R2=0.0581) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0001
+ESG-Financial (Synthetic Calibration),"ESG_composite associated with net_margin (R2=0.1750) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
+ESG-Financial (Synthetic Calibration),"ESG_composite associated with financial_score (R2=0.5444) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
+ESG-Financial (Synthetic Calibration),"ESG_composite associated with revenue_growth (R2=0.0272) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0061
+ESG-Financial (Synthetic Calibration),"ESG_composite associated with operating_margins (R2=0.3563) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
+ESG-Financial (Synthetic Calibration),"E_score associated with roa (R2=0.0916) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
+ESG-Financial (Synthetic Calibration),"E_score associated with financial_score (R2=0.4500) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
+ESG-Financial (Synthetic Calibration),"S_score associated with roa (R2=0.0511) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0002
+ESG-Financial (Synthetic Calibration),"S_score associated with financial_score (R2=0.2519) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
+ESG-Financial (Synthetic Calibration),"G_score associated with roa (R2=0.0187) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0231
+ESG-Financial (Synthetic Calibration),"G_score associated with financial_score (R2=0.0204) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0177
+Sector Differences,Significant sector differences in S_score (eta2=0.294),p=0.0000
+Sector Differences,Significant sector differences in G_score (eta2=0.138),p=0.0000
+Country Differences,Significant country difference in E_score (d=0.320),p=0.0146
+Country Differences,Significant country difference in S_score (d=0.725),p=0.0000
+Country Differences,Significant country difference in market_score (d=0.774),p=0.0000
+Country Differences,Significant country difference in operational_score (d=0.952),p=0.0000
+Country Differences,Significant country difference in value_score (d=0.714),p=0.0000
+Robustness,32.2% of companies have stable rankings under weight perturbation,N/A
+Multicollinearity,Max VIF = 2.80 (financial_score),Low
+Portfolio Performance,"Balanced top-20: 1m return -4.01%, Sharpe 0.000",N/A
+Excess Momentum/Beta,"Multi-factor excess avg momentum = +0.00%, beta = 0.82",N/A
 Robustness,Balanced strategy beats benchmark 100% of rolling periods,N/A

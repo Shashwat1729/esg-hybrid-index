@@ -1,12 +1,36 @@
-"""Cosine Similarity Implementation for ESG Profiles."""
+"""Cosine Similarity Implementation for ESG Profiles.
+
+CIRCULARITY FIX (Issue M3)
+--------------------------
+Previously, similarity was computed on ALL 8 factor scores (ESG, financial,
+market, operational, risk_adjusted, value, growth, stability), then included
+as a 9th factor in the preference score.  This created circularity: the
+similarity score depended on the other composite scores, and the final
+preference depended on the similarity score.
+
+The fix restricts similarity computation to ESG pillar scores (E_score,
+S_score, G_score) by default.  These are independent inputs derived from
+raw ESG indicators, not from any composite that includes similarity itself.
+This breaks the circular dependency and redefines the metric as "ESG peer
+similarity" — how closely a company's ESG profile matches its peers —
+rather than "multi-factor conformity".
+"""
 
 from __future__ import annotations
 
+import logging
 import warnings
 from typing import Any
 
 import numpy as np
 import pandas as pd
+
+logger = logging.getLogger(__name__)
+
+# Default columns for similarity computation: ESG pillar scores only.
+# Using these breaks the circularity that arises from computing similarity
+# on the same composite scores that later include similarity as a factor.
+DEFAULT_ESG_FEATURE_SUBSET = ["E_score", "S_score", "G_score"]
 
 
 def cosine_similarity(vec_a: np.ndarray, vec_b: np.ndarray, eps: float = 1e-12) -> float:
@@ -33,26 +57,37 @@ def cosine_similarity(vec_a: np.ndarray, vec_b: np.ndarray, eps: float = 1e-12) 
         return 0.0
 
     dot_product = np.dot(vec_a, vec_b)
-    return dot_product / (norm_a * norm_b + eps)
+    return dot_product / (norm_a * norm_b)
 
 
 def compute_similarity_matrix(
     df: pd.DataFrame,
-    feature_cols: list[str],
+    feature_cols: list[str] | None = None,
     *,
     id_col: str = "ticker",
     metric: str = "cosine",
     feature_weights: dict[str, float] | None = None,
     output_scale: dict[str, float] | None = None,
+    feature_subset: list[str] | None = None,
 ) -> pd.DataFrame:
-    """Compute pairwise similarity matrix for companies based on ESG profiles.
+    """Compute pairwise similarity matrix for companies.
+
+    CIRCULARITY NOTE (Issue M3)
+    ---------------------------
+    When this function is used to produce a similarity_rank that will be
+    included as a factor in a composite preference score, the ``feature_cols``
+    (or ``feature_subset``) MUST NOT include scores that themselves depend on
+    similarity_rank.  The default ``feature_subset`` uses only the three ESG
+    pillar scores (E_score, S_score, G_score), which are independent inputs
+    and therefore break the circular dependency.
 
     Parameters
     ----------
     df : pd.DataFrame
         DataFrame with feature columns and id_col
-    feature_cols : list[str]
-        Column names to use as feature vector
+    feature_cols : list[str] | None
+        Column names to use as feature vector.  If *None*, falls back to
+        ``feature_subset`` (which defaults to ESG pillar scores).
     id_col : str, default "ticker"
         Identifier column name
     metric : str, default "cosine"
@@ -61,12 +96,19 @@ def compute_similarity_matrix(
         Optional weights for each feature column
     output_scale : dict[str, float] | None, optional
         Scale output to [min, max] range (default: [0, 1])
+    feature_subset : list[str] | None, optional
+        Explicit subset of columns to use.  Takes effect only when
+        ``feature_cols`` is *None*.  Defaults to
+        ``DEFAULT_ESG_FEATURE_SUBSET`` (E_score, S_score, G_score).
 
     Returns
     -------
     pd.DataFrame
         Similarity matrix with id_col as index and columns
     """
+    # Resolve which columns to use: explicit feature_cols > feature_subset > default
+    if feature_cols is None:
+        feature_cols = feature_subset or DEFAULT_ESG_FEATURE_SUBSET
     output_scale = output_scale or {"min": 0.0, "max": 1.0}
 
     # Extract feature vectors
@@ -78,7 +120,7 @@ def compute_similarity_matrix(
     if not available_cols:
         raise ValueError("No feature columns available")
 
-    X = df[available_cols].fillna(0).values
+    X = df[available_cols].fillna(df[available_cols].mean()).values
     ids = df[id_col].values
 
     # Apply feature weights if provided
@@ -102,14 +144,16 @@ def compute_similarity_matrix(
         distances = squareform(pdist(X, metric="euclidean"))
         sim_matrix = 1 / (1 + distances)
     elif metric == "jaccard":
+        # Vectorized Jaccard similarity using matrix operations
         # For binary/categorical features
-        # Convert to binary if not already
         X_binary = (X > 0).astype(float)
-        for i in range(n):
-            for j in range(n):
-                intersection = np.sum(X_binary[i] * X_binary[j])
-                union = np.sum((X_binary[i] + X_binary[j]) > 0)
-                sim_matrix[i, j] = intersection / (union + 1e-12) if union > 0 else 0.0
+        # Intersection: X_binary @ X_binary.T gives element-wise AND count
+        intersection = X_binary @ X_binary.T
+        # Row sums for union computation
+        row_sums = X_binary.sum(axis=1)
+        # Union: |A| + |B| - |A ∩ B|
+        union = row_sums[:, np.newaxis] + row_sums[np.newaxis, :] - intersection
+        sim_matrix = np.where(union > 0, intersection / union, 0.0)
     else:
         raise ValueError(f"Unknown similarity metric: {metric}")
 

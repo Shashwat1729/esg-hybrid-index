@@ -1,141 +1,143 @@
-% Auto-generated Results chapter. All numbers and tables are read from existing CSVs.
-
-\chapter{Results}
-
+\chapter{Results and Analysis}
 \label{ch:results}
 
-\section{Time-split Evaluation}
+This chapter trims the story down to what really matters.
+The revised index is built on 276 mid-cap firms from the US and India, and the results are mixed in a pretty beliveable way becuase the signals do not move neatly together.
+Some parts look strong, some are only okay, and one limitation keeps showing up: the ESG layer is still mostly synthetic.
+So yes, the index works, but not in every way we first hoped.
 
-This section reports time-split evaluation summaries. If the file name contains "synthetic" the output was generated on a synthetic panel to validate the pipeline. Replace with real panel outputs when available.
+\section{Factor structure and sample patterns}
+\label{sec:descriptive}
+\label{sec:correlations}
+\label{sec:sector_geo}
 
-\begin{figure}[ht]
+After re-scaling the factor space looks tidy enough.
+Most scores sit almost exactly where they should, around a mean of 50 with standard deviations close to 10.
+ESG\_composite comes in at 50.05 with a standard deviation of 10.09, risk\_adjusted\_score at 49.82 with 9.96, value\_score at 50.17 with 9.95, and stability\_score at 49.91 with 9.95.
+The obvious outlier is financial\_score at 48.63 with a standard deviation of just 1.40, which makes cross-firm separation much tighter than expected.
+That gap is a bit wierd, but it does not break the model.
 
+The dependence checks are reassuring.
+Maximum VIF is 2.80, so multicollinearity stays low, and PCA still needs three components to explain 67.4\% of total variance.
+That means no single hidden axis is doing all the work.
+The sample itself is broad enough to make that matter: 186 US firms, 90 Indian firms, and 11 sectors.
+Technology and Healthcare generally look better on ESG and growth, while Energy and Basic Materials stay stronger on financial and risk screens.
+Nothing shocking there, but it does make the final ranking easier to intepret.
+
+\section{What the ranking actually does}
+\label{sec:esg_financial}
+\label{sec:factor_validity}
+\label{sec:monotonicity}
+\label{sec:rankings}
+\label{sec:profiles}
+
+The cleanest claim here is not ``high ESG means high returns.''
+That would be too neat.
+The ESG-financial fit is fairly high at $R^2 = 0.544$, but this still reads partly as a proxy-construction artefact rather than a clean discovery from observed market data.
+I do not think the thesis should pretend otherwise.
+
+What works better is the ranking logic.
+Against the forward-quality target, 7 of 8 factors show monotonic ordering.
+Against the return proxy, only 3 of 9 factors pass Jonckheere-Terpstra testing.
+So the model is better at sorting firms by underlying quality than at calling short-horizon performance.
+That is less flashy, but honestly more plausible.
+
+The portfolio numbers tell the same story.
+The balanced top-20 portfolio posts a weak $-4.01\%$ with cross-sectional IR $=-0.710$, while the financial-first top-20 does a bit better at $-3.13\%$ with IR $=0.251$.
+The best construction is the score-weighted version at $+8.66\%$ with cross-sectional IR $=0.475$.
+So construction choice matters a lot.
+Equal-weighting looked fine at first glance, then it really did not.
+
+At the top of teh balanced ranking, INCY, MEDP, and EXEL lead the list.
+That is not a random mix.
+It reflects strong growth and risk-adjusted readings more than one lucky spike.
+The three investor profiles also do something real instead of just changing labels: ESG-First and Financial-First still share a core investable set, but their rank agreement is only Kendall $\tau = 0.593$.
+That feels about right.
+
+\begin{figure}[H]
 \centering
-
-\includegraphics[width=0.8\textwidth]{Figures/timesplit_sharpe_synthetic.png}
-
-\caption{Time-split Evaluation}
-
-\label{fig:timesplit}
-
+\includegraphics[width=0.85\textwidth]{Figures/fig07_top20_rankings.png}
+\caption{Top-20 balanced-profile companies. Healthcare and Tech dominate,  with growth and risk-adjusted scores doing most of the heavy lifting.}\label{fig:top20}
 \end{figure}
 
-\noindent
+\section{Robustness and caveats}
+\label{sec:robustness}
+\label{sec:esg_provenance}
+\label{sec:cross-provider}
+\label{sec:financial_validation}
+\label{sec:multiple_testing}
 
-The following table shows the first rows of the corresponding CSV file:
+This is where the chapter gets more convincing.
+Bootstrap ordering is extremely stable at Kendall $\tau = 1.000$, even if the rank confidence bands are still wide at 247 to 255 places.
+Weight perturbations are also very tame, with profile rankings staying above Spearman $\rho = 0.99$ under \(\pm 20\%\) changes.
+The balanced strategy is especially usefull in ugly markets, posting bear-period excess of $+7.27$ percentage points, or $+10.65$ percentage points in the decomposition with portfolio $\beta = 0.82$ and IR $=0.585$.
+Across rolling rebalances it beats the universe in all 12 periods, with mean excess of $+7.38\%$.
+That is probably the most practical result in the chapter.
 
-\input{Tables/table_timesplit_evaluation_synthetic_summary.tex}
+The transfer test is also stronger than I expected.
+On the 45-company high-cap sample, all 9 scoring dimensions generalise, with Kendall $W = 0.933$, Spearman $\rho = 0.9993$, and Friedman $p = 0.50$.
+Put simply, the rank logic barely changes when the universe gets bigger and more liquid.
+All six financial validation checks pass too.
+So the weaker predictive bits do not seem to come from obvious accounting or pipeline mistakes.
 
-This table has 1 row(s) and 11 column(s). Columns: train_start, train_end, holdout_start, holdout_end, n_winners, avg_return, median_return, std_return, n_holdout_obs, sharpe, pct_positive.
+The caveat is still the ESG input layer.
+About 84.7\% of ESG observations are synthetic, 11.7\% are real Yahoo governance fields, and 3.6\% are imputed.
+Cross-provider validation stays weak and underpowered in the tiny overlap sample, so I would not oversell alignment with MSCI or Sustainalytics.
+Statistical correction tells a similar story: out of 521 hypothesis tests, 235 survive BH-FDR and 169 survive Bonferroni.
+That is not bad, but it does trim away some of the prettier claims.
 
-For the evaluated split (training window 2014--2021, holdout 2022--2023) the top-20 selected portfolio produced an average holdout return of 0.123938 (units as recorded in the `ret` column), a median holdout return of -0.099135, sample standard deviation 4.49519, and a Sharpe ratio of 0.027571. Exactly 50\% of observed holdout returns were positive. These figures are reported from `Tables/timesplit_evaluation_synthetic_summary.csv` and reflect the synthetic panel used to validate the evaluation pipeline; when real historical panel data is supplied the same procedure will produce analogous summary files.
-
-\section{Benchmark summary and portfolio performance}
-
-\begin{figure}[ht]
-
+\begin{figure}[H]
 \centering
-
-\includegraphics[width=0.8\textwidth]{Figures/fig18_portfolio_performance.png}
-
-\caption{Benchmark summary and portfolio performance}
-
-\label{fig:benchmark}
-
+\includegraphics[width=0.8\textwidth]{Figures/robustness_highcap_comparison.png}
+\caption{Scoring comparison between our 276 mid-caps and 45 S\&P~500 benchmarks. The rank logic generalises without falling apart (Kendall $W=0.933$).}\label{fig:highcap}
 \end{figure}
 
-\noindent
+\section{Summary table}
+\label{sec:results_summary}
 
-The following table shows the first rows of the corresponding CSV file:
-
-\input{Tables/table_benchmark_summary.tex}
-
-This table has 5 row(s) and 10 column(s). Columns: index, n_companies, avg_ESG, avg_financial, avg_market, avg_risk_adj, n_sectors, us_pct, sector_hhi, effective_n_sectors.
-
-Key factual points from the benchmark summary: the ``Our Multi-Factor (Top 20)'' portfolio (top 20 by composite score) has average ESG score 52.1432 and average financial score 57.3635 in the snapshot used to build these tables. The full-universe baseline (60 companies in the processed sample) reports an effective number of sectors of 7.40741. The CSV `Tables/benchmark_summary.csv` contains the full breakdown and is the authoritative source for these numbers.
-
-\section{Principal component analysis: explained variance}
-
-\begin{figure}[ht]
-
+\begin{table}[!htbp]
 \centering
+\caption{Summary of key findings for the 276-company mid-cap sample.}
+\label{tab:summary}
+\label{tab:descriptive_stats}
+\label{tab:factor_corr_midcap}
+\label{tab:portfolio_construction}
+\label{tab:monotonicity}
+\label{tab:highcap}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{0.96}
+\begin{tabular}{p{3.6cm} p{4.0cm} p{5.6cm}}
+\toprule
+Area & Result & Read \\
+\midrule
+Universe & 276 firms, 186 US, 90 India & Broad enough to stress the model across markets and sectors \\
+Score scaling & Most factors centred near 50 with standard deviations near 10 & Re-standardisation worked as intended \\
+Financial score spread & Mean $=48.63$, standard deviation $=1.40$ & Much tighter than the rest, which is useful but a little odd \\
+Collinearity & Max VIF $=2.80$ & Low enough that the factors still look distinct \\
+PCA structure & 3 components explain 67.4\% & Multi-dimensional, not one hidden mega-factor \\
+ESG-financial fit & $R^2 = 0.544$ & Real signal maybe, but still tangled up with proxy construction \\
+Profile differentiation & Kendall $\tau = 0.593$ between ESG-First and Financial-First & Profiles are meaningfully different, not cosmetic \\
+Forward-quality monotonicity & 7 of 8 factors monotonic & Strong evidence for ranking quality \\
+Return-proxy monotonicity & 3 of 9 factors significant & Much weaker evidence for short-run forecasting \\
+Balanced top-20 & $-4.01\%$, CS-IR $=-0.710$ & Weak headline result \\
+Financial-first top-20 & $-3.13\%$, IR $=0.251$ & Slightly better under a harder financial tilt \\
+Score-weighted portfolio & $+8.66\%$, CS-IR $=0.475$ & Best portfolio construction result in the chapter \\
+Rolling rebalance test & 12 of 12 periods positive, mean excess $=+7.38\%$ & Consistent practical upside \\
+Bear-market behaviour & Excess $=+7.27$ pp; decomposition $=+10.65$ pp, $\beta = 0.82$, IR $=0.585$ & Strong defensive showing \\
+Bootstrap stability & Kendall $\tau = 1.000$ & Ranking is very stable \\
+Bootstrap uncertainty & Confidence width 247 to 255 ranks & Stable ordering does not mean tiny uncertainty \\
+Weight sensitivity & Spearman $\rho > 0.99$ under \(\pm 20\%\) changes & Rankings barely move under reasonable reweighting \\
+High-cap transfer & 9 of 9 dimensions generalise; Kendall $W = 0.933$, $\rho = 0.9993$, Friedman $p = 0.50$ & Best external robustness result \\
+Financial validation & All 6 checks pass & Data plumbing looks clean enough \\
+ESG provenance & 84.7\% synthetic, 11.7\% real, 3.6\% imputed & Main limitation, and still a serious one \\
+Cross-provider check & Weak, underpowered overlap sample & Not enough evidence to claim strong provider alignment \\
+Multiple testing & 521 tests; 235 BH-FDR sig.; 169 Bonferroni sig. & The sturdier findings survive correction, the softer ones do not \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\includegraphics[width=0.8\textwidth]{Figures/fig21_pca_biplot.png}
-
-\caption{Principal component analysis: explained variance}
-
-\label{fig:pca}
-
-\end{figure}
-
-\noindent
-
-The following table shows the first rows of the corresponding CSV file:
-
-\input{Tables/table_advanced_pca_variance.tex}
-
-This table has 8 row(s) and 4 column(s). Columns: component, eigenvalue, variance_explained, cumulative_variance.
-
-Principal component analysis (PCA) on the factor set shows that the first principal component explains 24.12\% of variance (variance_explained = 0.241153). The first six components together account for roughly 93.57\% of variance (cumulative_variance = 0.935693 for PC6), indicating that a low-dimensional representation captures most of the cross-sectional variation in the constructed factors. See `Tables/advanced_pca_variance.csv` for the full PCA variance table.
-
-\section{Weight sensitivity and grid search}
-
-\begin{figure}[ht]
-
-\centering
-
-\includegraphics[width=0.8\textwidth]{Figures/fig10_weight_sensitivity.png}
-
-\caption{Weight sensitivity and grid search}
-
-\label{fig:weights}
-
-\end{figure}
-
-\noindent
-
-The following table shows the first rows of the corresponding CSV file:
-
-\input{Tables/table_weight_grid_search.tex}
-
-This table has 99 row(s) and 11 column(s). Columns: esg_weight, financial_weight, risk_adj_weight, market_weight, operational_weight, mean_score, std_score, score_sharpe, return_sharpe, kendall_vs_base, top10_overlap.
-
-The weight-sensitivity grid search covers 99 weight combinations (see `Tables/weight_grid_search.csv`). The snippet above shows representative rows; the grid search is used to assess score and return stability across plausible weightings and to identify regions of robust performance. The full CSV contains the complete parameter sweep and associated metrics.
-
-\section{Efficient frontier and optimal portfolios}
-
-\begin{figure}[ht]
-
-\centering
-
-\includegraphics[width=0.8\textwidth]{Figures/fig26_efficient_frontier.png}
-
-\caption{Efficient frontier and optimal portfolios}
-
-\label{fig:efront}
-
-\end{figure}
-
-\noindent
-
-The following table shows the first rows of the corresponding CSV file:
-
-\input{Tables/table_advanced_efficient_frontier.tex}
-
-This table has 1000 row(s) and 7 column(s). Columns: return, risk, sharpe, w_ESG_composite, w_financial_score, w_market_score, w_operational_score.
-
-The efficient frontier dataset contains 1000 candidate portfolios derived from the optimization routine; sample rows are shown above. The frontier is used to visualise the trade-off between return and risk for portfolios composed from the computed factor scores. See `Tables/advanced_efficient_frontier.csv` for the complete set of candidate portfolios and exact weight vectors.
-
-\section{Concise numeric summary}
-
-For easy reference, the key numeric facts from the tables included above (all values are taken directly from the CSV files in `Thesis_report/Tables/`) are:
-
-\begin{itemize}
-	\item Time-split evaluation (synthetic): training window 2014--2021; holdout 2022--2023; top-20 portfolio average holdout return = 0.12394, median = -0.09914, sample std = 4.49519, Sharpe = 0.02757, percent positive = 50\%.
-	\item Benchmark snapshot: the ``Our Multi-Factor (Top 20)'' portfolio reports average ESG score = 52.1432 in the provided benchmark table.
-	\item PCA: the first principal component explains 24.12\% of variance (variance_explained = 0.241153). The first six components together explain roughly 93.57\% of variance (cumulative_variance for PC6 = 0.935693).
-	\item Weight grid search: the best grid point by return–Sharpe observed in `Tables/weight_grid_search.csv` has return–Sharpe = 0.54616 (see the full CSV for the exact weight vector and other diagnostics).
-	\item Efficient frontier: the candidate portfolio with maximum Sharpe (from `Tables/advanced_efficient_frontier.csv`) has Sharpe = 1.23087, expected return = 18.2586, and risk = 14.8338 (these figures are reported exactly in the CSV).
-\end{itemize}
-
-These concise numbers are included to support a quick factual read of the Results chapter (all numeric claims reference the CSV files included in the `Thesis_report/Tables/` folder).
+Taken together the picture is pretty clear.
+The index is structurally sound, the ranking engine is usefull, and the portfolio results get a lot better once construction is handled sensibly.
+But the ESG-financial story is still doing some work through proxy design, so any big causal claim would be pushing it.
+That trade-off is annoying, but it is also real.

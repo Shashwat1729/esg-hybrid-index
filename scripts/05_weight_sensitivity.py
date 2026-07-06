@@ -22,59 +22,60 @@ os.chdir(PROJECT_ROOT)
 
 import numpy as np
 import pandas as pd
-from scipy.stats import spearmanr, kendalltau
+from scipy.stats import spearmanr, kendalltau, rankdata
 from itertools import product
 import warnings
-warnings.filterwarnings("ignore")
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", message=".*divide by zero.*")
+warnings.filterwarnings("ignore", message=".*invalid value.*")
+
+from src.utils import load_indexed_data
+from src.constants import DEFAULT_WEIGHTS, DEFAULT_WEIGHTS_WITH_MARKET, SCORE_COLUMNS, RANDOM_SEED, load_profiles_from_config
 
 TABLES = PROJECT_ROOT / "reports" / "tables"
 TABLES.mkdir(parents=True, exist_ok=True)
 
-# All 10 score components
-WEIGHT_NAMES = [
-    "ESG_composite", "financial_score", "market_score", "operational_score",
-    "risk_adjusted_score", "growth_score", "value_score", "stability_score",
-    "similarity_rank", "sector_position",
-]
+# All 10 score components (from src.constants)
+WEIGHT_NAMES = SCORE_COLUMNS
 
-# Default weights — empirically calibrated from PCA contribution analysis
-# and grid search over actual portfolio Sharpe ratios (see Section 8 of report).
-# Rationale: financial_score and growth_score carry strongest return-predictive
-# signal; ESG maintains integration objective; remaining factors provide
-# diversification and risk management.
-DEFAULT_WEIGHTS = {
-    "ESG_composite": 0.15, "financial_score": 0.25,
-    "market_score": 0.10, "operational_score": 0.10,
-    "risk_adjusted_score": 0.08, "growth_score": 0.12,
-    "value_score": 0.08, "stability_score": 0.05,
-    "similarity_rank": 0.04, "sector_position": 0.03,
-}
+# DEFAULT_WEIGHTS is imported from src.constants (balanced profile).
+# No local override — single source of truth is config/index_config.yaml.
 
 
 def load_data():
-    path = PROJECT_ROOT / "data" / "processed" / "indexed_data.csv"
-    df = pd.read_csv(path)
+    df = load_indexed_data(PROJECT_ROOT)
     print(f"[OK] Loaded {len(df)} companies")
     return df
 
 
 def compute_preference(df, weights):
-    """Compute preference score with given weights dict."""
+    """Compute preference score with given weights dict.
+
+    Uses rank-based normalization (percentile ranks scaled to 0-100) before
+    weighting, matching the ``PreferenceScorer`` pipeline with
+    ``aggregation_mode="rank"`` used in ``03_build_index.py``.
+    """
     score = pd.Series(0.0, index=df.index)
     total = sum(weights.values())
     for comp, w in weights.items():
         if comp in df.columns:
-            vals = df[comp].fillna(df[comp].median()) / 100.0
-            score += (w / total) * vals * 100
+            vals = df[comp].fillna(df[comp].median() if df[comp].notna().any() else 50)
+            # Rank-normalize: percentile ranks in [0, 100]
+            # Matches PreferenceScorer._normalize_factor(vals, "rank")
+            arr = vals.to_numpy(dtype=float)
+            ranked = rankdata(arr, method="average")
+            vals = pd.Series(ranked / len(ranked) * 100, index=df.index)
+            score += (w / total) * vals
     return score.clip(0, 100)
 
 
-def compute_portfolio_sharpe(df, weights, return_col="price_momentum_3m", top_n=20):
-    """Compute actual portfolio Sharpe ratio: select top_n by score, average their returns."""
+def compute_portfolio_csir(df, weights, return_col="price_momentum_3m", top_n=20):
+    """Compute cross-sectional IR: select top_n by score, measure mean/std of their returns."""
     score = compute_preference(df, weights)
     top_idx = score.nlargest(top_n).index
     rets = df.loc[top_idx, return_col].dropna()
-    if len(rets) < 5 or rets.std() < 1e-10:
+    if len(rets) == 0 or rets.std() < 1e-10:
         return 0.0
     return rets.mean() / rets.std()
 
@@ -139,8 +140,14 @@ def grid_search_weights(df):
 
     Optimizes for ACTUAL portfolio Sharpe ratio (using price_momentum_3m as return proxy)
     rather than score mean/std. This provides empirically grounded weight selection.
+
+    NOTE (circularity fix): market_score is excluded from the weight grid.
+    DEFAULT_WEIGHTS no longer includes market_score, so the grid distributes
+    remaining weight only among non-market factors.  This prevents the circular
+    dependency where momentum indicators in market_score overlap with the
+    momentum return proxy used for optimization.
     """
-    print("\n--- Weight Sensitivity: Grid Search (Return-Based) ---")
+    print("\n--- Weight Sensitivity: Grid Search (Return-Based, ex-market) ---")
 
     # Determine which return column to use
     return_col = None
@@ -161,9 +168,10 @@ def grid_search_weights(df):
         remaining = 1.0 - esg_w - fin_w - risk_w
         if remaining < 0.15:
             continue
-        # Distribute remaining among other 7 factors proportionally
+        # Distribute remaining among other factors proportionally (ex-market)
+        # market_score excluded to prevent momentum circularity with return proxy
         other_base = {
-            "market_score": 0.10, "operational_score": 0.10,
+            "operational_score": 0.10,
             "growth_score": 0.08, "value_score": 0.07,
             "stability_score": 0.05, "similarity_rank": 0.03, "sector_position": 0.02,
         }
@@ -179,18 +187,17 @@ def grid_search_weights(df):
         rank = score.rank(ascending=False)
         kt, _ = kendalltau(base_rank, rank)
 
-        # Score-based Sharpe (always available)
+        # Score-based CS-IR (always available)
         score_sharpe = score.mean() / (score.std() + 1e-10)
 
-        # Return-based Sharpe (uses actual stock returns)
+        # Return-based CS-IR (uses actual stock returns)
         return_sharpe = 0.0
         if return_col:
-            return_sharpe = compute_portfolio_sharpe(df, weights, return_col=return_col, top_n=20)
+            return_sharpe = compute_portfolio_csir(df, weights, return_col=return_col, top_n=20)
 
         rows.append({
             "esg_weight": round(esg_w, 2), "financial_weight": round(fin_w, 2),
             "risk_adj_weight": round(risk_w, 2),
-            "market_weight": round(weights.get("market_score", 0), 3),
             "operational_weight": round(weights.get("operational_score", 0), 3),
             "mean_score": score.mean(), "std_score": score.std(),
             "score_sharpe": score_sharpe,
@@ -200,7 +207,7 @@ def grid_search_weights(df):
         })
 
     result = pd.DataFrame(rows)
-    # Sort by return-based Sharpe (prefer actual performance) then score Sharpe
+    # Sort by return-based CS-IR (prefer actual performance) then score CS-IR
     if return_col and result["return_sharpe"].abs().sum() > 0:
         result = result.sort_values("return_sharpe", ascending=False)
         best_col = "return_sharpe"
@@ -224,18 +231,18 @@ def rank_stability(df):
     """Test how stable rankings are across different weight perturbations."""
     print("\n--- Weight Sensitivity: Rank Stability ---")
 
-    np.random.seed(42)
+    rng = np.random.default_rng(RANDOM_SEED)
     n_simulations = 100
 
-    base_weights_arr = np.array([DEFAULT_WEIGHTS[k] for k in WEIGHT_NAMES if k in df.columns])
-    avail_names = [k for k in WEIGHT_NAMES if k in df.columns]
+    avail_names = [k for k in WEIGHT_NAMES if k in df.columns and k in DEFAULT_WEIGHTS]
+    base_weights_arr = np.array([DEFAULT_WEIGHTS[k] for k in avail_names])
 
     base_score = compute_preference(df, dict(zip(avail_names, base_weights_arr)))
     base_rank = base_score.rank(ascending=False)
 
     rank_matrix = np.zeros((len(df), n_simulations))
     for sim in range(n_simulations):
-        noise = 1.0 + np.random.uniform(-0.2, 0.2, len(base_weights_arr))
+        noise = 1.0 + rng.uniform(-0.2, 0.2, len(base_weights_arr))
         perturbed = base_weights_arr * noise
         perturbed = perturbed / perturbed.sum()
         perturbed_score = compute_preference(df, dict(zip(avail_names, perturbed)))
@@ -270,23 +277,8 @@ def profile_comparison(df):
     """Compare rankings across investor profiles."""
     print("\n--- Weight Sensitivity: Profile Comparison ---")
 
-    profiles = {
-        "esg_first": {
-            "ESG_composite": 0.35, "financial_score": 0.15,
-            "market_score": 0.08, "operational_score": 0.10,
-            "risk_adjusted_score": 0.08, "growth_score": 0.06,
-            "value_score": 0.05, "stability_score": 0.05,
-            "similarity_rank": 0.05, "sector_position": 0.03,
-        },
-        "balanced": DEFAULT_WEIGHTS.copy(),
-        "financial_first": {
-            "ESG_composite": 0.10, "financial_score": 0.30,
-            "market_score": 0.10, "operational_score": 0.10,
-            "risk_adjusted_score": 0.12, "growth_score": 0.10,
-            "value_score": 0.08, "stability_score": 0.05,
-            "similarity_rank": 0.03, "sector_position": 0.02,
-        },
-    }
+    # Load all profiles from config (single source of truth)
+    profiles = load_profiles_from_config()
 
     scores = {}
     for name, weights in profiles.items():
@@ -368,29 +360,29 @@ def conditional_weight_analysis(df):
             new_rank = new_score.rank(ascending=False)
             kt, _ = kendalltau(base_rank, new_rank)
 
-            # Measure Sharpe change
-            new_sharpe = 0.0
+            # Measure CS-IR change
+            new_csir = 0.0
             if return_col:
-                new_sharpe = compute_portfolio_sharpe(df, shifted, return_col=return_col, top_n=20)
-            base_sharpe = compute_portfolio_sharpe(df, DEFAULT_WEIGHTS, return_col=return_col, top_n=20) if return_col else 0.0
+                new_csir = compute_portfolio_csir(df, shifted, return_col=return_col, top_n=20)
+            base_csir = compute_portfolio_csir(df, DEFAULT_WEIGHTS, return_col=return_col, top_n=20) if return_col else 0.0
 
             sub_rows.append({
                 "increased_factor": f1, "decreased_factor": f2,
                 "kendall_tau": kt,
-                "sharpe_change": new_sharpe - base_sharpe,
+                "csir_change": new_csir - base_csir,
             })
 
     sub_df = pd.DataFrame(sub_rows)
     sub_df.to_csv(TABLES / "weight_interdependence_matrix.csv", index=False)
     print(f"  [OK] Saved weight_interdependence_matrix.csv ({len(sub_df)} pairs)")
 
-    # C. Identify best complementary pairs (largest Sharpe improvement)
+    # C. Identify best complementary pairs (largest CS-IR improvement)
     if len(sub_df) > 0:
-        best = sub_df.nlargest(5, "sharpe_change")
+        best = sub_df.nlargest(5, "csir_change")
         print("  Top 5 beneficial weight shifts:")
         for _, r in best.iterrows():
             print(f"    Increase {r['increased_factor']:20s} / Decrease {r['decreased_factor']:20s}: "
-                  f"Sharpe change = {r['sharpe_change']:+.3f}")
+                  f"CS-IR change = {r['csir_change']:+.3f}")
 
     return sub_df
 

@@ -27,69 +27,23 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 os.chdir(PROJECT_ROOT)
 
+import logging
 import numpy as np
 import pandas as pd
 import warnings
-warnings.filterwarnings("ignore")
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", message=".*divide by zero.*")
+warnings.filterwarnings("ignore", message=".*invalid value.*")
 
-# ---------------------------------------------------------------------------
-# Column definitions
-# ---------------------------------------------------------------------------
-ID_COLS = ["ticker", "company_name", "currency", "sector", "industry", "country"]
+logger = logging.getLogger(__name__)
 
-ESG_ENV_COLS = [
-    "scope1_emissions", "scope2_emissions", "scope3_emissions",
-    "emissions_intensity", "renewable_energy_pct", "energy_efficiency",
-    "water_usage_intensity", "waste_recycling_pct", "carbon_reduction_target",
-    "environmental_fines",
-]
-ESG_SOC_COLS = [
-    "employee_turnover", "gender_diversity_pct", "women_management_pct",
-    "pay_gap_ratio", "injury_rate", "safety_training_hours",
-    "employee_satisfaction", "community_investment_pct",
-    "supply_chain_audit_pct", "human_rights_policy",
-]
-ESG_GOV_COLS = [
-    "board_independence_pct", "board_diversity_pct", "board_size",
-    "exec_comp_esg_linked", "ceo_pay_ratio", "shareholder_rights_score",
-    "ethics_compliance_score", "anti_corruption_policy",
-    "data_privacy_score", "tax_transparency_score",
-    "esg_controversy_score", "esg_risk_rating",
-]
-ESG_COLS = ESG_ENV_COLS + ESG_SOC_COLS + ESG_GOV_COLS
-
-FINANCIAL_COLS = [
-    "market_cap", "total_revenue", "ebitda", "net_income", "gross_profit",
-    "total_debt", "total_cash",
-    "roa", "roe", "debt_to_equity", "current_ratio", "quick_ratio",
-    "free_cashflow", "operating_cashflow",
-    "trailing_pe", "forward_pe", "price_to_book", "price_to_sales",
-    "enterprise_to_revenue", "enterprise_to_ebitda",
-    "dividend_yield", "payout_ratio",
-    "revenue_growth", "earnings_growth", "earnings_quarterly_growth",
-    "profit_margins", "gross_margins", "operating_margins",
-    "net_margin", "operating_margin", "gross_margin",
-    "debt_to_ebitda", "cash_flow_to_debt", "fcf_margin",
-]
-
-MARKET_COLS = [
-    "price", "avg_daily_volume", "avg_daily_volume_30d", "avg_daily_volume_90d",
-    "price_volatility", "price_volatility_30d",
-    "price_momentum_1m", "price_momentum_3m", "price_momentum_6m", "price_momentum_12m",
-    "beta", "free_float_pct", "bid_ask_spread",
-    "max_drawdown_1y", "sharpe_ratio_1y", "sortino_ratio_1y",
-    "avg_daily_return", "return_skewness", "return_kurtosis",
-    "amihud_illiquidity",
-    "52_week_high", "52_week_low", "50d_avg", "200d_avg",
-    "pct_from_52w_high",
-]
-
-OPERATIONAL_COLS = [
-    "r_d_expenditure", "r_d_intensity", "employees",
-    "revenue_per_employee", "market_share",
-]
-
-ALL_NUMERIC = list(set(ESG_COLS + FINANCIAL_COLS + MARKET_COLS + OPERATIONAL_COLS))
+from src.constants import (
+    ESG_ENV_COLS, ESG_SOC_COLS, ESG_GOV_COLS, ESG_COLS,
+    FINANCIAL_COLS, MARKET_COLS, OPERATIONAL_COLS, ALL_NUMERIC,
+    ID_COLS, BINARY_VARS, ORDINAL_VARS,
+)
+from src.data_collection.data_pipeline import load_configs
 
 # ---------------------------------------------------------------------------
 # Variable Type Classification
@@ -128,7 +82,7 @@ VARIABLE_TYPES = {
     "community_investment_pct": "bounded_pct",
     "supply_chain_audit_pct": "bounded_pct",
     "exec_comp_esg_linked": "bounded_pct",
-    "free_float_pct": "bounded_pct",
+    # Removed (Issue M6): "free_float_pct" — synthetic noise
     "shareholder_rights_score": "bounded_pct",
     "ethics_compliance_score": "bounded_pct",
     "data_privacy_score": "bounded_pct",
@@ -154,6 +108,10 @@ VARIABLE_TYPES = {
     "current_ratio": "ratio",
     "quick_ratio": "ratio",
     "amihud_illiquidity": "ratio",
+    "asset_turnover": "ratio",
+    "cash_conversion": "ratio",
+    "ebitda_margin": "ratio",
+    "cash_to_assets": "ratio",
 
     # --- Count / absolute magnitude (often right-skewed) ---
     "market_cap": "count",
@@ -195,6 +153,7 @@ VARIABLE_TYPES = {
     "market_share": "rate",
     "emissions_intensity": "rate",
     "water_usage_intensity": "rate",
+    "sustainable_growth_rate": "rate",
 
     # --- Reclassified: payout_ratio can exceed 100% or go negative ---
     "payout_ratio": "ratio",
@@ -212,7 +171,7 @@ VARIABLE_TYPES = {
     "price_momentum_6m": "continuous",
     "price_momentum_12m": "continuous",
     "beta": "continuous",
-    "bid_ask_spread": "continuous",
+    # Removed (Issue M6): "bid_ask_spread" — synthetic noise
     "max_drawdown_1y": "continuous",
     "sharpe_ratio_1y": "continuous",
     "sortino_ratio_1y": "continuous",
@@ -220,6 +179,7 @@ VARIABLE_TYPES = {
     "return_skewness": "continuous",
     "return_kurtosis": "continuous",
     "pct_from_52w_high": "continuous",
+    "log_dollar_volume": "continuous",
 }
 
 
@@ -233,6 +193,90 @@ def classify_variable(col):
     if col.endswith("_policy") or col.endswith("_target"):
         return "binary"
     return "continuous"
+
+
+# ---------------------------------------------------------------------------
+# Currency Conversion: INR → USD
+# ---------------------------------------------------------------------------
+def convert_inr_to_usd(df, exchange_rate=83.0):
+    """
+    Convert INR-denominated absolute financial values to USD.
+
+    Indian companies are identified by BOTH the 'country' column AND the
+    '.NS' (National Stock Exchange) ticker suffix — this dual check is
+    robust to inconsistent country labels from Yahoo Finance.
+
+    Ratios (ROA, ROE, D/E, margins, P/E, P/B, EV/EBITDA) are dimensionless
+    and currency-neutral — they are NOT converted.
+    Only absolute monetary values (revenue, market_cap, etc.) are divided
+    by the exchange rate.
+
+    Args:
+        df: DataFrame with 'ticker' column (and optionally 'country')
+        exchange_rate: INR per USD (default 83.0, approximate RBI reference
+                       rate as of March 2024)
+
+    Returns:
+        DataFrame with INR values converted to USD for Indian companies
+    """
+    # Absolute monetary columns that must be converted.
+    # These are denominated in the local reporting currency (INR for .NS tickers).
+    # Ratios, percentages, counts (employees), ESG scores are NOT included.
+    monetary_cols = [
+        # Core financials
+        "market_cap", "total_revenue", "ebitda", "net_income",
+        "gross_profit", "total_debt", "total_cash", "total_assets",
+        "free_cashflow", "operating_cashflow", "r_d_expenditure",
+        # Derived absolute value (revenue / employees — numerator is INR)
+        "revenue_per_employee",
+        # Price-related absolutes (Yahoo returns these in local currency)
+        "price", "52_week_high", "52_week_low", "50d_avg", "200d_avg",
+    ]
+
+    # --- Identify Indian companies ---
+    # Primary: ticker suffix '.NS' (definitive — NSE-listed)
+    ticker_mask = df["ticker"].astype(str).str.endswith(".NS")
+
+    # Secondary: country column (catches edge cases where ticker was cleaned)
+    if "country" in df.columns:
+        country_mask = df["country"].astype(str).str.upper().isin(
+            ["IN", "INDIA", "IND"]
+        )
+        india_mask = ticker_mask | country_mask
+    else:
+        india_mask = ticker_mask
+        logger.warning("No 'country' column found — using ticker suffix only for INR detection")
+
+    n_indian = india_mask.sum()
+    if n_indian == 0:
+        logger.info("No Indian companies detected — skipping INR→USD conversion")
+        return df
+
+    # --- Convert monetary columns ---
+    converted_cols = []
+    for col in monetary_cols:
+        if col not in df.columns:
+            continue
+        # Only convert rows that actually have data (skip NaN gracefully)
+        has_data = india_mask & df[col].notna()
+        if has_data.sum() == 0:
+            continue
+        df.loc[has_data, col] = df.loc[has_data, col] / exchange_rate
+        converted_cols.append(col)
+
+    # --- Log which companies were converted ---
+    indian_tickers = df.loc[india_mask, "ticker"].tolist()
+    logger.info(
+        f"INR→USD conversion: {n_indian} Indian companies, "
+        f"rate = 1 USD = {exchange_rate} INR (March 2024 RBI reference)"
+    )
+    logger.info(f"  Monetary columns converted ({len(converted_cols)}): {converted_cols}")
+    logger.info(f"  Indian tickers: {indian_tickers[:10]}{'...' if len(indian_tickers) > 10 else ''}")
+    # Also print to stdout for pipeline visibility
+    print(f"  INR→USD: {n_indian} Indian companies converted (rate={exchange_rate})")
+    print(f"  Columns: {converted_cols}")
+
+    return df
 
 
 def load_raw():
@@ -368,7 +412,6 @@ def detect_multivariate_outliers(df, cols, threshold_pct=97.5):
     catching observations that are unusual in multivariate space even if
     they appear normal univariately (Rousseeuw & Van Zomeren, 1990).
     """
-    from scipy.spatial.distance import mahalanobis
     from scipy.stats import chi2
 
     available = [c for c in cols if c in df.columns and pd.api.types.is_numeric_dtype(df[c])
@@ -382,10 +425,11 @@ def detect_multivariate_outliers(df, cols, threshold_pct=97.5):
         cov = sub.cov().values
         cov_inv = np.linalg.pinv(cov)  # Use pseudo-inverse for stability
 
-        distances = []
-        for _, row in sub.iterrows():
-            d = mahalanobis(row.values, mean, cov_inv)
-            distances.append(d)
+        # Vectorized Mahalanobis: d_i = sqrt((x_i - mu)^T @ Sigma^{-1} @ (x_i - mu))
+        X_centered = sub.values - mean  # (n, p)
+        left = X_centered @ cov_inv     # (n, p)
+        dist_sq = np.einsum("ij,ij->i", left, X_centered)  # row-wise dot product
+        distances = np.sqrt(np.maximum(dist_sq, 0.0))
 
         dist_series = pd.Series(distances, index=sub.index, name="mahal_dist")
         cutoff = chi2.ppf(threshold_pct / 100.0, df=len(available))
@@ -559,9 +603,10 @@ def impute_sector_median(df, cols):
             # Use mode (most frequent value) for binary imputation
             if "sector" in df.columns:
                 df[col] = df.groupby("sector")[col].transform(
-                    lambda x: x.fillna(x.mode().iloc[0] if len(x.mode()) > 0 else 0)
+                    lambda x: x.fillna(x.mode().iloc[0]) if not x.mode().empty else x.fillna(0)
                 )
-            df[col] = df[col].fillna(df[col].mode().iloc[0] if len(df[col].mode()) > 0 else 0)
+            global_mode = df[col].mode()
+            df[col] = df[col].fillna(global_mode.iloc[0] if not global_mode.empty else 0)
         elif vtype == "ordinal":
             # Use median rounded to nearest integer
             if "sector" in df.columns:
@@ -613,6 +658,93 @@ def remove_low_coverage_columns(df, min_pct=0.30):
     return df
 
 
+def derive_scale_neutral_metrics(df):
+    """Derive scale-neutral financial metrics with strict input checks."""
+    metric_counts = {}
+
+    def _warn_missing(metric_name, required_cols):
+        missing = [c for c in required_cols if c not in df.columns]
+        if missing:
+            msg = f"Skipping {metric_name}: missing source columns {missing}"
+            logger.warning(msg)
+            print(f"  [WARN] {msg}")
+            return True
+        return False
+
+    # 1) asset_turnover = total_revenue / total_assets
+    # If total_assets is unavailable, use proxy: total_debt + total_cash + market_cap
+    if "total_revenue" not in df.columns:
+        _warn_missing("asset_turnover", ["total_revenue"])
+    else:
+        denom = None
+        if "total_assets" in df.columns:
+            denom = df["total_assets"]
+        elif not _warn_missing("asset_turnover", ["total_debt", "total_cash", "market_cap"]):
+            denom = df["total_debt"] + df["total_cash"] + df["market_cap"]
+            print("  [INFO] asset_turnover using proxy total_assets = total_debt + total_cash + market_cap")
+
+        if denom is not None:
+            num = df["total_revenue"]
+            df["asset_turnover"] = np.where(
+                num.notna() & denom.notna() & (denom != 0),
+                num / denom,
+                np.nan,
+            )
+            metric_counts["asset_turnover"] = int(df["asset_turnover"].notna().sum())
+
+    # 2) cash_conversion = operating_cashflow / total_revenue (total_revenue > 0)
+    if not _warn_missing("cash_conversion", ["operating_cashflow", "total_revenue"]):
+        df["cash_conversion"] = np.where(
+            df["operating_cashflow"].notna() & df["total_revenue"].notna() & (df["total_revenue"] > 0),
+            df["operating_cashflow"] / df["total_revenue"],
+            np.nan,
+        )
+        metric_counts["cash_conversion"] = int(df["cash_conversion"].notna().sum())
+
+    # 3) ebitda_margin = ebitda / total_revenue * 100 (total_revenue > 0)
+    if not _warn_missing("ebitda_margin", ["ebitda", "total_revenue"]):
+        df["ebitda_margin"] = np.where(
+            df["ebitda"].notna() & df["total_revenue"].notna() & (df["total_revenue"] > 0),
+            (df["ebitda"] / df["total_revenue"]) * 100,
+            np.nan,
+        )
+        metric_counts["ebitda_margin"] = int(df["ebitda_margin"].notna().sum())
+
+    # 4) cash_to_assets = total_cash / (total_debt + total_cash)
+    if not _warn_missing("cash_to_assets", ["total_cash", "total_debt"]):
+        denom = df["total_debt"] + df["total_cash"]
+        df["cash_to_assets"] = np.where(
+            df["total_cash"].notna() & denom.notna() & (denom != 0),
+            df["total_cash"] / denom,
+            np.nan,
+        )
+        metric_counts["cash_to_assets"] = int(df["cash_to_assets"].notna().sum())
+
+    # 5) log_dollar_volume = log1p(price * avg_daily_volume)
+    if not _warn_missing("log_dollar_volume", ["price", "avg_daily_volume"]):
+        dollar_volume = (df["price"] * df["avg_daily_volume"]).clip(lower=0)
+        valid = df["price"].notna() & df["avg_daily_volume"].notna()
+        df["log_dollar_volume"] = np.where(valid, np.log1p(dollar_volume), np.nan)
+        metric_counts["log_dollar_volume"] = int(df["log_dollar_volume"].notna().sum())
+
+    # 6) sustainable_growth_rate = roe * clip(1 - payout_ratio, 0, 1)
+    if not _warn_missing("sustainable_growth_rate", ["roe", "payout_ratio"]):
+        retention = np.clip(1 - df["payout_ratio"], 0, 1)
+        df["sustainable_growth_rate"] = np.where(
+            df["roe"].notna() & df["payout_ratio"].notna(),
+            df["roe"] * retention,
+            np.nan,
+        )
+        metric_counts["sustainable_growth_rate"] = int(df["sustainable_growth_rate"].notna().sum())
+
+    if metric_counts:
+        print("  Derived metric coverage (non-null company counts):")
+        for metric_name, count in metric_counts.items():
+            print(f"    {metric_name}: {count}/{len(df)}")
+
+    return df
+
+
 def main():
     print("=" * 70)
     print("STEP 02: CLEAN AND STANDARDIZE DATA")
@@ -632,6 +764,16 @@ def main():
     for col in ALL_NUMERIC:
         if col in df.columns:
             df[col] = pd.to_numeric(df[col], errors="coerce")
+
+    # --- Currency Conversion (before any normalization) ---
+    # Convert INR-denominated absolute values to USD so magnitudes are comparable
+    # Exchange rate read from config/index_config.yaml → universe.exchange_rates.INR_USD
+    # Sensitivity: ±5% rate change affects Indian company market_cap by ±5%
+    # but financial RATIOS (ROA, ROE, D/E, margins) are unaffected since
+    # both numerator and denominator scale proportionally.
+    index_cfg, _ = load_configs()
+    EXCHANGE_RATE_USED = index_cfg.get("universe", {}).get("exchange_rates", {}).get("INR_USD", 83.0)
+    df = convert_inr_to_usd(df, exchange_rate=EXCHANGE_RATE_USED)
 
     # Remove columns with very low coverage
     df = remove_low_coverage_columns(df, min_pct=0.20)
@@ -683,6 +825,10 @@ def main():
     print("\n  [G] Imputing missing values (type-aware sector-based)...")
     df = impute_sector_median(df, numeric_in_data)
 
+    # Step N: Derive scale-neutral financial metrics
+    print("\n  [N] Deriving scale-neutral financial metrics...")
+    df = derive_scale_neutral_metrics(df)
+
     report_missing(df, "(after cleaning)")
 
     # Standardise country column
@@ -714,6 +860,32 @@ def main():
     outpath.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(outpath, index=False, encoding="utf-8")
     print(f"\n[OK] Clean data saved to {outpath}")
+
+    # Save exchange rate metadata
+    meta_path = PROJECT_ROOT / "data" / "processed" / "cleaning_metadata.json"
+    import json
+    indian_tickers = df.loc[
+        df["ticker"].astype(str).str.endswith(".NS"), "ticker"
+    ].tolist()
+    metadata = {
+        "exchange_rate_used": EXCHANGE_RATE_USED,
+        "exchange_rate_date": "March 2024 RBI reference rate",
+        "exchange_rate_note": "INR per USD, used to convert Indian company monetary values",
+        "monetary_columns_converted": [
+            "market_cap", "total_revenue", "ebitda", "net_income",
+            "gross_profit", "total_debt", "total_cash", "total_assets",
+            "free_cashflow", "operating_cashflow", "r_d_expenditure",
+            "revenue_per_employee", "price", "52_week_high", "52_week_low",
+            "50d_avg", "200d_avg",
+        ],
+        "n_indian_companies_converted": len(indian_tickers),
+        "indian_tickers_converted": indian_tickers,
+        "n_companies": len(df),
+        "n_columns": len(df.columns),
+    }
+    with open(meta_path, "w") as f:
+        json.dump(metadata, f, indent=2)
+    print(f"[OK] Cleaning metadata saved to {meta_path}")
 
     # Save quality reports and outlier report
     tables_dir = PROJECT_ROOT / "reports" / "tables"

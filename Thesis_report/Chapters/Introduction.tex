@@ -1,136 +1,60 @@
-% Chapter 1
+\chapter{Introduction}
+\label{ch:intro}
 
-\chapter{Introduction} % Main chapter title
+\section{Background}
 
-\label{Chapter1} % For referencing the chapter elsewhere, use \ref{Chapter1} 
+ESG has gotten a lot bigger in finance over the last few years. The 2024 GSIA review puts sustaianble investment assets at roughly \$35 trillion, which is about a third of all professionally managed money \cite{gsia_2022, pri_2023}. That's not a niche anymore.
 
-%-------------------------------------------------------------------------------
+And there's a real reason behind the interest. Companies with poor ESG track records tend to run into legal trouble, regulatory fines, or just plain operational messups more often. On teh other side, firms that treat their stakeholders better seem to do okay in the long run, though honestly the exact mechanism is still debated and not always straightforward \cite{lins_servaes_tamayo_2017, eccles_ioannou_serafeim_2014, edmans_2011, friede_2015, atz_vanholt_liu_bruno_2023}.
 
-\section{Overview}
+The problem? Most of the available tools are built for large caps. If you look at mid-cap coverage from MSCI, S\&P Global, Sustainalytics or Refinitiv, the overlap is poor and their scoring methods are largely proprietary \cite{berg_koelbel_rigobon_2022, msci_esg_methodology, sp_global_esg, sustainalytics_esg, refinitiv_esg}. That gap is what this thesis tries to address.
 
-LLMs have revolutionised NLP, enabling a sophisticated understanding and generation of human language. However, when these models are applied to a larger context, we see that the computational costs increase quadratically as well. To address these types of issues, there have been other mechanisms like sink \cite{xiao2024efficientstreaminglanguagemodels}, attention sliding window \cite{beltagy2020longformerlongdocumenttransformer}, and newer methods like MOBA \cite{lu2025mobamixtureblockattention} as well. Still, then too we see that these models are not perfect as they introduce strong, predefined biases, making them task-specific and rigid and Linear approximations often come with a compromise in performance, especially in complex reasoning tasks.
+So what we did is build a scoring system for 276 mid-cap companies, 186 US and 90 Indian, spread across 11 GICS sectors. It uses 9 factors and 202 variables, covering ESG alongside financials, market data, operations, growth, value, stability and sector context all in one place.
 
-%-------------------------------------------------------------------------------
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{Figures/fig20_summary_dashboard.png}
+\caption{Overview dashboard showing the main outputs of the scoring system.}\label{fig:intro_dashboard}
+\end{figure}
 
 \section{Problem Statement}
 
-% MoBA-DB and VMoBA-DB (through dynamic blocks) try to address these several issues with the current long context processing for LLMs:
+When you actually try building an ESG-integrated index for mid-caps, you run into a few headaches pretty quickly.
 
-\subsection{The Challenge of Long Contexts in LLMs}
-
-The traditional Attention \cite{vaswani2023attentionneed} mechanisms have a lot of computational costs because of the quadratic computations with increasing context length ($O(n^2)$), which thereby limits the effective context length which might be needed for advanced AI applications. The increase in cost makes it impractical to process long documents, chatbot-like conversations and other long-format content as well nowadays.
-
-\subsection{Limitations of current sparse Attention methods}
-
-\textbf{Sparse attention methods:} have emerged as a primary strategy for addressing the quadratic complexity bottleneck in transformer architectures. By restricting which token pairs can attend to one another, they aim to reduce the computational overhead and generate structured sparsity patterns in the attention matrix. Early methods, such as local attention windows, take advantage of the locality bias prevalent in sequential data by limiting each token to only nearby tokens within a specific radius. Random attention uses probabilistic sampling to link tokens, whereas strided attention samples tokens at regular intervals. 
-
-
-There are a few existing attention mechanisms which try to handle these issues, such as sink attention and sliding window attention. But the thing is, these existing attention methods introduce strong predefined biases that make them task-specific and rigid, too. Also, the linear approximation of attention, while it is computationally efficient, still compromises performance areas, especially in areas like complex reasoning tasks, where a nuanced understanding of contextual relationships is needed.
-
-% \subsection{Study for limitations of block-based attention for concepts like moba and vmoba}
-
-% While MoBA does improve efficiency through its block based computation its fixed block sizes can lead to the following:
-
-% \begin{itemize}
-% \item \textbf{Suboptimal Context Grouping}: Role contextual relationships may be divided in blocks or irrelevant information may be grouped together and this results in a degraded model performance.
-
-% \item \textbf{Rigid Boundaries}: Fixed block boundaries are not adaptable to the natural semantic structure of the input and may even possibly break meanings too.
-% \end{itemize}
-
-% \subsection{The Need for Adaptive Context Management}
-
-% There is a clear need for an attention mechanism that can dynamically adjust its internal structure to preserve context integrity within localised attention blocks. The key question we address is: \textit{How can we enable MoBA to intelligently and dynamically adjust block sizes, ensuring that relevant context within each block is maintained and fully utilised, thereby preventing information loss?}
-
-%-------------------------------------------------------------------------------
-
-
-
-
-%-------------------------------------------------------------------------------
+\begin{enumerate}
+    \item The variable combination problem hit us first. ESG, financial and market inputs don't behave alike at all. Some are binary yes/no flags, some are percentages, some are ratios where higher isn't always better (think P/E). We wasted a week trying to z-score everything before realising that distorts the signal. Type-aware normalisation matters \cite{oecd_2008}.
+    \item ESG providers disagree with each other, a lot. Berg et al.\ put a number on it: major raters only correlate at about 0.38 on average \cite{berg_koelbel_rigobon_2022, chatterji_durand_levine_touboul_2016, gibson_krueger_schmidt_2021}. That's... not great. So leaning on any single score felt like a bad idea from the start, and we saw it ourselves when we ran the benchmarking.
+    \item Then there's the one-dimensionality issue. Most ESG indexes just screen or tilt a parent index. They don't really mix in factor signals liek value or profitability that quant people already care about \cite{sp_global_esg, fama_french_1993, fama_french_2015, carhart_1997}.
+    \item And the real test, which took us longer to articulate than it should have: do the rankings actually hold up when you shake them? Do the three profiles give meaningfully different portfolios or is it just window dressing? Does our ESG score even loosely agree with what MSCI or Sustainalytics would say? Mixed bag on that last one, honestly.
+\end{enumerate}
 
 \section{Objectives}
 
-The main objectives of this thesis are:
-
-\subsection{Study for limitations of block based attention for concepts like moba and vmoba}
-
-We know there are a few limitations in MoBA and VMoBA we want to further explore them and we can probably cover these in the following steps:
-
 \begin{enumerate}
-% \item \textbf{Block Sizing}: Goal is to create a system that uses contextual relationships that have been learned to allow adaptive block boundary adjustment in VMoBA.
-
-\item \textbf{Contextual Coherence}: We want to ensure that the semantically related tokens do remain grouped within attention blocks which will help in preventing information loss due to rigid boundaries.
-
-\item \textbf{Computational Efficiency}: In order to prevent information loss from inflexible boundaries we want to make sure that semantically related tokens stay grouped within attention blocks.
-
-\item \textbf{Analysis}: To measure performance gains for the same for different methods with different models and datasets as well.
-
-\item \textbf{Further implementation}: In order to see its practical applications, we want to further implement this in a vehicle environment. However, there may be various problems there, and putting these kinds of systems in an environment with limited resources may also present problems, so we will also need to deal with those.
+    \item We needed a pipeline that could handle the mess. The hardest part was honestly just getting the variable types right, some are percentages, some are ratios, some are yes/no flags. Once that was sorted the normalisation and scoring fell into place. Nine factors, 0 to 100 scale, nothing hidden in the weighting.
+    \item Then actually check if any of it holds up. Weight perturbations, bootstrap resampling, PCA, walk-forward tests, even applying the whole thing to large-cap firms we didn't train on. If it falls apart the moment you change something then what's the point?
+    \item Compare across three investor profiles, look at what happens in bad markets, and benchmark teh ESG part against what MSCI and Sustainalytics would say. Warts and all.
 \end{enumerate}
-
-%-------------------------------------------------------------------------------
-
-% \section{Contributions}
-
-
-% Chapter 1
-
-\chapter{Introduction} % Main chapter title
-
-\label{Chapter1} % For referencing the chapter elsewhere, use \ref{Chapter1}
-
-%-------------------------------------------------------------------------------
-
-\section{Overview}
-
-This thesis develops a reproducible pipeline to construct and evaluate a multi-factor investment index that integrates environmental, social and governance (ESG) indicators with financial and market signals. The objective is to produce a transparent, robust scoring and weighting procedure, test its sensitivity to modelling choices, and evaluate real-world out-of-sample performance under multiple time-based train/holdout schemes (fixed, rolling and expanding windows).
-
-The work emphasises reproducibility and clear reporting: all data transformations, scoring rules, sensitivity analyses and evaluation outputs are written to CSV and image files that are included with the thesis so numeric claims are traceable to the analysis artifacts.
-
-%-------------------------------------------------------------------------------
-
-\section{Problem statement}
-
-Asset managers and index providers increasingly seek systematic ways to incorporate non-financial indicators such as ESG into portfolio construction. Practical challenges include how to combine heterogeneous signals (ESG, financial ratios, market metrics) into a stable composite score, how to set weights in a way that balances robustness and interpretability, and how to evaluate out-of-sample performance reliably when historical panel data are limited or unevenly spaced.
-
-This thesis addresses three linked problems:
-
-\begin{enumerate}
-	\item How to construct transparent composite scores that meaningfully combine ESG and financial signals.
-	\item How to measure sensitivity of index outcomes to the analyst's weighting choices and to recommend regions of weight-space that produce robust rankings.
-	\item How to evaluate out-of-sample performance using reproducible time-split protocols (fixed, rolling, expanding) and to report results with clear, factual tables and figures.
-\end{enumerate}
-
-%-------------------------------------------------------------------------------
-
-\section{Objectives}
-
-The main objectives of the thesis are:
-
-\begin{enumerate}
-	\item Implement a reproducible pipeline that ingests processed company-level data, computes factor scores (ESG, financial and market), and constructs composite rankings with configurable weights.
-	\item Implement and visualise a weight-sensitivity grid search to identify weight combinations that yield robust top-N portfolios and stable score distributions.
-	\item Implement a flexible time-split evaluation framework supporting fixed, rolling and expanding windows; validate the framework on synthetic panel data and produce CSV and figure outputs that can be audited.
-	\item Produce a standalone `Thesis_report/` folder that contains the key figures and tables used in the Results chapter so the document is self-contained and every numeric claim can be traced to an artifact.
-\end{enumerate}
-
-%-------------------------------------------------------------------------------
 
 \section{Contributions}
 
-The contributions of this work are practical and reproducible:
+Here's what we think this work adds, with the numbers to back it up:
 
 \begin{itemize}
-	\item A small, well-documented Python pipeline for score construction, weight-sensitivity analysis and time-split evaluation. The code is organised as scripts that can be re-run to reproduce the CSVs and figures used in the thesis.
-	\item A validated time-split evaluation routine (fixed, rolling, expanding) tested on synthetic panel data so it is ready to run on real historical panels when they are available.
-	\item A curated thesis package (`Thesis_report/`) containing up to five key figures and five key tables that support the Results narrative; all files are local to the folder so the LaTeX build is self-contained.
+    \item We ended up with 9 factors and 202 variables across 276 mid-cap companies. VIF maxes out at 2.80 so the factors aren't secretly measuring the same thing.
+    \item The stability numbers are honestly better than we expected: bootstrap Kendall $\tau = 1.000$, and the CV ratio came down to 0.499 (it was 3.99 before we fixed the overfitting,  which was embarassing). Walk-forward ratio sits at 0.978.
+    \item Profiles aren't just cosmetic. Top-10 overlap ranges from 1 to 6 firms depending on whcih pair you compare, Spearman $\rho$ from 0.533 to 0.900.
+    \item ESG benchmarking against real providers: Sustainalytics $\rho = 0.780$, MSCI $\rho = 0.563$. Not amazing but decent given we're working with proxies not actual vendor scores
+    \item PCA says the factors aren't redundant. 3 components explain 67.4\% of variance.
+    \item Bear-market excess of +7.27 percentage points. And the large-cap generalisation surprised us, Kendall $W = 0.933$ and $\rho = 0.9993$ across all 9 factors. Works on S\&P 500 companies too.
 \end{itemize}
 
-%-------------------------------------------------------------------------------
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{Figures/fig03_correlation_heatmap.png}
+\caption{Inter-factor correlation heatmap. Most pairs sit below $|r|=0.3$, so the factors aren't just measuring the same thing in different wrapping.}\label{fig:intro_corr}
+\end{figure}
 
-\section{Report organisation}
+\section{Thesis Organisation}
 
-The remainder of the thesis is organised as follows. Chapter~\ref{ch:methods} (Data and Methods) describes the input data, score construction, weighting grid, and evaluation protocol. Chapter~\ref{ch:results} (Results) presents the curated figures and tables and short factual summaries. The appendices include code snippets and data provenance notes to enable reproducibility.
-
-
-
+Chapter~\ref{ch:lit} goes through the ESG and factor investing literature, and points out where mid-cap research is lacking. Chapter~\ref{ch:data_methods} covers the data, the cleaning steps, normalisation choices and weighting. Chapter~\ref{ch:results} has the main results. Chapter~\ref{ch:conclusion} wraps up with what we learnt, what's still broken, and what someone should do next.
