@@ -37,41 +37,41 @@ Current ESG investing faces three challenges:
 ### ESG Scoring Framework
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│                      ESG Scoring                            │
-├────────────────────────────────────────────────────────────┤
-│                                                             │
-│  Raw Data Sources                                           │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐      │
-│  │ Yahoo    │ │ SEC     │ │ Public   │ │ SASB     │      │
-│  │ Finance  │ │ Filings │ │ Reports  │ │ Material-│      │
-│  │          │ │         │ │          │ │ ity Map  │      │
-│  └──────────┘ └──────────┘ └──────────┘ └──────────┘      │
-│       │            │           │            │               │
-│       ▼            ▼           ▼            ▼               │
-│  ┌──────────────────────────────────────────────────┐      │
-│  │          Data Cleaning & Normalization            │      │
-│  │  - Missing value imputation                      │      │
-│  │  - Outlier treatment (IQR + winsorization)        │      │
-│  │  - Cross-source reconciliation                   │      │
-│  └──────────────────────────────────────────────────┘      │
-│       │                                                    │
-│       ▼                                                    │
-│  ┌──────────────────────────────────────────────────┐      │
-│  │          Pillar Scoring                           │      │
-│  │  ┌────────┐  ┌────────┐  ┌────────┐              │      │
-│  │  │   E    │  │   S    │  │   G    │              │      │
-│  │  │Emissions│ │Labor   │ │Board   │              │      │
-│  │  │Resource │ │Rights  │ │Structure│              │      │
-│  │  │Mgmt     │ │Safety  │ │Pay     │              │      │
-│  │  └────────┘  └────────┘  └────────┘              │      │
-│  └──────────────────────────────────────────────────┘      │
-│       │                                                    │
-│       ▼                                                    │
-│  ┌──────────────────────────────────────────────────┐      │
-│  │       Composite ESG Score (PCA + Equal Weight)    │      │
-│  └──────────────────────────────────────────────────┘      │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|                      ESG Scoring                            |
++------------------------------------------------------------+
+|                                                             |
+|  Raw Data Sources                                           |
+|  +----------+ +----------+ +----------+ +----------+      |
+|  | Yahoo    | | SEC     | | Public   | | SASB     |      |
+|  | Finance  | | Filings | | Reports  | | Material-|      |
+|  |          | |         | |          | | ity Map  |      |
+|  +----------+ +----------+ +----------+ +----------+      |
+|       |            |           |            |               |
+|       v            v           v            v               |
+|  +--------------------------------------------------+      |
+|  |          Data Cleaning & Normalization            |      |
+|  |  - Missing value imputation                      |      |
+|  |  - Outlier treatment (IQR + winsorization)        |      |
+|  |  - Cross-source reconciliation                   |      |
+|  +--------------------------------------------------+      |
+|       |                                                    |
+|       v                                                    |
+|  +--------------------------------------------------+      |
+|  |          Pillar Scoring                           |      |
+|  |  +--------+  +--------+  +--------+              |      |
+|  |  |   E    |  |   S    |  |   G    |              |      |
+|  |  |Emissions| |Labor   | |Board   |              |      |
+|  |  |Resource | |Rights  | |Structure|              |      |
+|  |  |Mgmt     | |Safety  | |Pay     |              |      |
+|  |  +--------+  +--------+  +--------+              |      |
+|  +--------------------------------------------------+      |
+|       |                                                    |
+|       v                                                    |
+|  +--------------------------------------------------+      |
+|  |       Composite ESG Score (PCA + Equal Weight)    |      |
+|  +--------------------------------------------------+      |
++------------------------------------------------------------+
 ```
 
 ### Multi-Factor Index Construction
@@ -102,28 +102,28 @@ Cross-market analysis reveals systematic differences in ESG data availability an
 
 ```
 scripts/
-├── 01_download_data.py          # Fetch raw ESG + financial data
-├── 02_clean_data.py              # Clean, impute, normalize
-├── 03_build_index.py             # Construct composite index
-├── 04_statistical_tests.py       # Statistical validation
-├── 05_weight_sensitivity.py      # Weight optimization grid search
-├── 06_benchmark_comparison.py    # Compare vs market benchmarks
-├── 07_visualizations.py          # Generate figures
-├── 08_advanced_analysis.py       # PCA, clustering, factor analysis
-├── 09_generate_report.py         # Produce summary report
-├── 10_esg_benchmarking.py        # Compare with ESG providers
-├── 11_profile_justification.py   # Investor profile construction
-├── 15_robustness_highcap.py      # Large-cap robustness checks
-├── 16_financial_validation.py    # Financial ratio validation
-├── 17_proxy_validation.py        # Missing data proxy calibration
-├── 18_sector_cv.py               # Sector cross-validation
-├── 19_synthetic_sensitivity.py   # Synthetic data robustness
-├── 20_subsampling_stability.py   # Bootstrap stability analysis
-├── 21_temporal_stability.py      # Time-split validation
-├── 22_esg_incremental_value.py   # Value-add analysis
-├── 23_pca_weight_validation.py   # PCA weight validation
-├── 24_geographic_robustness.py   # US vs India comparison
-└── run_all.py                    # Execute full pipeline
++-- 01_download_data.py          # Fetch raw ESG + financial data
++-- 02_clean_data.py              # Clean, impute, normalize
++-- 03_build_index.py             # Construct composite index
++-- 04_statistical_tests.py       # Statistical validation
++-- 05_weight_sensitivity.py      # Weight optimization grid search
++-- 06_benchmark_comparison.py    # Compare vs market benchmarks
++-- 07_visualizations.py          # Generate figures
++-- 08_advanced_analysis.py       # PCA, clustering, factor analysis
++-- 09_generate_report.py         # Produce summary report
++-- 10_esg_benchmarking.py        # Compare with ESG providers
++-- 11_profile_justification.py   # Investor profile construction
++-- 15_robustness_highcap.py      # Large-cap robustness checks
++-- 16_financial_validation.py    # Financial ratio validation
++-- 17_proxy_validation.py        # Missing data proxy calibration
++-- 18_sector_cv.py               # Sector cross-validation
++-- 19_synthetic_sensitivity.py   # Synthetic data robustness
++-- 20_subsampling_stability.py   # Bootstrap stability analysis
++-- 21_temporal_stability.py      # Time-split validation
++-- 22_esg_incremental_value.py   # Value-add analysis
++-- 23_pca_weight_validation.py   # PCA weight validation
++-- 24_geographic_robustness.py   # US vs India comparison
++-- run_all.py                    # Execute full pipeline
 ```
 
 ## Key Components
@@ -208,11 +208,11 @@ python scripts/09_generate_report.py
 ### Factor Contribution
 
 ```
-Value  ║████████████████████████ 32%
-Quality║██████████████████     28%
-Momentum║███████████           18%
-ESG    ║██████████             16%
-Growth ║████                    6%
+Value  +######################## 32%
+Quality+##################     28%
+Momentum+###########           18%
+ESG    +##########             16%
+Growth +####                    6%
 ```
 
 ### Geographic Analysis
