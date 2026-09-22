@@ -1,0 +1,12 @@
+proxy_name,target_esg_col,n_held_out,spearman_rho,spearman_p,spearman_ci_lo,spearman_ci_hi,kendall_tau,kendall_p,cohens_d,effect_size,mean_real,mean_proxy_recomputed,note,spearman_p_fdr,fdr_significant
+energy_efficiency_proxy,renewable_energy_pct,0,,,,,,,,N/A,,,too few real data points (0),,
+emissions_intensity_proxy,scope1_emissions,0,,,,,,,,N/A,,,too few real data points (0),,
+employee_productivity_proxy,employee_satisfaction,0,,,,,,,,N/A,,,too few real data points (0),,
+workforce_investment_proxy,gender_diversity_pct,0,,,,,,,,N/A,,,too few real data points (0),,
+financial_transparency_proxy,anti_corruption_policy,0,,,,,,,,N/A,,,too few real data points (0),,
+debt_discipline_proxy,shareholder_rights_score,254,0.1191,0.058026,-0.004,0.2387,0.0874,0.056814,0.471,small,65.4207,51.8052,proxy ordering not validated,,
+workforce_scale_proxy,safety_training_hours,0,,,,,,,,N/A,,,too few real data points (0),,
+waste_efficiency_proxy,waste_recycling_pct,0,,,,,,,,N/A,,,too few real data points (0),,
+supply_chain_proxy,supply_chain_audit_pct,0,,,,,,,,N/A,,,too few real data points (0),,
+board_quality_proxy,board_diversity_pct,0,,,,,,,,N/A,,,too few real data points (0),,
+community_proxy,community_investment_pct,0,,,,,,,,N/A,,,too few real data points (0),,

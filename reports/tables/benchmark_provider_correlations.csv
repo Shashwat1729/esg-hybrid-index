@@ -1,0 +1,4 @@
+provider,n_overlap,spearman_rho,spearman_p,kendall_tau,kendall_p,pearson_r,pearson_p
+MSCI (numeric),10,0.1271,0.726454,0.1293,0.663646,0.1839,0.611145
+S&P Global,10,-0.1234,0.734183,-0.083,0.759057,-0.0931,0.798082
+Sustainalytics (inverted),10,0.0206,0.955038,0.0277,0.918566,0.0345,0.92457

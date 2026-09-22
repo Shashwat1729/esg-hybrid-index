@@ -1,0 +1,3 @@
+esg_data_source,n_companies,ESG_composite_mean,ESG_composite_std,E_score_mean,E_score_std,S_score_mean,S_score_std,G_score_mean,G_score_std
+real_sec,67,49.12,10.08,-0.06,1.02,0.05,0.58,0.05,0.34
+real_yahoo,202,48.06,9.48,0.14,0.99,0.05,0.58,-0.49,0.52

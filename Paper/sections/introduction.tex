@@ -1,0 +1,134 @@
+% =============================================================================
+%   I. INTRODUCTION
+% =============================================================================
+\section{Introduction}
+\label{sec:intro}
+
+ESG investing now sits at institutional scale: global ESG assets under
+management exceed \$35.3~trillion, roughly one-third of professionally managed
+capital \cite{gsia_2022}. At the same time, the core signal used in many
+allocation pipelines remains unstable across providers. Berg et al.
+document substantial ESG rating divergence, with average cross-provider
+correlation around $r=0.54$ \cite{berg_2022}. This tension is most acute in
+mid-cap equities, where coverage is thinner than in large caps but portfolio
+capacity and investability remain materially higher than in small caps. The
+segment is economically important, yet methodologically underserved.
+
+This paper addresses a concrete gap: there is no transparent and reproducible
+ESG-integrated nine-factor index for mid-cap equities built on publicly
+available data and explicit design choices. Existing products and studies often
+mix proprietary inputs, opaque weighting rules, and limited methodological
+disclosure, which makes independent verification difficult and weakens
+comparability across contexts.
+
+We focus on mid-caps because they are the practical ``sweet spot'' for ESG
+integration tests: large enough for institutional portfolio capacity, yet small
+enough that ESG disclosure and coverage gaps still materially affect investment
+decisions. In aggregate, mid-caps represent roughly one-fifth of global equity
+market capitalization but receive relatively few studies in ESG research.
+Economically, they offer a
+distinct trade-off---typically higher growth optionality than large-caps and
+better investability than small-caps. Methodologically, this is precisely where
+the data gap is most binding: large-caps increasingly face mandatory ESG
+reporting, while many small-caps are excluded from investable universes;
+mid-caps fall between these extremes. This segment therefore provides the most
+actionable setting to test whether transparent ESG integration can work without
+proprietary vendor datasets.
+
+Prior work establishes why this gap matters, but also why standard approaches
+are insufficient. First, provider disagreement creates measurement noise that
+is not a minor implementation detail but a structural problem for ESG-based
+allocation \cite{berg_2022}. Second, broad evidence links ESG and financial
+outcomes on average \cite{friede_2015}, while materiality-based evidence shows
+that not all ESG indicators are equally decision-relevant across sectors
+\cite{khan_2016}. Third, factor-investing research shows that expected-return
+variation is multi-dimensional rather than single-metric \cite{fama_french_2015},
+so ESG-only or financial-only screens are likely to discard useful information.
+Fourth, index construction is inherently sensitive to weighting and aggregation
+choices \cite{oecd_2008}; black-box specifications therefore limit scientific
+reproducibility. Finally, recent equilibrium frameworks suggest that ESG and
+climate preferences can become priced in expected returns and cost of capital
+\cite{pastor_2021, pedersen_2021}, making transparent integration design
+especially relevant for both research and practice.
+
+We therefore ask three research questions.
+\begin{itemize}
+\item[\textbf{RQ1.}] Can a transparent nine-factor index combining ESG and
+financial metrics identify mid-cap equities with superior risk-adjusted
+cross-sectional performance proxies?
+\item[\textbf{RQ2.}] Does the integration of ESG factors provide incremental
+value beyond traditional financial metrics?
+\item[\textbf{RQ3.}] How robust is the index to methodological choices
+(weighting, composition, market regime)?
+\end{itemize}
+
+Our approach is a nine-factor composite model tailored to a 276-company mid-cap
+universe (186 US, 90 India) across 11 GICS sectors using 202 variables. The
+final framework combines ESG, financial, risk-adjusted, growth,
+sector-position, stability, operational, market, and value dimensions under
+explicit and reproducible weighting rules. We remove
+\texttt{similarity\_rank} from the deployed specification because it is
+collinear with ESG ($r=0.70$). Within the ESG block, we apply SASB-informed
+sector materiality weighting with pillar weights $E=0.20$, $S=0.35$, and
+$G=0.45$ rather than uniform treatment of sector-specific exposures. The
+deployed balanced profile assigns weights of 22\% ESG, 18\% financial, 15\%
+risk-adjusted, 14\% growth, 8\% sector position, 8\% stability, 6\%
+operational, 5\% market, and 4\% value. We implement three investor profiles
+(ESG-first, balanced, and financial-first) to make preference trade-offs
+explicit rather than implicit. Because mid-cap ESG data coverage is incomplete
+in open datasets, we use a hybrid data strategy that combines real Yahoo
+Finance and SEC EDGAR governance inputs with proxy-derived environmental and
+social indicators plus provenance-level tracking. We also include circularity
+correction in validation design so that evaluation does not mechanically reward
+overlapping signals.
+
+This paper makes four contributions:
+\begin{itemize}
+\item We introduce a \textbf{reproducible nine-factor composite scoring
+framework with SASB materiality weighting} for mid-cap ESG integration
+(Section~3).
+\item We provide \textbf{empirical evidence on ESG--financial integration in
+mid-cap equities across the US and India}, using a common methodology across
+both markets (Section~4).
+\item We deliver \textbf{comprehensive robustness and overfitting control}
+through bootstrap, subsampling, sector cross-validation, and walk-forward
+evaluation, including strong stability diagnostics (CV ratio $=0.499$,
+quasi-temporal ratio $=0.509$, walk-forward ratio $=0.978$) under
+perturbation (Section~4).
+\item We present a \textbf{transparent proxy-based ESG methodology with full
+provenance tracking}, enabling auditability and replication with public data
+(Section~3).
+\end{itemize}
+
+Empirically, the balanced top-20 portfolio generated by our framework delivers
+a score-weighted cross-sectional information ratio of 0.475 (measuring score-return alignment rather than traditional realized-return IR), bear-market
+excess of +7.27~percentage points with information ratio 0.585, and portfolio
+beta of 0.82. In bear-market decomposition, excess momentum is +10.65~pp; in
+rolling rebalancing, the strategy beats the benchmark (momentum proxy) in 100\% of periods with
+average excess of +7.38\%. These performance metrics are based on
+cross-sectional momentum proxies rather than realized portfolio returns and are
+therefore evidence of ranking quality rather than realized investable alpha.
+Factor diagnostics maintain low multicollinearity across factors (maximum VIF
+= 2.80), PCA retains 3 components explaining 67.4\% of variance with
+silhouette 0.261, bootstrap rank stability is perfect (Kendall $\tau=1.000$),
+and generalization to large-cap universes is exceptionally strong: testing on
+45 S\&P 500 companies yields Kendall $W=0.933$, 9/9 factors pass z-score
+stability tests, and rank stability reaches Spearman $\rho=0.9993$. Monotonicity evidence is stronger
+for the forward-quality proxy (7/8 factors) than for the return proxy, where
+only 2/9 factors pass Jonckheere--Terpstra testing
+(\texttt{risk\_adjusted}, $p<0.001$; \texttt{S\_score}, $p=0.036$). Capacity
+analysis indicates the strategy is implementable from \$25M to \$500M, with
+failure at \$1B+, transaction costs of 24--94~bps across AUM levels, and
+25.4\% quarterly turnover. ESG appears primarily as a risk filter: ESG scores
+are negatively associated with volatility ($\rho=-0.357$, $p<0.001$) and beta
+($\rho=-0.146$, $p=0.015$). The observed ESG--financial link ($R^2=0.544$)
+should not be read as an empirical discovery because it is partly induced by
+the proxy-construction design. Factor ablation further identifies
+\texttt{growth\_score} as the most influential component
+($\tau=0.777$ when removed), and INCY (Healthcare) ranks first in the balanced
+profile with preference score 85.4. We also explicitly distinguish between
+cross-validated optimal weights and deployed weights: although CV optimization
+selects a 77\% \texttt{market\_score} weight, the deployed balanced profile
+uses 5\% to preserve interpretability and avoid over-concentration.
+These results indicate that transparent ESG--financial integration can be both
+practically competitive and methodologically testable in the mid-cap segment.

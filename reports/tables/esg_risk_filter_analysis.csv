@@ -1,0 +1,6 @@
+risk_metric,column,direction_preference,q1_low_esg_mean,q5_high_esg_mean,esg_benefit,esg_benefit_positive,spearman_rho,pvalue
+Price Volatility,price_volatility,lower,46.6042,33.1321,13.4721,True,-0.3566,0.0
+Max Drawdown 1Y,max_drawdown_1y,lower,-38.2583,-27.7688,-10.4894,False,0.2348,0.0001
+Market Beta,beta,lower,1.0323,0.7462,0.2861,True,-0.1459,0.0153
+Return Skewness (positive = less tail risk),return_skewness,higher,0.3516,-0.0964,-0.448,False,-0.1142,0.058
+Sharpe Ratio 1Y,sharpe_ratio_1y,higher,0.4581,0.1454,-0.3127,False,-0.069,0.2535

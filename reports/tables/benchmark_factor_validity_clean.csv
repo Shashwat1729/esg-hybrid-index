@@ -1,0 +1,11 @@
+# Cross-sectional momentum proxy, not time-series returns
+score,ic_type,return_proxy,ic_spearman,ic_pvalue,significant,n,bias_flag,note
+ESG_composite,clean_ic,price_momentum_6m,0.0676,0.2632,No,276,none,
+financial_score,clean_ic,price_momentum_6m,0.1032,0.086936,No,276,none,
+market_score,raw_ic,price_momentum_6m,0.7648,0.0,Yes,276,BIASED — momentum overlap with return proxy,market_score includes momentum sub-scores derived from price_momentum_6m; IC is partially tautological.  DO NOT use as headline metric.
+market_score_ex_momentum,clean_ic,price_momentum_6m,0.2104,0.000434,Yes,276,CLEAN — momentum sub-scores removed (PRIMARY),Liquidity + volatility sub-categories only (momentum indicators excluded to avoid circular IC).  This is the CORRECT metric for market factor validity.
+operational_score,clean_ic,price_momentum_6m,0.0535,0.375934,No,276,none,
+risk_adjusted_score,clean_ic,price_momentum_6m,0.5867,0.0,Yes,276,none,
+growth_score,clean_ic,price_momentum_6m,0.1778,0.003028,Yes,276,none,
+value_score,clean_ic,price_momentum_6m,-0.0864,0.152435,No,276,none,
+stability_score,clean_ic,price_momentum_6m,0.1345,0.025471,Yes,276,none,

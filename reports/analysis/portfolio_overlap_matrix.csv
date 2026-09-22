@@ -1,0 +1,10 @@
+Profile_A,Profile_B,Shared_Companies,Jaccard_Similarity,Overlap_Pct
+ESG-First,ESG-First,20,1.0,100.0
+ESG-First,Balanced,18,0.8182,90.0
+ESG-First,Financial-First,18,0.8182,90.0
+Balanced,ESG-First,18,0.8182,90.0
+Balanced,Balanced,20,1.0,100.0
+Balanced,Financial-First,20,1.0,100.0
+Financial-First,ESG-First,18,0.8182,90.0
+Financial-First,Balanced,20,1.0,100.0
+Financial-First,Financial-First,20,1.0,100.0

@@ -1,0 +1,4 @@
+profile,ESG_composite,financial_score,market_score,operational_score,risk_adjusted_score,growth_score,value_score,stability_score,similarity_rank,sector_position
+ESG-First,0.55,0.08,0.02,0.05,0.08,0.06,0.03,0.06,0.0,0.07
+Balanced,0.22,0.18,0.05,0.06,0.15,0.14,0.04,0.08,0.0,0.08
+Financial-First,0.05,0.25,0.1,0.08,0.18,0.15,0.07,0.07,0.0,0.05

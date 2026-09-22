@@ -1,0 +1,4 @@
+profile_1,profile_2,spearman_rho,p_value
+esg_first,balanced,0.8989,0.0
+esg_first,financial_first,0.8187,0.0
+balanced,financial_first,0.9784,0.0

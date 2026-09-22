@@ -1,0 +1,17 @@
+factor,mean_kendall_tau,std_kendall_tau,p5_kendall_tau,p95_kendall_tau,mean_top20_overlap,std_top20_overlap,n_iterations
+ESG_composite,1.0,0.0,1.0,1.0,1.0,0.0,500
+financial_score,1.0,0.0,1.0,1.0,1.0,0.0,500
+market_score,1.0,0.0,1.0,1.0,1.0,0.0,500
+operational_score,1.0,0.0,1.0,1.0,1.0,0.0,500
+risk_adjusted_score,1.0,0.0,1.0,1.0,1.0,0.0,500
+value_score,1.0,0.0,1.0,1.0,1.0,0.0,500
+growth_score,1.0,0.0,1.0,1.0,1.0,0.0,500
+stability_score,1.0,0.0,1.0,1.0,1.0,0.0,500
+similarity_rank,1.0,0.0,1.0,1.0,1.0,0.0,500
+sector_position,,,,,1.0,0.0,500
+pref_balanced,1.0,0.0,1.0,1.0,1.0,0.0,500
+pref_balanced_with_market,1.0,0.0,1.0,1.0,1.0,0.0,500
+pref_esg_first,1.0,0.0,1.0,1.0,1.0,0.0,500
+pref_esg_first_with_market,1.0,0.0,1.0,1.0,1.0,0.0,500
+pref_financial_first,1.0,0.0,1.0,1.0,1.0,0.0,500
+pref_financial_first_with_market,1.0,0.0,1.0,1.0,1.0,0.0,500

@@ -1,0 +1,11 @@
+check,detail,verdict
+Financial Ratio Sanity,"8/8 PASS, 0 WARN, 0 FAIL",PASS
+Economic Consistency,10/10 relationships consistent (100.0%),PASS
+Sector Economics (P/E ranges),11/11 sectors in expected P/E range (100.0%),PASS
+Factor Economic Interpretation,6/6 factors economically sensible (100.0%),PASS
+Currency Conversion,0 flagged anomalies,PASS
+ESG Provenance Bias,"1 HIGH-bias, 0 MODERATE-bias comparisons",WARN
+Transaction Cost (round-trip),"Avg 24 bps, total $244,990 per rebalance",PASS
+Portfolio Turnover,Avg quarterly turnover 25.4% (MODERATE),WARN
+Strategy Capacity,"$25M=PASS, $50M=PASS, $100M=PASS, $250M=PASS, $500M=PASS, $1000M=FAIL, $2000M=FAIL",PASS
+OVERALL FINANCIAL VALIDATION,"7 PASS, 2 WARN, 0 FAIL",CONDITIONAL_PASS

@@ -1,0 +1,66 @@
+# SASB-inspired sector materiality weights for E/S/G pillars
+#
+# Rationale: Fixed E=0.35, S=0.35, G=0.30 across all sectors ignores that
+# environmental factors (emissions, energy use) are far more material for
+# Energy and Basic Materials, while social factors (human capital, data
+# privacy) dominate in Technology and Communication Services.
+#
+# These weights are derived from the SASB Materiality Map®, which identifies
+# financially material ESG issues by industry.  Each sector's E/S/G split
+# reflects the number and severity of material topics that fall under each
+# pillar.  All triplets sum to 1.0.
+#
+# Reference: SASB Standards Board (2023).  SASB Materiality Map.
+#            https://sasb.org/standards/materiality-map/
+
+sector_materiality:
+  Technology:
+    E: 0.20
+    S: 0.45
+    G: 0.35   # Human capital, data privacy dominate
+  Healthcare:
+    E: 0.25
+    S: 0.40
+    G: 0.35   # Drug safety, access to medicines
+  Financial Services:
+    E: 0.15
+    S: 0.35
+    G: 0.50   # Governance, systemic risk, business ethics
+  Energy:
+    E: 0.55
+    S: 0.20
+    G: 0.25   # GHG emissions, ecological impacts
+  Industrials:
+    E: 0.40
+    S: 0.30
+    G: 0.30   # Environmental management, worker safety
+  Consumer Cyclical:
+    E: 0.25
+    S: 0.40
+    G: 0.35   # Supply chain labor, product safety
+  Consumer Defensive:
+    E: 0.30
+    S: 0.35
+    G: 0.35   # Product safety, packaging waste
+  Basic Materials:
+    E: 0.50
+    S: 0.25
+    G: 0.25   # Environmental impact, resource use
+  Utilities:
+    E: 0.50
+    S: 0.20
+    G: 0.30   # Emissions, grid infrastructure
+  Real Estate:
+    E: 0.40
+    S: 0.25
+    G: 0.35   # Energy efficiency, green buildings
+  Communication Services:
+    E: 0.20
+    S: 0.45
+    G: 0.35   # Data privacy, content governance
+
+  # Fallback for sectors not explicitly listed above
+  default:
+    E: 0.25
+    S: 0.35
+    G: 0.40

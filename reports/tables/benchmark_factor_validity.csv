@@ -1,0 +1,11 @@
+factor,n_companies,IC_spearman,IC_p_value,IC_significant,quintile_spread,monotonicity_rho,monotonicity_p,monotonic,top_quintile_mean_score,bottom_quintile_mean_score,return_proxy
+ESG_composite,276,0.0676,0.2632,No,-2.3052,-0.1,0.872889,No,61.4524,35.6641,price_momentum_6m
+financial_score,276,0.1032,0.086936,No,-5.0208,0.2,0.74706,No,62.3232,35.7171,price_momentum_6m
+market_score,276,0.7648,0.0,Yes,62.7235,1.0,0.0,Yes,62.4847,35.6372,price_momentum_6m
+operational_score,276,0.0535,0.375934,No,1.7215,0.2,0.74706,No,67.1949,28.8729,price_momentum_6m
+risk_adjusted_score,276,0.5867,0.0,Yes,40.9013,1.0,0.0,Yes,62.7438,35.7994,price_momentum_6m
+value_score,276,-0.0864,0.152435,No,-11.2976,-0.4,0.504632,No,64.1601,36.4371,price_momentum_6m
+growth_score,276,0.1778,0.003028,Yes,10.7668,1.0,0.0,Yes,71.7699,29.3178,price_momentum_6m
+stability_score,276,0.1345,0.025471,Yes,7.5353,0.4,0.504632,No,72.7464,29.8823,price_momentum_6m
+similarity_rank,276,-0.1018,0.091433,No,-7.4831,-0.7,0.18812,No,63.1374,35.891,price_momentum_6m
+sector_position,269,0.0366,0.549532,No,-5.2422,-0.7,0.18812,No,60.6706,35.684,price_momentum_6m

@@ -1,0 +1,84 @@
+\documentclass[conference]{Thesis}
+\IEEEoverridecommandlockouts
+
+% ==============================================================================
+%   PACKAGES
+% ==============================================================================
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{url}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[hidelinks]{hyperref}
+
+% ==============================================================================
+%   CONFIGURATION
+% ==============================================================================
+\graphicspath{{Figures/}}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+% ==============================================================================
+%   DOCUMENT
+% ==============================================================================
+\begin{document}
+
+\title{Multi-Factor ESG-Integrated Investment Index:\\
+A Framework for Mid-Cap Equity Evaluation}
+
+\author{
+\IEEEauthorblockN{Shashwat Bajpai}
+\IEEEauthorblockA{
+\textit{Department of Economics and Finance} \\
+\textit{BITS Pilani, Hyderabad Campus}\\
+Hyderabad, India \\
+f20213041h@hyderabad.bits-pilani.ac.in}
+\and
+\IEEEauthorblockN{Nandan Mishra}
+\IEEEauthorblockA{
+\textit{CEO} \\
+\textit{Algo8.ai}\\
+India}
+\and
+\IEEEauthorblockN{Dr.\ Dushyant Kumar}
+\IEEEauthorblockA{
+\textit{Department of Economics and Finance} \\
+\textit{BITS Pilani, Hyderabad Campus}\\
+Hyderabad, India}
+}
+
+\maketitle
+
+% --- Section files ---
+\input{sections/abstract}
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/data_methodology}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/limitations}
+\input{sections/conclusion}
+
+% ==============================================================================
+%   REFERENCES
+% ==============================================================================
+\bibliographystyle{IEEEtran}
+\bibliography{sections/references}
+
+% ==============================================================================
+%   APPENDICES
+% ==============================================================================
+\appendices
+\input{sections/appendix}
+
+\end{document}

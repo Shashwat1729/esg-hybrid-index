@@ -1,0 +1,91 @@
+% =============================================================================
+%   VI. LIMITATIONS
+% =============================================================================
+\section{Limitations}
+\label{sec:limitations}
+
+Recent robustness upgrades have resolved or materially reduced major
+technical weaknesses. Overfitting is now addressed more convincingly (CV
+overfit ratio: 0.499; walk-forward ratio: 0.978). Capacity is only partially
+resolved: the strategy passes for moderate mandates from roughly \$25M to
+\$500M, but fails at \$1B+ under realistic mid-cap execution assumptions.
+These improvements strengthen the framework, but inherent data and design
+limitations remain.
+
+\begin{enumerate}
+\item \textbf{Hybrid ESG construction.} ESG inputs combine real observations
+and proxy-derived components. Of 276 firms, 213 have real Yahoo ESG-related
+coverage, 102 have SEC-derived governance inputs, and 6 still rely primarily
+on proxy construction. Large parts of the E and S pillars therefore remain
+constructed rather than directly observed. Consequently, the observed
+ESG--financial relationship ($R^2=0.544$) partly reflects the construction
+methodology itself.
+
+\item \textbf{Cross-sectional single-period design (M4).} The study uses a
+single snapshot rather than a multi-year time-series backtest. Reported
+``returns'' are cross-sectional momentum proxies, not forward realized
+P\&L computed at timestamped rebalance dates.
+
+\item \textbf{Zero-variance binary ESG inputs.} Several binary ESG indicators
+show no cross-sectional variation in this sample
+(\texttt{carbon\_reduction\_target}, \texttt{anti\_corruption\_policy},
+\texttt{human\_rights\_policy}: all proportion $=1.00$), so these variables
+cannot contribute discriminative ranking information.
+
+\item \textbf{Fixed FX conversion assumption.} INR financials are converted
+using a fixed INR/USD rate (\$\textyen 83/\$), while realized annual FX
+variation is typically around $\pm 5$--$8\%$. This can introduce
+cross-country comparability error in level-based financial metrics.
+
+\item \textbf{Partial factor monotonicity.} Factor ranking monotonicity is
+stronger against the forward-quality proxy ($7/8$ factors monotonic) than
+against the JT return proxy ($2/9$ factors monotonic). The signal is therefore
+economically more coherent for quality-oriented interpretation than for short
+return prediction.
+
+\item \textbf{Value factor countercyclicality (M1).} The value factor
+currently shows an anti-monotonic pattern, consistent with a strong
+growth-over-value regime during 2020--2024 (growth $\gg$ value). This
+weakens interpretation of value as a stable cross-sectional signal in the
+present sample.
+
+\item \textbf{Individual ranking stability.} Bootstrap analysis indicates
+that confidence intervals for top companies remain very wide (roughly
+247--255 rank positions), effectively spanning most of the universe even
+though portfolio-level ordering is highly stable (Kendall tau $= 1.000$).
+This supports portfolio-level use more strongly than precise single-name rank
+interpretation.
+
+\item \textbf{ESG predicts risk more than returns.} ESG return prediction
+is intentionally acknowledged as weak: ESG\_composite IC for return proxies
+is low and not statistically significant (IC $=0.068$, $p=0.263$). However,
+ESG retains significant risk information, with higher ESG associated with lower
+volatility and lower beta. Therefore, ESG is better interpreted here as a
+risk filter than a standalone return predictor.
+
+\item \textbf{Survivorship bias risk (Mo2).} The contemporaneous universe
+excludes delisted firms, which can bias cross-sectional rankings and
+downside-risk estimates upward relative to a fully survivorship-free panel.
+
+\item \textbf{Cross-validation weight mismatch.} Weight search under
+cross-validation can produce market-dominant allocations
+(e.g., \texttt{market\_score} near 77\%), which do not match the deployed
+balanced-profile market weight of only 5\% used for final ranking
+construction.
+
+\item \textbf{ESG provenance bias risk.} The governance pillar includes
+mixed-source inputs, and provenance diagnostics indicate elevated bias risk
+for \texttt{G\_score} when combining Yahoo and SEC source channels.
+Source-dependent measurement effects may therefore influence cross-firm
+comparability.
+
+\item \textbf{Geographic scope.} The analyzed universe (276 companies)
+is restricted to the US and India. External validity for Europe and broader
+Asia-Pacific markets remains untested and requires explicit expansion in
+future datasets.
+
+\item \textbf{No commercial ESG benchmark source in-sample.} The framework has
+not yet been validated using commercial ESG datasets (e.g., Refinitiv, MSCI,
+S\&P Global) within the full universe. This limits triangulation against
+institutional-grade vendor methodologies.
+\end{enumerate}

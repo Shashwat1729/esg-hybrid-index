@@ -1,0 +1,4 @@
+profile_1,profile_2,top_n,intersection_size,union_size,jaccard_similarity,overlap_pct,shared_companies
+ESG-First,Balanced,20,14,26,0.5385,70.0,"ATO, CTRA, DECK, FIVE, GGG, GMED, GRMN, INCY, MUTHOOTFIN.NS, NAVINFLUOR.NS, NNN, RS, STAG, TORNTPHARM.NS"
+ESG-First,Financial-First,20,13,27,0.4815,65.0,"ATO, CTRA, DECK, FIVE, GGG, GMED, GRMN, INCY, MUTHOOTFIN.NS, NAVINFLUOR.NS, NNN, RS, STAG"
+Balanced,Financial-First,20,18,22,0.8182,90.0,"ATO, CTRA, DECK, EWBC, FIVE, GGG, GMED, GRMN, IBKR, INCY, MUTHOOTFIN.NS, NAVINFLUOR.NS, NNN, RS, SCHAEFFLER.NS, STAG, STLD, WTS"

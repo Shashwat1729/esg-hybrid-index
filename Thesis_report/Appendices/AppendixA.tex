@@ -1,0 +1,50 @@
+\chapter{Variable Classification and Outlier Detection}
+\label{app:varclass}
+
+In this appendix we give the full technical detail on variable-type classification and outlier detection that Chapter~\ref{ch:data_methods} only summarised. It's a bit dry but the logic matters.
+
+\section{Variable-type definitions}
+
+\textbf{Binary variables} (3 total: carbon reduction target, human rights policy, anti-corruption policy). These are validated to contain only 0 and 1. Missing values are imputed using the within-sector mode. In scoring, they are mean-centred and scaled by their standard deviation but clipped to $\pm 2\sigma$ (tighter than the $\pm 3\sigma$ clip used for continuous variables) to prevent a single binary indicator from dominating a composite. \textbf{Note:} In the current sample, all three binary ESG indicators exhibit zero variance (proportion = 1.00 for all companies), meaning that every company reports having these policies in place. We therefore down-weight these indicators by 70\% in the ESG composite calculation to avoid inflating scores when they provide no cross-sectional discriminating power.
+
+\textbf{Ordinal variables} (2: board size, ESG risk rating). We round to the nearest integer and convert to percentile ranks, which seems reasoanble becuase it dodges distributional assumptions. Imputation uses the sector median, rounded.
+
+\textbf{Bounded-percentage variables} ($\sim$20: renewable energy \%, board independence \%, gender diversity \%, profit margins, waste recycling rate, etc.). Clipped to $[0, 100]$ and normalised with min-max scaling within those natural bounds. No winsorisation needed here becuase the bounds already stop extreme values from creeping in.
+
+\textbf{Ratio variables} ($\sim$14: trailing P/E, forward P/E, price-to-book, debt-to-equity, CEO pay ratio, enterprise multiples, etc.). Winsorised at the 2.5th and 97.5th percentiles. Ratios are especially prone to extreme values when the denominator is near zero (e.g., P/E with near-zero earnings), hence the tighter winsorisation. Robust z-score normalisation (MAD-based; see Section~\ref{sec:outlier_detect} below) is applied after winsorisation.
+
+\textbf{Count variables} ($\sim$20: market capitalisation, total revenue, EBITDA, net income, emissions, employee count, etc.). Winsorised at the 1st and 99th percentiles. If skewness of the winsorised distribution still exceeds 2.0, we apply a $\log(1+x)$ transformation before robust z-scoring (MAD-based), which worked well in our tests and helped recieve cleaner tails. This is triggered for most revenue and market-cap distributions.
+
+\textbf{Rate variables} ($\sim$14: ROA, ROE, revenue growth, R\&D intensity, employee turnover, safety incident rate, etc.). Winsorised at 1/99 percentiles and then robust z-scored (MAD-based). Rates are bounded in principle but can reach extreme values through accounting anomalies.
+
+\textbf{Continuous variables} ($\sim$15: price volatility, beta, Sharpe ratio, Sortino ratio, max drawdown, Amihud illiquidity, return skewness and kurtosis, etc.). Same 1/99 winsorisation and robust z-score (MAD-based) treatment as rate variables.
+
+\section{Outlier detection procedure}
+\label{sec:outlier_detect}
+
+In practice, for each continuous variable (types 4--7 above), we run three univariate methods:
+
+\begin{enumerate}
+    \item \textbf{IQR (Tukey's rule).} Mild outlier: beyond $Q_1 - 1.5 \times \mathrm{IQR}$ or $Q_3 + 1.5 \times \mathrm{IQR}$. Extreme outlier: beyond $Q_1 - 3.0 \times \mathrm{IQR}$ or $Q_3 + 3.0 \times \mathrm{IQR}$.
+
+    \item \textbf{Modified z-score (MAD-based).} $M_i = 0.6745 \times (x_i - \tilde{x}) / \mathrm{MAD}$, where $\tilde{x}$ is the median and MAD is the median absolute deviation. Flagged if $|M_i| > 3.5$.
+
+    \item \textbf{Standard z-score.} Flagged if $|z_i| > 3.0$.
+\end{enumerate}
+
+An observation counts as a \textit{consensus outlier} only if at least two of three methods flag it. Consensus outliers get winsorised (capped at the nearest detection boundary) rather than deleted. We keep the treatment conservative brcause of that and avoid overreaction. Deleting data always felt more dangerous than trimming it.
+
+\textbf{Mahalanobis distance} is computed across all continuous variables jointly using the 97.5th percentile of the $\chi^2$ distribution as threshold. Multivariate outliers are logged in the report but not automatically treated, we just flag them and move on.
+
+\section{Imputation strategy}
+
+The imputation logic is simple, maybe too simple, but it kept things reproducible:
+
+\begin{enumerate}
+    \item Compute the sector median (or mode for binary variables).
+    \item If the sector has $\geq 3$ non-missing observations, impute with the sector statistic.
+    \item Otherwise, fall back to the global median (or mode).
+    \item For ordinal variables, the imputed value is rounded to the nearest integer.
+\end{enumerate}
+
+Variables with fewer than 20\% non-missing values get dropped entirely. We lost a couple of governance indicators this way but it felt like teh right call.

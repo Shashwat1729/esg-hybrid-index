@@ -1,0 +1,10 @@
+Profile_A,Profile_B,Pearson,Spearman_rho,Spearman_p,Kendall_tau,Kendall_p
+ESG-First,ESG-First,1.0,1.0,0.00e+00,1.0,2.40e-82
+ESG-First,Balanced,0.9298,0.9014,9.59e-23,0.7446,4.24e-17
+ESG-First,Financial-First,0.8833,0.854,4.26e-18,0.6825,1.31e-14
+Balanced,ESG-First,0.9298,0.9014,9.59e-23,0.7446,4.24e-17
+Balanced,Balanced,1.0,1.0,0.00e+00,1.0,2.40e-82
+Balanced,Financial-First,0.991,0.9861,7.20e-47,0.9153,5.04e-25
+Financial-First,ESG-First,0.8833,0.854,4.26e-18,0.6825,1.31e-14
+Financial-First,Balanced,0.991,0.9861,7.20e-47,0.9153,5.04e-25
+Financial-First,Financial-First,1.0,1.0,0.00e+00,1.0,2.40e-82

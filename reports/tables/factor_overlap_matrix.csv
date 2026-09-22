@@ -1,0 +1,8 @@
+,financial_score,growth_score,market_score,operational_score,risk_adjusted_score,stability_score,value_score
+financial_score,14,0,0,0,0,0,0
+growth_score,0,4,0,0,0,0,0
+market_score,0,0,7,0,0,0,0
+operational_score,0,0,0,6,0,0,0
+risk_adjusted_score,0,0,0,0,6,0,0
+stability_score,0,0,0,0,0,6,0
+value_score,0,0,0,0,0,0,6

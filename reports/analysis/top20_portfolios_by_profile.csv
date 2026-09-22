@@ -1,0 +1,61 @@
+Profile,Rank,Ticker,Sector,Preference_Score,ESG_Composite,Financial_Score,Market_Score,Operational_Score
+ESG-First,1,GOOGL,Communication Services,60.82,55.55,60.37,73.22,56.66
+ESG-First,2,TCS.NS,Technology,59.98,58.9,71.74,44.23,44.45
+ESG-First,3,META,Communication Services,58.8,57.26,64.86,49.44,57.64
+ESG-First,4,NVDA,Technology,58.77,59.87,58.57,58.52,53.37
+ESG-First,5,V,Financial Services,57.13,55.54,54.4,47.47,56.38
+ESG-First,6,MSFT,Technology,56.0,57.02,60.68,31.38,59.7
+ESG-First,7,BHARTIARTL.NS,Communication Services,55.88,51.95,70.19,43.45,51.27
+ESG-First,8,PM,Consumer Defensive,55.76,50.14,52.92,59.39,49.39
+ESG-First,9,INFY.NS,Technology,55.62,53.81,57.52,53.02,46.78
+ESG-First,10,AAPL,Technology,55.56,55.67,58.11,52.68,50.14
+ESG-First,11,JNJ,Healthcare,55.49,47.43,54.62,61.35,57.79
+ESG-First,12,PFE,Healthcare,55.38,51.16,53.56,56.37,61.64
+ESG-First,13,ITC.NS,Consumer Defensive,55.3,48.02,55.64,54.42,49.58
+ESG-First,14,WIPRO.NS,Technology,54.96,58.91,52.56,41.69,44.6
+ESG-First,15,CSCO,Technology,54.78,52.58,46.85,61.0,49.87
+ESG-First,16,SUNPHARMA.NS,Healthcare,54.77,54.6,50.62,45.78,56.08
+ESG-First,17,SBIN.NS,Financial Services,54.53,50.21,53.86,56.7,44.89
+ESG-First,18,AMZN,Consumer Cyclical,54.13,48.67,49.07,53.44,50.04
+ESG-First,19,PG,Consumer Defensive,53.9,49.32,48.23,59.91,48.74
+ESG-First,20,ABBV,Healthcare,53.65,50.63,47.17,55.37,54.08
+Balanced,1,GOOGL,Communication Services,61.41,55.55,60.37,73.22,56.66
+Balanced,2,TCS.NS,Technology,60.81,58.9,71.74,44.23,44.45
+Balanced,3,META,Communication Services,59.0,57.26,64.86,49.44,57.64
+Balanced,4,BHARTIARTL.NS,Communication Services,58.13,51.95,70.19,43.45,51.27
+Balanced,5,NVDA,Technology,57.14,59.87,58.57,58.52,53.37
+Balanced,6,JNJ,Healthcare,56.49,47.43,54.62,61.35,57.79
+Balanced,7,ITC.NS,Consumer Defensive,56.35,48.02,55.64,54.42,49.58
+Balanced,8,RELIANCE.NS,Energy,56.1,42.0,72.13,55.03,45.2
+Balanced,9,PFE,Healthcare,55.68,51.16,53.56,56.37,61.64
+Balanced,10,PM,Consumer Defensive,55.67,50.14,52.92,59.39,49.39
+Balanced,11,V,Financial Services,55.58,55.54,54.4,47.47,56.38
+Balanced,12,MSFT,Technology,55.35,57.02,60.68,31.38,59.7
+Balanced,13,SBIN.NS,Financial Services,55.32,50.21,53.86,56.7,44.89
+Balanced,14,INFY.NS,Technology,55.18,53.81,57.52,53.02,46.78
+Balanced,15,AAPL,Technology,55.06,55.67,58.11,52.68,50.14
+Balanced,16,AMZN,Consumer Cyclical,54.13,48.67,49.07,53.44,50.04
+Balanced,17,MARUTI.NS,Consumer Cyclical,53.94,45.54,52.64,57.1,45.82
+Balanced,18,SUNPHARMA.NS,Healthcare,53.6,54.6,50.62,45.78,56.08
+Balanced,19,PG,Consumer Defensive,53.48,49.32,48.23,59.91,48.74
+Balanced,20,CSCO,Technology,53.46,52.58,46.85,61.0,49.87
+Financial-First,1,GOOGL,Communication Services,60.93,55.55,60.37,73.22,56.66
+Financial-First,2,TCS.NS,Technology,60.02,58.9,71.74,44.23,44.45
+Financial-First,3,META,Communication Services,58.51,57.26,64.86,49.44,57.64
+Financial-First,4,BHARTIARTL.NS,Communication Services,58.34,51.95,70.19,43.45,51.27
+Financial-First,5,RELIANCE.NS,Energy,57.34,42.0,72.13,55.03,45.2
+Financial-First,6,ITC.NS,Consumer Defensive,55.99,48.02,55.64,54.42,49.58
+Financial-First,7,JNJ,Healthcare,55.97,47.43,54.62,61.35,57.79
+Financial-First,8,NVDA,Technology,55.94,59.87,58.57,58.52,53.37
+Financial-First,9,INFY.NS,Technology,55.09,53.81,57.52,53.02,46.78
+Financial-First,10,PM,Consumer Defensive,55.06,50.14,52.92,59.39,49.39
+Financial-First,11,PFE,Healthcare,54.95,51.16,53.56,56.37,61.64
+Financial-First,12,V,Financial Services,54.76,55.54,54.4,47.47,56.38
+Financial-First,13,SBIN.NS,Financial Services,54.75,50.21,53.86,56.7,44.89
+Financial-First,14,MSFT,Technology,54.28,57.02,60.68,31.38,59.7
+Financial-First,15,AAPL,Technology,54.25,55.67,58.11,52.68,50.14
+Financial-First,16,MARUTI.NS,Consumer Cyclical,53.81,45.54,52.64,57.1,45.82
+Financial-First,17,PG,Consumer Defensive,53.31,49.32,48.23,59.91,48.74
+Financial-First,18,CSCO,Technology,53.24,52.58,46.85,61.0,49.87
+Financial-First,19,AMZN,Consumer Cyclical,53.14,48.67,49.07,53.44,50.04
+Financial-First,20,SUNPHARMA.NS,Healthcare,52.45,54.6,50.62,45.78,56.08

@@ -1,0 +1,5 @@
+comparison,score,ref_mean,other_mean,diff,mann_whitney_U,p_value,rank_biserial_r,significant_at_05,bias_risk
+real_yahoo vs real_sec,ESG_composite,48.06,49.12,-1.06,6400.0,0.5066,0.054,False,LOW
+real_yahoo vs real_sec,E_score,0.14,-0.06,0.2,7533.0,0.1654,-0.113,False,LOW
+real_yahoo vs real_sec,S_score,0.05,0.05,-0.0,6737.0,0.9574,0.004,False,LOW
+real_yahoo vs real_sec,G_score,-0.49,0.05,-0.55,2413.0,0.0,0.643,True,HIGH

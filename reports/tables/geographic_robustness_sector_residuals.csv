@@ -1,0 +1,17 @@
+factor,country_coef,country_se,country_t_stat,country_p_value,significant_bonferroni,r_squared,n,bonferroni_alpha
+ESG_composite,1.1652,1.2642,0.9217,0.357563,False,0.1948,258,0.003125
+financial_score,0.4129,0.1794,2.3021,0.022168,False,0.1573,258,0.003125
+market_score,0.8381,0.7578,1.1059,0.269844,False,0.1204,258,0.003125
+operational_score,3.0583,0.8595,3.5584,0.000448,True,0.4796,258,0.003125
+risk_adjusted_score,-1.6082,1.1471,-1.4019,0.162208,False,0.3199,258,0.003125
+value_score,7.1251,1.2166,5.8567,0.0,True,0.2333,258,0.003125
+growth_score,-2.923,1.3038,-2.2419,0.025862,False,0.0949,258,0.003125
+stability_score,-0.2255,1.0968,-0.2056,0.837308,False,0.3763,258,0.003125
+similarity_rank,0.8449,1.3553,0.6234,0.533586,False,0.0371,258,0.003125
+sector_position,6.9222,1.3173,5.2547,0.0,True,0.1078,252,0.003125
+pref_balanced,7.5669,1.5181,4.9845,1e-06,True,0.2905,258,0.003125
+pref_balanced_with_market,6.4101,1.4472,4.4294,1.4e-05,True,0.3269,258,0.003125
+pref_esg_first,5.7575,1.9044,3.0233,0.002765,True,0.1694,258,0.003125
+pref_esg_first_with_market,5.2696,1.8247,2.8879,0.004224,False,0.1814,258,0.003125
+pref_financial_first,9.2031,1.6486,5.5825,0.0,True,0.3699,258,0.003125
+pref_financial_first_with_market,7.2226,1.5648,4.6157,6e-06,True,0.4045,258,0.003125

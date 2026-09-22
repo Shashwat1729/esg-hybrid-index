@@ -1,0 +1,10 @@
+fund_name,category,approx_esg_weight_pct,approx_financial_weight_pct,mapped_profile,aum_bn_usd,source
+Calvert Equity Fund,Impact Investing,40,15,ESG-First,5.2,Calvert 2023 Annual Report
+Parnassus Core Equity,Sustainable Equity,35,20,ESG-First,27.4,Morningstar 2023
+Generation IM Global Equity,Sustainable Equity,35,20,ESG-First,36.0,Generation IM 2023
+BlackRock ESG Aware MSCI USA ETF (ESGU),ESG Integration,15,25,Balanced,12.8,BlackRock 2023
+Vanguard ESG U.S. Stock ETF (ESGV),ESG Integration,15,30,Balanced,7.1,Vanguard 2023
+Nordea ESG STARS Global,ESG Integration,20,25,Balanced,8.5,Nordea 2023
+AQR Large Cap Multi-Style,Quantitative / Factor,5,35,Financial-First,4.2,AQR 2023
+Dimensional US Core Equity,Factor-Based,8,32,Financial-First,30.1,DFA 2023
+Two Sigma Compass Enhanced,Quantitative,5,40,Financial-First,2.0,Estimated from filings

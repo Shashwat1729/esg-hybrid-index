@@ -1,0 +1,10 @@
+profile,perturbation_pct,mean_spearman,std_spearman,min_spearman,mean_kendall,mean_top20_overlap,min_top20_overlap,n_simulations
+ESG-First,5,0.9999,0.0,0.9998,0.9947,19.5,19,200
+ESG-First,10,0.9997,0.0002,0.9992,0.9892,19.3,17,200
+ESG-First,20,0.9991,0.0005,0.997,0.9783,18.7,16,200
+Balanced,5,0.9998,0.0001,0.9993,0.9904,19.8,19,200
+Balanced,10,0.9992,0.0005,0.9975,0.9805,19.4,18,200
+Balanced,20,0.9973,0.0015,0.9921,0.9619,19.0,17,200
+Financial-First,5,0.9997,0.0001,0.9992,0.9892,19.5,19,200
+Financial-First,10,0.9991,0.0005,0.9973,0.9787,19.4,19,200
+Financial-First,20,0.9967,0.0021,0.9885,0.9575,19.2,18,200

@@ -1,0 +1,12 @@
+sector,India,US,All
+Basic Materials,2,1,3
+Communication Services,1,6,7
+Consumer Cyclical,2,4,6
+Consumer Defensive,3,4,7
+Energy,1,2,3
+Financial Services,6,5,11
+Healthcare,1,7,8
+Industrials,1,1,2
+Technology,3,9,12
+Utilities,0,1,1
+All,20,40,60

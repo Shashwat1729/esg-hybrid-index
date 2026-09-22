@@ -1,0 +1,77 @@
+\chapter{Statistical Tests and Advanced Analyses}
+\label{app:tests}
+
+This appendix lists every statistical test and analysis we run in the pipeline. For each one we note the method, the variables involved, and what we're trying to learn from it. Some of these overlapp with each other on purpose, we wanted convergent evidence not just one test per claim.
+
+In practice this serves as a compact reference so the reader doesn't have to dig through scripts.
+
+\section{Twenty statistical test batteries}
+
+\begin{enumerate}
+    \item \textbf{Descriptive statistics.} Mean, standard deviation, skewness, kurtosis, IQR, and coefficient of variation for all numeric variables.
+
+    \item \textbf{Normality tests.} Shapiro--Wilk, Jarque--Bera, and Kolmogorov--Smirnov on every score variable. Most scores reject normality at 5\% which isn't surprising given the bounded $[0, 100]$ range.
+
+    \item \textbf{Correlation analysis.} Pearson, Spearman, and Kendall pairwise correlations with $p$-values for all score variables.
+
+    \item \textbf{ESG--financial regression.} OLS regressions: ESG composite $\rightarrow$ ROA, ROE; individual E/S/G pillars $\rightarrow$ ROA, ROE.
+
+    \item \textbf{Sector differences.} One-way ANOVA, Kruskal--Wallis, and eta-squared effect sizes for each score across GICS sectors.
+
+    \item \textbf{Country differences.} Independent $t$-test, Mann--Whitney $U$, and Cohen's $d$ for U.S.\ vs.\ India on each score.
+
+    \item \textbf{ESG pillar inter-correlations.} Pearson and Spearman for all pairwise E--S--G combinations.
+
+    \item \textbf{Quintile analysis.} Score quintiles $\rightarrow$ mean financial metrics; $t$-test on Q5 vs.\ Q1 spread.
+
+    \item \textbf{Factor contributions.} Bivariate $R^2$ of each factor score on the balanced preference score.
+
+    \item \textbf{Multicollinearity (VIF).} From the inverse correlation matrix of the nine factor scores. All expected below 5.
+
+    \item \textbf{Profile rank correlation.} Spearman and Kendall between investor profiles; top-10/20 overlap percentages.
+
+    \item \textbf{Top/bottom analysis.} Top and bottom 20 companies by each profile, with sector and country composition.
+
+    \item \textbf{Multiple regression with controls.} ESG $\rightarrow$ ROA/ROE/financial score, controlling for log market cap, D/E, and beta.
+
+    \item \textbf{Heteroscedasticity.} Breusch--Pagan test on the controlled regressions from test~13.
+
+    \item \textbf{Decile analysis.} Ten deciles of the balanced score $\rightarrow$ mean ROA, momentum, Sharpe.
+
+    \item \textbf{Size subgroup analysis.} Market-cap terciles (small/medium/large) $\rightarrow$ ANOVA on scores.
+
+    \item \textbf{Sector--score interactions.} Within-sector Pearson correlations: ESG $\leftrightarrow$ financial, ESG $\leftrightarrow$ ROA, financial $\leftrightarrow$ market.
+
+    \item \textbf{Binary variable analysis.} Proportions, point-biserial correlations, chi-square by sector, phi coefficients between binary pairs.
+
+    \item \textbf{Ordinal variable analysis.} Spearman with scores; Kruskal--Wallis by sector.
+
+    \item \textbf{Non-parametric checks.} Friedman test across score categories; pairwise Wilcoxon signed-rank tests. We included these mostly as a sanity check on the parametric results.
+\end{enumerate}
+
+\section{Twelve advanced analyses}
+
+\begin{enumerate}
+    \item \textbf{PCA.} Full PCA on nine factor scores; eigenvalues, loadings, biplot.
+
+    \item \textbf{Hierarchical clustering.} Ward's method; silhouette scores for $k = 3, 4, 5, 6$; cluster profiles and sector composition.
+
+    \item \textbf{K-means clustering.} Elbow method and silhouette for $k = 2$ to $9$.
+
+    \item \textbf{Bootstrap confidence intervals.} 500 company-level resamples with 10\% score noise; 95\% CI for each company's rank.
+
+    \item \textbf{Factor ablation.} Remove each factor in turn; measure Kendall's $\tau$, Spearman $r$, top-10 overlap, mean and max rank shift.
+
+    \item \textbf{Rank reversal.} Companies with the largest rank difference between ESG-first and financial-first profiles.
+
+    \item \textbf{Factor tilt sensitivity.} 1,000 Dirichlet weight vectors; top-20 selection; portfolio return, risk, and cross-sectional IR.
+
+    \item \textbf{Cross-validation.} 5-fold: optimise weights on 80\% training (300 random draws); evaluate on 20\% holdout; report overfit ratio. This turned out to be useufl becuase it flags instability early, we caught the original overfitting problem through this test.
+
+    \item \textbf{Gini inequality.} Gini coefficient for each score distribution; moderate values ($0.15$--$0.35$) indicate useful differentiation.
+    \item \textbf{Rolling rebalance.} Pseudo-quarterly rebalance using momentum horizons; top-15/20/30 portfolios.
+
+    \item \textbf{Market-regime analysis.} Bull/bear split by median 6-month momentum; compare strategy performance in each regime.
+
+    \item \textbf{Factor monotonicity.} Quintile sort on each factor; Q5--Q1 return spread and Spearman rank correlation with quintile number.
+\end{enumerate}

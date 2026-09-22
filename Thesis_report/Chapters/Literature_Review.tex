@@ -1,0 +1,80 @@
+\chapter{Literature Review}
+\label{ch:lit}
+
+We kept this chapter short on purpose. The thesis is solving a pratical index-design problem, not writing a survey paper, so we only kept the bits that actually changed how the model got built.
+
+Four blocks: where ESG came from and why providers still disagree, factor models we borrowed from, the messy evidence on ESG and returns, and how composite indexes get put together (plus what's still missing).
+
+\section{From SRI to ESG, and Why Ratings Still Clash}
+\label{sec:lit_evolution_providers}
+
+ESG investing didn't appear out of nowhere. Earlier faith-based investing already treated capital allocation as a moral choice, even if the scope was narrower than what markets deal with now \cite{renneboog_terhorst_zhang_2008}.
+
+What changed was the move from exclusion to integration. The UN-led \textit{Who Cares Wins} push and the Principles for Responsible Investment helped turn ESG from an ethics-only label into something fund managers could actually work with \cite{pri_2006}. That's the big shift, and it happened faster than most people expected.
+
+Regulation pushed that shift further. SFDR, TCFD-style disclosure, and India's disclosure rules all made ESG reporting harder to ignore \cite{eu_sfdr_2019, tcfd_2017}.
+
+More disclosure, yes. Better comparability, not always.
+
+That's where raters become messy. MSCI, S\&P Global, Sustainalytics, Refinitiv, CDP, and FTSE Russell all matter, but they don't measure the same things in the same way \cite{msci_esg_methodology, sp_global_esg, sustainalytics_esg, refinitiv_esg, cdp_methodology, ftse_russell_esg}. Same label, different machinery underneath.
+
+\textcite{berg_koelbel_rigobon_2022} make this point pretty clearly. Major ESG ratings correlate at only about 0.54 on average, well below credit ratings, and the disagreement mostly comes from scope, measurement, and weights. We first thought scope would be the main issue. It isn't. Measurement drift does most of the damage.
+
+So for this thesis, we don't treat any single provider as ground truth. An open scoring rule where you can see every weight matters more than perfect agreement with one vednor. At least that's our reading of the literature.
+
+\section{Factor Models Still Matter}
+\label{sec:lit_factors}
+
+This thesis borrows its logic from factor investing. The basic idea? One variable rarely explains enough on its own.
+
+\textcite{fama_french_1993} formalised that with the three-factor model:
+\begin{equation}
+R_i - R_f = \alpha_i + \beta_{i,m}(R_m - R_f) + \beta_{i,s}\,\text{SMB} + \beta_{i,h}\,\text{HML} + \varepsilon_i.
+\label{eq:ff3}
+\end{equation}
+
+Later, \textcite{fama_french_2015} added profitability and investment:
+\begin{equation}
+R_i - R_f = \alpha_i + \beta_{i,m}(R_m - R_f) + \beta_{i,s}\,\text{SMB} + \beta_{i,h}\,\text{HML} + \beta_{i,r}\,\text{RMW} + \beta_{i,c}\,\text{CMA} + \varepsilon_i.
+\label{eq:ff5}
+\end{equation}
+
+We also keep \textcite{carhart_1997} in view because momentum still hangs over most practical ranking systems, even when it is not written into the final core equation.
+
+The point isn't that ESG replaces financial factors. It doesn't, and claiming otherwise would be silly. The point is ESG can sit alongside financial and operating signals in one model without blowing up the collinearity. That's really teh whole move we're making here.
+
+Short version: multi-dimensional beats one-factor stories. Almost always.
+
+\section{ESG Performance, Materiality, and Integration}
+\label{sec:lit_esg_performance_integration}
+
+The evidence on ESG and performance is mixed in size, but it's not random either. \textcite{friede_2015} surveyed more than 2{,}200 studies and found that most papers report a non-negative relationship between ESG and corporate financial performance. \textcite{atz_2023} landed in roughly the same place a few years later. So ESG is not a magic alpha button. But it's not useless either. Somewhere in between, which is the most unsatisfying answer possible.
+
+Materiality matters more than headline scores. \textcite{khan_serafeim_yoon_2016} show that firms doing well on material sustainability issues outperform firms doing badly on those same issues, while immaterial strengths do much less. That result is a big reason this thesis uses sector-aware logic.
+
+The crisis papers are worth mentioning too. \textcite{lins_servaes_tamayo_2017} showed stronger social capital helping during the 2008--09 meltdown, and \textcite{edmans_2011} linked employee satisfaction to abnormal returns. Different chanels, same general idea: ESG can act less like a badge and more like a buffer when trust evaporates.
+
+Then there's the preference angle. \textcite{pastor_stambaugh_taylor_2021} argue that if investors willingly pay for sustainability, high-ESG assets can end up with lower expected returns. Fair point, and we can't ignore it. The empirical record still suggests ESG is compatible with performance, but not in a neat, guaranteed, put-it-on-a-brochure way.
+
+That's why integration matters more than purity tests. Negative screening has its place, and impact investing answers a different question entirely, but this thesis sits closer to integration and tilting \cite{hong_kacperczyk_2009, brest_born_2013}. We're trying to build an investable ranking system, not a moral sorting hat. Big difference.
+
+\textcite{pedersen_fitzgibbons_pomorski_2021} are especially useful here. Their ESG-efficient frontier shows ESG can be handled inside portfolio optimisation rather than bolted on from outside. Which sounds obvious now, but it wasn't always treated that way.
+
+So we allow preference heterogeneity. ESG-First, Balanced, and Financial-First profiles. Not because one is universally correct, but because teh literature genuinely doesn't justify one fixed weight vector for everyone. Different investors, different priorities. Simple as that.
+
+\section{Composite Construction and the Remaining Gap}
+\label{sec:lit_composite_gaps}
+
+Once you start combining many indicators, the construction itself becomes the hard part. The OECD handbook is still the go-to reference \cite{oecd_2008}. Its advice boils down to: start with theory, be explicit about your weights, and test what happens when you wiggle things.
+
+\textcite{hair_2019} backs the same instinct from a multivariate analysis angle. Different variables behave differently, so normalisation shouldn't be one-size-fits-all becuase each block of data reacts differently to the same transform. We learnt this the hard way when early z-scored ranks came out looking bizarre.
+
+If tiny judgement calls completely reorder rankings, the index is not doing much. It's just hiding arbitrariness.
+
+That leads to the gap we're trying to fill. Commercial ESG indices are often opaque, traditional factor products usually keep ESG as an afterthought, mid-caps get less attention than large caps, cross-geography evidence (especially US and Indian mid-caps together) is thinner than it should be, and most published models still don't let investors control the ESG-financial trade-off \cite{berg_koelbel_rigobon_2022}.
+
+One more gap, and it's not a small one. Translation.
+
+Academic papers often stop at model estimation. Actual users need a system they can inspect, poke at, and question. So this thesis builds an open multi-factor ESG scoring system for mid-cap firms, with explicit weights, cross-market application, and user-adjustable preferences. Not the last word on any of this. Just a clearer nad more testable one than what's currently available.
+
+The next chapter explains how the system is built and tested.

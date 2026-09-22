@@ -1,0 +1,305 @@
+{
+  "correlation": {
+    "pearson_r": 0.3164,
+    "pearson_p": 0.013778,
+    "spearman_r": 0.2939,
+    "spearman_p": 0.022645,
+    "r_squared": 0.1001,
+    "slope": 0.4789,
+    "intercept": 26.0833,
+    "std_err": 0.1885,
+    "n": 60,
+    "esg_mean": 50.0,
+    "esg_std": 4.89,
+    "fin_mean": 50.03,
+    "fin_std": 7.4,
+    "ci_lower": 0.0679,
+    "ci_upper": 0.5279
+  },
+  "quintile": {
+    "table": {
+      "n": {
+        "Q1 (Lowest)": 12,
+        "Q2": 12,
+        "Q3": 12,
+        "Q4": 12,
+        "Q5 (Highest)": 12
+      },
+      "fin_mean": {
+        "Q1 (Lowest)": 48.6272,
+        "Q2": 48.5966,
+        "Q3": 48.7685,
+        "Q4": 48.1729,
+        "Q5 (Highest)": 55.9713
+      },
+      "fin_median": {
+        "Q1 (Lowest)": 46.7207,
+        "Q2": 47.4446,
+        "Q3": 48.4411,
+        "Q4": 46.7383,
+        "Q5 (Highest)": 56.2566
+      },
+      "fin_std": {
+        "Q1 (Lowest)": 7.929,
+        "Q2": 4.3951,
+        "Q3": 3.9077,
+        "Q4": 9.0104,
+        "Q5 (Highest)": 8.1529
+      },
+      "esg_mean": {
+        "Q1 (Lowest)": 42.9706,
+        "Q2": 47.67,
+        "Q3": 50.2017,
+        "Q4": 52.3662,
+        "Q5 (Highest)": 56.7914
+      },
+      "market_mean": {
+        "Q1 (Lowest)": 52.4218,
+        "Q2": 47.5985,
+        "Q3": 53.4033,
+        "Q4": 50.2215,
+        "Q5 (Highest)": 46.3549
+      }
+    },
+    "anova_f": 2.7148,
+    "anova_p": 0.039003,
+    "q5_mean": 55.9713,
+    "q1_mean": 48.6272,
+    "q5_q1_diff": 7.3441,
+    "ttest_t": 2.237,
+    "ttest_p": 0.035743,
+    "sacrifice_conclusion": "NO - High ESG does NOT sacrifice financial"
+  },
+  "sector": [
+    {
+      "sector": "Basic Materials",
+      "n": 3,
+      "pearson_r": 0.7571,
+      "pearson_p": 0.4532,
+      "spearman_r": 0.5,
+      "spearman_p": 0.6667,
+      "esg_mean": 41.48,
+      "fin_mean": 47.1,
+      "direction": "Positive",
+      "sig_005": "No"
+    },
+    {
+      "sector": "Communication Services",
+      "n": 7,
+      "pearson_r": 0.7639,
+      "pearson_p": 0.0456,
+      "spearman_r": 0.8571,
+      "spearman_p": 0.0137,
+      "esg_mean": 50.68,
+      "fin_mean": 54.88,
+      "direction": "Positive",
+      "sig_005": "Yes"
+    },
+    {
+      "sector": "Consumer Cyclical",
+      "n": 6,
+      "pearson_r": -0.5,
+      "pearson_p": 0.3125,
+      "spearman_r": -0.5429,
+      "spearman_p": 0.2657,
+      "esg_mean": 47.26,
+      "fin_mean": 43.78,
+      "direction": "Negative",
+      "sig_005": "No"
+    },
+    {
+      "sector": "Consumer Defensive",
+      "n": 7,
+      "pearson_r": 0.022,
+      "pearson_p": 0.9626,
+      "spearman_r": 0.0714,
+      "spearman_p": 0.879,
+      "esg_mean": 49.38,
+      "fin_mean": 47.94,
+      "direction": "Positive",
+      "sig_005": "No"
+    },
+    {
+      "sector": "Energy",
+      "n": 3,
+      "pearson_r": -0.759,
+      "pearson_p": 0.4514,
+      "spearman_r": -1.0,
+      "spearman_p": 0.0,
+      "esg_mean": 43.98,
+      "fin_mean": 56.09,
+      "direction": "Negative",
+      "sig_005": "No"
+    },
+    {
+      "sector": "Financial Services",
+      "n": 11,
+      "pearson_r": -0.3403,
+      "pearson_p": 0.3058,
+      "spearman_r": -0.3455,
+      "spearman_p": 0.2981,
+      "esg_mean": 52.15,
+      "fin_mean": 48.3,
+      "direction": "Negative",
+      "sig_005": "No"
+    },
+    {
+      "sector": "Healthcare",
+      "n": 8,
+      "pearson_r": 0.2492,
+      "pearson_p": 0.5518,
+      "spearman_r": 0.2857,
+      "spearman_p": 0.4927,
+      "esg_mean": 49.56,
+      "fin_mean": 48.37,
+      "direction": "Positive",
+      "sig_005": "No"
+    },
+    {
+      "sector": "Industrials",
+      "n": 2,
+      "pearson_r": NaN,
+      "pearson_p": NaN,
+      "spearman_r": NaN,
+      "spearman_p": NaN,
+      "esg_mean": 43.49,
+      "fin_mean": 48.45,
+      "direction": "N/A (n<3)",
+      "sig_005": "N/A"
+    },
+    {
+      "sector": "Technology",
+      "n": 12,
+      "pearson_r": 0.683,
+      "pearson_p": 0.0144,
+      "spearman_r": 0.7273,
+      "spearman_p": 0.0074,
+      "esg_mean": 54.67,
+      "fin_mean": 54.0,
+      "direction": "Positive",
+      "sig_005": "Yes"
+    },
+    {
+      "sector": "Utilities",
+      "n": 1,
+      "pearson_r": NaN,
+      "pearson_p": NaN,
+      "spearman_r": NaN,
+      "spearman_p": NaN,
+      "esg_mean": 46.58,
+      "fin_mean": 46.57,
+      "direction": "N/A (n<3)",
+      "sig_005": "N/A"
+    }
+  ],
+  "pareto": {
+    "n_pareto": 5,
+    "pareto_tickers": [
+      "NVDA",
+      "TCS.NS",
+      "META",
+      "GOOGL",
+      "RELIANCE.NS"
+    ],
+    "triple_correlations": {
+      "ESG_composite vs financial_score": {
+        "r": 0.3164,
+        "p": 0.013778
+      },
+      "ESG_composite vs market_score": {
+        "r": -0.1809,
+        "p": 0.166675
+      },
+      "financial_score vs market_score": {
+        "r": 0.0178,
+        "p": 0.892826
+      }
+    }
+  },
+  "country": {
+    "US": {
+      "n": 40,
+      "esg_mean": 49.76,
+      "esg_std": 4.86,
+      "esg_median": 50.34,
+      "fin_mean": 48.61,
+      "fin_std": 5.85,
+      "fin_median": 47.24,
+      "mkt_mean": 49.94,
+      "mkt_std": 11.11,
+      "pearson_r": 0.5264,
+      "pearson_p": 0.000485,
+      "spearman_r": 0.3929,
+      "spearman_p": 0.012153
+    },
+    "India": {
+      "n": 20,
+      "esg_mean": 50.48,
+      "esg_std": 5.04,
+      "esg_median": 50.26,
+      "fin_mean": 52.87,
+      "fin_std": 9.33,
+      "fin_median": 52.06,
+      "mkt_mean": 50.11,
+      "mkt_std": 5.26,
+      "pearson_r": 0.0568,
+      "pearson_p": 0.811981,
+      "spearman_r": 0.0256,
+      "spearman_p": 0.914804
+    },
+    "mw_ESG_composite_U": 368.0,
+    "mw_ESG_composite_p": 0.621335,
+    "cohens_d_ESG_composite": -0.146,
+    "mw_financial_score_U": 280.0,
+    "mw_financial_score_p": 0.060943,
+    "cohens_d_financial_score": -0.547,
+    "mw_market_score_U": 447.0,
+    "mw_market_score_p": 0.465893,
+    "cohens_d_market_score": -0.02
+  },
+  "leaders_laggards": {
+    "esg_75": 52.86,
+    "esg_25": 47.01,
+    "fin_75": 53.43,
+    "fin_25": 45.24,
+    "n_leaders": 8,
+    "leaders": [
+      "AAPL",
+      "MSFT",
+      "GOOGL",
+      "META",
+      "NVDA",
+      "V",
+      "TCS.NS",
+      "INFY.NS"
+    ],
+    "n_laggards": 5,
+    "laggards": [
+      "HD",
+      "NKE",
+      "DHR",
+      "RTX",
+      "ASIANPAINT.NS"
+    ],
+    "n_esg_only": 1,
+    "esg_only": [
+      "WFC"
+    ],
+    "n_fin_only": 1,
+    "fin_only": [
+      "RELIANCE.NS"
+    ]
+  },
+  "quadrant": {
+    "High ESG + High Fin": 15,
+    "High ESG + Low Fin": 15,
+    "Low ESG + High Fin": 15,
+    "Low ESG + Low Fin": 15
+  },
+  "composite_balance": {
+    "pref_balanced_vs_esg_spearman": 0.3403,
+    "pref_balanced_vs_fin_spearman": 0.8226,
+    "pref_balanced_vs_mkt_spearman": 0.3198,
+    "balance_ratio": 1.9339
+  }
+}

@@ -1,0 +1,3 @@
+country,n_companies,market_cap_B_min,market_cap_B_p25,market_cap_B_median,market_cap_B_p75,market_cap_B_max
+US,181,0.53,4.36,9.04,16.53,115.17
+India,88,0.53,1.49,2.89,6.67,16.27

@@ -1,0 +1,8 @@
+dependent_variable,n,r2_sector_only,r2_sector_plus_esg,incremental_r2,esg_coefficient,f_statistic,p_value,significant_at_005
+financial_score,258,0.1392,0.1425,0.0034,-0.009,0.9671,0.326364,False
+risk_adjusted_score,258,0.3144,0.3168,0.0024,-0.0537,0.8617,0.354174,False
+stability_score,258,0.3762,0.3762,0.0001,-0.0096,0.0305,0.861507,False
+roa,258,0.1961,0.1969,0.0008,0.0001,0.2546,0.614321,False
+roe,258,0.1936,0.1941,0.0005,0.0005,0.1592,0.690238,False
+price_volatility,258,0.3617,0.3678,0.0061,0.095,2.3818,0.124038,False
+sharpe_ratio_1y,258,0.3242,0.3255,0.0013,-0.0031,0.4836,0.487436,False

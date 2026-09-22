@@ -1,0 +1,67 @@
+\chapter{Discussion, Conclusion and Future Work}
+\label{ch:conclusion}
+
+This chapter pulls together the evidence from Chapter~\ref{ch:results}
+and says, as directly as we can, what this thesis achieved and where it fell short.
+The honest reading? This is mainly a validation study for the scoring system we built.
+We built and tested an open system for multi-dimensional company assessment,
+but we don't think the current data setup settles the ESG--return debate. Not even close.
+
+% ======================================================================
+\section{Discussion of Results}
+\label{sec:discussion}
+% ======================================================================
+
+The results show the factor system isn't collapsing into one dimension. PCA, low VIF, decent inter-factor independence. All of that checks out. The framewrok captures different parts of company qaulity, not just the same signal wearing different hats. Good. But the strongest predictive content comes from risk-adjusted characteristics, not ESG. So really we built a quality ranker that happens to include ESG, not an ESG alpha machine. If we're being candid, we hoped ESG would carry more weight. It didn't.
+
+Two problems got really obvious once we stress-tested things. Momentum can inflate the market score when the same return data shows up in both predictor and outcome (classic circularity, we nearly missed it). And optimised weights look better in-sample than out. Lesson: trust teh ranking more than any aggressively tuned portfolio recipe.
+
+Across sectors and across the US/India split, the scoring system does pick up real diferences in business models and risk profiles. Not just noise. The three investor profiles diverge enough to mean something, but a common core of high-quality names hangs around no matter which profile you pick. Bootstrap says: treat individual ranks as ranges, not exact positions. The middle of the distribution is noisy. Top and bottom? More stable.
+
+Bear-market behaviour is probably our best result. The balanced profile picks up defensive names in weak regimes, and that's exactly where this kind of multi-factor approach should help. On the flip side, financial quality still has too much say in the final score, even when the weights look balanced on paper. That bothees us a bit.
+
+% ======================================================================
+\section{Summary of Contributions}
+\label{sec:contributions}
+% ======================================================================
+
+This thesis makes the following contributions:
+
+\begin{enumerate}
+    \item A nine-factor composite index combining ESG with financial, operational, risk, value, growth, stability, and sector-aware information.
+    \item Variable-type-aware normalisation using methods aligned with seven measurement types.
+    \item Circularity detection and ex-market correction to separate cleaner signals from tautological ones.
+    \item SASB sector-materiality integration so pillar emphasis follows financially material issues.
+    \item Honest identification of the ESG proxy artefact as a construction effect, not proof of an independent ESG relationship.
+    \item A reproducible research codebase with documented end-to-end pipeline, tests, and configuration-driven execution.
+\end{enumerate}
+
+% ======================================================================
+\section{Limitations}
+\label{sec:limitations}
+% ======================================================================
+
+\begin{enumerate}
+    \item \textbf{Synthetic ESG data (84.7\%).} Most ESG inputs are proxy-generated, so ESG conclusions remain conditional.
+    \item \textbf{Persistent overfitting.} Portfolio weights perform better in sample than out of sample.
+    \item \textbf{Geographic concentration.} The analysis covers only the United States and India.
+\end{enumerate}
+
+% ======================================================================
+\section{Future Work}
+\label{sec:future}
+% ======================================================================
+
+\begin{enumerate}
+    \item Replace synthetic ESG data with real commercial data to move from methodological demonstration toward cleaner empirical test.
+    \item Extend temporal out-of-sample validation with multi-year panel and strict walk-forward rebalancing.
+    \item Reduce indicator overlap for cleaner factor attribution and less hidden redundancy.
+    \item Improve profile differentiation through wider ESG ranges, hard constraints, or non-linear aggregation.
+    \item Expand geographic coverage to Europe, East Asia, and other emerging markets.
+\end{enumerate}
+
+% ======================================================================
+\section*{Closing Remarks}
+% ======================================================================
+
+\noindent This project took longer than expected and taught us more than we anticipated. The parts we're proudest of are the ones that failed first: the early weight optimisation attempts that overfitted spectacularly, the momentum circularity we almost missed. Those failures forced us to build something more honest. We built an open, reproducible system that captures multiple dimensions of company quality and shows encouraging practical value in difficult market conditions. The foundation is real. Not perfect but real.

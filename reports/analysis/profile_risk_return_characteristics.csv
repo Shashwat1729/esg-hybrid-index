@@ -1,0 +1,4 @@
+Profile,Avg_Pref_Score,Avg_ESG_Composite,Avg_Financial_Score,Avg_Market_Score,Avg_ROA_Pct,Avg_ROE_Pct,Avg_Net_Margin_Pct,Avg_Operating_Margin_Pct,Avg_6M_Momentum_Pct,Avg_3M_Momentum_Pct,Avg_1M_Momentum_Pct,Avg_Volatility_Pct,Avg_Beta,Avg_Debt_to_Equity,Pseudo_Sharpe_6M,Total_MarketCap_T,Avg_MarketCap_B,Median_MarketCap_B,N_Companies
+ESG-First,56.0595,53.3619,56.0778,52.9417,12.48,44.1,24.1,36.49,11.39,2.06,2.18,24.12,1.0147,52.48,0.4721,73.84,3691.8,2870.5,20
+Balanced,56.0939,52.262,57.3295,53.6954,12.27,38.65,24.02,34.48,11.5,3.25,3.17,24.3,0.9985,50.33,0.4731,90.96,4547.8,3968.0,20
+Financial-First,55.6059,52.262,57.3295,53.6954,12.27,38.65,24.02,34.48,11.5,3.25,3.17,24.3,0.9985,50.33,0.4731,90.96,4547.8,3968.0,20

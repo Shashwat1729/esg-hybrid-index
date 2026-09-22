@@ -15,17 +15,30 @@ htmlcov/
 .env
 .env.local
 
-# Research docs (keep locally only)
-Paper/
-Thesis_report/
-docs/
-*.pdf
+# Thesis/Paper PDFs — ignore compiled thesis/paper PDFs only, keep figure assets
+Thesis_report/main.pdf
+Thesis_report/Thesis.pdf
+Paper/Thesis.pdf
 *.pptx
+Thesis_report/*.aux
+Thesis_report/*.bbl
+Thesis_report/*.blg
+Thesis_report/*.log
+Thesis_report/*.toc
+Thesis_report/*.out
+Thesis_report/*.fls
+Thesis_report/*.fdb_latexmk
 
-# Data (regenerated)
+# Data — raw downloads are regenerated via 01_download_data.py
+# Keep processed outputs and reports tracked for reproducibility verification
 data/raw/
-data/processed/
-reports/
+# data/processed/  — tracked (generated outputs for verification)
+# reports/ — tracked (generated outputs for verification)
+
+# Large binary caches
+*.pkl
+*.h5
+*.parquet
 
 # IDE
 .vscode/

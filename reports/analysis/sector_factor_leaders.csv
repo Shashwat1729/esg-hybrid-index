@@ -1,0 +1,11 @@
+,best,best_val,worst,worst_val
+E_score,Technology,57.590775623028634,Energy,27.59167297873945
+S_score,Utilities,58.05611759678747,Industrials,40.27577284224097
+G_score,Energy,55.98069156745978,Utilities,42.46566183846098
+profitability_score,Technology,0.6349506017057683,Industrials,-0.6571816887446738
+growth_score,Energy,54.96805211503107,Utilities,42.02866903250543
+efficiency_score,Communication Services,0.4635981983098178,Consumer Cyclical,-0.1498410069474422
+stability_score,Energy,57.453745358956816,Financial Services,34.276920379188674
+valuation_score,Energy,0.5032558176972752,Consumer Cyclical,-0.7871847395579336
+market_score,Energy,58.954029877313495,Technology,45.03038028095219
+financial_score,Energy,56.08668793688796,Consumer Cyclical,43.77964458751884

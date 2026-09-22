@@ -1,0 +1,60 @@
+\chapter{Investor Profile Justification}
+\label{app:profiles}
+Quick check: do the three profiles actually differ, or did we just pick three sets of numbers and pretend? This appendix answers that. Spoiler: they're different, but not as different as we'd like.
+\section{Literature-Based Rationale}\label{sec:profile_lit}
+The profiles map onto the usual archetypes in ESG investing: values-first, blended, and return-first. Nothing groundbreaking. We originally tried five profiles but dropped two becuase the data couldn't reliably tell them apart and the split just felt wierd and forced.
+\begin{table}[!htbp]
+\centering
+\caption{Factor weights for each investor profile (sum = 1.0)}\label{tab:profile_weights}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Factor} & \textbf{ESG-First} & \textbf{Balanced} & \textbf{Financial-First} \\
+\midrule
+ESG Composite & 0.55 & 0.22 & 0.05 \\ Financial Score & 0.08 & 0.18 & 0.25 \\ Market Score & 0.02 & 0.05 & 0.10 \\ Operational Score & 0.05 & 0.06 & 0.08 \\ Risk-Adjusted Score & 0.08 & 0.15 & 0.18 \\ Growth Score & 0.06 & 0.14 & 0.15 \\ Value Score & 0.03 & 0.04 & 0.07 \\ Stability Score & 0.06 & 0.08 & 0.07 \\ Sector Position & 0.07 & 0.08 & 0.05 \\
+\midrule
+\textbf{Total} & 1.00 & 1.00 & 1.00 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\section{Statistical Differentiation}\label{sec:profile_stat}
+\begin{table}[!htbp]
+\centering
+\caption{Pairwise statistical tests between investor profiles ($N = 276$)}\label{tab:profile_tests}
+\small
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+\textbf{Comparison} & \textbf{Paired $t$} & \textbf{$p$-value} & \textbf{KS $D$} & \textbf{Spearman $r$} & \textbf{Cohen's $d$} & \textbf{Interpretation} \\
+\midrule
+ESG-First vs Balanced & 2.154 & 0.035 & 0.100 & 0.928 & 0.278 & Small \\ ESG-First vs Financial-First & 3.765 & $<$0.001 & 0.133 & 0.888 & 0.486 & Medium \\ Balanced vs Financial-First & 7.147 & $<$0.001 & 0.100 & 0.988 & 0.923 & Large \\
+\bottomrule
+\end{tabular}
+\end{table}
+The profiles are statistically distinct which is good. Effect sizes range from small (ESG-First vs Balanced, $d=0.28$) to large (Balanced vs Financial-First, $d=0.92$). So they're not just renamed copise of each other. We checked.
+\section{Portfolio Overlap}\label{sec:profile_overlap}
+\begin{table}[!htbp]
+\centering
+\caption{Jaccard similarity and overlap between top-20 portfolios}\label{tab:profile_overlap}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Comparison} & \textbf{Shared} & \textbf{Overlap (\%)} & \textbf{Jaccard} \\
+\midrule
+ESG-First vs Balanced & 14 / 20 & 70.0 & 0.539 \\ ESG-First vs Financial-First & 13 / 20 & 65.0 & 0.481 \\ Balanced vs Financial-First & 19 / 20 & 95.0 & 0.905 \\
+\bottomrule
+\end{tabular}
+\end{table}
+ESG-First clearly shakes things up. The other two? 95\% overlap. That's... a lot. Basically the strongest names stay near the top whether you tilt toward finance or balance things out. We'd prefer more separation there, honestly, but the ESG-First profile is at least pulling in a different direction.
+\section{Risk-Return Trade-offs}\label{sec:profile_rr}
+\begin{table}[!htbp]
+\centering
+\caption{Portfolio characteristics of each profile's top-20 selection}\label{tab:profile_chars}
+\small
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+\textbf{Metric} & \textbf{ESG-First} & \textbf{Balanced} & \textbf{Financial-First} \\
+\midrule
+Avg ESG Composite & 57.34 & 52.93 & 51.64 \\ Avg Financial Score & 55.41 & 61.08 & 61.46 \\ Avg Market Score & 50.89 & 53.35 & 53.74 \\ Avg Risk-Adjusted Score & 50.95 & 49.24 & 49.58 \\ Avg Growth Score & 54.54 & 58.91 & 59.15 \\ Cross-Sectional IR & 0.203 & 0.326 & 0.379 \\ Avg Return (\%) & 1.64 & 3.43 & 3.96 \\ No.\ Sectors & 10 & 8 & 9 \\ Sector HHI & 0.130 & 0.150 & 0.140 \\
+\bottomrule
+\end{tabular}
+\end{table}
+Pretty clean trade-off here. ESG-First gets you the best ESG scores (57.3 vs 51.6), Financial-First gets you better returns and IR. Balanced splits the difference. Exactly what we designed it to do, so at least that part wokred. The return gap between ESG-First (1.64\%) and Financial-First (3.96\%) is real, though don't read too much into it given teh synthetic data caveats from Chapter~\ref{ch:results}.

@@ -1,0 +1,100 @@
+% =============================================================================
+%   V. DISCUSSION
+% =============================================================================
+\section{Discussion}
+\label{sec:discussion}
+
+This section answers the three research questions directly and then discusses
+practical implications.
+
+\subsection{RQ1: Does a balanced multi-factor index demonstrate superior cross-sectional quality relative to single-factor alternatives?}
+
+The evidence supports a clear ``yes'' with important caution. The balanced
+multi-factor construction demonstrates superior cross-sectional quality relative to all single-factor alternatives in the
+bear-market test, delivering excess performance of $+7.27$ percentage points
+versus $+5.19$, $+4.49$, and $-3.24$ for the comparator single-factor
+specifications. Risk-adjusted performance is also stronger, with bear-market excess-momentum information
+ratio $=0.585$ and portfolio beta $=0.82$. Rolling rebalancing gives the same
+directional result: the strategy beats the benchmark (momentum proxy) in 100\% of tested
+periods, with average excess momentum proxy of $+7.38\%$.
+
+However, this performance should not be over-interpreted as frictionless
+alpha. Under M4, all performance metrics reflect cross-sectional momentum
+proxies rather than realized returns. Robustness diagnostics are improved but
+not perfect: the standard cross-validation ratio is $0.499$, while the
+walk-forward ratio is $0.978$. Together, these indicate materially better
+out-of-sample behavior than earlier versions, but still argue for caution when
+translating cross-sectional ranking strength into live-return claims.
+
+A notable finding is the divergence between cross-validated optimal weights and deployed profile weights. The CV optimizer concentrates 77\% on market\_score because trailing momentum has the strongest cross-sectional proxy correlation. The deployed balanced profile allocates only 5\%, reflecting three constraints: (i)~momentum concentration reduces a multi-factor model to a single-factor screen; (ii)~the CV objective optimizes cross-sectional discrimination, not forward risk-adjusted returns; (iii)~investor profiles balance multiple quality dimensions rather than maximizing one metric. This divergence confirms the deployed weights are a deliberate multi-objective allocation prioritizing diversification over raw discriminating power.
+
+Factor ablation shows that \texttt{growth\_score} is the most influential individual
+component (Kendall $\tau = 0.777$ when removed), yet no single factor is
+sufficient on its own; the observed performance comes from the interaction
+structure of the full composite. Collinearity remains acceptable for this
+specification (max VIF $=2.80$).
+
+\subsection{RQ2: Does ESG act as a risk filter beyond conventional factors?}
+
+The answer is ``no'' if ESG is interpreted as a standalone alpha signal.
+ESG contributes primarily as a risk filter, not as a return predictor. ESG
+does not significantly predict cross-sectional returns ($\mathrm{IC}=0.068$,
+$p=0.263$), but it does provide statistically significant risk reduction.
+Higher ESG is associated with lower volatility ($\rho=-0.357$, $p<0.001$) and
+lower beta ($\rho=-0.146$, $p=0.015$). At the same time, ESG does not improve
+risk-adjusted performance: high-ESG Q5 Sharpe is only $0.145$ versus $0.458$
+for low-ESG Q1. In other words, higher-ESG names are safer on average but not
+more profitable in this sample.
+
+The critical caveat is methodological: ESG inputs are still partly
+proxy-constructed, although data provenance is now materially stronger
+(213/276 firms with real Yahoo ESG coverage, 102/276 with real SEC EDGAR
+signals, and only 6 firms relying primarily on proxy construction). The
+measured ESG--financial relationship is also relatively strong
+($R^2=0.544$), but that should be interpreted partly as a proxy-construction
+artifact rather than purely as an economic discovery. Therefore, any observed
+``ESG significance'' must still be interpreted as significance of the
+constructed ESG signal under this pipeline, not as a clean empirical finding
+from fully observed firm-level ESG disclosures.
+
+\subsection{RQ3: Are the results robust to perturbations and sample variation?}
+
+At the aggregate portfolio level, robustness is mostly strong but still
+qualified. Subsampling yields Kendall $\tau = 1.000$, walk-forward stability
+is high ($0.978$), and external generalization to large-cap universes is
+exceptionally strong. Testing on 45 S\&P 500 companies yields a verdict of
+\textbf{FULLY\_GENERALIZES}: all 9/9 deployed factors pass the z-score
+stability test ($|z| < 2.5$), Kendall $W = 0.933$ indicates very strong
+agreement, and rank stability reaches Spearman $\rho = 0.9993$. Only 0.2\% of
+factor-benchmark pairs show any degradation, and the Friedman test confirms no
+systematic bias ($\chi^2 = 1.38$, $p = 0.50$). Score distributions align with
+economic expectations: large-cap ESG mean $= 59.9$ versus mid-cap $48.4$,
+consistent with larger firms having more mature ESG programs. Unsupervised
+diagnostics are also coherent rather than spurious: three PCA components
+explain $67.4\%$ of total variance, and the clustering silhouette score is
+$0.261$.
+
+At the individual-stock level, uncertainty is non-trivial. Bootstrap stability
+shows very wide confidence intervals for top companies, with intervals spanning
+roughly 247--255 positions despite the perfect subsampling tau. Weight
+sensitivity is only moderate: $32.2\%$ of names remain rank-stable under
+$\pm 20\%$ perturbations. Monotonicity evidence is similarly uneven: $7/8$
+factors are monotonic against the forward-quality proxy, but only $2/9$ are
+monotonic against the JT return proxy. Together, these results indicate that
+portfolio-level conclusions are robust, but precise individual placements
+should be treated as probabilistic rather than deterministic.
+
+\subsection{Implications for practice}
+
+Three practical conclusions follow. First, the framework now crosses from
+``screening-only'' to conditionally investable at mid-cap scale for moderate
+mandates: capacity passes from roughly $\$25$M to $\$500$M but fails at
+$\$1$B+ under realistic execution assumptions. Second, transaction costs are
+not the binding friction in the current setup (round-trip estimate:
+24--94 bps), while annualized turnover of $25.4\%$ remains operationally
+manageable; liquidity is still the dominant implementation boundary at larger
+scale. Third, proxy-based ESG can still be useful as a portfolio risk filter
+and as a basis for differentiated investor profiles: \texttt{esg\_first} and
+\texttt{fin\_first} rankings show Kendall $\tau = 0.593$ with only $7/10$
+overlap in the top 10 names. As above, under M4, all performance metrics
+reflect cross-sectional momentum proxies rather than realized returns.

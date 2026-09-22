@@ -23,25 +23,28 @@ from src.data_collection.data_pipeline import (
 class TestLoadYaml:
     """Tests for load_yaml()."""
 
-    def test_loads_valid_yaml(self, tmp_path):
-        """Correctly parses a YAML file."""
-        cfg = {"key": "value", "nested": {"a": 1}}
-        path = tmp_path / "test.yaml"
-        path.write_text(yaml.dump(cfg), encoding="utf-8")
-        result = load_yaml(path)
-        assert result == cfg
+    def test_loads_valid_yaml(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            cfg = {"key": "value", "nested": {"a": 1}}
+            path = Path(td) / "test.yaml"
+            path.write_text(yaml.dump(cfg), encoding="utf-8")
+            result = load_yaml(path)
+            assert result == cfg
 
-    def test_empty_yaml_returns_empty_dict(self, tmp_path):
-        """Empty YAML file returns {}."""
-        path = tmp_path / "empty.yaml"
-        path.write_text("", encoding="utf-8")
-        result = load_yaml(path)
-        assert result == {}
+    def test_empty_yaml_returns_empty_dict(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "empty.yaml"
+            path.write_text("", encoding="utf-8")
+            result = load_yaml(path)
+            assert result == {}
 
-    def test_missing_file_raises(self, tmp_path):
-        """Non-existent file raises FileNotFoundError."""
-        with pytest.raises(FileNotFoundError):
-            load_yaml(tmp_path / "does_not_exist.yaml")
+    def test_missing_file_raises(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            with pytest.raises(FileNotFoundError):
+                load_yaml(Path(td) / "does_not_exist.yaml")
 
 
 # ── load_configs ──────────────────────────────────────────────────────────
@@ -49,20 +52,20 @@ class TestLoadYaml:
 class TestLoadConfigs:
     """Tests for load_configs()."""
 
-    def test_loads_from_explicit_paths(self, tmp_path):
-        """Returns dicts when given explicit paths."""
-        idx_cfg = {"esg_index": {"normalization": {"method": "zscore"}}}
-        ds_cfg = {"data_sources": {"public": {}}}
-        idx_path = tmp_path / "idx.yaml"
-        ds_path = tmp_path / "ds.yaml"
-        idx_path.write_text(yaml.dump(idx_cfg), encoding="utf-8")
-        ds_path.write_text(yaml.dump(ds_cfg), encoding="utf-8")
-
-        index_config, data_sources = load_configs(
-            index_config_path=idx_path, data_sources_path=ds_path
-        )
-        assert "esg_index" in index_config
-        assert "data_sources" in data_sources
+    def test_loads_from_explicit_paths(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            idx_cfg = {"esg_index": {"normalization": {"method": "zscore"}}}
+            ds_cfg = {"data_sources": {"public": {}}}
+            idx_path = Path(td) / "idx.yaml"
+            ds_path = Path(td) / "ds.yaml"
+            idx_path.write_text(yaml.dump(idx_cfg), encoding="utf-8")
+            ds_path.write_text(yaml.dump(ds_cfg), encoding="utf-8")
+            index_config, data_sources = load_configs(
+                index_config_path=idx_path, data_sources_path=ds_path
+            )
+            assert "esg_index" in index_config
+            assert "data_sources" in data_sources
 
     def test_loads_from_project_config_dir(self, config_dir):
         """Loads configs from the project's actual config/ directory if it exists."""

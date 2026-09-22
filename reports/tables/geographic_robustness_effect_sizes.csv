@@ -1,0 +1,17 @@
+factor,cohens_d,abs_cohens_d,interpretation,us_mean,india_mean,us_std,india_std
+ESG_composite,0.1196,0.1196,negligible,50.469,49.261,10.325,9.643
+financial_score,0.3865,0.3865,small,48.812,48.279,1.666,0.509
+market_score,0.2763,0.2763,small,49.454,47.866,7.077,1.04
+operational_score,0.5341,0.5341,medium,50.826,46.402,9.478,5.37
+risk_adjusted_score,0.0475,0.0475,negligible,49.985,49.512,11.709,5.405
+value_score,0.7593,0.7593,medium,52.656,45.54,8.773,10.402
+growth_score,-0.3143,0.3143,small,48.804,51.861,7.843,12.516
+stability_score,-0.0435,0.0435,negligible,49.759,50.192,11.434,6.345
+similarity_rank,0.0766,0.0766,negligible,50.452,49.693,9.891,9.931
+sector_position,0.6853,0.6853,medium,51.924,45.505,9.682,8.744
+pref_balanced,0.7408,0.7408,medium,52.966,43.934,13.206,10.012
+pref_balanced_with_market,0.6942,0.6942,medium,52.668,44.328,13.14,9.548
+pref_esg_first,0.4286,0.4286,small,52.197,45.901,15.305,13.461
+pref_esg_first_with_market,0.4293,0.4293,small,52.086,46.0,14.825,12.875
+pref_financial_first,0.8376,0.8376,large,53.723,42.136,15.178,10.873
+pref_financial_first_with_market,0.7412,0.7412,medium,53.162,42.996,15.232,10.28

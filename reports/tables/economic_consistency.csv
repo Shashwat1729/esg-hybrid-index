@@ -1,0 +1,11 @@
+relationship,hypothesis,expected_sign,spearman_r,p_value,n,verdict
+roa vs ESG_composite,Profitable firms tend to invest more in ESG (note: may be weak with synthetic data),+,0.3628,0.0,269,CONSISTENT
+revenue_growth vs trailing_pe,Growth companies should command higher P/E multiples,+,0.142,0.0198,269,CONSISTENT
+trailing_pe vs dividend_yield,Value companies (low P/E) tend to have higher dividend yields (inverse P/E-yield),-,-0.4624,0.0,269,CONSISTENT
+price_to_book vs dividend_yield,Low P/B (value) companies tend to have higher dividend yields,-,-0.3678,0.0,269,CONSISTENT
+debt_to_equity vs price_volatility,Higher leverage should correspond to higher price volatility,+,0.0428,0.4845,269,WEAK_CONSISTENT
+roa vs financial_score,Higher ROA should translate into higher financial_score,+,0.5682,0.0,269,CONSISTENT
+roe vs financial_score,Higher ROE should translate into higher financial_score,+,0.516,0.0,269,CONSISTENT
+revenue_growth vs growth_score,Revenue growth should drive growth_score,+,0.6059,0.0,269,CONSISTENT
+price_volatility vs risk_adjusted_score,Lower volatility should yield higher risk-adjusted score (inverse),-,-0.1582,0.0094,269,CONSISTENT
+market_cap vs stability_score,Larger companies tend to be more stable,+,0.2043,0.0007,269,CONSISTENT
