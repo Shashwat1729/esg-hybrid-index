@@ -36,8 +36,10 @@ logger = logging.getLogger(__name__)
 
 sns.set_theme(style="whitegrid", font_scale=1.1)
 plt.rcParams.update({
-    "figure.dpi": 150, "savefig.dpi": 150, "savefig.bbox": "tight",
+    "figure.dpi": 200, "savefig.dpi": 200, "savefig.bbox": "tight",
     "font.family": "sans-serif",
+    "axes.titlesize": 12, "axes.labelsize": 10, "xtick.labelsize": 9, "ytick.labelsize": 9,
+    "legend.fontsize": 8,
 })
 
 FIGURES = PROJECT_ROOT / "reports" / "figures"

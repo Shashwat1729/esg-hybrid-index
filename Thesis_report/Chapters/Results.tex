@@ -18,7 +18,7 @@ The obvious outlier is financial\_score at 48.63 with a standard deviation of ju
 That gap is a bit weird, but it does not break the model.
 
 The dependence checks are reassuring.
-Maximum VIF is 3.26, so multicollinearity stays low, and PCA still needs three components to explain 51.9\% of total variance.
+Maximum VIF is 3.26, so multicollinearity stays low, and PCA still needs three components to explain 67.4\% of total variance.
 That means no single hidden axis is doing all the work.
 The sample itself is broad enough to make that matter: 186 US firms, 90 Indian firms, and 11 sectors.
 Technology and Healthcare generally look better on ESG and growth, while Energy and Basic Materials stay stronger on financial and risk screens.
@@ -115,7 +115,7 @@ Universe & 276 firms, 186 US, 90 India & Broad enough to stress the model across
 Score scaling & Most factors centred near 50 with standard deviations near 10 & Re-standardisation worked as intended \\
 Financial score spread & Mean $=48.63$, standard deviation $=1.40$ & Much tighter than the rest, which is useful but a little odd \\
 Collinearity & Max VIF $=3.26$ & Low enough that the factors still look distinct \\
-PCA structure & 3 components explain 51.9\% & Multi-dimensional, not one hidden mega-factor \\
+PCA structure & 3 components explain 67.4\% & Multi-dimensional, not one hidden mega-factor \\
 ESG-financial fit & $R^2 = 0.544$ & Real signal maybe, but still tangled up with proxy construction \\
 Profile differentiation & Kendall $\tau = 0.593$ between ESG-First and Financial-First & Profiles are meaningfully different, not cosmetic \\
 Forward-quality monotonicity & 7 of 8 factors monotonic & Strong evidence for ranking quality \\

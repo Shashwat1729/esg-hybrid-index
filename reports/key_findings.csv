@@ -22,7 +22,7 @@ Country Differences,Significant country difference in market_score (d=0.774),p=0
 Country Differences,Significant country difference in operational_score (d=0.952),p=0.0000
 Country Differences,Significant country difference in value_score (d=0.714),p=0.0000
 Robustness,32.2% of companies have stable rankings under weight perturbation,N/A
-Multicollinearity,Max VIF = 2.80 (financial_score),Low
+Multicollinearity,Max VIF = 3.26 (financial_score),Low
 Portfolio Performance,"Balanced top-20: 1m return -4.01%, Sharpe 0.000",N/A
 Excess Momentum/Beta,"Multi-factor excess avg momentum = +0.00%, beta = 0.82",N/A
 Robustness,Balanced strategy beats benchmark 100% of rolling periods,N/A

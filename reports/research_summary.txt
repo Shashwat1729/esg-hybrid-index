@@ -217,14 +217,16 @@ be interpreted as reflecting the proxy construction methodology.
 
   Factor                              VIF        Level
   --------------------------------------------------
-  ESG_composite                      2.53          Low
-  financial_score                    2.80          Low
-  market_score                       1.91          Low
-  operational_score                  1.42          Low
-  risk_adjusted_score                2.13          Low
-  value_score                        1.49          Low
-  growth_score                       1.22          Low
-  stability_score                    1.21          Low
+  ESG_composite                      2.61          Low
+  financial_score                    3.26          Low
+  market_score                       1.98          Low
+  operational_score                  1.67          Low
+  risk_adjusted_score                2.18          Low
+  growth_score                       1.23          Low
+  value_score                        1.86          Low
+  stability_score                    1.23          Low
+  similarity_rank                    1.37          Low
+  sector_position                    2.20          Low
 
   All VIF values below 5 - no serious multicollinearity detected.
 
@@ -311,7 +313,45 @@ be interpreted as reflecting the proxy construction methodology.
     Optimal clusters: 3
     Silhouette score: 0.261
 
-[WARN] Section 'Advanced' skipped due to error: 'rank_stable'
+  Bootstrap CI (500 iterations):
+    Stable companies: 20.3%
+    Average CI width: 241.9 positions
+
+  Factor Ablation:
+    Remove growth_score: Kendall tau=0.777, mean rank shift=22.3
+    Remove ESG_composite: Kendall tau=0.804, mean rank shift=19.6
+    Remove financial_score: Kendall tau=0.848, mean rank shift=15.3
+    Remove risk_adjusted_score: Kendall tau=0.849, mean rank shift=15.5
+    Remove stability_score: Kendall tau=0.885, mean rank shift=11.4
+    Remove operational_score: Kendall tau=0.925, mean rank shift=7.6
+    Remove sector_position: Kendall tau=0.943, mean rank shift=5.9
+    Remove market_score: Kendall tau=0.956, mean rank shift=4.7
+    Remove value_score: Kendall tau=0.959, mean rank shift=4.5
+    Remove similarity_rank: Kendall tau=1.000, mean rank shift=0.0
+
+  Factor Tilt Sensitivity:
+    Best CS-IR (original): return=43.35, risk=32.40, CS-IR=1.338
+    Min Risk (original): return=7.89, risk=16.21, CS-IR=0.487
+    Max Return (original): return=45.61, risk=34.98, CS-IR=1.304
+    Best CS-IR (ex_market): return=2.53, risk=22.29, CS-IR=0.113
+    Min Risk (ex_market): return=-2.10, risk=18.37, CS-IR=-0.114
+    Max Return (ex_market): return=2.53, risk=22.29, CS-IR=0.113
+
+  Cross-Validation (110-fold):
+    Avg train CS-IR: 0.862
+    Avg test CS-IR:  -0.122
+    Overfit ratio:    -0.47
+
+  Score Inequality (Gini):
+    ESG_composite: Gini=0.359 (Moderate)
+    financial_score: Gini=0.358 (Moderate)
+    market_score: Gini=0.387 (Moderate)
+    operational_score: Gini=0.276 (Moderate)
+    risk_adjusted_score: Gini=0.357 (Moderate)
+    value_score: Gini=0.329 (Moderate)
+    growth_score: Gini=0.254 (Moderate)
+    stability_score: Gini=0.223 (Moderate)
+    pref_balanced: Gini=0.255 (Moderate)
 
 
 ========================================================================
@@ -427,8 +467,8 @@ be interpreted as reflecting the proxy construction methodology.
     carbon_reduction_target x human_rights_policy: phi=0.111, p=0.0751  
 
   Ordinal variables tested: 2
-    board_size: median=63, KW-H(sector)=175.444 (p=0.0000)*, Spearman(pref)=0.067 (p=0.2706)
     esg_risk_rating: median=59, KW-H(sector)=39.514 (p=0.0000)*, Spearman(pref)=0.145 (p=0.0158)
+    board_size: median=63, KW-H(sector)=175.444 (p=0.0000)*, Spearman(pref)=0.067 (p=0.2706)
 
 
 ========================================================================
@@ -530,7 +570,7 @@ LIMITATIONS: SYNTHETIC ESG DATA
   Cross-validation: train CS-IR 0.862, test CS-IR -0.122.
   Rolling rebalance: beats benchmark 100% of periods (avg excess +7.38%).
   Dominant factor: financial_score (R2 = 0.680).
-  Max VIF = 2.80 (no serious multicollinearity).
+  Max VIF = 3.26 (no serious multicollinearity).
   Bear-market excess return: +7.27%.
   Best monotonic predictor: market_score (Q5-Q1 spread = +62.72%).
 

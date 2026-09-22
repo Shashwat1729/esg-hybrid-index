@@ -268,7 +268,17 @@ def section_factor_contribution(lines):
 
 def section_multicollinearity(lines):
     lines.append(section_header("8. MULTICOLLINEARITY (VIF)"))
-    vif = safe_read("vif_multicollinearity.csv")
+    # Prefer factor_vif.csv (10-factor, includes similarity/sector) as authoritative;
+    # fall back to vif_multicollinearity.csv for legacy compatibility
+    vif = safe_read("factor_vif.csv")
+    if vif is None:
+        vif = safe_read("vif_multicollinearity.csv")
+    else:
+        # normalize column names: factor_vif uses 'factor','VIF','concern'
+        if "factor" in vif.columns and "VIF" in vif.columns:
+            vif = vif.rename(columns={"factor": "factor", "VIF": "VIF", "concern": "multicollinearity"})
+            # Map concern levels to standard labels
+            vif["multicollinearity"] = vif["multicollinearity"].str.title() if vif["multicollinearity"].dtype == object else "Low"
     if vif is None:
         lines.append("  Results not available.\n")
         return
@@ -380,11 +390,17 @@ def section_advanced(lines):
         lines.append(f"    Optimal clusters: {best['n_clusters']:.0f}")
         lines.append(f"    Silhouette score: {best['silhouette_score']:.3f}")
 
-    # Bootstrap
+    # Bootstrap — handle both legacy and new column names
     boot = safe_read("advanced_bootstrap_ci.csv")
     if boot is not None:
-        stable_pct = boot["rank_stable"].mean() * 100
-        avg_ci = boot["ci_width"].mean()
+        # New files use rank_stable_legacy/relaxed; old used rank_stable
+        stable_col = next((c for c in ["rank_stable", "rank_stable_legacy", "rank_stable_relaxed"] if c in boot.columns), None)
+        if stable_col is not None:
+            stable_pct = boot[stable_col].mean() * 100
+        else:
+            # fallback: compute from ci_width < 50 as proxy
+            stable_pct = (boot["ci_width"] < 50).mean() * 100 if "ci_width" in boot.columns else 0
+        avg_ci = boot["ci_width"].mean() if "ci_width" in boot.columns else 0
         lines.append(f"\n  Bootstrap CI (500 iterations):")
         lines.append(f"    Stable companies: {stable_pct:.1f}%")
         lines.append(f"    Average CI width: {avg_ci:.1f} positions")
@@ -760,7 +776,9 @@ def section_results_summary(df, lines):
     regime = safe_read("advanced_regime_analysis.csv")
     mono = safe_read("advanced_factor_monotonicity.csv")
     fc = safe_read("factor_contributions.csv")
-    vif = safe_read("vif_multicollinearity.csv")
+    vif = safe_read("factor_vif.csv")
+    if vif is None:
+        vif = safe_read("vif_multicollinearity.csv")
     wt = safe_read("benchmark_weighting_methods.csv")
     mh = safe_read("benchmark_multi_horizon.csv")
 
@@ -1014,8 +1032,10 @@ def generate_key_findings(df):
             "significance": "N/A",
         })
 
-    # 6. VIF
-    vif = safe_read("vif_multicollinearity.csv")
+    # 6. VIF — prefer factor_vif.csv (authoritative, 10 factors) with fallback
+    vif = safe_read("factor_vif.csv")
+    if vif is None:
+        vif = safe_read("vif_multicollinearity.csv")
     if vif is not None:
         max_vif = vif["VIF"].max()
         findings.append({
