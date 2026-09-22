@@ -440,8 +440,8 @@ be interpreted as reflecting the proxy construction methodology.
     Total outlier observations flagged: 1299
     Most affected variables:
       total_debt                    : 56 outliers (17.8%)
-      net_income                    : 55 outliers (17.5%)
       total_revenue                 : 55 outliers (17.6%)
+      net_income                    : 55 outliers (17.5%)
       market_cap                    : 54 outliers (17.2%)
       total_cash                    : 48 outliers (15.3%)
 
@@ -459,16 +459,16 @@ be interpreted as reflecting the proxy construction methodology.
     Significant associations with financial_score: 0/3
     Significant associations with pref_balanced: 0/3
 
+    human_rights_policy           : prop=1.00, ESG r=nan , Fin r=nan , Pref r=nan 
     anti_corruption_policy        : prop=1.00, ESG r=nan , Fin r=nan , Pref r=nan 
     carbon_reduction_target       : prop=1.00, ESG r=nan , Fin r=nan , Pref r=nan 
-    human_rights_policy           : prop=1.00, ESG r=nan , Fin r=nan , Pref r=nan 
 
   Phi Coefficients (binary-binary associations):
     carbon_reduction_target x human_rights_policy: phi=0.111, p=0.0751  
 
   Ordinal variables tested: 2
-    esg_risk_rating: median=59, KW-H(sector)=39.514 (p=0.0000)*, Spearman(pref)=0.145 (p=0.0158)
     board_size: median=63, KW-H(sector)=175.444 (p=0.0000)*, Spearman(pref)=0.067 (p=0.2706)
+    esg_risk_rating: median=59, KW-H(sector)=39.514 (p=0.0000)*, Spearman(pref)=0.145 (p=0.0158)
 
 
 ========================================================================
@@ -623,7 +623,7 @@ LIMITATIONS: SYNTHETIC ESG DATA
 21. FIGURES GENERATED
 ========================================================================
 
-  Total figures: 57
+  Total figures: 58
 
   - benchmark_bootstrap_stability.png
   - benchmark_esg_premium.png
@@ -672,6 +672,7 @@ LIMITATIONS: SYNTHETIC ESG DATA
   - fig_ic_heatmap.png
   - fig_proxy_calibration.png
   - fig_quintile_returns.png
+  - fig_temporal_rolling_performance.png
   - profile_pca_projection.png
   - profile_per_factor_sensitivity.png
   - profile_portfolio_overlap.png
@@ -688,7 +689,7 @@ LIMITATIONS: SYNTHETIC ESG DATA
 22. TABLES GENERATED
 ========================================================================
 
-  Total tables: 173
+  Total tables: 176
 
   - advanced_bootstrap_ci.csv                          (  49.4 KB)
   - advanced_cluster_metrics.csv                       (   0.2 KB)
@@ -845,6 +846,9 @@ LIMITATIONS: SYNTHETIC ESG DATA
   - subsampling_stability_summary.csv                  (   0.1 KB)
   - subsampling_stability_top20.csv                    (  20.1 KB)
   - synthetic_sensitivity_summary.csv                  (   0.0 KB)
+  - temporal_ic_decay.csv                              (   3.0 KB)
+  - temporal_rolling_ic.csv                            (   1.4 KB)
+  - temporal_rolling_portfolio.csv                     (   0.7 KB)
   - timesplit_evaluation_synthetic.csv                 (   0.2 KB)
   - timesplit_evaluation_synthetic_summary.csv         (   0.2 KB)
   - top20_balanced.csv                                 (   3.9 KB)

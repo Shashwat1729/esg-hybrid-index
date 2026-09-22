@@ -34,6 +34,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 from src.constants import RANDOM_SEED
+from src.utils import get_portfolio_top_n
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -693,11 +694,15 @@ def jonckheere_terpstra_test(
 # ===================================================================
 
 def _get_top20(df: pd.DataFrame, score_col: str = "pref_balanced") -> pd.DataFrame:
-    """Return top-20 companies by *score_col* (highest = best)."""
+    """Return top-n companies by *score_col* (highest = best, dynamic)."""
     if score_col not in df.columns:
         # Fallback: try ESG_composite
         score_col = "ESG_composite"
-    return df.nlargest(20, score_col).copy()
+    try:
+        _top_n = get_portfolio_top_n(len(df))
+    except Exception:
+        _top_n = 20
+    return df.nlargest(_top_n, score_col).copy()
 
 
 def _add_liquidity_weights(top20: pd.DataFrame) -> pd.DataFrame:
@@ -833,8 +838,11 @@ def _turnover_analysis(df: pd.DataFrame) -> pd.DataFrame:
         return pd.DataFrame([{"note": "score column not available"}])
 
     N_SIM = 200
-    TOP_K = 20
-    # Mo7 FIX: Test multiple perturbation levels instead of just ±10%
+    try:
+        TOP_K = get_portfolio_top_n(len(df))
+    except Exception:
+        TOP_K = 20
+    # Mo7 FIX: Test multiple perturbation levels instead of just ±10% (dynamic TOP_K)
     PERTURBATION_LEVELS = [0.10, 0.20, 0.30]
 
     baseline_top = set(df.nlargest(TOP_K, score_col)["ticker"].tolist())

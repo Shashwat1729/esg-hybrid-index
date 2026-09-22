@@ -36,7 +36,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", message=".*divide by zero.*")
 warnings.filterwarnings("ignore", message=".*invalid value.*")
 
-from src.utils import load_indexed_data
+from src.utils import get_portfolio_top_n, load_indexed_data
 from src.constants import SCORE_COLUMNS, RANDOM_SEED
 
 TABLES = PROJECT_ROOT / "reports" / "tables"
@@ -48,7 +48,14 @@ TABLES.mkdir(parents=True, exist_ok=True)
 N_ITERATIONS = 500
 SUBSAMPLE_FRAC = 0.80
 SEED = RANDOM_SEED
-TOP_K = 20
+# Dynamic portfolio size (config-driven: 7% of universe, fallback to 20)
+# TOP_K is kept for backward compat but computed dynamically per df via get_portfolio_top_n
+try:
+    # Use project default N=276 to initialise; actual per-df value computed in subsampling_stability()
+    _default_n = get_portfolio_top_n(276)
+except Exception:
+    _default_n = 20
+TOP_K = _default_n
 
 
 # ---------------------------------------------------------------------------
@@ -88,6 +95,15 @@ def subsampling_stability(
         Per-company frequency of appearing in the top-K across iterations.
     """
     rng = np.random.default_rng(seed)
+    # Dynamic top_k if caller passes default TOP_K that may not match current N
+    # Recompute from df length to honor config (e.g., N=100->10, N=500->35)
+    try:
+        _dynamic_k = get_portfolio_top_n(len(df))
+        # If top_k equals the old hardcoded default and dynamic differs, prefer dynamic
+        if top_k == 20 and _dynamic_k != 20:
+            top_k = _dynamic_k
+    except Exception:
+        pass
     n = len(df)
     n_sub = int(n * subsample_frac)
 

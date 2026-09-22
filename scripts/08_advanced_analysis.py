@@ -40,7 +40,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", message=".*divide by zero.*")
 warnings.filterwarnings("ignore", message=".*invalid value.*")
 
-from src.utils import load_indexed_data, load_profile_weights
+from src.utils import get_portfolio_top_n, load_indexed_data, load_profile_weights
 from src.constants import RANDOM_SEED
 
 TABLES = PROJECT_ROOT / "reports" / "tables"
@@ -556,7 +556,10 @@ def factor_tilt_sensitivity(df):
 
     rng = np.random.default_rng(RANDOM_SEED)
     n_portfolios = 1000
-    top_n = 20
+    try:
+        top_n = get_portfolio_top_n(len(df))
+    except Exception:
+        top_n = 20
 
     # --- Original frontier (all FACTOR_COLS including market_score) ---
     rows = []
@@ -1023,7 +1026,11 @@ def regime_analysis(df):
         for strat_name, sort_col in strategies.items():
             if sort_col not in regime_df.columns:
                 continue
-            top20 = regime_df.nlargest(min(20, len(regime_df)), sort_col)
+            try:
+                _tn = get_portfolio_top_n(len(df))
+            except Exception:
+                _tn = 20
+            top20 = regime_df.nlargest(min(_tn, len(regime_df)), sort_col)
             rets = top20[ret_col].dropna()
             bench = regime_df[ret_col].dropna()
 

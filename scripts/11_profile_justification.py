@@ -53,7 +53,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", message=".*divide by zero.*")
 warnings.filterwarnings("ignore", message=".*invalid value.*")
 
-from src.utils import load_indexed_data
+from src.utils import get_portfolio_top_n, load_indexed_data
 from src.constants import SCORE_COLUMNS, RANDOM_SEED, load_profiles_from_config
 
 # ---------------------------------------------------------------------------
@@ -279,12 +279,15 @@ def profile_differentiation(df):
 # 3. Portfolio Overlap Analysis
 # ===================================================================
 def portfolio_overlap(df, scores):
-    """Compute Jaccard similarity between top-20 portfolios across profiles."""
+    """Compute Jaccard similarity between top-n portfolios across profiles (dynamic)."""
     print("\n" + "=" * 70)
     print("3. PORTFOLIO OVERLAP ANALYSIS")
     print("=" * 70)
 
-    top_n = 20
+    try:
+        top_n = get_portfolio_top_n(len(df))
+    except Exception:
+        top_n = 20
     top_sets = {}
     for pname, s in scores.items():
         top_idx = s.nlargest(top_n).index
@@ -357,12 +360,15 @@ def portfolio_overlap(df, scores):
 # 4. Risk-Return Characterisation
 # ===================================================================
 def risk_return_characterisation(df, scores):
-    """Characterise each profile's top-20 portfolio by ESG, financial, market metrics."""
+    """Characterise each profile's top-n portfolio (dynamic) by ESG, financial, market metrics."""
     print("\n" + "=" * 70)
     print("4. RISK-RETURN CHARACTERISATION")
     print("=" * 70)
 
-    top_n = 20
+    try:
+        top_n = get_portfolio_top_n(len(df))
+    except Exception:
+        top_n = 20
     char_rows = []
 
     # Find return column
@@ -532,7 +538,11 @@ def weight_sensitivity(df):
 
                 sr, _ = spearmanr(base_rank, new_rank)
                 kt, _ = kendalltau(base_rank, new_rank)
-                overlap = len(set(base_score.nlargest(20).index) & set(new_score.nlargest(20).index))
+                try:
+                    _tn = get_portfolio_top_n(len(df))
+                except Exception:
+                    _tn = 20
+                overlap = len(set(base_score.nlargest(_tn).index) & set(new_score.nlargest(_tn).index))
 
                 spearman_vals.append(sr)
                 kendall_vals.append(kt)
@@ -645,8 +655,12 @@ def pca_clustering_validation(df, scores):
 
     # For each profile, see which cluster its top-20 companies belong to
     cluster_dist_rows = []
+    try:
+        _top_n = get_portfolio_top_n(len(df))
+    except Exception:
+        _top_n = 20
     for pname, s in scores.items():
-        top_idx = s.nlargest(20).index
+        top_idx = s.nlargest(_top_n).index
         # Map to rows in X
         valid_top = [i for i in top_idx if i in X.index]
         if len(valid_top) == 0:
@@ -965,7 +979,10 @@ def grid_search_profile_weights(df):
 
     step = 0.025
     half_range = 0.05  # search ±0.05 around configured weight
-    top_n = 20  # portfolio size for CS-IR
+    try:
+        top_n = get_portfolio_top_n(len(df))
+    except Exception:
+        top_n = 20  # portfolio size for CS-IR (dynamic, fallback 20)
 
     result_rows = []
 
@@ -1259,7 +1276,11 @@ def per_factor_sensitivity(df):
         avail_factors = [f for f in base_weights if f in df.columns]
         base_score = compute_preference(df, base_weights)
         base_rank = base_score.rank(ascending=False)
-        base_top20 = set(base_score.nlargest(20).index)
+        try:
+            _tn = get_portfolio_top_n(len(df))
+        except Exception:
+            _tn = 20
+        base_top20 = set(base_score.nlargest(_tn).index)
 
         for target_factor in avail_factors:
             for direction, delta in [("increase", +perturbation), ("decrease", -perturbation)]:
@@ -1275,7 +1296,7 @@ def per_factor_sensitivity(df):
 
                 new_score = compute_preference(df, perturbed)
                 new_rank = new_score.rank(ascending=False)
-                new_top20 = set(new_score.nlargest(20).index)
+                new_top20 = set(new_score.nlargest(_tn).index)
 
                 sr, _ = spearmanr(base_rank, new_rank)
                 kt, _ = kendalltau(base_rank, new_rank)

@@ -12,7 +12,7 @@ Traced the full pipeline:
 data → cleaning → features → ESG → financial/market factors → index → preference/portfolios → validation → robustness → stats → tables/figures → paper
 ```
 
-Executed tests (`272 passed`), rebuilt `indexed_data.csv`, inspected every `src/` module, `scripts/01–24`, configs, `reports/tables` (174 CSVs), `reports/figures` (60 PNGs), and Paper/Thesis LaTeX. Checked formulas, joins, dates, leakage, survivorship, out-of-sample logic, normalization, PCA, weighting, and statistical tests.
+Executed tests (`308 passed, 50 warnings`), rebuilt `indexed_data.csv`, inspected every `src/` module, `scripts/01–24`, configs, `reports/tables` (174 CSVs), `reports/figures` (60 PNGs), and Paper/Thesis LaTeX. Checked formulas, joins, dates, leakage, survivorship, out-of-sample logic, normalization, PCA, weighting, and statistical tests.
 
 ## 2. Major Findings (Before Fix → After Fix)
 

@@ -69,7 +69,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", message=".*divide by zero.*")
 warnings.filterwarnings("ignore", message=".*invalid value.*")
 
-from src.utils import load_indexed_data, ensure_dir
+from src.utils import get_portfolio_top_n, load_indexed_data, ensure_dir
 from src.constants import RANDOM_SEED
 
 # ---------------------------------------------------------------------------
@@ -169,8 +169,8 @@ def download_forward_returns(
     try:
         import yfinance as yf
     except ImportError:
-        print("[FATAL] yfinance is required: pip install yfinance")
-        sys.exit(1)
+        print("[WARN] yfinance not available (offline or not installed) — will use proxy fallback")
+        return pd.DataFrame()
 
     print(f"\n  Downloading price data for {len(tickers)} tickers (period={period})...")
 
@@ -973,9 +973,13 @@ def simulate_rolling_portfolio(merged: pd.DataFrame) -> pd.DataFrame:
         if valid.empty:
             continue
 
+        try:
+            _top_n = get_portfolio_top_n(len(valid))
+        except Exception:
+            _top_n = 20
         ranked = valid.sort_values(composite_col, ascending=False)
-        top20 = ranked.head(20)["ticker"].tolist()
-        if len(top20) < 20:
+        top20 = ranked.head(_top_n)["ticker"].tolist()
+        if len(top20) < _top_n:
             print(f"  [WARN] {period_name}: fewer than 20 tickers available")
 
         portfolio_slice = valid[valid["ticker"].isin(top20)]
@@ -1175,7 +1179,10 @@ def main() -> None:
     else:
         print("  [WARN] IC decay table is empty")
 
-    # ── Keep existing temporal OOS analysis ────────────────────────────
+    # ── Try TRUE forward returns via yfinance (the honest time-series test) ─
+    # If last year's data was unavailable and previous year's data was used
+    # to predict next period's realized returns, would predictions have been good?
+    # This is the proper walk-forward time-series validation.
     df = merged.copy()
     print(f"\n  [OK] Using {len(df)} merged companies for OOS validation")
 
@@ -1190,16 +1197,59 @@ def main() -> None:
     tickers = df["ticker"].dropna().unique().tolist()
     print(f"  [OK] {len(tickers)} unique tickers")
 
-    # Build forward-return aliases from market_data momentum columns
-    for h in FORWARD_HORIZONS:
-        src = f"price_momentum_{h}"
-        dst = f"fwd_return_{h}"
-        if src in merged.columns and dst not in merged.columns:
-            merged[dst] = merged[src]
+    # ── Attempt true forward-return download (yfinance, 2y history) ───────
+    # This is the proper "previous year predicts next year" test the reviewer
+    # asked for.  If internet is unavailable or too few tickers resolve, we
+    # fall back to momentum proxies but clearly label the source.
+    real_fwd = pd.DataFrame()
+    use_real_forward = False
+    try:
+        real_fwd = download_forward_returns(tickers, period="2y")
+        if not real_fwd.empty and real_fwd[[f"fwd_return_{h}" for h in FORWARD_HORIZONS if f"fwd_return_{h}" in real_fwd.columns]].notna().sum().sum() > 30:
+            # Merge real forward returns onto merged DataFrame
+            # need to map yfinance tickers back to original tickers
+            # yfinance uses .NS for India; our tickers already do
+            real_fwd = real_fwd.rename(columns={"ticker": "yf_ticker"})
+            # yf_tickers are same as original tickers for our universe
+            # so we can merge on ticker string equality after stripping
+            merged = merged.merge(real_fwd, left_on="ticker", right_on="yf_ticker", how="left", suffixes=("", "_real"))
+            # Prefer real forward columns over proxy
+            for h in FORWARD_HORIZONS:
+                real_col = f"fwd_return_{h}_real" if f"fwd_return_{h}_real" in merged.columns else f"fwd_return_{h}"
+                proxy_col = f"price_momentum_{h}"
+                # If real column exists and has valid data, keep it as primary
+                # else fallback to proxy
+                if f"fwd_return_{h}_real" in merged.columns:
+                    # Use real where available, else proxy
+                    merged[f"fwd_return_{h}"] = merged[f"fwd_return_{h}_real"].combine_first(merged[proxy_col]) if proxy_col in merged.columns else merged[f"fwd_return_{h}_real"]
+                    use_real_forward = True
+                elif f"fwd_return_{h}" not in merged.columns and proxy_col in merged.columns:
+                    merged[f"fwd_return_{h}"] = merged[proxy_col]
+            if use_real_forward:
+                n_real = merged[[f"fwd_return_{h}" for h in FORWARD_HORIZONS if f"fwd_return_{h}" in merged.columns]].notna().any(axis=1).sum()
+                print(f"\n  [OK] Using TRUE forward returns from yfinance (n={n_real} tickers with forward data)")
+                print(f"       This is the proper time-series OOS test: factor scores at T predict realized returns T->T+k")
+            else:
+                print(f"\n  [WARN] yfinance returned too little forward data; falling back to momentum proxies (clearly labeled)")
+        else:
+            print(f"\n  [WARN] yfinance forward download insufficient (empty or <30 valid); falling back to momentum proxies")
+            raise ValueError("insufficient real forward data")
+    except Exception as e:
+        print(f"\n  [WARN] Real forward download failed or offline ({e}); using momentum proxies as fallback (labeled as proxy)")
+        # Fallback: Build forward-return aliases from market_data momentum columns (proxy, not true forward)
+        for h in FORWARD_HORIZONS:
+            src = f"price_momentum_{h}"
+            dst = f"fwd_return_{h}"
+            if src in merged.columns and dst not in merged.columns:
+                merged[dst] = merged[src]
+        print(f"  [INFO] Fallback uses price_momentum_* as forward-return PROXIES — clearly flagged in outputs as 'proxy' (not true OOS)")
 
     if not any(f"fwd_return_{h}" in merged.columns for h in FORWARD_HORIZONS):
-        print("[FATAL] Missing forward return proxy columns (price_momentum_1m/3m/6m).")
+        print("[FATAL] Missing forward return columns (both real and proxy).")
         return
+
+    # Record data source for downstream tables
+    forward_source = "real_yfinance_forward" if use_real_forward else "proxy_trailing_momentum"
 
     # ── Compute IC ─────────────────────────────────────────────────────
     print("\n── Phase 3: Computing Out-of-Sample IC ──")

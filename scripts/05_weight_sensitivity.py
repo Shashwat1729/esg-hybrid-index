@@ -30,7 +30,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", message=".*divide by zero.*")
 warnings.filterwarnings("ignore", message=".*invalid value.*")
 
-from src.utils import load_indexed_data
+from src.utils import get_portfolio_top_n, load_indexed_data
 from src.constants import DEFAULT_WEIGHTS, DEFAULT_WEIGHTS_WITH_MARKET, SCORE_COLUMNS, RANDOM_SEED, load_profiles_from_config
 
 TABLES = PROJECT_ROOT / "reports" / "tables"
@@ -70,9 +70,14 @@ def compute_preference(df, weights):
     return score.clip(0, 100)
 
 
-def compute_portfolio_csir(df, weights, return_col="price_momentum_3m", top_n=20):
+def compute_portfolio_csir(df, weights, return_col="price_momentum_3m", top_n=None):
     """Compute cross-sectional IR: select top_n by score, measure mean/std of their returns."""
     score = compute_preference(df, weights)
+    if top_n is None:
+        try:
+            top_n = get_portfolio_top_n(len(df))
+        except Exception:
+            top_n = 20
     top_idx = score.nlargest(top_n).index
     rets = df.loc[top_idx, return_col].dropna()
     if len(rets) == 0 or rets.std() < 1e-10:
@@ -99,6 +104,10 @@ def sensitivity_single_param(df):
     base_score = compute_preference(df, DEFAULT_WEIGHTS)
     base_rank = base_score.rank(ascending=False)
 
+    try:
+        _top_n = get_portfolio_top_n(len(df))
+    except Exception:
+        _top_n = 20
     rows = []
     for param in DEFAULT_WEIGHTS:
         if param not in df.columns:
@@ -116,14 +125,14 @@ def sensitivity_single_param(df):
 
             kt, kp = kendalltau(base_rank, new_rank)
             sr, sp = spearmanr(base_rank, new_rank)
-
+            _tn = min(_top_n, len(df))
             rows.append({
                 "parameter": param, "delta": delta,
                 "old_weight": old_val, "new_weight": new_val,
                 "kendall_tau": kt, "kendall_p": kp,
                 "spearman_r": sr, "spearman_p": sp,
                 "top10_overlap": len(set(base_score.nlargest(10).index) & set(new_score.nlargest(10).index)),
-                "top20_overlap": len(set(base_score.nlargest(20).index) & set(new_score.nlargest(20).index)),
+                "top20_overlap": len(set(base_score.nlargest(_tn).index) & set(new_score.nlargest(_tn).index)),
             })
 
     result = pd.DataFrame(rows)
@@ -193,7 +202,11 @@ def grid_search_weights(df):
         # Return-based CS-IR (uses actual stock returns)
         return_sharpe = 0.0
         if return_col:
-            return_sharpe = compute_portfolio_csir(df, weights, return_col=return_col, top_n=20)
+            try:
+                _tn_csir = get_portfolio_top_n(len(df))
+            except Exception:
+                _tn_csir = 20
+            return_sharpe = compute_portfolio_csir(df, weights, return_col=return_col, top_n=_tn_csir)
 
         rows.append({
             "esg_weight": round(esg_w, 2), "financial_weight": round(fin_w, 2),
@@ -284,6 +297,11 @@ def profile_comparison(df):
     for name, weights in profiles.items():
         scores[name] = compute_preference(df, weights)
 
+    try:
+        _top_n = get_portfolio_top_n(len(df))
+    except Exception:
+        _top_n = 20
+    _tn = min(_top_n, len(df))
     rows = []
     profile_names = list(profiles.keys())
     for i, p1 in enumerate(profile_names):
@@ -291,7 +309,7 @@ def profile_comparison(df):
             kt, kp = kendalltau(scores[p1].rank(), scores[p2].rank())
             sr, sp = spearmanr(scores[p1].rank(), scores[p2].rank())
             overlap_10 = len(set(scores[p1].nlargest(10).index) & set(scores[p2].nlargest(10).index))
-            overlap_20 = len(set(scores[p1].nlargest(20).index) & set(scores[p2].nlargest(20).index))
+            overlap_20 = len(set(scores[p1].nlargest(_tn).index) & set(scores[p2].nlargest(_tn).index))
             rows.append({
                 "profile1": p1, "profile2": p2,
                 "kendall_tau": kt, "spearman_r": sr,
@@ -360,11 +378,15 @@ def conditional_weight_analysis(df):
             new_rank = new_score.rank(ascending=False)
             kt, _ = kendalltau(base_rank, new_rank)
 
-            # Measure CS-IR change
+            # Measure CS-IR change (dynamic top_n)
+            try:
+                _tn_cc = get_portfolio_top_n(len(df))
+            except Exception:
+                _tn_cc = 20
             new_csir = 0.0
             if return_col:
-                new_csir = compute_portfolio_csir(df, shifted, return_col=return_col, top_n=20)
-            base_csir = compute_portfolio_csir(df, DEFAULT_WEIGHTS, return_col=return_col, top_n=20) if return_col else 0.0
+                new_csir = compute_portfolio_csir(df, shifted, return_col=return_col, top_n=_tn_cc)
+            base_csir = compute_portfolio_csir(df, DEFAULT_WEIGHTS, return_col=return_col, top_n=_tn_cc) if return_col else 0.0
 
             sub_rows.append({
                 "increased_factor": f1, "decreased_factor": f2,

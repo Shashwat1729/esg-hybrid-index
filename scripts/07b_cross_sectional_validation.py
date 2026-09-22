@@ -828,6 +828,12 @@ def bootstrap_rank_stability(
         print("  [SKIP] pref_balanced(_ex_market) not available for bootstrap")
         return pd.DataFrame()
 
+    # Dynamic portfolio sizes from config (generalizes to any universe N)
+    from src.utils import get_portfolio_top_n
+    top_n = get_portfolio_top_n(len(df))
+    top10_n = min(10, top_n)  # top-10 is always 10 or less if N<10
+    top20_n = top_n  # portfolio top-N is the "top20" equivalent
+
     original_rank = df[score_col].rank(ascending=False)
     n = len(df)
     taus = []
@@ -837,8 +843,8 @@ def bootstrap_rank_stability(
     top20_overlaps = []
     prev_boot_rank = None
 
-    original_top10 = set(df.nlargest(10, score_col).index)
-    original_top20 = set(df.nlargest(20, score_col).index)
+    original_top10 = set(df.nlargest(top10_n, score_col).index)
+    original_top20 = set(df.nlargest(top20_n, score_col).index)
 
     for _ in range(n_bootstrap):
         idx = rng.choice(n, size=n, replace=True)
@@ -875,8 +881,8 @@ def bootstrap_rank_stability(
 
         prev_boot_rank = boot_rank.copy()
 
-        boot_top10 = set(boot.nlargest(10, score_col).index)
-        boot_top20 = set(boot.nlargest(20, score_col).index)
+        boot_top10 = set(boot.nlargest(top10_n, score_col).index)
+        boot_top20 = set(boot.nlargest(top20_n, score_col).index)
         top10_overlaps.append(len(original_top10 & boot_top10))
         top20_overlaps.append(len(original_top20 & boot_top20))
 
@@ -887,8 +893,8 @@ def bootstrap_rank_stability(
                 "kendall_tau_std",
                 "kendall_tau_p5",
                 "kendall_tau_p95",
-                "top10_overlap_mean",
-                "top20_overlap_mean",
+                f"top{top10_n}_overlap_mean",
+                f"top{top20_n}_overlap_mean",
                 "bootstrap_iter_rank_corr_mean",
                 "bootstrap_iter_rank_corr_std",
                 "pct_stocks_within_10_ranks_mean",
@@ -915,8 +921,8 @@ def bootstrap_rank_stability(
     )
     print(
         f"  [OK] Bootstrap: τ = {np.mean(taus):.3f} ± {np.std(taus):.3f} "
-        f"(top-10 overlap: {np.mean(top10_overlaps):.1f}/10, "
-        f"top-20 overlap: {np.mean(top20_overlaps):.1f}/20, "
+        f"(top-{top10_n} overlap: {np.mean(top10_overlaps):.1f}/{top10_n}, "
+        f"top-{top20_n} overlap: {np.mean(top20_overlaps):.1f}/{top20_n}, "
         f"within ±10 ranks: {np.mean(rank_within_10):.1f}%)"
     )
     return result

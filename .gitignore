@@ -15,7 +15,7 @@ htmlcov/
 .env
 .env.local
 
-# Thesis/Paper PDFs — ignore compiled thesis/paper PDFs only, keep figure assets
+# Thesis/Paper PDFs -- ignore compiled thesis/paper PDFs only, keep figure assets
 Thesis_report/main.pdf
 Thesis_report/Thesis.pdf
 Paper/Thesis.pdf
@@ -29,11 +29,15 @@ Thesis_report/*.out
 Thesis_report/*.fls
 Thesis_report/*.fdb_latexmk
 
-# Data — raw downloads are regenerated via 01_download_data.py
+# Data -- raw downloads are regenerated via 01_download_data.py
 # Keep processed outputs and reports tracked for reproducibility verification
-data/raw/
-# data/processed/  — tracked (generated outputs for verification)
-# reports/ — tracked (generated outputs for verification)
+data/raw/*.tmp
+data/raw/*.log
+!data/raw/*.csv
+!data/raw/*.json
+
+# data/processed/  -- tracked (generated outputs for verification)
+# reports/ -- tracked (generated outputs for verification)
 
 # Large binary caches
 *.pkl

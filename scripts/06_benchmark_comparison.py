@@ -30,7 +30,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", message=".*divide by zero.*")
 warnings.filterwarnings("ignore", message=".*invalid value.*")
 
-from src.utils import load_indexed_data, load_profile_weights
+from src.utils import get_portfolio_top_n, load_indexed_data, load_profile_weights
 from src.constants import RANDOM_SEED
 
 TABLES = PROJECT_ROOT / "reports" / "tables"
@@ -134,22 +134,26 @@ def sector_composition(df):
 # ---------------------------------------------------------------------------
 def score_comparison(df):
     print("\n--- Benchmark: Score Comparison ---")
+    try:
+        _top_n = get_portfolio_top_n(len(df))
+    except Exception:
+        _top_n = 20
 
     rankings = {}
     if "pref_balanced" in df.columns:
-        rankings["our_balanced"] = df.nlargest(20, "pref_balanced")["ticker"].tolist()
+        rankings["our_balanced"] = df.nlargest(_top_n, "pref_balanced")["ticker"].tolist()
     if "pref_esg_first" in df.columns:
-        rankings["our_esg_first"] = df.nlargest(20, "pref_esg_first")["ticker"].tolist()
+        rankings["our_esg_first"] = df.nlargest(_top_n, "pref_esg_first")["ticker"].tolist()
     if "pref_financial_first" in df.columns:
-        rankings["our_fin_first"] = df.nlargest(20, "pref_financial_first")["ticker"].tolist()
+        rankings["our_fin_first"] = df.nlargest(_top_n, "pref_financial_first")["ticker"].tolist()
     if "ESG_composite" in df.columns:
-        rankings["esg_only"] = df.nlargest(20, "ESG_composite")["ticker"].tolist()
+        rankings["esg_only"] = df.nlargest(_top_n, "ESG_composite")["ticker"].tolist()
     if "financial_score" in df.columns:
-        rankings["financial_only"] = df.nlargest(20, "financial_score")["ticker"].tolist()
+        rankings["financial_only"] = df.nlargest(_top_n, "financial_score")["ticker"].tolist()
     if "risk_adjusted_score" in df.columns:
-        rankings["risk_adj_only"] = df.nlargest(20, "risk_adjusted_score")["ticker"].tolist()
+        rankings["risk_adj_only"] = df.nlargest(_top_n, "risk_adjusted_score")["ticker"].tolist()
     if "growth_score" in df.columns:
-        rankings["growth_only"] = df.nlargest(20, "growth_score")["ticker"].tolist()
+        rankings["growth_only"] = df.nlargest(_top_n, "growth_score")["ticker"].tolist()
 
     # Overlap matrix
     names = list(rankings.keys())
@@ -222,23 +226,27 @@ def simulated_performance(df):
         print("  [SKIP] No return data available")
         return
 
-    # Build portfolios from different strategies
+    # Build portfolios from different strategies (dynamic top_n)
+    try:
+        _top_n = get_portfolio_top_n(len(df))
+    except Exception:
+        _top_n = 20
     portfolios = {}
     if "pref_balanced" in df.columns:
-        portfolios["our_balanced_top20"] = df.nlargest(20, "pref_balanced")
+        portfolios[f"our_balanced_top{_top_n}"] = df.nlargest(_top_n, "pref_balanced")
         portfolios["our_balanced_top30"] = df.nlargest(30, "pref_balanced")
     if "pref_esg_first" in df.columns:
-        portfolios["our_esg_first_top20"] = df.nlargest(20, "pref_esg_first")
+        portfolios[f"our_esg_first_top{_top_n}"] = df.nlargest(_top_n, "pref_esg_first")
     if "pref_financial_first" in df.columns:
-        portfolios["our_fin_first_top20"] = df.nlargest(20, "pref_financial_first")
+        portfolios[f"our_fin_first_top{_top_n}"] = df.nlargest(_top_n, "pref_financial_first")
     if "ESG_composite" in df.columns:
-        portfolios["esg_only_top20"] = df.nlargest(20, "ESG_composite")
+        portfolios[f"esg_only_top{_top_n}"] = df.nlargest(_top_n, "ESG_composite")
     if "financial_score" in df.columns:
-        portfolios["financial_only_top20"] = df.nlargest(20, "financial_score")
+        portfolios[f"financial_only_top{_top_n}"] = df.nlargest(_top_n, "financial_score")
     if "risk_adjusted_score" in df.columns:
-        portfolios["risk_adj_only_top20"] = df.nlargest(20, "risk_adjusted_score")
+        portfolios[f"risk_adj_only_top{_top_n}"] = df.nlargest(_top_n, "risk_adjusted_score")
     if "growth_score" in df.columns:
-        portfolios["growth_only_top20"] = df.nlargest(20, "growth_score")
+        portfolios[f"growth_only_top{_top_n}"] = df.nlargest(_top_n, "growth_score")
     portfolios["full_universe"] = df
 
     # Compute universe benchmark returns for information ratio
@@ -363,15 +371,19 @@ def benchmark_summary(df):
         }
         return row
 
+    try:
+        _top_n = get_portfolio_top_n(len(df))
+    except Exception:
+        _top_n = 20
     rows = []
     if "pref_balanced" in df.columns:
-        rows.append(_build_row("Our Multi-Factor (Top 20)", df.nlargest(20, "pref_balanced")))
+        rows.append(_build_row(f"Our Multi-Factor (Top {_top_n})", df.nlargest(_top_n, "pref_balanced")))
     if "ESG_composite" in df.columns:
-        rows.append(_build_row("ESG-Only (Top 20)", df.nlargest(20, "ESG_composite")))
+        rows.append(_build_row(f"ESG-Only (Top {_top_n})", df.nlargest(_top_n, "ESG_composite")))
     if "financial_score" in df.columns:
-        rows.append(_build_row("Financial-Only (Top 20)", df.nlargest(20, "financial_score")))
+        rows.append(_build_row(f"Financial-Only (Top {_top_n})", df.nlargest(_top_n, "financial_score")))
     if "growth_score" in df.columns:
-        rows.append(_build_row("Growth-Only (Top 20)", df.nlargest(20, "growth_score")))
+        rows.append(_build_row(f"Growth-Only (Top {_top_n})", df.nlargest(_top_n, "growth_score")))
     rows.append(_build_row("Full Universe", df))
 
     result = pd.DataFrame(rows)
@@ -397,18 +409,22 @@ def multi_horizon_comparison(df):
         print("  [SKIP] No return data")
         return
 
-    # Define strategies
+    # Define strategies (dynamic top_n)
+    try:
+        _top_n = get_portfolio_top_n(len(df))
+    except Exception:
+        _top_n = 20
     strategies = {}
     if "pref_balanced" in df.columns:
-        strategies["Our_MultiF_Top20"] = df.nlargest(20, "pref_balanced")
+        strategies[f"Our_MultiF_Top{_top_n}"] = df.nlargest(_top_n, "pref_balanced")
     if "pref_esg_first" in df.columns:
-        strategies["Our_ESGFirst_Top20"] = df.nlargest(20, "pref_esg_first")
+        strategies[f"Our_ESGFirst_Top{_top_n}"] = df.nlargest(_top_n, "pref_esg_first")
     if "ESG_composite" in df.columns:
-        strategies["ESG_Only_Top20"] = df.nlargest(20, "ESG_composite")
+        strategies[f"ESG_Only_Top{_top_n}"] = df.nlargest(_top_n, "ESG_composite")
     if "financial_score" in df.columns:
-        strategies["Financial_Only_Top20"] = df.nlargest(20, "financial_score")
+        strategies[f"Financial_Only_Top{_top_n}"] = df.nlargest(_top_n, "financial_score")
     if "growth_score" in df.columns:
-        strategies["Growth_Only_Top20"] = df.nlargest(20, "growth_score")
+        strategies[f"Growth_Only_Top{_top_n}"] = df.nlargest(_top_n, "growth_score")
     strategies["Full_Universe"] = df
 
     rows = []
@@ -477,17 +493,22 @@ def alpha_beta_analysis(df):
     bench_mean = df[return_col].dropna().mean()
     has_beta = "beta" in df.columns and df["beta"].notna().sum() > 10
 
+    try:
+        _top_n = get_portfolio_top_n(len(df))
+    except Exception:
+        _top_n = 20
+
     strategies = {}
     if "pref_balanced" in df.columns:
-        strategies["Our_MultiF_Top20"] = df.nlargest(20, "pref_balanced")
+        strategies[f"Our_MultiF_Top{_top_n}"] = df.nlargest(_top_n, "pref_balanced")
     if "pref_esg_first" in df.columns:
-        strategies["Our_ESGFirst_Top20"] = df.nlargest(20, "pref_esg_first")
+        strategies[f"Our_ESGFirst_Top{_top_n}"] = df.nlargest(_top_n, "pref_esg_first")
     if "ESG_composite" in df.columns:
-        strategies["ESG_Only_Top20"] = df.nlargest(20, "ESG_composite")
+        strategies[f"ESG_Only_Top{_top_n}"] = df.nlargest(_top_n, "ESG_composite")
     if "financial_score" in df.columns:
-        strategies["Financial_Only_Top20"] = df.nlargest(20, "financial_score")
+        strategies[f"Financial_Only_Top{_top_n}"] = df.nlargest(_top_n, "financial_score")
     if "growth_score" in df.columns:
-        strategies["Growth_Only_Top20"] = df.nlargest(20, "growth_score")
+        strategies[f"Growth_Only_Top{_top_n}"] = df.nlargest(_top_n, "growth_score")
 
     rows = []
     for name, sub in strategies.items():
@@ -582,12 +603,16 @@ def equal_vs_value_weighted(df):
                 "cross_sectional_ir": vw_ret / (vw_std + 1e-10),
             })
 
-    # 3. Our score-weighted top 20
+    # 3. Our score-weighted top_n (dynamic)
     if "pref_balanced" in df.columns:
-        top20 = df.nlargest(20, "pref_balanced")
+        try:
+            _top_n = get_portfolio_top_n(len(df))
+        except Exception:
+            _top_n = 20
+        top20 = df.nlargest(_top_n, "pref_balanced")
         t20_rets = top20[return_col].dropna()
         rows.append({
-            "method": "Score-Weight Top 20 (Ours)", "n": len(t20_rets),
+            "method": f"Score-Weight Top {_top_n} (Ours)", "n": len(t20_rets),
             "momentum_proxy": t20_rets.mean(), "std": t20_rets.std(),
             "cross_sectional_ir": t20_rets.mean() / (t20_rets.std() + 1e-10),
         })
@@ -599,18 +624,22 @@ def equal_vs_value_weighted(df):
             sw_ret = (valid[return_col] * sw).sum()
             sw_std = np.sqrt((sw * (valid[return_col] - sw_ret) ** 2).sum())
             rows.append({
-                "method": "Preference-Weight Top 20 (Ours)", "n": len(valid),
+                "method": f"Preference-Weight Top {_top_n} (Ours)", "n": len(valid),
                 "momentum_proxy": sw_ret, "std": sw_std,
                 "cross_sectional_ir": sw_ret / (sw_std + 1e-10),
             })
 
     # 5. Random top 20 baseline (average of 50 random selections)
     # Use the AVERAGE within-portfolio CS-IR, not cross-draw std
+    try:
+        _top_n_rand = get_portfolio_top_n(len(df))
+    except Exception:
+        _top_n_rand = 20
     rng = np.random.default_rng(RANDOM_SEED)
     random_rets_list = []
     random_csirs = []
     for _ in range(50):
-        sample = df.sample(min(20, len(df)), replace=False, random_state=rng.integers(2**31))
+        sample = df.sample(min(_top_n_rand, len(df)), replace=False, random_state=rng.integers(2**31))
         r = sample[return_col].dropna()
         random_rets_list.append(r.mean())
         if len(r) > 2 and r.std() > 1e-10:
@@ -618,10 +647,10 @@ def equal_vs_value_weighted(df):
         else:
             random_csirs.append(0.0)
     random_avg = np.mean(random_rets_list)
-    random_within_std = np.mean([df.sample(20, replace=False, random_state=rng.integers(2**31))[return_col].dropna().std()
+    random_within_std = np.mean([df.sample(_top_n_rand, replace=False, random_state=rng.integers(2**31))[return_col].dropna().std()
                                   for _ in range(50)])
     rows.append({
-        "method": "Random Top 20 (50 draws avg)", "n": 20,
+        "method": f"Random Top {_top_n_rand} (50 draws avg)", "n": _top_n_rand,
         "momentum_proxy": random_avg, "std": random_within_std,
         "cross_sectional_ir": np.mean(random_csirs),
     })
@@ -896,13 +925,17 @@ def composite_ex_market_evaluation(df):
         df["pref_balanced_ex_market"] = ex_score
         ex_market_col = "pref_balanced_ex_market"
 
-    # Build portfolios: clean (primary) vs contaminated (_with_market)
+    # Build portfolios: clean (primary) vs contaminated (_with_market) (dynamic)
+    try:
+        _top_n = get_portfolio_top_n(len(df))
+    except Exception:
+        _top_n = 20
     # After circularity fix: pref_balanced IS the clean version
     portfolios = {}
     if "pref_balanced_with_market" in df.columns:
-        portfolios["balanced_CONTAMINATED_top20"] = df.nlargest(20, "pref_balanced_with_market")
+        portfolios[f"balanced_CONTAMINATED_top{_top_n}"] = df.nlargest(_top_n, "pref_balanced_with_market")
         portfolios["balanced_CONTAMINATED_top30"] = df.nlargest(30, "pref_balanced_with_market")
-    portfolios["balanced_CLEAN_top20"] = df.nlargest(20, ex_market_col)
+    portfolios[f"balanced_CLEAN_top{_top_n}"] = df.nlargest(_top_n, ex_market_col)
     portfolios["balanced_CLEAN_top30"] = df.nlargest(30, ex_market_col)
 
     # Also ex-market variants for other profiles if available
@@ -911,9 +944,9 @@ def composite_ex_market_evaluation(df):
         orig_col = f"pref_{profile}"
         contaminated_col = f"pref_{profile}_with_market"
         if orig_col in df.columns:
-            portfolios[f"{profile}_CLEAN_top20"] = df.nlargest(20, orig_col)
+            portfolios[f"{profile}_CLEAN_top{_top_n}"] = df.nlargest(_top_n, orig_col)
         if contaminated_col in df.columns:
-            portfolios[f"{profile}_CONTAMINATED_top20"] = df.nlargest(20, contaminated_col)
+            portfolios[f"{profile}_CONTAMINATED_top{_top_n}"] = df.nlargest(_top_n, contaminated_col)
 
     portfolios["full_universe"] = df
 
@@ -1172,7 +1205,11 @@ def benchmark_factor_contribution(df):
         return
 
     weights = load_profile_weights("balanced", project_root=PROJECT_ROOT, as_column_names=True)
-    top20 = df.nlargest(20, "pref_balanced")
+    try:
+        _top_n = get_portfolio_top_n(len(df))
+    except Exception:
+        _top_n = 20
+    top20 = df.nlargest(_top_n, "pref_balanced")
 
     rows = []
     for factor, weight in weights.items():

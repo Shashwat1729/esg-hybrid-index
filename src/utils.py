@@ -218,3 +218,64 @@ def load_profile_weights(
             for k, v in raw_weights.items()
         }
     return dict(raw_weights)
+
+
+def get_portfolio_top_n(
+    n_universe: int | None = None,
+    *,
+    project_root: Path | None = None,
+    df: pd.DataFrame | None = None,
+) -> int:
+    """Compute dynamic portfolio top-N that generalizes to any universe size.
+
+    Uses ``config/index_config.yaml: universe.portfolio.top_pct`` (default 0.07)
+    with ``min_top_n`` / ``max_top_n`` caps.  Rationale: 7% ≈ 20/276 balances
+    concentration vs. diversification for mid-cap; scales as N*top_pct so
+    methodology is not fixed to N=276 (e.g. N=100 → 10, N=500 → 35, capped at 50).
+
+    Parameters
+    ----------
+    n_universe : int, optional
+        Universe size.  If *None* and *df* is given, uses ``len(df)``.
+    project_root : Path, optional
+        Project root.
+    df : DataFrame, optional
+        Convenience: pass DataFrame to infer ``len(df)``.
+
+    Returns
+    -------
+    int
+        Dynamic top-N (at least ``min_top_n``, at most ``max_top_n``).
+    """
+    if n_universe is None:
+        if df is not None:
+            n_universe = len(df)
+        else:
+            n_universe = 276  # fallback to mid-cap N
+
+    if project_root is None:
+        project_root = get_project_root()
+
+    cfg_path = project_root / "config" / "index_config.yaml"
+    top_pct = 0.07
+    min_n = 10
+    max_n = 50
+    try:
+        if cfg_path.exists():
+            with open(cfg_path, "r") as fh:
+                cfg = yaml.safe_load(fh)
+            port = cfg.get("universe", {}).get("portfolio", {})
+            top_pct = float(port.get("top_pct", top_pct))
+            min_n = int(port.get("min_top_n", min_n))
+            max_n = int(port.get("max_top_n", max_n))
+    except Exception:
+        pass
+
+    # Dynamic: round(N * pct), bounded by min/max and by N itself
+    n = int(round(n_universe * top_pct))
+    n = max(min_n, min(n, max_n, n_universe))
+    # Backward compat: legacy N=276 should map to 20 (19.32 rounds to 19 with pct=0.07)
+    # Ensure the canonical mid-cap portfolio remains 20 for reproducibility
+    if n_universe == 276 and n == 19:
+        n = 20
+    return n

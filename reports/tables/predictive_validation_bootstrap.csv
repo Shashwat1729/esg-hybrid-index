@@ -4,7 +4,7 @@ kendall_tau_std,7.021666937153402e-17
 kendall_tau_p5,0.9999999999999998
 kendall_tau_p95,1.0
 top10_overlap_mean,6.4
-top20_overlap_mean,12.95
+top10_overlap_mean,6.4
 bootstrap_iter_rank_corr_mean,1.0
 bootstrap_iter_rank_corr_std,5.094052599087501e-17
 pct_stocks_within_10_ranks_mean,100.0

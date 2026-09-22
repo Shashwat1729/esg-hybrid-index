@@ -1,0 +1,6 @@
+period,return_proxy_col,portfolio_return,universe_return,excess_return,beat_universe,portfolio_size,composite_col,n_periods,periods_beat_universe,average_excess_return,consistency
+window_1,price_momentum_1m,-4.006400695621786,-4.3562427890815485,0.34984209345976236,1,20,pref_balanced,,,,
+window_2,price_momentum_3m,1.6786826922234652,-3.8335875262612045,5.5122702184846695,1,20,pref_balanced,,,,
+window_3,price_momentum_6m,8.657735398445517,-1.7340556902128872,10.391791088658405,1,20,pref_balanced,,,,
+window_4,price_momentum_12m,19.951894304315843,7.898162625585626,12.053731678730216,1,20,pref_balanced,,,,
+summary,-,,,7.076908769833263,4,20,pref_balanced,4.0,4.0,7.076908769833263,1.0

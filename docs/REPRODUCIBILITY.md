@@ -22,7 +22,7 @@ pytest -q
 python app.py          # → http://localhost:7860
 ```
 
-Expected: `272 passed` (tests), `data/processed/indexed_data.csv` (321×202), `reports/tables/` ~174 CSVs, `reports/figures/` ~60 PNGs.
+Expected: `308 passed, 50 warnings` (tests), `data/processed/indexed_data.csv` (321×202), `reports/tables/` ~174 CSVs, `reports/figures/` ~60 PNGs.
 
 ## 2. Full Pipeline (with fresh downloads)
 

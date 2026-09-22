@@ -30,7 +30,7 @@ warnings.filterwarnings("ignore", message=".*invalid value.*")
 
 import logging
 
-from src.utils import load_indexed_data
+from src.utils import load_indexed_data, get_portfolio_top_n
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +45,20 @@ plt.rcParams.update({
 FIGURES = PROJECT_ROOT / "reports" / "figures"
 FIGURES.mkdir(parents=True, exist_ok=True)
 TABLES = PROJECT_ROOT / "reports" / "tables"
+
+
+def _dynamic_top_n(df=None) -> int:
+    """Get dynamic portfolio top-N from config, generalizes to any universe size."""
+    try:
+        return get_portfolio_top_n(len(df) if df is not None else 276)
+    except Exception:
+        return 20  # fallback
+
+
+def _dynamic_top10(df=None) -> int:
+    """Get dynamic top-10 (always 10 or less if universe smaller)."""
+    top_n = _dynamic_top_n(df)
+    return min(10, top_n)
 
 
 def _load_config_weights():
@@ -224,58 +238,60 @@ def fig_country_comparison(df):
     print("  [OK] fig06_country_comparison.png")
 
 
-# --- Fig 7: Top 20 Rankings ---
+# --- Fig 7: Top N Rankings (dynamic) ---
 def fig_top20_rankings(df):
     if "pref_balanced" not in df.columns:
         return
-    top20 = df.nlargest(20, "pref_balanced").sort_values("pref_balanced")
-    fig, ax = plt.subplots(figsize=(10, 8))
-    colors = ["#2ecc71" if c == "US" else "#3498db" for c in top20.get("country", ["US"] * 20)]
-    ax.barh(range(len(top20)), top20["pref_balanced"], color=colors, edgecolor="white")
-    labels = top20["ticker"].values
-    if "company_name" in top20.columns:
+    top_n = _dynamic_top_n(df)
+    top = df.nlargest(top_n, "pref_balanced").sort_values("pref_balanced")
+    fig, ax = plt.subplots(figsize=(10, max(6, top_n * 0.3)))
+    colors = ["#2ecc71" if c == "US" else "#3498db" for c in top.get("country", ["US"] * top_n)]
+    ax.barh(range(len(top)), top["pref_balanced"], color=colors, edgecolor="white")
+    labels = top["ticker"].values
+    if "company_name" in top.columns:
         labels = [f"{t} ({n[:15]})" if n and n != t else t
-                  for t, n in zip(top20["ticker"], top20["company_name"].fillna(""))]
-    ax.set_yticks(range(len(top20)))
+                  for t, n in zip(top["ticker"], top["company_name"].fillna(""))]
+    ax.set_yticks(range(len(top)))
     ax.set_yticklabels(labels, fontsize=9)
     ax.set_xlabel("Preference Score (Balanced)", fontsize=12)
-    ax.set_title("Figure 7: Top 20 Companies (Balanced Profile)", fontsize=14, fontweight="bold")
+    ax.set_title(f"Figure 7: Top {top_n} Companies (Balanced Profile)", fontsize=14, fontweight="bold")
     from matplotlib.patches import Patch
     ax.legend(handles=[Patch(color="#2ecc71", label="US"), Patch(color="#3498db", label="India")],
               loc="lower right")
     plt.tight_layout()
     fig.savefig(FIGURES / "fig07_top20_rankings.png")
     plt.close(fig)
-    print("  [OK] fig07_top20_rankings.png")
+    print(f"  [OK] fig07_top20_rankings.png (top {top_n})")
 
 
 # --- Fig 8: Factor Contribution (Stacked Bar) ---
 def fig_factor_contribution(df):
     if "pref_balanced" not in df.columns:
         return
-    top10 = df.nlargest(10, "pref_balanced")
+    top10_n = _dynamic_top10(df)
+    top = df.nlargest(top10_n, "pref_balanced")
     factors = ["ESG_composite", "financial_score", "market_score", "operational_score"]
-    avail = [c for c in factors if c in top10.columns]
+    avail = [c for c in factors if c in top.columns]
     if not avail:
         return
     fig, ax = plt.subplots(figsize=(12, 6))
     weights = _load_config_weights()
-    bottom = np.zeros(len(top10))
+    bottom = np.zeros(len(top))
     colors = ["#27ae60", "#2980b9", "#f39c12", "#8e44ad"]
     for col, color in zip(avail, colors):
-        vals = (top10[col].fillna(0) / 100 * weights.get(col, 0.25) * 100).values
-        ax.barh(range(len(top10)), vals, left=bottom, color=color,
+        vals = (top[col].fillna(0) / 100 * weights.get(col, 0.25) * 100).values
+        ax.barh(range(len(top)), vals, left=bottom, color=color,
                 label=col.replace("_", " ").title(), edgecolor="white")
         bottom += vals
-    ax.set_yticks(range(len(top10)))
-    ax.set_yticklabels(top10["ticker"].values, fontsize=9)
+    ax.set_yticks(range(len(top)))
+    ax.set_yticklabels(top["ticker"].values, fontsize=9)
     ax.set_xlabel("Weighted Contribution to Preference Score", fontsize=12)
-    ax.set_title("Figure 8: Factor Contribution (Top 10 Companies)", fontsize=14, fontweight="bold")
+    ax.set_title(f"Figure 8: Factor Contribution (Top {top10_n} Companies)", fontsize=14, fontweight="bold")
     ax.legend(loc="lower right", fontsize=9)
     plt.tight_layout()
     fig.savefig(FIGURES / "fig08_factor_contribution.png")
     plt.close(fig)
-    print("  [OK] fig08_factor_contribution.png")
+    print(f"  [OK] fig08_factor_contribution.png (top {top10_n})")
 
 
 # --- Fig 9: Similarity Heatmap ---
@@ -284,21 +300,22 @@ def fig_similarity_heatmap(df):
     if not sim_path.exists():
         return
     sim = pd.read_csv(sim_path, index_col=0)
+    top_n = _dynamic_top_n(df)
     if "pref_balanced" in df.columns:
-        top20_tickers = df.nlargest(20, "pref_balanced")["ticker"].tolist()
+        top_tickers = df.nlargest(top_n, "pref_balanced")["ticker"].tolist()
     else:
-        top20_tickers = sim.index[:20].tolist()
-    avail_tickers = [t for t in top20_tickers if t in sim.index]
+        top_tickers = sim.index[:top_n].tolist()
+    avail_tickers = [t for t in top_tickers if t in sim.index]
     if len(avail_tickers) < 5:
         return
     sub_sim = sim.loc[avail_tickers, avail_tickers]
-    fig, ax = plt.subplots(figsize=(12, 10))
+    fig, ax = plt.subplots(figsize=(max(8, top_n * 0.4), max(6, top_n * 0.3)))
     sns.heatmap(sub_sim, annot=True, fmt=".2f", cmap="YlOrRd", ax=ax, square=True, vmin=0, vmax=1)
-    ax.set_title("Figure 9: ESG Similarity Heatmap (Top 20)", fontsize=14, fontweight="bold")
+    ax.set_title(f"Figure 9: ESG Similarity Heatmap (Top {top_n})", fontsize=14, fontweight="bold")
     plt.tight_layout()
     fig.savefig(FIGURES / "fig09_similarity_heatmap.png")
     plt.close(fig)
-    print("  [OK] fig09_similarity_heatmap.png")
+    print(f"  [OK] fig09_similarity_heatmap.png (top {top_n})")
 
 
 # --- Fig 10: Weight Sensitivity Tornado ---
@@ -333,6 +350,7 @@ def fig_profile_comparison(df):
     avail = [c for c in profs if c in df.columns]
     if len(avail) < 2:
         return
+    top10_n = _dynamic_top10(df)
     fig, axes = plt.subplots(1, 2, figsize=(14, 6))
     for col in avail:
         axes[0].hist(df[col].dropna(), bins=25, alpha=0.5,
@@ -341,7 +359,7 @@ def fig_profile_comparison(df):
     axes[0].set_title("Score Distributions by Profile")
     axes[0].legend()
     if len(avail) >= 2:
-        sets = {c: set(df.nlargest(10, c)["ticker"]) for c in avail}
+        sets = {c: set(df.nlargest(top10_n, c)["ticker"]) for c in avail}
         labels = [c.replace("pref_", "").replace("_", " ") for c in avail]
         overlap_data = []
         for c1 in avail:
@@ -349,13 +367,13 @@ def fig_profile_comparison(df):
                 overlap_data.append(len(sets[c1] & sets[c2]))
         overlap_matrix = np.array(overlap_data).reshape(len(avail), len(avail))
         sns.heatmap(pd.DataFrame(overlap_matrix, index=labels, columns=labels),
-                    annot=True, fmt="d", cmap="Blues", ax=axes[1], vmin=0, vmax=10)
-        axes[1].set_title("Top 10 Overlap Between Profiles")
+                    annot=True, fmt="d", cmap="Blues", ax=axes[1], vmin=0, vmax=top10_n)
+        axes[1].set_title(f"Top {top10_n} Overlap Between Profiles")
     fig.suptitle("Figure 11: Investor Profile Comparison", fontsize=14, fontweight="bold")
     plt.tight_layout()
     fig.savefig(FIGURES / "fig11_profile_comparison.png")
     plt.close(fig)
-    print("  [OK] fig11_profile_comparison.png")
+    print(f"  [OK] fig11_profile_comparison.png (top {top10_n})")
 
 
 # --- Fig 12: Quintile Analysis ---
@@ -931,18 +949,19 @@ def fig_portfolio_comparison_bars(df, out_dir):
         return
 
     # Build portfolios
+    top_n = _dynamic_top_n(clean)
     portfolios = {}
 
     # Multi-factor (our approach)
     pref_col = next((c for c in clean.columns if "pref_balanced" in c), None)
     if pref_col:
-        portfolios["Multi-Factor\n(ESG+Financial)"] = clean.nlargest(20, pref_col)
+        portfolios[f"Multi-Factor\n(ESG+Financial)"] = clean.nlargest(top_n, pref_col)
 
     # ESG-only
-    portfolios["ESG-Only\nTop 20"] = clean.nlargest(20, "ESG_composite")
+    portfolios[f"ESG-Only\nTop {top_n}"] = clean.nlargest(top_n, "ESG_composite")
 
     # Financial-only
-    portfolios["Financial-Only\nTop 20"] = clean.nlargest(20, "financial_score")
+    portfolios[f"Financial-Only\nTop {top_n}"] = clean.nlargest(top_n, "financial_score")
 
     # Full universe
     portfolios["Full Universe"] = clean
@@ -1122,11 +1141,12 @@ def fig_strategy_dashboard(df):
     if len(clean) < 40:
         return
 
+    top_n = _dynamic_top_n(clean)
     strategies = {
-        "Multi-Factor": clean.nlargest(20, pref_col),
-        "ESG-Only": clean.nlargest(20, "ESG_composite"),
-        "Financial-Only": clean.nlargest(20, "financial_score"),
-        "Growth-Only": clean.nlargest(20, "growth_score"),
+        "Multi-Factor": clean.nlargest(top_n, pref_col),
+        "ESG-Only": clean.nlargest(top_n, "ESG_composite"),
+        "Financial-Only": clean.nlargest(top_n, "financial_score"),
+        "Growth-Only": clean.nlargest(top_n, "growth_score"),
         "Universe": clean,
     }
 
@@ -1278,7 +1298,8 @@ def fig37_factor_contribution_waterfall(df):
     else:
         if "pref_balanced" not in df.columns:
             return
-        top = df.nlargest(20, "pref_balanced")
+        top_n = _dynamic_top_n(df)
+        top = df.nlargest(top_n, "pref_balanced")
         factors = ["ESG_composite", "financial_score", "growth_score", "risk_adjusted_score",
                    "stability_score", "value_score", "market_score", "operational_score"]
         avail = [c for c in factors if c in df.columns]

@@ -55,7 +55,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", message=".*divide by zero.*")
 warnings.filterwarnings("ignore", message=".*invalid value.*")
 
-from src.utils import load_indexed_data
+from src.utils import get_portfolio_top_n, load_indexed_data
 from src.constants import BINARY_VARS, ORDINAL_VARS
 
 TABLES = PROJECT_ROOT / "reports" / "tables"
@@ -636,6 +636,11 @@ def test_profile_rank_correlation(df):
     if len(avail) < 2:
         return pd.DataFrame()
 
+    # Dynamic portfolio size (config-driven, fallback to 20)
+    try:
+        _top_n = get_portfolio_top_n(len(df))
+    except Exception:
+        _top_n = 20
     rows = []
     for i, p1 in enumerate(avail):
         for p2 in avail[i + 1:]:
@@ -644,12 +649,14 @@ def test_profile_rank_correlation(df):
             r2 = d[p2].rank()
             sr, sp = spearmanr(r1, r2)
             kt, kp = kendalltau(r1, r2)
+            # Use min to handle filtered subsets smaller than universe
+            _tn = min(_top_n, len(d)) if len(d) > 0 else _top_n
             rows.append({
                 "profile1": p1, "profile2": p2,
                 "spearman_rank_r": sr, "spearman_p": sp,
                 "kendall_tau": kt, "kendall_p": kp,
                 "top10_overlap": len(set(d.nlargest(10, p1).index) & set(d.nlargest(10, p2).index)),
-                "top20_overlap": len(set(d.nlargest(20, p1).index) & set(d.nlargest(20, p2).index)),
+                "top20_overlap": len(set(d.nlargest(_tn, p1).index) & set(d.nlargest(_tn, p2).index)),
             })
     result = pd.DataFrame(rows)
     result.to_csv(TABLES / "profile_rank_correlation.csv", index=False, encoding="utf-8")
@@ -670,11 +677,15 @@ def test_top_bottom(df):
                         "operational_score", "risk_adjusted_score",
                         "value_score", "growth_score", col]
         avail_display = [c for c in display_cols if c in df.columns]
-        n_top = min(20, len(df))
+        try:
+            _top_n = get_portfolio_top_n(len(df))
+        except Exception:
+            _top_n = 20
+        n_top = min(_top_n, len(df))
         top = df.nlargest(n_top, col)[avail_display]
-        top.to_csv(TABLES / f"top20_{label}.csv", index=False, encoding="utf-8")
+        top.to_csv(TABLES / f"top{n_top}_{label}.csv", index=False, encoding="utf-8")
         bottom = df.nsmallest(n_top, col)[avail_display]
-        bottom.to_csv(TABLES / f"bottom20_{label}.csv", index=False, encoding="utf-8")
+        bottom.to_csv(TABLES / f"bottom{n_top}_{label}.csv", index=False, encoding="utf-8")
     print(f"  [OK] Saved top20_*.csv, bottom20_*.csv")
 
 

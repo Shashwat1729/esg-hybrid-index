@@ -40,7 +40,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", message=".*divide by zero.*")
 warnings.filterwarnings("ignore", message=".*invalid value.*")
 
-from src.utils import load_indexed_data
+from src.utils import get_portfolio_top_n, load_indexed_data
 from src.constants import SCORE_COLUMNS, DEFAULT_WEIGHTS, RANDOM_SEED, load_profiles_from_config
 from src.similarity.preference_scoring import PreferenceScorer
 
@@ -176,6 +176,10 @@ def rank_stability_perturbation(df, midcap):
     midcap_ids = midcap.index.tolist()
 
     spearman_corrs = []
+    try:
+        _top_n = get_portfolio_top_n(len(midcap))
+    except Exception:
+        _top_n = 20
     top20_overlaps = []
 
     for _ in range(n_simulations):
@@ -201,9 +205,9 @@ def rank_stability_perturbation(df, midcap):
             )
             spearman_corrs.append(rho)
 
-            # Top-20 overlap
-            top20_full = set(score_full.loc[midcap_ids].nlargest(20).index)
-            top20_only = set(score_midcap_only.nlargest(20).index)
+            # Top-n overlap (dynamic)
+            top20_full = set(score_full.loc[midcap_ids].nlargest(_top_n).index)
+            top20_only = set(score_midcap_only.nlargest(_top_n).index)
             top20_overlaps.append(len(top20_full & top20_only))
 
     result = pd.DataFrame({
@@ -233,7 +237,7 @@ def rank_stability_perturbation(df, midcap):
         print(f"    Mean Spearman rho (with vs without benchmarks): "
               f"{np.mean(spearman_corrs):.4f}")
         print(f"    Range: [{np.min(spearman_corrs):.4f}, {np.max(spearman_corrs):.4f}]")
-        print(f"    Mean top-20 overlap: {np.mean(top20_overlaps):.1f}/20")
+        print(f"    Mean top-{_top_n} overlap: {np.mean(top20_overlaps):.1f}/20")
         if np.mean(spearman_corrs) > 0.99:
             print("    CONCLUSION: Benchmarks have NEGLIGIBLE impact on mid-cap rankings")
         elif np.mean(spearman_corrs) > 0.95:
