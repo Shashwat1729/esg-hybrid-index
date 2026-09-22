@@ -6,7 +6,7 @@ returns** using actual forward price data downloaded via yfinance.
 
 This goes beyond the cross-sectional momentum proxy used in 07b by
 correlating *current* factor scores (computed from the snapshot at time T)
-with *actual realised forward returns* (T → T+k months).
+with *actual realised forward returns* (T -> T+k months).
 
 **Key difference from 07b:**
   07b uses trailing momentum (price_momentum_1m/3m/6m) as a *return proxy*,
@@ -24,7 +24,7 @@ Validation tests:
 
   1. **True Out-of-Sample IC**
      Spearman rank correlation between each factor score (at T) and actual
-     forward return (T → T+k months, k ∈ {1, 3, 6}).
+     forward return (T -> T+k months, k ∈ {1, 3, 6}).
 
   2. **Profile-Level IC**
      IC for each investor-profile preference score (ex_market variants).
@@ -38,7 +38,7 @@ Validation tests:
 
   5. **Quintile Portfolio Analysis**
      Form quintile portfolios by preference score; compute average forward
-     returns per quintile; test monotonicity (Jonckheere–Terpstra-style).
+     returns per quintile; test monotonicity (Jonckheere-Terpstra-style).
 
 Input:  data/processed/indexed_data.csv  (factor scores)
         Yahoo Finance daily prices      (downloaded at runtime)
@@ -138,7 +138,7 @@ def _ensure_yf_ticker(ticker: str) -> str:
     Handle edge cases where suffix might be missing or duplicated.
     """
     t = str(ticker).strip()
-    # Already has a suffix — leave as-is
+    # Already has a suffix -- leave as-is
     if "." in t:
         return t
     # Plain US ticker
@@ -462,7 +462,7 @@ def compute_oos_ic(
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# 3. RANK PERSISTENCE (FORMATION → VALIDATION)
+# 3. RANK PERSISTENCE (FORMATION -> VALIDATION)
 # ═══════════════════════════════════════════════════════════════════════════
 
 def rank_persistence(

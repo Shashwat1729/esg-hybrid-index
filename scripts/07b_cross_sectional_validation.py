@@ -11,7 +11,7 @@ methodology (Fama & French 1993; Jegadeesh & Titman 1993).
   proxy for cross-sectional factor characterization.  This is NOT forward
   return prediction.
 
-**Circularity guard — pref_*_ex_market variants:**
+**Circularity guard -- pref_*_ex_market variants:**
   The pref_*_ex_market variants are the PRIMARY validation targets.  They
   exclude market_score (which contains momentum sub-factors) to avoid
   momentum self-prediction circularity.  The original pref_balanced /
@@ -19,7 +19,7 @@ methodology (Fama & French 1993; Jegadeesh & Titman 1993).
 
 Validation tests:
 
-  1. **Factor–Return Monotonicity (Quintile Portfolios)**
+  1. **Factor-Return Monotonicity (Quintile Portfolios)**
      Sort companies into quintiles by each factor score.  Compute average
      trailing returns (1 m, 3 m, 6 m) per quintile.  A useful factor should
      show monotonically increasing (or decreasing) returns across quintiles.
@@ -29,7 +29,7 @@ Validation tests:
      IC > 0 indicates the factor ranks companies in the same order as their
      realised returns.
 
-  3. **Long–Short Quintile Spread**
+  3. **Long-Short Quintile Spread**
      Return of top quintile minus bottom quintile for each factor × horizon
      combination.  Positive spread = factor selects outperformers.
 
@@ -116,7 +116,7 @@ FACTOR_SCORES = [
     "pref_balanced_ex_market",
     "pref_esg_first_ex_market",
     "pref_financial_first_ex_market",
-    # --- Original preference scores (includes market_score — shown for comparison) ---
+    # --- Original preference scores (includes market_score -- shown for comparison) ---
     "pref_balanced",
     "pref_esg_first",
     "pref_financial_first",
@@ -768,7 +768,7 @@ def compute_quintile_returns(df: pd.DataFrame) -> pd.DataFrame:
     return q_df
 
 
-# ── 3. Long–Short Quintile Spread ─────────────────────────────────────────
+# ── 3. Long-Short Quintile Spread ─────────────────────────────────────────
 def compute_quintile_spreads(q_df: pd.DataFrame) -> pd.DataFrame:
     """Q5 minus Q1 return spread for each factor × horizon."""
     rows = []
@@ -779,7 +779,7 @@ def compute_quintile_spreads(q_df: pd.DataFrame) -> pd.DataFrame:
             continue
         spread = float(q5.iloc[0]) - float(q1.iloc[0])
 
-        # Monotonicity check: Jonckheere–Terpstra-like via Kruskal–Wallis
+        # Monotonicity check: Jonckheere-Terpstra-like via Kruskal-Wallis
         # on raw returns across quintiles
         means = grp.sort_values("quintile")["mean_return"].dropna().values
         mono_increasing = all(
@@ -922,7 +922,7 @@ def bootstrap_rank_stability(
     return result
 
 
-# ── 5. Kruskal–Wallis Across Quintiles ────────────────────────────────────
+# ── 5. Kruskal-Wallis Across Quintiles ────────────────────────────────────
 def kruskal_wallis_quintiles(df: pd.DataFrame) -> pd.DataFrame:
     """Non-parametric test: do quintile groups have significantly different returns?"""
     rows = []
@@ -966,7 +966,7 @@ def kruskal_wallis_quintiles(df: pd.DataFrame) -> pd.DataFrame:
     kw_df.to_csv(
         TABLES / "predictive_validation_kruskal.csv", index=False, encoding="utf-8"
     )
-    print(f"  [OK] Kruskal–Wallis: {len(kw_df)} tests")
+    print(f"  [OK] Kruskal-Wallis: {len(kw_df)} tests")
     return kw_df
 
 
@@ -974,7 +974,7 @@ def kruskal_wallis_quintiles(df: pd.DataFrame) -> pd.DataFrame:
 def build_summary_table(
     ic_df: pd.DataFrame, spread_df: pd.DataFrame, kw_df: pd.DataFrame
 ) -> pd.DataFrame:
-    """Merge IC, spread, and Kruskal–Wallis into a single summary table."""
+    """Merge IC, spread, and Kruskal-Wallis into a single summary table."""
     if ic_df.empty or spread_df.empty:
         return pd.DataFrame()
 
@@ -1306,7 +1306,7 @@ def main():
     if ex_market_available:
         print(f"  Circularity-corrected (ex_market) scores: {ex_market_available}")
     else:
-        print("  [WARN] No pref_*_ex_market columns found — circularity comparison unavailable")
+        print("  [WARN] No pref_*_ex_market columns found -- circularity comparison unavailable")
 
     print("\n--- 1. Information Coefficient (Spearman IC) ---")
     ic_df = compute_ic_table(df)
@@ -1396,7 +1396,7 @@ def main():
                     "p_ex_market": round(p_clean, 4) if not np.isnan(p_clean) else np.nan,
                     "ic_inflation": round(delta, 4) if not np.isnan(delta) else np.nan,
                     "note": (
-                        "CIRCULAR — market_score includes momentum"
+                        "CIRCULAR -- market_score includes momentum"
                         if not np.isnan(delta) and abs(delta) > 0.01
                         else "minimal difference"
                     ) if not np.isnan(delta) else "missing data",
@@ -1415,7 +1415,7 @@ def main():
         else:
             print("  [INFO] No material IC inflation detected from market_score inclusion")
     else:
-        print("  [SKIP] Circularity comparison — insufficient data")
+        print("  [SKIP] Circularity comparison -- insufficient data")
 
     if not ic_df.empty:
         print("\n" + "=" * 70)

@@ -1,34 +1,34 @@
 sector,x_var,y_var,n,pearson_r,pearson_p,significant
-Technology,ESG_composite,financial_score,35,0.727813630221995,7.260073756552009e-07,True
-Technology,ESG_composite,roa,35,0.6068260947362961,0.00011122590497639925,True
-Technology,financial_score,market_score,35,0.2000884263262537,0.24913653669171573,False
-Financial Services,ESG_composite,financial_score,28,0.6482894886424875,0.00019097865334296568,True
-Financial Services,ESG_composite,roa,28,0.29655240155040646,0.12543106930683562,False
-Financial Services,financial_score,market_score,28,0.13260705828309602,0.5011513149235485,False
-Communication Services,ESG_composite,financial_score,8,0.943209657953072,0.0004386110427423863,True
-Communication Services,ESG_composite,roa,8,0.8537546705898413,0.00698702540649834,True
+Technology,ESG_composite,financial_score,35,0.727813630221995,7.260073756551996e-07,True
+Technology,ESG_composite,roa,35,0.6068260947362962,0.00011122590497639843,True
+Technology,financial_score,market_score,35,0.20008842632625373,0.2491365366917155,False
+Financial Services,ESG_composite,financial_score,28,0.6482894886424877,0.00019097865334296457,True
+Financial Services,ESG_composite,roa,28,0.2965524015504066,0.12543106930683545,False
+Financial Services,financial_score,market_score,28,0.13260705828309602,0.501151314923548,False
+Communication Services,ESG_composite,financial_score,8,0.943209657953072,0.00043861104274238634,True
+Communication Services,ESG_composite,roa,8,0.8537546705898412,0.00698702540649834,True
 Communication Services,financial_score,market_score,8,-0.10018828693409836,0.8134002506244311,False
-Healthcare,ESG_composite,financial_score,40,0.7944895790217722,9.36884742478403e-10,True
-Healthcare,ESG_composite,roa,40,0.6801633238368736,1.3805441228328055e-06,True
-Healthcare,financial_score,market_score,40,-0.05180802597096543,0.7508749790245651,False
-Industrials,ESG_composite,financial_score,37,0.7457970077343637,1.1770760917957338e-07,True
-Industrials,ESG_composite,roa,37,0.38296854267419383,0.019307763448351358,True
-Industrials,financial_score,market_score,37,0.14588642196432255,0.38893096017770895,False
-Consumer Cyclical,ESG_composite,financial_score,38,0.7930511958438504,2.91850627706968e-09,True
-Consumer Cyclical,ESG_composite,roa,38,0.6350070397371922,1.848783343336735e-05,True
-Consumer Cyclical,financial_score,market_score,38,0.15876752905807784,0.3410603381758485,False
-Energy,ESG_composite,financial_score,13,0.6796836856522909,0.010597974288967324,True
+Healthcare,ESG_composite,financial_score,40,0.7944895790217723,9.368847424784041e-10,True
+Healthcare,ESG_composite,roa,40,0.6801633238368737,1.380544122832805e-06,True
+Healthcare,financial_score,market_score,40,-0.05180802597096544,0.7508749790245661,False
+Industrials,ESG_composite,financial_score,37,0.7457970077343636,1.1770760917957532e-07,True
+Industrials,ESG_composite,roa,37,0.3829685426741937,0.019307763448351375,True
+Industrials,financial_score,market_score,37,0.1458864219643226,0.38893096017770884,False
+Consumer Cyclical,ESG_composite,financial_score,38,0.7930511958438502,2.918506277069733e-09,True
+Consumer Cyclical,ESG_composite,roa,38,0.6350070397371923,1.8487833433367155e-05,True
+Consumer Cyclical,financial_score,market_score,38,0.15876752905807787,0.34106033817584824,False
+Energy,ESG_composite,financial_score,13,0.6796836856522908,0.010597974288967318,True
 Energy,ESG_composite,roa,13,0.43473347446983357,0.1376685230992755,False
 Energy,financial_score,market_score,13,0.2506620228954071,0.4087921661870844,False
-Basic Materials,ESG_composite,financial_score,22,0.7037238657038197,0.0002577578711911116,True
-Basic Materials,ESG_composite,roa,22,0.43561448334011965,0.04271942531525246,True
-Basic Materials,financial_score,market_score,22,0.19415419869648112,0.3866062688497475,False
-Consumer Defensive,ESG_composite,financial_score,21,0.6596970801411469,0.0011393931888997902,True
-Consumer Defensive,ESG_composite,roa,21,0.002501949723173533,0.9914123177654232,False
-Consumer Defensive,financial_score,market_score,21,-0.3315099481364863,0.14209514141632332,False
-Utilities,ESG_composite,financial_score,11,0.5100079287138888,0.1089917284676,False
-Utilities,ESG_composite,roa,11,0.4821191490692292,0.1331560435435559,False
-Utilities,financial_score,market_score,11,0.19557645875579596,0.5644018079078504,False
-Real Estate,ESG_composite,financial_score,16,0.7991498496678321,0.00020405993590542413,True
-Real Estate,ESG_composite,roa,16,0.24338202193095132,0.3637073324031179,False
-Real Estate,financial_score,market_score,16,0.6300633366891095,0.008895835800911514,True
+Basic Materials,ESG_composite,financial_score,22,0.7037238657038202,0.0002577578711911084,True
+Basic Materials,ESG_composite,roa,22,0.43561448334011976,0.042719425315252496,True
+Basic Materials,financial_score,market_score,22,0.1941541986964812,0.38660626884974764,False
+Consumer Defensive,ESG_composite,financial_score,21,0.6596970801411473,0.001139393188899783,True
+Consumer Defensive,ESG_composite,roa,21,0.0025019497231735742,0.9914123177654228,False
+Consumer Defensive,financial_score,market_score,21,-0.33150994813648615,0.14209514141632348,False
+Utilities,ESG_composite,financial_score,11,0.5100079287138888,0.1089917284676001,False
+Utilities,ESG_composite,roa,11,0.48211914906922904,0.13315604354355612,False
+Utilities,financial_score,market_score,11,0.19557645875579602,0.564401807907851,False
+Real Estate,ESG_composite,financial_score,16,0.799149849667832,0.00020405993590542418,True
+Real Estate,ESG_composite,roa,16,0.24338202193095135,0.3637073324031179,False
+Real Estate,financial_score,market_score,16,0.6300633366891093,0.008895835800911545,True

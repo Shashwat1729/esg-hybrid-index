@@ -51,7 +51,7 @@ def _load() -> pd.DataFrame:
     df = pd.read_csv(DATA_PATH)
     # Drop rows with no sector (metadata-only rows)
     df = df.dropna(subset=["sector"]).reset_index(drop=True)
-    # Exclude large-cap benchmarks — this validation is for mid-cap companies
+    # Exclude large-cap benchmarks -- this validation is for mid-cap companies
     if "is_large_cap_benchmark" in df.columns:
         n_before = len(df)
         df = df[~df["is_large_cap_benchmark"]].reset_index(drop=True)
@@ -63,7 +63,7 @@ def _load() -> pd.DataFrame:
 # 1. Financial Ratio Sanity Checks
 # ===================================================================
 
-# Reasonable ranges: (low, high) — values outside are *flagged*, not deleted.
+# Reasonable ranges: (low, high) -- values outside are *flagged*, not deleted.
 RATIO_RANGES: dict[str, tuple[float, float]] = {
     "roa":            (-0.20,   0.30),
     "roe":            (-0.50,   0.80),
@@ -345,25 +345,25 @@ def _factor_interpretation(df: pd.DataFrame) -> pd.DataFrame:
             bot_roa = bot5["roa"].mean() if "roa" in df.columns else np.nan
             if pd.notna(top_roa) and pd.notna(bot_roa):
                 ok = top_roa > bot_roa
-                notes.append(f"Top5 avg ROA={top_roa:.3f} vs Bot5={bot_roa:.3f} → {'OK' if ok else 'UNEXPECTED'}")
+                notes.append(f"Top5 avg ROA={top_roa:.3f} vs Bot5={bot_roa:.3f} -> {'OK' if ok else 'UNEXPECTED'}")
 
         if score_col == "growth_score" and "revenue_growth" in df.columns:
             top_rg = top5["revenue_growth"].mean()
             bot_rg = bot5["revenue_growth"].mean()
             ok = top_rg > bot_rg
-            notes.append(f"Top5 avg rev_growth={top_rg:.3f} vs Bot5={bot_rg:.3f} → {'OK' if ok else 'UNEXPECTED'}")
+            notes.append(f"Top5 avg rev_growth={top_rg:.3f} vs Bot5={bot_rg:.3f} -> {'OK' if ok else 'UNEXPECTED'}")
 
         if score_col == "stability_score" and "price_volatility" in df.columns:
             top_vol = top5["price_volatility"].mean()
             bot_vol = bot5["price_volatility"].mean()
             ok = top_vol < bot_vol
-            notes.append(f"Top5 avg vol={top_vol:.1f} vs Bot5={bot_vol:.1f} → {'OK' if ok else 'UNEXPECTED'}")
+            notes.append(f"Top5 avg vol={top_vol:.1f} vs Bot5={bot_vol:.1f} -> {'OK' if ok else 'UNEXPECTED'}")
 
         if score_col == "value_score" and "trailing_pe" in df.columns:
             top_pe = top5["trailing_pe"].mean()
             bot_pe = bot5["trailing_pe"].mean()
             ok = top_pe < bot_pe
-            notes.append(f"Top5 avg PE={top_pe:.1f} vs Bot5={bot_pe:.1f} → {'OK' if ok else 'UNEXPECTED'}")
+            notes.append(f"Top5 avg PE={top_pe:.1f} vs Bot5={bot_pe:.1f} -> {'OK' if ok else 'UNEXPECTED'}")
 
         verdict = "PASS" if all("OK" in n for n in notes) else (
             "WARN" if notes else "NO_CHECK")
@@ -406,7 +406,7 @@ def _currency_validation(df: pd.DataFrame) -> pd.DataFrame:
 
     # Expected ranges (USD)
     expected = {
-        "India": (0.3, 20.0),   # Indian mid-caps: $300M – $20B after conversion
+        "India": (0.3, 20.0),   # Indian mid-caps: $300M - $20B after conversion
         "US":    (0.3, 3000.0), # US companies can range from small to mega-cap
     }
     flags: list[dict] = []
@@ -1147,7 +1147,7 @@ def _build_summary(
     else:
         rows.append({"check": "Sector Economics", "detail": "No data", "verdict": "SKIP"})
 
-    # 4. Factor interpretation — read verdicts file
+    # 4. Factor interpretation -- read verdicts file
     vpath = OUT_DIR / "factor_economic_interpretation_verdicts.csv"
     if vpath.exists():
         vdf = pd.read_csv(vpath)
@@ -1285,15 +1285,15 @@ def _build_summary(
 
 def main() -> int:
     print("=" * 70)
-    print("PHASE 8 — Financial & Economic Validation")
+    print("PHASE 8 -- Financial & Economic Validation")
     print("=" * 70)
 
     df = _load()
     print(f"Loaded {len(df)} companies, {len(df.columns)} columns.\n")
-    print("  (Large-cap benchmarks excluded — validation targets mid-cap universe)\n")
+    print("  (Large-cap benchmarks excluded -- validation targets mid-cap universe)\n")
 
     # 1. Ratio sanity
-    print("1. Financial Ratio Sanity Checks …")
+    print("1. Financial Ratio Sanity Checks ...")
     ratio_df = _ratio_sanity(df)
     for _, r in ratio_df.iterrows():
         tag = r.get("verdict", "?")
@@ -1303,7 +1303,7 @@ def main() -> int:
     print()
 
     # 2. Economic consistency
-    print("2. Economic Consistency Checks …")
+    print("2. Economic Consistency Checks ...")
     consistency_df = _economic_consistency(df)
     for _, r in consistency_df.iterrows():
         tag = r.get("verdict", "?")
@@ -1312,7 +1312,7 @@ def main() -> int:
     print()
 
     # 3. Sector economics
-    print("3. Sector Economics Validation …")
+    print("3. Sector Economics Validation ...")
     sector_df = _sector_economics(df)
     for _, r in sector_df.iterrows():
         in_range = r.get("pe_in_expected_range", "?")
@@ -1322,7 +1322,7 @@ def main() -> int:
     print()
 
     # 4. Factor interpretation
-    print("4. Factor Score Economic Interpretation …")
+    print("4. Factor Score Economic Interpretation ...")
     factor_df = _factor_interpretation(df)
     vpath = OUT_DIR / "factor_economic_interpretation_verdicts.csv"
     if vpath.exists():
@@ -1332,19 +1332,19 @@ def main() -> int:
     print()
 
     # 5. Currency conversion
-    print("5. Currency Conversion Validation …")
+    print("5. Currency Conversion Validation ...")
     currency_df = _currency_validation(df)
     print(currency_df.to_string(index=False))
     flag_path = OUT_DIR / "currency_conversion_flags.csv"
     if flag_path.exists():
         fdf = pd.read_csv(flag_path)
-        print(f"   → {len(fdf)} anomalies flagged")
+        print(f"   -> {len(fdf)} anomalies flagged")
     else:
-        print("   → No anomalies flagged")
+        print("   -> No anomalies flagged")
     print()
 
     # 6. ESG provenance
-    print("6. ESG Data Provenance Impact …")
+    print("6. ESG Data Provenance Impact ...")
     provenance_df = _esg_provenance(df)
     print(provenance_df.to_string(index=False))
     ptest_path = OUT_DIR / "esg_provenance_tests.csv"
@@ -1356,7 +1356,7 @@ def main() -> int:
     print()
 
     # 7. Fama-MacBeth cross-sectional regression
-    print("7. Fama-MacBeth Style Cross-Sectional Regression …")
+    print("7. Fama-MacBeth Style Cross-Sectional Regression ...")
     fm_result = fama_macbeth_cross_sectional(df)
     if fm_result:
         quintile_ret, reg_df, ls_spread, r_sq = fm_result
@@ -1377,7 +1377,7 @@ def main() -> int:
     print()
 
     # 8. Jonckheere-Terpstra monotonicity tests
-    print("8. Jonckheere-Terpstra Monotonicity Tests …")
+    print("8. Jonckheere-Terpstra Monotonicity Tests ...")
     factor_scores = [
         "financial_score", "ESG_composite", "growth_score", "value_score",
         "stability_score", "risk_adjusted_score", "momentum_score",
@@ -1403,7 +1403,7 @@ def main() -> int:
     print()
 
     # 9. Transaction cost analysis
-    print("9. Transaction Cost Analysis …")
+    print("9. Transaction Cost Analysis ...")
     tc_df = _transaction_cost_analysis(df)
     portfolio_row = tc_df[tc_df["ticker"] == "PORTFOLIO_TOTAL"]
     if not portfolio_row.empty:
@@ -1418,21 +1418,21 @@ def main() -> int:
     print()
 
     # 10. Turnover analysis
-    print("10. Turnover Analysis …")
+    print("10. Turnover Analysis ...")
     to_df = _turnover_analysis(df)
     for _, r in to_df.iterrows():
         print(f"   {str(r['metric']):40s}  {r['value']}")
     print()
 
     # 11. Capacity analysis
-    print("11. Capacity Analysis …")
+    print("11. Capacity Analysis ...")
     cap_df = _capacity_analysis(df)
     cap_feas_path = OUT_DIR / "capacity_aum_feasibility.csv"
     if cap_feas_path.exists():
         feas = pd.read_csv(cap_feas_path)
         for _, r in feas.iterrows():
-            print(f"   AUM ${r['aum_M']:.0f}M → {r['n_feasible_at_1pct_adv']}/{r['n_total']} "
-                  f"positions feasible at 1% ADV → {r['verdict']}")
+            print(f"   AUM ${r['aum_M']:.0f}M -> {r['n_feasible_at_1pct_adv']}/{r['n_total']} "
+                  f"positions feasible at 1% ADV -> {r['verdict']}")
     else:
         print("   [Note] Could not compute AUM feasibility.")
     # Print bottleneck rows
@@ -1442,7 +1442,7 @@ def main() -> int:
     print()
 
     # 12. Summary
-    print("12. Building Summary Report …")
+    print("12. Building Summary Report ...")
     summary_df = _build_summary(
         ratio_df, consistency_df, sector_df, factor_df,
         currency_df, provenance_df, df,
@@ -1479,7 +1479,7 @@ def main() -> int:
     for f in outputs:
         p = OUT_DIR / f
         if p.exists():
-            print(f"  ✓ {p}")
+            print(f"  [OK] {p}")
         else:
             print(f"  - {p} (not generated)")
 

@@ -7,7 +7,7 @@ proxies correlate with real ESG measures where both exist.
 
 Analyses:
   1. Provenance coverage breakdown (real_yahoo / financial_proxy / synthetic)
-  2. Proxy–real rank correlation (Spearman, Kendall) for companies with real data
+  2. Proxy-real rank correlation (Spearman, Kendall) for companies with real data
   3. Sector-level ESG calibration against published MSCI benchmarks
   4. Per-proxy coverage and discriminating power
   5. Held-out proxy validation (proxy vs real for companies with ground truth)
@@ -63,7 +63,7 @@ TABLES.mkdir(parents=True, exist_ok=True)
 FIGURES.mkdir(parents=True, exist_ok=True)
 
 # ---------------------------------------------------------------------------
-# Proxy → ESG target mapping (must match 01_download_data.py PROXY_TO_ESG_MAP)
+# Proxy -> ESG target mapping (must match 01_download_data.py PROXY_TO_ESG_MAP)
 # ---------------------------------------------------------------------------
 PROXY_TO_ESG_MAP = {
     "energy_efficiency_proxy":      "renewable_energy_pct",
@@ -96,7 +96,7 @@ PROXY_RATIONALE = {
     "community_proxy":              "div yield + FCF/rev within sector (Waddock & Graves, 1997)",
 }
 
-# Published sector-average ESG scores — MSCI ESG Ratings Global Report (2023)
+# Published sector-average ESG scores -- MSCI ESG Ratings Global Report (2023)
 # Used for external calibration anchor
 SECTOR_ESG_BENCHMARKS = {
     "Technology":              65,
@@ -114,7 +114,7 @@ SECTOR_ESG_BENCHMARKS = {
 
 # ---------------------------------------------------------------------------
 # Fix C2: Yahoo Finance uses different sector names than MSCI/standard names.
-# This mapping translates Yahoo Finance sector names → MSCI benchmark names
+# This mapping translates Yahoo Finance sector names -> MSCI benchmark names
 # so that SECTOR_ESG_BENCHMARKS lookups succeed.
 # Source: Yahoo Finance API sector field vs MSCI GICS sector classification.
 # ---------------------------------------------------------------------------
@@ -123,7 +123,7 @@ SECTOR_NAME_MAP = {
     "Consumer Defensive":      "Consumer Staples",
     "Basic Materials":         "Materials",
     "Financial Services":      "Financials",
-    # These names are identical in both systems — listed for completeness
+    # These names are identical in both systems -- listed for completeness
     "Technology":              "Technology",
     "Healthcare":              "Healthcare",
     "Energy":                  "Energy",
@@ -287,7 +287,7 @@ def analyse_proxy_coverage(prov_df, raw_df):
         coverage_df = coverage_df.sort_values("proxy_pct", ascending=False)
         print(f"  {len(coverage_df)} proxies analysed")
         for _, row in coverage_df.iterrows():
-            print(f"    {row['proxy_name']:35s} → {row['target_esg_col']:25s}  "
+            print(f"    {row['proxy_name']:35s} -> {row['target_esg_col']:25s}  "
                   f"proxy={row['n_proxy']:3d} ({row['proxy_pct']:4.1f}%)  "
                   f"real={row['n_real']:3d} ({row['real_pct']:4.1f}%)  "
                   f"σ={row['proxy_std']}")
@@ -312,7 +312,7 @@ def calibrate_proxy_vs_real(prov_df, raw_df):
       - Cohen's d effect size for proxy-vs-real distribution difference
         (Sullivan & Feinn, 2012)
       - Benjamini-Hochberg FDR correction across all 12 simultaneous tests
-        (Benjamini & Hochberg, 1995) — mandatory when conducting >2
+        (Benjamini & Hochberg, 1995) -- mandatory when conducting >2
         simultaneous hypothesis tests to control family-wise error rate.
 
     For any companies where we can observe both a 'real_yahoo' value and
@@ -401,7 +401,7 @@ def calibrate_proxy_vs_real(prov_df, raw_df):
             vals = combined_vals.loc[common_idx]
             src = (combined_source.loc[common_idx] == "financial_proxy").astype(int)
             # Spearman: does provenance source correlate with rank?
-            # (Ideally NOT — meaning proxies land in the same rank region as real)
+            # (Ideally NOT -- meaning proxies land in the same rank region as real)
             sp_rho, sp_p = stats.spearmanr(vals.values, src.values)
             kt_tau, kt_p = stats.kendalltau(vals.values, src.values)
             ci_lo, ci_hi = _spearman_ci(sp_rho, len(common_idx))
@@ -545,7 +545,7 @@ def validate_sector_esg(idx_df):
     results = []
     matched, unmatched = 0, 0
     for yahoo_sector in yahoo_sectors:
-        # Map Yahoo sector name → MSCI benchmark name
+        # Map Yahoo sector name -> MSCI benchmark name
         msci_name = SECTOR_NAME_MAP.get(yahoo_sector, yahoo_sector)
         benchmark = SECTOR_ESG_BENCHMARKS.get(msci_name)
 
@@ -757,7 +757,7 @@ def held_out_proxy_validation(prov_df, raw_df, financials_df):
         real_arr = np.array(esg_vals_aligned)
 
         # Spearman rank correlation: does proxy ordering agree with real ordering?
-        # THIS is the correct test — positive rho means proxy captures
+        # THIS is the correct test -- positive rho means proxy captures
         # the relative ranking of the true ESG concept.
         sp_rho, sp_p = stats.spearmanr(proxy_arr, real_arr)
         kt_tau, kt_p = stats.kendalltau(proxy_arr, real_arr)
@@ -1175,7 +1175,7 @@ def main():
         print(f"  [OK] Saved proxy_calibration_report.csv")
 
     # ------------------------------------------------------------------
-    # 4. Sector-level calibration (with Yahoo→MSCI sector name mapping)
+    # 4. Sector-level calibration (with Yahoo->MSCI sector name mapping)
     # ------------------------------------------------------------------
     sector_df = validate_sector_esg(idx_df)
     if not sector_df.empty:
@@ -1184,7 +1184,7 @@ def main():
         print(f"  [OK] Saved proxy_sector_validation.csv")
 
     # ------------------------------------------------------------------
-    # 4b. Held-out proxy validation (gold standard — proxy vs real)
+    # 4b. Held-out proxy validation (gold standard -- proxy vs real)
     # ------------------------------------------------------------------
     held_out_df = held_out_proxy_validation(prov_df, raw_df, financials_df)
     if not held_out_df.empty:

@@ -1,11 +1,11 @@
 # Cross-sectional momentum proxy, not time-series returns
-financial_tercile,horizon,high_esg_momentum_proxy,low_esg_momentum_proxy,esg_premium,n_high,n_low
-Low,1m,-4.1387,-5.8945,1.7559,46,46
-Low,3m,-6.0635,-3.4706,-2.5928,46,46
-Low,6m,-7.621,0.0466,-7.6676,46,46
-Mid,1m,-3.1104,-6.0383,2.928,46,46
-Mid,3m,-4.6858,-9.0515,4.3657,46,46
-Mid,6m,-1.9869,-8.0957,6.1088,46,46
-High,1m,-4.0149,-3.6053,-0.4096,46,46
-High,3m,-0.107,-1.0276,0.9207,46,46
-High,6m,0.7792,4.9384,-4.1592,46,46
+financial_tercile,horizon,high_esg_momentum_proxy,low_esg_momentum_proxy,esg_premium,n_high,n_low
+Low,1m,-4.1387,-5.8945,1.7559,46,46
+Low,3m,-6.0635,-3.4706,-2.5928,46,46
+Low,6m,-7.621,0.0466,-7.6676,46,46
+Mid,1m,-3.1104,-6.0383,2.928,46,46
+Mid,3m,-4.6858,-9.0515,4.3657,46,46
+Mid,6m,-1.9869,-8.0957,6.1088,46,46
+High,1m,-4.0149,-3.6053,-0.4096,46,46
+High,3m,-0.107,-1.0276,0.9207,46,46
+High,6m,0.7792,4.9384,-4.1592,46,46

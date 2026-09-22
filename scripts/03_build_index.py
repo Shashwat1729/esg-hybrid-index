@@ -79,7 +79,7 @@ PROFITABILITY_TRANSFORM_COLS = {"return_on_assets", "return_on_equity", "roa", "
 #   - Output: z-scored (or percentile-ranked) values centered around 0.
 #
 # Stage 2: FACTOR SCORE COMPUTATION
-#   - ESG: Category-weighted aggregation → pillar scores (E, S, G) →
+#   - ESG: Category-weighted aggregation -> pillar scores (E, S, G) ->
 #     SASB sector-materiality-weighted composite.
 #     Raw z-score composites (scale_to_score=False in pipeline).
 #   - Financial: Category-weighted aggregation of _norm columns.
@@ -219,7 +219,7 @@ def _z_score_sub(df, indicators_dict, scale_to_score=True, sector_adjust=False, 
             z_df[col] = z
 
         else:
-            # Continuous variable normalization — method depends on N
+            # Continuous variable normalization -- method depends on N
             col_key = col.lower()
 
             # Non-linear transforms before normalization
@@ -325,7 +325,7 @@ def _parse_config_scoring_section(config_section):
     Returns
     -------
     dict
-        {indicator_name: higher_is_better (bool)} — compatible with _z_score_sub.
+        {indicator_name: higher_is_better (bool)} -- compatible with _z_score_sub.
         The ``inverse: true`` flag maps to ``higher_is_better=False``.
     """
     indicators = {}
@@ -333,7 +333,7 @@ def _parse_config_scoring_section(config_section):
     for cat_name, cat_cfg in categories.items():
         cat_indicators = cat_cfg.get("indicators", {})
         for ind_name, ind_cfg in cat_indicators.items():
-            # inverse: true in config means lower is better → higher_is_better = False
+            # inverse: true in config means lower is better -> higher_is_better = False
             is_inverse = ind_cfg.get("inverse", False) if isinstance(ind_cfg, dict) else False
             indicators[ind_name] = not is_inverse
     return indicators
@@ -550,7 +550,7 @@ def build_config_driven_score(
         Example: {"price_volatility_30d": "price_volatility"}
     scale_to_score : bool, default True
         When True, applies ``50 + z * 20`` transformation and clips to [0, 100].
-        When False, returns raw z-score composite — useful when a downstream
+        When False, returns raw z-score composite -- useful when a downstream
         step (e.g. Step 7b re-standardization) will apply its own scaling.
 
     Returns
@@ -817,7 +817,7 @@ def _apply_monotonicity_correction(
         bin_means_factor = valid.groupby("_bin", observed=False)[factor_col].mean()
         bin_means_return = valid.groupby("_bin", observed=False)[return_col].mean()
 
-        # Fit isotonic regression: factor score → expected return (monotonic)
+        # Fit isotonic regression: factor score -> expected return (monotonic)
         x_bins = bin_means_factor.values
         y_bins = bin_means_return.values
         finite_mask = np.isfinite(x_bins) & np.isfinite(y_bins)
@@ -928,7 +928,7 @@ def build_sector_position(df):
     """Compute sector percentile rank from raw financial indicators.
 
     Uses raw input indicators (not computed factor scores) to avoid
-    circularity — the preference score includes both factor scores and
+    circularity -- the preference score includes both factor scores and
     sector_position, so sector_position must be independent of them.
     """
     raw_indicators = ["revenue_per_employee", "operating_margins", "market_cap", "total_revenue"]
@@ -1107,7 +1107,7 @@ def generate_indicator_overlap_report(index_cfg):
 
     Programmatically maps every indicator to the factor score(s) it feeds into,
     identifies double/triple-counted indicators, and saves:
-      - reports/tables/indicator_factor_mapping.csv  (indicator → factor list)
+      - reports/tables/indicator_factor_mapping.csv  (indicator -> factor list)
       - reports/tables/factor_overlap_matrix.csv     (factor × factor overlap count)
 
     This addresses Issue H2 (indicator overlap / double-counting) from the
@@ -1122,7 +1122,7 @@ def generate_indicator_overlap_report(index_cfg):
     tables_dir.mkdir(parents=True, exist_ok=True)
 
     # -----------------------------------------------------------------------
-    # 1. Build the complete indicator → factor(s) mapping
+    # 1. Build the complete indicator -> factor(s) mapping
     # -----------------------------------------------------------------------
     # Config-driven factor definitions: read from index_config.yaml sections
     # for the 5 formerly-hardcoded factors, and from FinancialScorer /
@@ -1154,13 +1154,13 @@ def generate_indicator_overlap_report(index_cfg):
         mkt_indicators.extend(cat_cfg.get("indicators", []))
     factor_indicators["market_score"] = mkt_indicators
 
-    # NOTE: ESG_composite uses ESG_COLS (E/S/G pillars) — no overlap with
+    # NOTE: ESG_composite uses ESG_COLS (E/S/G pillars) -- no overlap with
     # financial/market indicators, so excluded from overlap analysis.
     # similarity_rank and sector_position are derived from factor scores,
     # not raw indicators, so also excluded.
 
     # -----------------------------------------------------------------------
-    # 2. Invert to indicator → list of factors
+    # 2. Invert to indicator -> list of factors
     # -----------------------------------------------------------------------
     indicator_to_factors = {}
     for factor, indicators in factor_indicators.items():
@@ -1257,7 +1257,7 @@ def overlap_sensitivity_analysis(df, index_cfg):
     tables_dir.mkdir(parents=True, exist_ok=True)
 
     # -------------------------------------------------------------------
-    # 1. Build factor → {indicator: higher_is_better} mapping
+    # 1. Build factor -> {indicator: higher_is_better} mapping
     #    Config-driven for formerly-hardcoded factors; config-based for
     #    financial and market scores.
     # -------------------------------------------------------------------
@@ -1276,7 +1276,7 @@ def overlap_sensitivity_analysis(df, index_cfg):
             index_cfg, config_key
         )
 
-    # financial_score — from config, with inverse indicator lookup
+    # financial_score -- from config, with inverse indicator lookup
     fin_categories = index_cfg.get("financial_scoring", {}).get("categories", {})
     fin_inverse = set(index_cfg.get("financial_scoring", {}).get("inverse_indicators", []))
     fin_directed = {}
@@ -1285,7 +1285,7 @@ def overlap_sensitivity_analysis(df, index_cfg):
             fin_directed[ind] = (ind not in fin_inverse)
     factor_indicators_directed["financial_score"] = fin_directed
 
-    # market_score — from config, with inverse indicator lookup
+    # market_score -- from config, with inverse indicator lookup
     mkt_categories = index_cfg.get("market_factors", {}).get("categories", {})
     mkt_inverse = set(index_cfg.get("market_factors", {}).get("inverse_indicators", []))
     mkt_directed = {}
@@ -1295,7 +1295,7 @@ def overlap_sensitivity_analysis(df, index_cfg):
     factor_indicators_directed["market_score"] = mkt_directed
 
     # -------------------------------------------------------------------
-    # 2. Build undirected indicator → set of factors (for overlap detection)
+    # 2. Build undirected indicator -> set of factors (for overlap detection)
     # -------------------------------------------------------------------
     indicator_to_factors: dict[str, set[str]] = {}
     for factor, ind_dict in factor_indicators_directed.items():
@@ -1333,7 +1333,7 @@ def overlap_sensitivity_analysis(df, index_cfg):
             })
             continue
 
-        # Edge case: no exclusive indicators → cannot compute exclusive version
+        # Edge case: no exclusive indicators -> cannot compute exclusive version
         if n_exclusive == 0:
             results.append({
                 "factor": factor,
@@ -1345,7 +1345,7 @@ def overlap_sensitivity_analysis(df, index_cfg):
                 "spearman_p": np.nan,
                 "interpretation": (
                     f"ALL {n_total} indicators are shared with other factors; "
-                    "exclusive version cannot be computed — this factor is "
+                    "exclusive version cannot be computed -- this factor is "
                     "entirely redundant with other factors at the indicator level"
                 ),
             })
@@ -1613,12 +1613,12 @@ def main():
     # IDENTIFY LARGE-CAP BENCHMARKS (scored together with mid-cap, separated after)
     # -----------------------------------------------------------------------
     # The index is designed for MID-CAP companies.  Large-cap benchmarks
-    # (from config/index_config.yaml → universe.large_cap_benchmarks)
+    # (from config/index_config.yaml -> universe.large_cap_benchmarks)
     # are included for robustness comparison.
     #
     # FIX (Issue C1): Previously, benchmarks were separated BEFORE scoring,
     # scored independently (N=4), then re-standardized against mid-cap stats.
-    # This produced a DOUBLE transformation — z-scoring within N=4 distorts
+    # This produced a DOUBLE transformation -- z-scoring within N=4 distorts
     # distributions, and re-mapping doesn't fix it.
     #
     # CORRECT APPROACH: Score ALL companies together (mid-cap + benchmarks)
@@ -1646,7 +1646,7 @@ def main():
         if n_bench > 0:
             bench_tickers = df.loc[is_benchmark, "ticker"].tolist()
             print(f"[INFO] Found {n_bench} large-cap benchmarks from config "
-                  f"({', '.join(bench_tickers)}) — scoring together with mid-cap")
+                  f"({', '.join(bench_tickers)}) -- scoring together with mid-cap")
             print(f"       Total universe: {len(df)} companies "
                   f"({len(df) - n_bench} mid-cap + {n_bench} benchmark)")
             print(f"       Benchmark influence on normalization: "
@@ -1753,7 +1753,7 @@ def main():
         if col in df.columns:
             print(f"   {col}: mean={df[col].mean():.1f}, std={df[col].std():.1f}")
 
-    # 6. Similarity Rank (ESG indicator profile similarity — Issues M3 & M3b)
+    # 6. Similarity Rank (ESG indicator profile similarity -- Issues M3 & M3b)
     print("\n6. Computing ESG indicator profile similarity (all 32 ESG indicators)...")
     df, sim_matrix = build_similarity_rank(df)
     print(f"   similarity_rank (ESG indicator similarity): "
@@ -1936,9 +1936,9 @@ def main():
         ex_col = f"pref_{profile}_ex_market"
         contaminated_col = f"pref_{profile}_with_market"
         if orig_col in df.columns and ex_col in df.columns:
-            # Rename: original (contaminated) → _with_market
+            # Rename: original (contaminated) -> _with_market
             df.rename(columns={orig_col: contaminated_col}, inplace=True)
-            # Rename: ex_market (clean) → primary name
+            # Rename: ex_market (clean) -> primary name
             df.rename(columns={ex_col: orig_col}, inplace=True)
             corr = df[[orig_col, contaminated_col]].corr().iloc[0, 1]
             print(f"   {orig_col}: now ex-market (clean); "
@@ -2008,8 +2008,8 @@ def main():
     tables_dir = PROJECT_ROOT / "reports" / "tables"
     tables_dir.mkdir(parents=True, exist_ok=True)
     # After the circularity fix rename:
-    #   pref_balanced            = clean (ex-market) — PRIMARY sort key
-    #   pref_balanced_with_market = original (contaminated) — kept for audit
+    #   pref_balanced            = clean (ex-market) -- PRIMARY sort key
+    #   pref_balanced_with_market = original (contaminated) -- kept for audit
     ranking_cols = ["ticker", "company_name", "sector", "country",
                     "is_large_cap_benchmark",
                     "ESG_composite", "financial_score", "market_score",

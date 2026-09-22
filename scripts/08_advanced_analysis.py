@@ -51,7 +51,7 @@ EXTENDED_FACTORS = FACTOR_COLS + ["risk_adjusted_score", "value_score", "growth_
 
 # Mo3 DISCLOSURE: This regression uses contemporaneous ESG and financial
 # variables (measured at the same point in time). It tests association,
-# NOT causation. Reverse causality (profitable firms → better ESG disclosure)
+# NOT causation. Reverse causality (profitable firms -> better ESG disclosure)
 # cannot be ruled out without a lagged specification. Interpret as
 # "cross-sectional association between ESG quality and financial quality."
 
@@ -523,11 +523,11 @@ def factor_tilt_sensitivity(df):
     forward-looking efficient frontier.
 
     The "cross_sectional_ir" metric is mean(trailing momentum) / std(trailing
-    momentum) across the N selected stocks — it measures selection quality,
+    momentum) across the N selected stocks -- it measures selection quality,
     NOT a time-series Sharpe ratio.
 
     Results should be interpreted as: "which factor combinations would have
-    selected stocks with the best recent momentum?" — NOT as evidence of
+    selected stocks with the best recent momentum?" -- NOT as evidence of
     future portfolio optimality.
 
     LEAKAGE CONCERN (C1 circularity):
@@ -852,11 +852,11 @@ def cross_validate_weights(df):
     # I2 NOTE: With n=50 for prediction tests, the minimum detectable IC at
     # 80% power is approximately |r| > 0.28. Most factor ICs are below this
     # threshold, meaning these tests are severely underpowered. Results should
-    # be interpreted cautiously — non-significance does not imply zero effect.
+    # be interpreted cautiously -- non-significance does not imply zero effect.
     n_pred = n
     print(f"\n  [I2] Statistical power note: With n={n_pred}, minimum detectable")
     print(f"       IC at 80% power ≈ |r| > {2.0/np.sqrt(n_pred):.3f}")
-    print(f"       Tests below this threshold are underpowered — interpret cautiously")
+    print(f"       Tests below this threshold are underpowered -- interpret cautiously")
 
     print(f"  [OK] Saved advanced_cv_weights.csv")
     return result

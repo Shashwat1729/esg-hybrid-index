@@ -193,7 +193,7 @@ def rank_correlation_analysis(
 
     Reports:
     - Spearman rho between pooled and within-geography ranks (should be
-      1.0 by construction when no ties change — serves as a sanity check)
+      1.0 by construction when no ties change -- serves as a sanity check)
     - Mean and max absolute percentile shift
     - Mean signed percentile shift (positive = geography advantaged by
       pooling, negative = disadvantaged)
@@ -202,7 +202,7 @@ def rank_correlation_analysis(
     n_total = len(df)
 
     for col in score_cols:
-        # Pooled percentile (0–100, higher = better)
+        # Pooled percentile (0-100, higher = better)
         pooled_pctile = df[col].rank(pct=True) * 100
 
         for label, sub_df in [("US", df_us), ("India", df_in)]:
@@ -226,7 +226,7 @@ def rank_correlation_analysis(
             within_pctile = vals.rank(pct=True) * 100
             pooled_sub = pooled_pctile.loc[vals.index]
 
-            # Rank-order correlation (sanity check — should be ~1.0)
+            # Rank-order correlation (sanity check -- should be ~1.0)
             within_rank = vals.rank(ascending=False)
             pooled_rank_sub = df[col].rank(ascending=False).loc[vals.index]
             rho, p = sp_stats.spearmanr(within_rank, pooled_rank_sub)
@@ -411,7 +411,7 @@ def within_geography_renorm(
             geo_std = vals.std()
 
             if geo_std == 0 or pd.isna(geo_std):
-                # All values identical in this geography — rank is arbitrary
+                # All values identical in this geography -- rank is arbitrary
                 rows.append({
                     "factor": col,
                     "geography": label,
@@ -471,7 +471,7 @@ def main() -> None:
     print(f"[OK] Loaded {len(df)} mid-cap companies")
 
     if "country" not in df.columns:
-        print("[ERROR] 'country' column not found — cannot run geographic "
+        print("[ERROR] 'country' column not found -- cannot run geographic "
               "robustness analysis.")
         sys.exit(1)
 
@@ -486,7 +486,7 @@ def main() -> None:
     print(f"[OK] US companies  : {n_us}")
     print(f"[OK] India companies: {n_in}")
     if n_other > 0:
-        print(f"[WARN] {n_other} companies with other/missing country — excluded "
+        print(f"[WARN] {n_other} companies with other/missing country -- excluded "
               "from geographic tests")
 
     if n_us < MIN_GEO_N or n_in < MIN_GEO_N:
@@ -570,7 +570,7 @@ def main() -> None:
         valid_rho = sub["spearman_rho"].dropna()
         valid_shift = sub["mean_pctile_shift"].dropna()
         if len(valid_rho) > 0:
-            print(f"  {geo:6s}: rank ρ = {valid_rho.mean():.3f} (sanity check)")
+            print(f"  {geo:6s}: rank rho = {valid_rho.mean():.3f} (sanity check)")
             mean_shift = valid_shift.mean() if len(valid_shift) else 0
             abs_shift = sub["mean_abs_pctile_shift"].dropna()
             direction = "advantaged" if mean_shift > 0 else "disadvantaged"
@@ -630,7 +630,7 @@ def main() -> None:
         sub = rn_results[rn_results["geography"] == geo]
         valid = sub["spearman_rho_pooled_vs_renorm"].dropna()
         if len(valid) > 0:
-            print(f"  {geo:6s}: mean ρ(pooled vs renorm) = {valid.mean():.3f}, "
+            print(f"  {geo:6s}: mean rho(pooled vs renorm) = {valid.mean():.3f}, "
                   f"min = {valid.min():.3f}")
             mean_shift = sub["mean_rank_shift"].dropna().mean()
             max_shift = sub["max_rank_shift"].dropna().max()

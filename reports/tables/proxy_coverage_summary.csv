@@ -1,10 +1,10 @@
 proxy_name,target_esg_col,n_total,n_proxy,n_real,n_synthetic,n_imputed,proxy_pct,real_pct,proxy_std,proxy_iqr,rationale
+financial_transparency_proxy,anti_corruption_policy,321,321,0,0,0,100.0,0.0,4.39,0.0,"low audit risk + analyst coverage (Lang & Lundholm, 1996)"
 supply_chain_proxy,supply_chain_audit_pct,321,321,0,0,0,100.0,0.0,28.48,48.73,"payout + current ratio within sector (Krause et al., 2009)"
 community_proxy,community_investment_pct,321,321,0,0,0,100.0,0.0,28.48,48.73,"div yield + FCF/rev within sector (Waddock & Graves, 1997)"
-financial_transparency_proxy,anti_corruption_policy,321,321,0,0,0,100.0,0.0,4.39,0.0,"low audit risk + analyst coverage (Lang & Lundholm, 1996)"
 workforce_investment_proxy,gender_diversity_pct,321,314,0,0,0,97.8,0.0,28.79,49.83,"R&D intensity within sector (Hewlett et al., 2013)"
-board_quality_proxy,board_diversity_pct,321,314,0,0,0,97.8,0.0,24.19,41.74,"mcap quartile * 1/beta within sector (Adams & Ferreira, 2009)"
 waste_efficiency_proxy,waste_recycling_pct,321,314,0,0,0,97.8,0.0,28.71,51.49,"gross margin pctile within sector (Guenster et al., 2011)"
+board_quality_proxy,board_diversity_pct,321,314,0,0,0,97.8,0.0,24.19,41.74,"mcap quartile * 1/beta within sector (Adams & Ferreira, 2009)"
 workforce_scale_proxy,safety_training_hours,321,305,0,0,9,95.0,0.0,20.89,27.33,"log(employees) * margin pctile (Dye, 1993)"
 employee_productivity_proxy,employee_satisfaction,321,303,0,0,11,94.4,0.0,28.79,49.59,"revenue per employee within sector (Edmans, 2011)"
 energy_efficiency_proxy,renewable_energy_pct,321,280,0,0,2,87.2,0.0,28.85,49.55,"rev/mcap within sector (Eccles et al., 2014)"

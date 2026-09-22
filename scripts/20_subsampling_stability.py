@@ -115,7 +115,7 @@ def subsampling_stability(
         sub_df = df.loc[idx].copy()
 
         for col in score_cols:
-            # Re-normalise on the subsample (z-score → 0-100 scale)
+            # Re-normalise on the subsample (z-score -> 0-100 scale)
             sub_mean = sub_df[col].mean()
             sub_std = sub_df[col].std()
             if sub_std == 0 or pd.isna(sub_std):
@@ -252,7 +252,7 @@ def main() -> None:
     elif overall_tau > 0.75:
         verdict = "MODERATELY STABLE"
     else:
-        verdict = "UNSTABLE — investigate further"
+        verdict = "UNSTABLE -- investigate further"
     print(f"VERDICT: Rankings are {verdict} under subsampling "
           f"(mean tau = {overall_tau:.3f})")
 

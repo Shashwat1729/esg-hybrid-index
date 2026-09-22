@@ -65,7 +65,7 @@ TABLES.mkdir(parents=True, exist_ok=True)
 FIGURES.mkdir(parents=True, exist_ok=True)
 
 # ---------------------------------------------------------------------------
-# Profile weights — loaded from config/index_config.yaml (single source of truth)
+# Profile weights -- loaded from config/index_config.yaml (single source of truth)
 # ---------------------------------------------------------------------------
 PROFILES = load_profiles_from_config()
 
@@ -768,7 +768,7 @@ def score_distributions(df, scores):
     # (b) Box plots
     ax = axes[1]
     data_for_box = [scores[p].values for p in PROFILES]
-    bp = ax.boxplot(data_for_box, labels=[PROFILE_LABELS[p] for p in PROFILES],
+    bp = ax.boxplot(data_for_box, tick_labels=[PROFILE_LABELS[p] for p in PROFILES],
                     patch_artist=True, widths=0.6)
     for patch, pname in zip(bp["boxes"], PROFILES):
         patch.set_facecolor(PROFILE_COLOURS[pname])
@@ -950,7 +950,7 @@ def grid_search_profile_weights(df):
     print("10. GRID SEARCH WEIGHT OPTIMISATION PER PROFILE")
     print("=" * 70)
 
-    # Determine return proxy — prefer 6m (standard in cross-sectional studies)
+    # Determine return proxy -- prefer 6m (standard in cross-sectional studies)
     return_col = None
     for rc in ["price_momentum_6m", "price_momentum_3m", "price_momentum_1m"]:
         if rc in df.columns and df[rc].notna().sum() > 10:
@@ -993,7 +993,7 @@ def grid_search_profile_weights(df):
         base_rets = df.loc[top_idx, return_col].dropna()
         base_csir = (base_rets.mean() / base_rets.std()) if len(base_rets) >= 5 and base_rets.std() > 1e-10 else 0.0
 
-        # Grid search — use product over all factor grids
+        # Grid search -- use product over all factor grids
         # For profiles with many factors, cap enumeration to prevent combinatorial explosion.
         # Strategy: only vary the 4 largest-weight factors; fix the rest at configured values.
         if len(factor_names) > 6:
@@ -1070,9 +1070,9 @@ def grid_search_profile_weights(df):
         result_rows.append(row)
 
         print(f"  {PROFILE_LABELS[pname]} ({n_combos} combos):")
-        print(f"    IC:   configured={base_ic:.4f} → optimised={best_ic:.4f} "
+        print(f"    IC:   configured={base_ic:.4f} -> optimised={best_ic:.4f} "
               f"(Δ={best_ic - base_ic:+.4f}, dist={dist_ic:.4f})")
-        print(f"    CSIR: configured={base_csir:.4f} → optimised={best_csir:.4f} "
+        print(f"    CSIR: configured={base_csir:.4f} -> optimised={best_csir:.4f} "
               f"(Δ={best_csir - base_csir:+.4f}, dist={dist_csir:.4f})")
 
     result_df = pd.DataFrame(result_rows)
@@ -1105,7 +1105,7 @@ def weight_literature_mapping():
             "citation": "Khan, Serafeim & Yoon (2016) 'Corporate Sustainability: First Evidence on Materiality'; "
                         "Giese et al. (2019) 'Foundations of ESG Investing'; "
                         "Riedl & Smeets (2017) 'Why Do Investors Hold Socially Responsible Mutual Funds?'",
-            "typical_range": "0.05 – 0.40",
+            "typical_range": "0.05 - 0.40",
             "notes": "ESG-first profiles weight ≥0.30 (impact investing); "
                      "financial-first ≤0.10 (residual screen only). "
                      "Khan et al. show material ESG issues predict returns; "
@@ -1117,7 +1117,7 @@ def weight_literature_mapping():
             "citation": "Novy-Marx (2013) 'The Other Side of Value: The Gross Profitability Premium'; "
                         "Fama & French (2015) 'A Five-Factor Model'; "
                         "Asness, Frazzini & Pedersen (2019) 'Quality Minus Junk'",
-            "typical_range": "0.10 – 0.30",
+            "typical_range": "0.10 - 0.30",
             "notes": "Gross profitability (Novy-Marx) and operating profitability "
                      "(Fama-French RMW) are among the strongest cross-sectional predictors.",
         },
@@ -1127,7 +1127,7 @@ def weight_literature_mapping():
             "citation": "Jegadeesh & Titman (1993) 'Returns to Buying Winners and Selling Losers'; "
                         "Carhart (1997) 'On Persistence in Mutual Fund Performance'; "
                         "Amihud (2002) 'Illiquidity and Stock Returns'",
-            "typical_range": "0.05 – 0.15",
+            "typical_range": "0.05 - 0.15",
             "notes": "Momentum (6-12 month) is a robust factor but excluded from IC "
                      "evaluation to avoid circularity with return proxy. Weight kept "
                      "moderate; set to zero in ex-market variant.",
@@ -1138,7 +1138,7 @@ def weight_literature_mapping():
             "citation": "Barney (1991) 'Firm Resources and Sustained Competitive Advantage'; "
                         "Dechow, Ge & Schrand (2010) 'Understanding Earnings Quality'; "
                         "Fairfield & Yohn (2001) 'Using Asset Turnover and Profit Margin to Forecast Changes in Profitability'",
-            "typical_range": "0.05 – 0.15",
+            "typical_range": "0.05 - 0.15",
             "notes": "Productivity metrics (revenue/employee, R&D intensity) proxy "
                      "for sustainable competitive advantage per resource-based view.",
         },
@@ -1148,7 +1148,7 @@ def weight_literature_mapping():
             "citation": "Sharpe (1966) 'Mutual Fund Performance'; "
                         "Sortino & van der Meer (1991) 'Downside Risk'; "
                         "Ang et al. (2006) 'The Cross-Section of Volatility and Expected Returns'",
-            "typical_range": "0.05 – 0.15",
+            "typical_range": "0.05 - 0.15",
             "notes": "Sharpe/Sortino ratios capture efficiency of return generation. "
                      "Low-volatility anomaly (Ang et al.) suggests downside risk is priced.",
         },
@@ -1157,7 +1157,7 @@ def weight_literature_mapping():
             "academic_basis": "Revenue and earnings growth momentum",
             "citation": "Lakonishok, Shleifer & Vishny (1994) 'Contrarian Investment, Extrapolation, and Risk'; "
                         "Chan, Karceski & Lakonishok (2003) 'The Level and Persistence of Growth Rates'",
-            "typical_range": "0.05 – 0.12",
+            "typical_range": "0.05 - 0.12",
             "notes": "Moderate weight reflects mean-reversion tendency of extreme growth. "
                      "Excludes price momentum to avoid look-ahead bias.",
         },
@@ -1167,7 +1167,7 @@ def weight_literature_mapping():
             "citation": "Fama & French (1992) 'The Cross-Section of Expected Stock Returns'; "
                         "Fama & French (1993) 'Common Risk Factors'; "
                         "Asness et al. (2013) 'Value and Momentum Everywhere'",
-            "typical_range": "0.03 – 0.12",
+            "typical_range": "0.03 - 0.12",
             "notes": "Value premium is well-documented but has weakened post-2010. "
                      "Low-to-moderate weight balances value trap risk.",
         },
@@ -1176,7 +1176,7 @@ def weight_literature_mapping():
             "academic_basis": "Low-volatility / defensive factor",
             "citation": "Baker, Bradley & Wurgler (2011) 'Benchmarks as Limits to Arbitrage: Understanding the Low-Volatility Anomaly'; "
                         "Frazzini & Pedersen (2014) 'Betting Against Beta'",
-            "typical_range": "0.03 – 0.10",
+            "typical_range": "0.03 - 0.10",
             "notes": "Balance sheet stability (current ratio, debt-to-equity) proxies "
                      "for the BAB / low-volatility factor.",
         },
@@ -1185,7 +1185,7 @@ def weight_literature_mapping():
             "academic_basis": "Relative valuation and sector-neutral selection",
             "citation": "Bhojraj & Lee (2002) 'Who Is My Peer? A Valuation-Based Approach'; "
                         "Daniel & Titman (1997) 'Evidence on the Characteristics of Cross Sectional Variation in Stock Returns'",
-            "typical_range": "0.01 – 0.10",
+            "typical_range": "0.01 - 0.10",
             "notes": "Peer-group similarity aids diversification and prevents "
                      "sector concentration. ESG-first profiles weight higher to "
                      "reward ESG leaders within each sector.",
@@ -1195,7 +1195,7 @@ def weight_literature_mapping():
             "academic_basis": "Industry momentum and relative strength",
             "citation": "Moskowitz & Grinblatt (1999) 'Do Industries Explain Momentum?'; "
                         "Asness, Porter & Stevens (2000) 'Predicting Stock Returns Using Industry-Relative Firm Characteristics'",
-            "typical_range": "0.01 – 0.06",
+            "typical_range": "0.01 - 0.06",
             "notes": "Industry-relative metrics reduce sector bias. "
                      "Small weight reflects supplementary role.",
         },
@@ -1316,7 +1316,7 @@ def per_factor_sensitivity(df):
     for pname in PROFILES:
         label = PROFILE_LABELS[pname]
         sub = summary[summary["profile"] == label].head(3)
-        print(f"  {label} — most sensitive factors:")
+        print(f"  {label} -- most sensitive factors:")
         for _, r in sub.iterrows():
             print(f"    {r['factor']:25s} instability={r['mean_rank_instability']:.6f}, "
                   f"top-20 overlap={r['mean_top20_overlap']:.1f}/20")
@@ -1341,7 +1341,7 @@ def per_factor_sensitivity(df):
                 edgecolor="white", linewidth=0.5)
         ax.set_yticks(range(len(factors)))
         ax.set_yticklabels(factors, fontsize=8)
-        ax.set_xlabel("Rank Instability (1 − ρ)")
+        ax.set_xlabel("Rank Instability (1 − rho)")
         ax.set_title(f"{label}", fontsize=11, fontweight="bold")
         ax.axvline(0.005, color="grey", linewidth=0.8, linestyle="--", alpha=0.6)
 

@@ -52,14 +52,14 @@ from src.data_collection.data_pipeline import load_configs
 #   - "binary":       0/1 indicator variables (no z-score; kept as-is or mean-coded)
 #   - "ordinal":      Discrete integers with a natural order (ranked, not z-scored)
 #   - "bounded_pct":  Percentages bounded in [0, 100] (min-max or logit transform)
-#   - "ratio":        Financial ratios that can be extreme (PE, EV/EBITDA) — robust winsorization
+#   - "ratio":        Financial ratios that can be extreme (PE, EV/EBITDA) -- robust winsorization
 #   - "count":        Count / absolute magnitude variables (log-transformed if skewed)
 #   - "continuous":   Standard continuous variables (z-score normalization)
 #   - "rate":         Small-range rates like ROA, ROE (already proportional)
 #
 # This classification follows best practices from:
 #   Stevens (1946) "On the Theory of Scales of Measurement"
-#   Hair et al. (2019) "Multivariate Data Analysis" — variable type determines method choice
+#   Hair et al. (2019) "Multivariate Data Analysis" -- variable type determines method choice
 
 VARIABLE_TYPES = {
     # --- Binary indicators (0/1) ---
@@ -82,7 +82,7 @@ VARIABLE_TYPES = {
     "community_investment_pct": "bounded_pct",
     "supply_chain_audit_pct": "bounded_pct",
     "exec_comp_esg_linked": "bounded_pct",
-    # Removed (Issue M6): "free_float_pct" — synthetic noise
+    # Removed (Issue M6): "free_float_pct" -- synthetic noise
     "shareholder_rights_score": "bounded_pct",
     "ethics_compliance_score": "bounded_pct",
     "data_privacy_score": "bounded_pct",
@@ -171,7 +171,7 @@ VARIABLE_TYPES = {
     "price_momentum_6m": "continuous",
     "price_momentum_12m": "continuous",
     "beta": "continuous",
-    # Removed (Issue M6): "bid_ask_spread" — synthetic noise
+    # Removed (Issue M6): "bid_ask_spread" -- synthetic noise
     "max_drawdown_1y": "continuous",
     "sharpe_ratio_1y": "continuous",
     "sortino_ratio_1y": "continuous",
@@ -196,18 +196,18 @@ def classify_variable(col):
 
 
 # ---------------------------------------------------------------------------
-# Currency Conversion: INR → USD
+# Currency Conversion: INR -> USD
 # ---------------------------------------------------------------------------
 def convert_inr_to_usd(df, exchange_rate=83.0):
     """
     Convert INR-denominated absolute financial values to USD.
 
     Indian companies are identified by BOTH the 'country' column AND the
-    '.NS' (National Stock Exchange) ticker suffix — this dual check is
+    '.NS' (National Stock Exchange) ticker suffix -- this dual check is
     robust to inconsistent country labels from Yahoo Finance.
 
     Ratios (ROA, ROE, D/E, margins, P/E, P/B, EV/EBITDA) are dimensionless
-    and currency-neutral — they are NOT converted.
+    and currency-neutral -- they are NOT converted.
     Only absolute monetary values (revenue, market_cap, etc.) are divided
     by the exchange rate.
 
@@ -227,14 +227,14 @@ def convert_inr_to_usd(df, exchange_rate=83.0):
         "market_cap", "total_revenue", "ebitda", "net_income",
         "gross_profit", "total_debt", "total_cash", "total_assets",
         "free_cashflow", "operating_cashflow", "r_d_expenditure",
-        # Derived absolute value (revenue / employees — numerator is INR)
+        # Derived absolute value (revenue / employees -- numerator is INR)
         "revenue_per_employee",
         # Price-related absolutes (Yahoo returns these in local currency)
         "price", "52_week_high", "52_week_low", "50d_avg", "200d_avg",
     ]
 
     # --- Identify Indian companies ---
-    # Primary: ticker suffix '.NS' (definitive — NSE-listed)
+    # Primary: ticker suffix '.NS' (definitive -- NSE-listed)
     ticker_mask = df["ticker"].astype(str).str.endswith(".NS")
 
     # Secondary: country column (catches edge cases where ticker was cleaned)
@@ -245,11 +245,11 @@ def convert_inr_to_usd(df, exchange_rate=83.0):
         india_mask = ticker_mask | country_mask
     else:
         india_mask = ticker_mask
-        logger.warning("No 'country' column found — using ticker suffix only for INR detection")
+        logger.warning("No 'country' column found -- using ticker suffix only for INR detection")
 
     n_indian = india_mask.sum()
     if n_indian == 0:
-        logger.info("No Indian companies detected — skipping INR→USD conversion")
+        logger.info("No Indian companies detected -- skipping INR->USD conversion")
         return df
 
     # --- Convert monetary columns ---
@@ -267,13 +267,13 @@ def convert_inr_to_usd(df, exchange_rate=83.0):
     # --- Log which companies were converted ---
     indian_tickers = df.loc[india_mask, "ticker"].tolist()
     logger.info(
-        f"INR→USD conversion: {n_indian} Indian companies, "
+        f"INR->USD conversion: {n_indian} Indian companies, "
         f"rate = 1 USD = {exchange_rate} INR (March 2024 RBI reference)"
     )
     logger.info(f"  Monetary columns converted ({len(converted_cols)}): {converted_cols}")
     logger.info(f"  Indian tickers: {indian_tickers[:10]}{'...' if len(indian_tickers) > 10 else ''}")
     # Also print to stdout for pipeline visibility
-    print(f"  INR→USD: {n_indian} Indian companies converted (rate={exchange_rate})")
+    print(f"  INR->USD: {n_indian} Indian companies converted (rate={exchange_rate})")
     print(f"  Columns: {converted_cols}")
 
     return df
@@ -369,7 +369,7 @@ def save_variable_type_report(df, tables_dir):
 
 
 # ---------------------------------------------------------------------------
-# Outlier Detection — Multi-Method
+# Outlier Detection -- Multi-Method
 # ---------------------------------------------------------------------------
 def detect_outliers_iqr(series, k=1.5):
     """Detect outliers using Tukey's IQR rule (k=1.5 standard, k=3 extreme)."""
@@ -470,7 +470,7 @@ def comprehensive_outlier_report(df, cols):
         mad_mask = detect_outliers_mad(vals, threshold=3.5)
         z_mask = detect_outliers_zscore(vals, threshold=3.0)
 
-        # "Consensus outliers" — flagged by at least 2 of 3 methods
+        # "Consensus outliers" -- flagged by at least 2 of 3 methods
         consensus = (iqr_mask.astype(int) + mad_mask.astype(int) + z_mask.astype(int)) >= 2
 
         rows.append({
@@ -767,7 +767,7 @@ def main():
 
     # --- Currency Conversion (before any normalization) ---
     # Convert INR-denominated absolute values to USD so magnitudes are comparable
-    # Exchange rate read from config/index_config.yaml → universe.exchange_rates.INR_USD
+    # Exchange rate read from config/index_config.yaml -> universe.exchange_rates.INR_USD
     # Sensitivity: ±5% rate change affects Indian company market_cap by ±5%
     # but financial RATIOS (ROA, ROE, D/E, margins) are unaffected since
     # both numerator and denominator scale proportionally.

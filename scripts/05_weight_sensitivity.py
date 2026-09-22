@@ -40,7 +40,7 @@ TABLES.mkdir(parents=True, exist_ok=True)
 WEIGHT_NAMES = SCORE_COLUMNS
 
 # DEFAULT_WEIGHTS is imported from src.constants (balanced profile).
-# No local override — single source of truth is config/index_config.yaml.
+# No local override -- single source of truth is config/index_config.yaml.
 
 
 def load_data():

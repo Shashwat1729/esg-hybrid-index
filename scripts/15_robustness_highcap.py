@@ -1,5 +1,5 @@
 """
-Step 15: Robustness Analysis — High-Cap Generalization
+Step 15: Robustness Analysis -- High-Cap Generalization
 ========================================================
 Evaluates whether the multi-factor index (designed for mid-cap companies)
 generalizes to large-cap benchmarks (N=45 companies from S&P 500 top-50
@@ -10,7 +10,7 @@ Statistical tests:
   - Kendall's W (coefficient of concordance) as effect size measure
   - N=45 provides >0.80 power at medium effect size (Cohen, 1988)
 
-The index methodology is NOT modified — this is a pure evaluation of how
+The index methodology is NOT modified -- this is a pure evaluation of how
 scores and rankings behave when applied to a fundamentally different
 market-cap segment.
 
@@ -288,7 +288,7 @@ def factor_degradation_analysis(midcap, highcap):
                               "mid-cap operational benchmarks")
                 elif factor == "value_score" and z < -2.5:
                     reason = ("Large-cap premium valuations (high P/E, P/B) produce "
-                              "low value scores — expected for growth-oriented mega-caps")
+                              "low value scores -- expected for growth-oriented mega-caps")
                 elif factor == "similarity_rank" and abs(z) > 2.5:
                     reason = ("ESG peer similarity measure less meaningful for "
                               "large-caps with distinct ESG profiles")
@@ -296,7 +296,7 @@ def factor_degradation_analysis(midcap, highcap):
                     reason = (f"Benchmark {direction}-scores by {abs(z):.1f} std; "
                               f"index normalization may not generalize")
             else:
-                reason = "Within normal range — factor generalizes adequately"
+                reason = "Within normal range -- factor generalizes adequately"
 
             rows.append({
                 "factor": factor,
@@ -332,7 +332,7 @@ def factor_degradation_analysis(midcap, highcap):
 
 
 # ---------------------------------------------------------------------------
-# 4. Profile Robustness — Friedman Test + Kendall's W
+# 4. Profile Robustness -- Friedman Test + Kendall's W
 # ---------------------------------------------------------------------------
 def _kendalls_w(rank_matrix):
     """Compute Kendall's W (coefficient of concordance).
@@ -591,7 +591,7 @@ def generalization_summary(score_comp, rank_stab, degradation, profile_cons):
         else:
             factor_status[factor] = "degrades"
 
-    # Overall verdict — majority rule across factors
+    # Overall verdict -- majority rule across factors
     generalizing_factors = [f for f, s in factor_status.items() if s == "generalizes"]
     degrading_factors = [f for f, s in factor_status.items() if s == "degrades"]
     partial_factors = [f for f, s in factor_status.items() if s == "partially_generalizes"]
@@ -603,13 +603,13 @@ def generalization_summary(score_comp, rank_stab, degradation, profile_cons):
     # Divergence explanations for common large-cap factor deviations
     divergence_reasons = {
         "growth_score": ("growth_score may diverge because mega-cap companies "
-                         "have already matured — their absolute revenue is massive "
+                         "have already matured -- their absolute revenue is massive "
                          "but growth rates are typically lower than mid-caps"),
         "market_score": ("market_score naturally diverges because large-cap "
                          "liquidity and trading volumes are orders of magnitude "
                          "higher, saturating the mid-cap normalization scale"),
         "operational_score": ("operational_score can diverge due to economies of "
-                              "scale — large-caps achieve higher revenue-per-employee "
+                              "scale -- large-caps achieve higher revenue-per-employee "
                               "through established operational leverage"),
         "financial_score": ("financial_score may differ because large-caps have "
                             "different capital structures and profitability profiles "
@@ -648,7 +648,7 @@ def generalization_summary(score_comp, rank_stab, degradation, profile_cons):
             f"ESG_composite remains stable, and financial/market divergence is "
             f"expected in large-caps due to scale effects. "
             f"These divergences are expected and do not invalidate the "
-            f"methodology — they reflect structural differences between "
+            f"methodology -- they reflect structural differences between "
             f"market-cap segments."
         )
     else:
@@ -670,7 +670,7 @@ def generalization_summary(score_comp, rank_stab, degradation, profile_cons):
         {"metric": "statistical_power_note",
          "value": f"N={n_bench_actual} provides >0.80 power at medium effect size (Cohen 1988)"
                   if n_bench_actual >= 40 else
-                  f"N={n_bench_actual} — consider expanding to N>=40 for adequate power"},
+                  f"N={n_bench_actual} -- consider expanding to N>=40 for adequate power"},
         {"metric": "mean_absolute_score_deviation", "value": round(mean_score_dev, 2)},
         {"metric": "mean_absolute_zscore", "value": round(mean_abs_z, 3)},
         {"metric": "rank_stability_spearman_rho", "value": rank_rho},
@@ -813,7 +813,7 @@ def highcap_comparison_plots(midcap, highcap):
 # ---------------------------------------------------------------------------
 def main():
     print("=" * 70)
-    print("STEP 15: ROBUSTNESS ANALYSIS — HIGH-CAP GENERALIZATION")
+    print("STEP 15: ROBUSTNESS ANALYSIS -- HIGH-CAP GENERALIZATION")
     print("=" * 70)
 
     df, midcap, highcap = load_data()

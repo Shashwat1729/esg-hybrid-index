@@ -4,9 +4,9 @@ correlation,Spearman r: ESG-Financial (design parameter ~0.35),276,276.0,,0.7417
 correlation,Spearman r: ESG-ROA,276,276.0,,0.3598,0.168,1.0,59.0,"r=0.360 [0.252, 0.458], power=1.00, adequately powered"
 correlation,Spearman r: Balanced preference-Financial,276,276.0,,0.8295,0.168,1.0,9.0,"r=0.830 [0.789, 0.863], power=1.00, adequately powered"
 correlation,Spearman r: E pillar-S pillar,269,269.0,,-0.2533,0.168,0.9882,121.0,"r=-0.253 [-0.362, -0.138], power=0.99, adequately powered"
-two_group_ttest,Min detectable Cohen's d (US N=186 vs India N=90),276,186.0,90.0,,,,276.0,Effects smaller than d=nan are undetectable; unequal groups (186 vs 90) reduce power
-two_group_ttest,Cohen's d for ESG_composite: US vs India,276,186.0,90.0,0.1187,,0.1514,2234.0,"d=0.119, power=0.15, UNDERPOWERED"
-two_group_ttest,Cohen's d for financial_score: US vs India,276,186.0,90.0,0.0532,,0.0698,,"d=0.053, power=0.07, UNDERPOWERED"
-two_group_ttest,Cohen's d for pref_balanced: US vs India,276,186.0,90.0,0.0821,,0.0977,4658.0,"d=0.082, power=0.10, UNDERPOWERED"
+two_group_ttest,Min detectable Cohen's d (US N=186 vs India N=90),276,186.0,90.0,,0.361,,276.0,Effects smaller than d=0.361 are undetectable; unequal groups (186 vs 90) reduce power
+two_group_ttest,Cohen's d for ESG_composite: US vs India,276,186.0,90.0,0.1187,0.361,0.1514,2234.0,"d=0.119, power=0.15, UNDERPOWERED"
+two_group_ttest,Cohen's d for financial_score: US vs India,276,186.0,90.0,0.0532,0.361,0.0698,,"d=0.053, power=0.07, UNDERPOWERED"
+two_group_ttest,Cohen's d for pref_balanced: US vs India,276,186.0,90.0,0.0821,0.361,0.0977,4658.0,"d=0.082, power=0.10, UNDERPOWERED"
 anova,"Sector ANOVA (11 groups, N=276): avg ~25 per group",276,,,,,,,Small sector groups (25/group) limit power for detecting medium effects (eta^2~0.06); only large effects (eta^2>0.14) reliably detectable
 LIMITATION_SUMMARY,Overall power limitations for N=276,276,,,,,,,"With N=276 mid-cap companies: (a) correlations below |r|=0.168 are undetectable at 80% power; (b) subgroup analyses (country, sector) have further reduced power due to small cell sizes; (c) multiple testing (BH-FDR) applied to control false discovery rate. Results should be interpreted as exploratory for effects near the detection threshold."

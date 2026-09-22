@@ -45,11 +45,11 @@ India companies & \textbf{90} \\
 \subsection{Factor Independence and Multicollinearity}
 
 Collinearity diagnostics are favorable. All VIF values are low, with
-maximum \textbf{VIF $=2.80$} for \texttt{financial\_score}. Factor-level
+maximum \textbf{VIF $=3.26$} for \texttt{financial\_score}. Factor-level
 diagnostics remain comfortably within the low-VIF regime: ESG
-(\textbf{2.53}), market (\textbf{1.91}), operational (\textbf{1.42}),
-risk-adjusted (\textbf{2.13}), value (\textbf{1.49}), growth
-(\textbf{1.22}), and stability (\textbf{1.21}).
+(\textbf{2.61}), market (\textbf{1.98}), operational (\textbf{1.67}),
+risk-adjusted (\textbf{2.18}), value (\textbf{1.86}), growth
+(\textbf{1.23}), and stability (\textbf{1.23}).
 Indicator overlap across factors is \textbf{0\%}, supporting factor
 independence at the feature level. The ESG--financial association
 (\texttt{ESG\_composite} $\leftrightarrow$ \texttt{financial\_score})
@@ -66,14 +66,14 @@ discovery.
 \toprule
 \textbf{Factor} & \textbf{VIF} & \textbf{Classification} \\
 \midrule
-Financial & \textbf{2.80} & \textbf{Low} \\
-ESG & \textbf{2.53} & \textbf{Low} \\
-Risk-adjusted & \textbf{2.13} & \textbf{Low} \\
-Market & \textbf{1.91} & \textbf{Low} \\
-Value & \textbf{1.49} & \textbf{Low} \\
-Operational & \textbf{1.42} & \textbf{Low} \\
-Growth & \textbf{1.22} & \textbf{Low} \\
-Stability & \textbf{1.21} & \textbf{Low} \\
+Financial & \textbf{3.26} & \textbf{Low} \\
+ESG & \textbf{2.61} & \textbf{Low} \\
+Risk-adjusted & \textbf{2.18} & \textbf{Low} \\
+Market & \textbf{1.98} & \textbf{Low} \\
+Value & \textbf{1.86} & \textbf{Low} \\
+Operational & \textbf{1.67} & \textbf{Low} \\
+Growth & \textbf{1.23} & \textbf{Low} \\
+Stability & \textbf{1.23} & \textbf{Low} \\
 Sector Position & \textbf{2.20} & \textbf{Low} \\
 \bottomrule
 \end{tabular}
@@ -222,8 +222,8 @@ Growth-only excess momentum proxy (bear market) & \textbf{-3.24\%} \\
 \subsection{PCA and Dimensionality}
 
 PCA retains \textbf{3 components} under the Kaiser criterion,
-with \textbf{67.4\%} cumulative explained variance
-(PC1 \textbf{31.8\%}, PC2 \textbf{20.9\%}, PC3 \textbf{14.6\%}).
+with \textbf{51.9\%} cumulative explained variance
+(PC1 \textbf{20.1\%}, PC2 \textbf{17.7\%}, PC3 \textbf{14.2\%}).
 Clustering identifies \textbf{3 clusters} with
 \textbf{silhouette $=0.261$}, indicating modest but non-trivial
 segmentation.
@@ -238,10 +238,10 @@ segmentation.
 \textbf{Diagnostic} & \textbf{Value} \\
 \midrule
 Retained components (Kaiser) & \textbf{3} \\
-PC1 explained variance & \textbf{31.8\%} \\
-PC2 explained variance & \textbf{20.9\%} \\
-PC3 explained variance & \textbf{14.6\%} \\
-Cumulative explained variance & \textbf{67.4\%} \\
+PC1 explained variance & \textbf{20.1\%} \\
+PC2 explained variance & \textbf{17.7\%} \\
+PC3 explained variance & \textbf{14.2\%} \\
+Cumulative explained variance & \textbf{51.9\%} \\
 Hierarchical clusters & \textbf{3} \\
 Silhouette score & \textbf{0.261} \\
 \bottomrule

@@ -53,7 +53,7 @@ def provenance_summary(df: pd.DataFrame) -> None:
     """Summarise ESG data provenance if a source-tracking file exists."""
     provenance_path = TABLES / "esg_data_provenance.csv"
     if not provenance_path.exists():
-        print("Provenance file not found — skipping provenance summary")
+        print("Provenance file not found -- skipping provenance summary")
         return
 
     prov_df = pd.read_csv(provenance_path)
@@ -89,7 +89,7 @@ def within_sector_variance(df: pd.DataFrame, esg_col: str) -> None:
     print("\n=== Within-Sector ESG Variance ===")
 
     if "sector" not in df.columns:
-        print("  No 'sector' column found — skipping variance decomposition")
+        print("  No 'sector' column found -- skipping variance decomposition")
         return
 
     sector_var = df.groupby("sector")[esg_col].agg(["mean", "std", "count", "var"])
@@ -142,7 +142,7 @@ def incremental_r2(df: pd.DataFrame, esg_col: str) -> None:
     print("\n=== ESG Incremental R² Analysis ===")
 
     if "sector" not in df.columns:
-        print("  No 'sector' column found — cannot perform incremental R² analysis")
+        print("  No 'sector' column found -- cannot perform incremental R² analysis")
         return
 
     # Dependent variables: composite scores that ESG should predict
@@ -154,7 +154,7 @@ def incremental_r2(df: pd.DataFrame, esg_col: str) -> None:
     dependent_vars = [c for c in candidate_dep if c in df.columns]
 
     if not dependent_vars:
-        print("  No dependent variables found — skipping incremental R² analysis")
+        print("  No dependent variables found -- skipping incremental R² analysis")
         return
 
     sector_dummies = pd.get_dummies(df["sector"], drop_first=True, dtype=float)

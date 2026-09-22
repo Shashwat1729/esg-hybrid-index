@@ -311,7 +311,7 @@ def test_esg_financial_regression(df):
     ║  SYNTHETIC DATA LIMITATION                                         ║
     ║                                                                    ║
     ║  The ESG scores used here are PREDOMINANTLY SYNTHETIC with         ║
-    ║  sector-specific profiles. corr_weight was removed — ESG-financial ║
+    ║  sector-specific profiles. corr_weight was removed -- ESG-financial ║
     ║  correlation is now emergent from sector patterns only.            ║
     ║  Real data is limited to Yahoo governance risk scores              ║
     ║  (5 indicators) and financial proxies (5 indicators).              ║
@@ -328,7 +328,7 @@ def test_esg_financial_regression(df):
     print("\n--- Test 4: ESG-Financial Regression ---")
     print("  ┌─────────────────────────────────────────────────────────────────┐")
     print("  │ CAVEAT: ESG data is predominantly synthetic with sector-       │")
-    print("  │ specific profiles (corr_weight removed — no built-in blend).   │")
+    print("  │ specific profiles (corr_weight removed -- no built-in blend).   │")
     print("  │ ESG-financial correlation is emergent from sector patterns     │")
     print("  │ only. Interpret regressions with caution.                      │")
     print("  └─────────────────────────────────────────────────────────────────┘")
@@ -380,7 +380,7 @@ def test_esg_financial_regression(df):
     caveat_row = pd.DataFrame([{
         "dependent_var": "# SYNTHETIC DATA CAVEAT",
         "independent_var": "ESG data is predominantly synthetic with sector-specific profiles. "
-                          "corr_weight was removed — ESG-financial correlation is emergent "
+                          "corr_weight was removed -- ESG-financial correlation is emergent "
                           "from sector patterns only, not a built-in parameter.",
         "slope": None, "intercept": None,
         "r_squared": None, "p_value": None, "std_error": None, "n": None,
@@ -683,7 +683,7 @@ def test_multiple_regression(df):
     print("\n--- Test 13: Multiple Regression (ESG -> Financial with Controls) ---")
     print("  ┌─────────────────────────────────────────────────────────────────┐")
     print("  │ CAVEAT: ESG data is predominantly synthetic with sector-       │")
-    print("  │ specific profiles (corr_weight removed — no built-in blend).   │")
+    print("  │ specific profiles (corr_weight removed -- no built-in blend).   │")
     print("  │ ESG-financial coefficients reflect sector patterns, not        │")
     print("  │ empirical discovery. See 01_download_data.py for details.      │")
     print("  └─────────────────────────────────────────────────────────────────┘")
@@ -740,7 +740,7 @@ def test_multiple_regression(df):
         caveat_row = pd.DataFrame([{
             "dependent": "# SYNTHETIC DATA CAVEAT",
             "independent": "ESG data is predominantly synthetic with sector-specific profiles. "
-                          "corr_weight was removed — ESG-financial coefficients reflect "
+                          "corr_weight was removed -- ESG-financial coefficients reflect "
                           "emergent sector patterns, not a built-in parameter.",
             "coefficient": None, "std_error": None, "t_stat": None,
             "p_value": None, "r_squared": None, "adj_r_squared": None,
@@ -854,7 +854,7 @@ def test_subgroup_analysis(df):
 def test_sector_score_interaction(df):
     print("\n--- Test 17: Sector-Score Interaction ---")
     print("  NOTE: ESG-financial correlations within sectors reflect synthetic")
-    print("        ESG data with sector-specific profiles (corr_weight removed —")
+    print("        ESG data with sector-specific profiles (corr_weight removed --")
     print("        no built-in financial quality blending). Interpret with caution.")
     if "sector" not in df.columns:
         return
@@ -1113,10 +1113,10 @@ def test_factor_score_correlations(df):
         Full Pearson correlation matrix between all 10 factor scores.
 
     Interpretation thresholds (Cohen, 1988; Hair et al., 2019):
-      |r| > 0.7  : very high — factors are near-redundant, likely heavy overlap
-      |r| > 0.5  : high — substantial shared variance, probable indicator overlap
-      |r| > 0.3  : moderate — some shared information but factors are distinct
-      |r| <= 0.3 : low — factors capture different constructs
+      |r| > 0.7  : very high -- factors are near-redundant, likely heavy overlap
+      |r| > 0.5  : high -- substantial shared variance, probable indicator overlap
+      |r| > 0.3  : moderate -- some shared information but factors are distinct
+      |r| <= 0.3 : low -- factors capture different constructs
     """
     print("\n--- Test 21: Factor Score Pairwise Correlations (H2 overlap) ---")
 
@@ -1178,12 +1178,12 @@ def compute_factor_diagnostics(df):
     reports/tables/factor_vif.csv                   (VIF per factor with concern flags)
 
     Interpretation (Hair et al., 2019; O'Brien, 2007):
-      VIF > 10 : HIGH multicollinearity — factor is near-linearly dependent on others
-      VIF > 5  : MODERATE — worth investigating; may inflate standard errors
-      VIF <= 5 : LOW — acceptable for regression and composite scoring
+      VIF > 10 : HIGH multicollinearity -- factor is near-linearly dependent on others
+      VIF > 5  : MODERATE -- worth investigating; may inflate standard errors
+      VIF <= 5 : LOW -- acceptable for regression and composite scoring
 
     Condition number (Belsley et al., 1980):
-      > 30     : HIGH — ill-conditioned design matrix
+      > 30     : HIGH -- ill-conditioned design matrix
       <= 30    : ACCEPTABLE
     """
     from statsmodels.stats.outliers_influence import variance_inflation_factor
@@ -1264,7 +1264,7 @@ def apply_multiple_testing_correction(alpha: float = 0.05):
     # Map of (csv_filename, p-value column) pairs to scan.
     # Each entry may contribute one or many p-values.
     P_COL_MAP = {
-        # file stem → list of p-value columns
+        # file stem -> list of p-value columns
         "normality_tests":          ["shapiro_p", "jarque_bera_p", "ks_p"],
         "correlation_significance": ["pearson_p", "spearman_p", "kendall_p"],
         "esg_financial_regression": ["p_value"],

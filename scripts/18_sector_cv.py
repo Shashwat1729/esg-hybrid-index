@@ -63,7 +63,7 @@ def leave_one_sector_out_cv(df, score_columns):
     """
     sectors = df["sector"].dropna().unique()
 
-    # Full-sample rankings (descending — higher score = better rank)
+    # Full-sample rankings (descending -- higher score = better rank)
     full_ranks = {}
     for col in score_columns:
         full_ranks[col] = df[col].rank(ascending=False)
@@ -174,7 +174,7 @@ def main():
     print(f"[OK] Loaded {len(df)} mid-cap companies")
 
     if "sector" not in df.columns:
-        print("[ERROR] 'sector' column not found — cannot run sector CV.")
+        print("[ERROR] 'sector' column not found -- cannot run sector CV.")
         sys.exit(1)
 
     n_sectors = df["sector"].nunique()
@@ -235,8 +235,8 @@ def main():
     print(f"Factors evaluated : {len(score_cols)}")
     print(f"Total comparisons : {len(cv_results)}")
 
-    print(f"\n{'Factor':<25s} {'Mean ρ':>8s} {'Min ρ':>8s} "
-          f"{'Max ρ':>8s} {'Mean MAE':>10s}")
+    print(f"\n{'Factor':<25s} {'Mean rho':>8s} {'Min rho':>8s} "
+          f"{'Max rho':>8s} {'Mean MAE':>10s}")
     print("-" * 65)
     for _, row in summary.iterrows():
         print(f"  {row.name:<23s} {row['mean_spearman']:8.3f} "
@@ -245,7 +245,7 @@ def main():
 
     overall_rho = cv_results["spearman_rho"].mean()
     overall_mae = cv_results["mae_score_shift"].mean()
-    print(f"\nOverall mean Spearman ρ : {overall_rho:.4f}")
+    print(f"\nOverall mean Spearman rho : {overall_rho:.4f}")
     print(f"Overall mean MAE        : {overall_mae:.3f}")
 
     # ------------------------------------------------------------------
@@ -262,7 +262,7 @@ def main():
         .round(4)
         .sort_values("mean_rho")
     )
-    print(f"\n{'Sector':<30s} {'N':>4s} {'Mean ρ':>8s} {'Mean MAE':>10s}")
+    print(f"\n{'Sector':<30s} {'N':>4s} {'Mean rho':>8s} {'Mean MAE':>10s}")
     print("-" * 56)
     for sector, row in sector_summary.iterrows():
         print(f"  {sector:<28s} {int(row['n_companies']):4d} "
@@ -273,16 +273,16 @@ def main():
     # ------------------------------------------------------------------
     print("\n" + "-" * 70)
     if overall_rho > 0.95:
-        verdict = ("EXCELLENT — scores are highly robust to sector composition. "
+        verdict = ("EXCELLENT -- scores are highly robust to sector composition. "
                     "Removing any single sector has negligible impact on rankings.")
     elif overall_rho > 0.85:
-        verdict = ("GOOD — scores are robust with minor sector sensitivity. "
+        verdict = ("GOOD -- scores are robust with minor sector sensitivity. "
                     "The methodology generalizes well across sectors.")
     elif overall_rho > 0.70:
-        verdict = ("MODERATE — some sector sensitivity exists. "
+        verdict = ("MODERATE -- some sector sensitivity exists. "
                     "Certain sectors may disproportionately influence scores.")
     else:
-        verdict = ("POOR — significant sector dependence detected. "
+        verdict = ("POOR -- significant sector dependence detected. "
                     "The methodology may be overfitting to sector composition.")
 
     print(f"Verdict: {verdict}")
@@ -290,12 +290,12 @@ def main():
     # Identify weakest sector-factor combinations
     weak = cv_results[cv_results["spearman_rho"] < 0.80]
     if len(weak) > 0:
-        print(f"\nWeak sector-factor combinations (ρ < 0.80): {len(weak)}")
+        print(f"\nWeak sector-factor combinations (rho < 0.80): {len(weak)}")
         for _, row in weak.sort_values("spearman_rho").head(10).iterrows():
             print(f"  {row['held_out_sector']:25s} × {row['factor']:25s} "
-                  f"ρ={row['spearman_rho']:.3f}  (n={int(row['n_holdout'])})")
+                  f"rho={row['spearman_rho']:.3f}  (n={int(row['n_holdout'])})")
     else:
-        print("\nNo weak sector-factor combinations (all ρ ≥ 0.80).")
+        print("\nNo weak sector-factor combinations (all rho ≥ 0.80).")
 
     print("\n[DONE] Sector cross-validation complete.")
 

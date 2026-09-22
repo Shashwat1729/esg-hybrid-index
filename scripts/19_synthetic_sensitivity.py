@@ -154,7 +154,7 @@ def main():
         comp_df = pd.DataFrame(comparison_results)
         out_score = TABLES / "synthetic_sensitivity_score_comparison.csv"
         comp_df.to_csv(out_score, index=False)
-        print(f"\nSaved score comparison → {out_score}")
+        print(f"\nSaved score comparison -> {out_score}")
 
     # ------------------------------------------------------------------
     # Analysis 4: Rank stability
@@ -207,7 +207,7 @@ def main():
         rank_df = pd.DataFrame(rank_results)
         out_rank = TABLES / "synthetic_sensitivity_rank_correlation.csv"
         rank_df.to_csv(out_rank, index=False)
-        print(f"Saved rank correlation → {out_rank}")
+        print(f"Saved rank correlation -> {out_rank}")
 
     # ------------------------------------------------------------------
     # Summary
@@ -236,7 +236,7 @@ def main():
     summary_df = pd.DataFrame([summary])
     out_summary = TABLES / "synthetic_sensitivity_summary.csv"
     summary_df.to_csv(out_summary, index=False)
-    print(f"Saved summary → {out_summary}")
+    print(f"Saved summary -> {out_summary}")
 
     print("\n=== Synthetic Sensitivity Summary ===")
     for k, v in summary.items():

@@ -34,6 +34,16 @@ import time
 import subprocess
 from pathlib import Path
 
+# Force UTF-8 I/O on Windows (fixes cp1252 encode errors for unicode prints)
+os.environ.setdefault("PYTHONUTF8", "1")
+os.environ.setdefault("PYTHONIOENCODING", "utf-8")
+try:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 os.chdir(PROJECT_ROOT)
 
@@ -70,10 +80,14 @@ def run_script(script_name, description):
     print(f"{'='*70}")
     start = time.time()
 
+    env = os.environ.copy()
+    env["PYTHONUTF8"] = "1"
+    env["PYTHONIOENCODING"] = "utf-8"
     result = subprocess.run(
         [sys.executable, str(script_path)],
         cwd=str(PROJECT_ROOT),
         capture_output=False,
+        env=env,
     )
 
     elapsed = time.time() - start

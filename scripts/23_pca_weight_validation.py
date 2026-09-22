@@ -6,26 +6,26 @@ optimal weights to assess whether the weighting scheme is empirically
 grounded in the cross-sectional variance structure of the 8 main factors.
 
 The existing PCA analysis in 03_build_index.py (derive_pca_weight_rationale)
-is post-hoc — it computes PCA after scoring and *suggests* weight ranges,
+is post-hoc -- it computes PCA after scoring and *suggests* weight ranges,
 but those ranges are never used to constrain or validate the actual
 configured weights.  This script makes the PCA analysis *prescriptive*.
 
 Analyses:
 
-  1. **PCA-suggested weights** — proportional to variance explained by each
+  1. **PCA-suggested weights** -- proportional to variance explained by each
      factor across the first K components explaining >= 80% of total variance.
 
-  2. **Configured vs PCA weight comparison** — chi-squared goodness-of-fit,
+  2. **Configured vs PCA weight comparison** -- chi-squared goodness-of-fit,
      L1 (Manhattan) distance, and maximum absolute deviation.
 
-  3. **PCA-constrained grid search** — search weights within PCA range +/-0.05,
+  3. **PCA-constrained grid search** -- search weights within PCA range +/-0.05,
      maximise cross-sectional Sharpe proxy (using ex_market momentum as
      return proxy, with appropriate caveats about circularity).
 
-  4. **Factor independence (VIF)** — Variance Inflation Factor for all 8
+  4. **Factor independence (VIF)** -- Variance Inflation Factor for all 8
      factors to detect multicollinearity.
 
-  5. **Effective dimensionality** — number of PCA components needed to
+  5. **Effective dimensionality** -- number of PCA components needed to
      explain 80%, 90%, 95% of total variance.
 
 Input:  data/processed/indexed_data.csv
@@ -574,7 +574,7 @@ def main() -> None:
 
     max_vif = vif_df["VIF"].max()
     if max_vif < 5:
-        print("  CONCLUSION: All VIF < 5 — no concerning multicollinearity.")
+        print("  CONCLUSION: All VIF < 5 -- no concerning multicollinearity.")
     elif max_vif < 10:
         print("  CONCLUSION: Some moderate collinearity detected (VIF 5-10). "
               "Factors are partially redundant but usable.")
@@ -612,7 +612,7 @@ def main() -> None:
         print("  NOTE: Only 3 or fewer components capture 80% of variance. "
               "Several factors may be near-redundant.")
     elif int(n_80) >= 6:
-        print("  NOTE: 6+ components needed for 80% — factors are largely independent, "
+        print("  NOTE: 6+ components needed for 80% -- factors are largely independent, "
               "supporting a multi-factor approach.")
 
     # ------------------------------------------------------------------
@@ -633,10 +633,10 @@ def main() -> None:
             p_val = chi2_row.iloc[0]["configured_weight"]
             if pd.notna(p_val):
                 if p_val > 0.05:
-                    print(f"  Chi-squared test (balanced): p={p_val:.4f} — "
+                    print(f"  Chi-squared test (balanced): p={p_val:.4f} -- "
                           "configured weights are NOT significantly different from PCA-optimal (GOOD)")
                 else:
-                    print(f"  Chi-squared test (balanced): p={p_val:.4f} — "
+                    print(f"  Chi-squared test (balanced): p={p_val:.4f} -- "
                           "configured weights differ significantly from PCA-optimal")
 
         if len(cosine_row) > 0:

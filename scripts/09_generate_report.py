@@ -184,7 +184,7 @@ def section_esg_financial(lines):
         # Filter out caveat metadata rows
         mreg = mreg[~mreg["dependent"].astype(str).str.startswith("# ")]
         lines.append("\n  Multiple Regression (with controls):")
-        lines.append("  [Synthetic data caveat applies — ESG coefficients reflect construction, not causation]")
+        lines.append("  [Synthetic data caveat applies -- ESG coefficients reflect construction, not causation]")
         for _, r in mreg.iterrows():
             sig_mark = "*" if r["p_value"] < 0.05 else " "
             lines.append(
@@ -976,7 +976,7 @@ def generate_key_findings(df):
                     "category": "ESG-Financial (Synthetic Calibration)",
                     "finding": f"{r['independent_var']} associated with "
                                f"{r['dependent_var']} (R2={r['r_squared']:.4f}) "
-                               f"[ESG data predominantly synthetic — corr_weight removed, "
+                               f"[ESG data predominantly synthetic -- corr_weight removed, "
                                f"correlation emergent from sector patterns only]",
                     "significance": f"p={r['p_value']:.4f}",
                 })

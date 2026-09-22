@@ -60,19 +60,19 @@ ANNUAL_RISK_FREE_RATE = 0.0
 # LOOK-AHEAD BIAS NOTE
 # ---------------------------------------------------------------------------
 # market_score is composed of three sub-categories (see config/index_config.yaml):
-#   - liquidity  (40%): avg_daily_volume (bid_ask_spread, free_float_pct removed — Issue M6: synthetic noise)
+#   - liquidity  (40%): avg_daily_volume (bid_ask_spread, free_float_pct removed -- Issue M6: synthetic noise)
 #   - volatility (30%): price_volatility, beta
 #   - momentum   (30%): price_momentum_1m, price_momentum_3m, price_momentum_6m
 #
 # The standard IC test correlates each factor score with a trailing momentum
 # column (e.g. price_momentum_6m) as a return proxy.  Because market_score
 # *includes* that same momentum data as an input, the resulting IC ≈ 0.47 is
-# partially tautological — it measures self-correlation, not genuine
+# partially tautological -- it measures self-correlation, not genuine
 # predictive power.
 #
 # To address this we compute:
-#   1. "biased IC"  — original market_score vs return proxy (for reference)
-#   2. "clean IC"   — market_score_ex_momentum (liquidity + volatility only)
+#   1. "biased IC"  -- original market_score vs return proxy (for reference)
+#   2. "clean IC"   -- market_score_ex_momentum (liquidity + volatility only)
 #                      vs the same return proxy, removing the circular dependency
 #
 # The momentum sub-scores that overlap with the return proxy are:
@@ -80,7 +80,7 @@ ANNUAL_RISK_FREE_RATE = 0.0
 # ---------------------------------------------------------------------------
 
 # Momentum-related normalised columns that feed into market_score and also
-# serve as return proxies — these create the circular dependency.
+# serve as return proxies -- these create the circular dependency.
 _MOMENTUM_NORM_COLS = [
     "price_momentum_1m_norm",
     "price_momentum_3m_norm",
@@ -184,7 +184,7 @@ def score_comparison(df):
 def simulated_performance(df):
     """Cross-sectional stock-selection quality comparison across strategies.
 
-    IMPORTANT METHODOLOGICAL CAVEAT — READ BEFORE INTERPRETING RESULTS:
+    IMPORTANT METHODOLOGICAL CAVEAT -- READ BEFORE INTERPRETING RESULTS:
     ====================================================================
     These metrics are computed CROSS-SECTIONALLY from trailing momentum
     values (price_momentum_Xm), NOT from time-series portfolio returns.
@@ -264,7 +264,7 @@ def simulated_performance(df):
                 row[f"cross_sectional_sortino_proxy_{rc}"] = rets.mean() / downside_dev
             else:
                 row[f"cross_sectional_sortino_proxy_{rc}"] = np.nan
-            # NOTE: max_drawdown removed — cumprod on cross-sectional data is
+            # NOTE: max_drawdown removed -- cumprod on cross-sectional data is
             # nonsensical (stocks are sorted by score, not ordered in time).
             # Information ratio vs full universe
             excess = rets.mean() - universe_returns.get(rc, 0)
@@ -470,7 +470,7 @@ def alpha_beta_analysis(df):
         print("  [SKIP] No return data")
         return
 
-    print(f"  ⚠ IMPORTANT: 'excess return' = cross-sectional momentum dispersion, "
+    print(f"  [WARN] IMPORTANT: 'excess return' = cross-sectional momentum dispersion, "
           f"NOT actual portfolio P&L. See M4 disclosure.")
 
     # Benchmark: full universe return
@@ -635,7 +635,7 @@ def equal_vs_value_weighted(df):
 
 
 # ---------------------------------------------------------------------------
-# 9. Clean Factor Validity (IC) — corrected for look-ahead bias
+# 9. Clean Factor Validity (IC) -- corrected for look-ahead bias
 # ---------------------------------------------------------------------------
 
 def compute_clean_ic(df, score_col, return_col):
@@ -644,8 +644,8 @@ def compute_clean_ic(df, score_col, return_col):
     Parameters
     ----------
     df : pd.DataFrame
-    score_col : str   – factor score column
-    return_col : str  – return-proxy column
+    score_col : str   - factor score column
+    return_col : str  - return-proxy column
 
     Returns
     -------
@@ -682,14 +682,14 @@ def _build_market_score_ex_momentum(df):
 
     Returns
     -------
-    pd.Series  — market_score_ex_momentum (same scale as market_score)
+    pd.Series  -- market_score_ex_momentum (same scale as market_score)
     """
     liq_col = "market_liquidity_score"
     vol_col = "market_volatility_score"
 
     if liq_col in df.columns and vol_col in df.columns:
         # Original weights from config: liquidity 0.40, volatility 0.30, momentum 0.30
-        # Excluding momentum → renormalise: liq = 0.40/0.70, vol = 0.30/0.70
+        # Excluding momentum -> renormalise: liq = 0.40/0.70, vol = 0.30/0.70
         w_liq = 0.40 / 0.70
         w_vol = 0.30 / 0.70
         raw = w_liq * df[liq_col].fillna(0) + w_vol * df[vol_col].fillna(0)
@@ -700,7 +700,7 @@ def _build_market_score_ex_momentum(df):
     # Fallback: average all non-momentum market norm cols
     non_mom_norms = [
         "avg_daily_volume_norm",
-        # Removed (Issue M6): "bid_ask_spread_norm", "free_float_pct_norm" — synthetic noise
+        # Removed (Issue M6): "bid_ask_spread_norm", "free_float_pct_norm" -- synthetic noise
         "price_volatility_norm", "beta_norm",
     ]
     avail = [c for c in non_mom_norms if c in df.columns]
@@ -723,14 +723,14 @@ def factor_validity_clean(df):
     inflating IC (observed ~0.47) to a tautological level.
 
     This function reports:
-      - "clean IC" (PRIMARY) using market_score_ex_momentum — the corrected
+      - "clean IC" (PRIMARY) using market_score_ex_momentum -- the corrected
         metric stripped of circular momentum inputs
-      - "raw IC" (REFERENCE) using original market_score — for transparency,
+      - "raw IC" (REFERENCE) using original market_score -- for transparency,
         clearly flagged as biased
 
     Saves: reports/tables/benchmark_factor_validity_clean.csv
     """
-    print("\n--- Factor Validity: Clean IC (PRIMARY — circularity-corrected) ---")
+    print("\n--- Factor Validity: Clean IC (PRIMARY -- circularity-corrected) ---")
 
     # Pick best return proxy
     return_col = None
@@ -759,9 +759,9 @@ def factor_validity_clean(df):
         ic = compute_clean_ic(df, factor, return_col)
 
         if factor == "market_score":
-            # ---- BIASED (raw) IC — flagged for reference only ----
+            # ---- BIASED (raw) IC -- flagged for reference only ----
             ic["ic_type"] = "raw_ic"
-            ic["bias_flag"] = "BIASED — momentum overlap with return proxy"
+            ic["bias_flag"] = "BIASED -- momentum overlap with return proxy"
             ic["note"] = (
                 f"market_score includes momentum sub-scores derived from "
                 f"{return_col}; IC is partially tautological.  "
@@ -769,11 +769,11 @@ def factor_validity_clean(df):
             )
             rows.append(ic)
 
-            # ---- CLEAN IC — PRIMARY metric ----
+            # ---- CLEAN IC -- PRIMARY metric ----
             ic_clean = compute_clean_ic(df, "market_score_ex_momentum", return_col)
             ic_clean["score"] = "market_score_ex_momentum"
             ic_clean["ic_type"] = "clean_ic"
-            ic_clean["bias_flag"] = "CLEAN — momentum sub-scores removed (PRIMARY)"
+            ic_clean["bias_flag"] = "CLEAN -- momentum sub-scores removed (PRIMARY)"
             ic_clean["note"] = (
                 "Liquidity + volatility sub-categories only "
                 "(momentum indicators excluded to avoid circular IC).  "
@@ -788,7 +788,7 @@ def factor_validity_clean(df):
 
     result = pd.DataFrame(rows)
 
-    # Reorder columns for readability — ic_type is now prominent
+    # Reorder columns for readability -- ic_type is now prominent
     col_order = [
         "score", "ic_type", "return_proxy", "ic_spearman", "ic_pvalue",
         "significant", "n", "bias_flag", "note",
@@ -854,12 +854,12 @@ def composite_ex_market_evaluation(df):
     CIRCULARITY FIX:
     ================
     After the rename in 03_build_index.py:
-      - pref_balanced            = clean (ex-market) — PRIMARY
-      - pref_balanced_with_market = original (contaminated) — for audit
+      - pref_balanced            = clean (ex-market) -- PRIMARY
+      - pref_balanced_with_market = original (contaminated) -- for audit
 
     This function:
       1. Uses pref_balanced (now clean, ex-market) as the primary selection criterion
-      2. Measures the SAME return proxies — selection is independent of
+      2. Measures the SAME return proxies -- selection is independent of
          the return measure, eliminating the circular dependency
       3. Reports side-by-side: contaminated (_with_market) vs clean metrics
 

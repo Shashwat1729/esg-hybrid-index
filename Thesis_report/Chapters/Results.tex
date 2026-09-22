@@ -2,7 +2,7 @@
 \label{ch:results}
 
 This chapter trims the story down to what really matters.
-The revised index is built on 276 mid-cap firms from the US and India, and the results are mixed in a pretty beliveable way becuase the signals do not move neatly together.
+The revised index is built on 276 mid-cap firms from the US and India, and the results are mixed in a pretty believable way because the signals do not move neatly together.
 Some parts look strong, some are only okay, and one limitation keeps showing up: the ESG layer is still mostly synthetic.
 So yes, the index works, but not in every way we first hoped.
 
@@ -15,14 +15,14 @@ After re-scaling the factor space looks tidy enough.
 Most scores sit almost exactly where they should, around a mean of 50 with standard deviations close to 10.
 ESG\_composite comes in at 50.05 with a standard deviation of 10.09, risk\_adjusted\_score at 49.82 with 9.96, value\_score at 50.17 with 9.95, and stability\_score at 49.91 with 9.95.
 The obvious outlier is financial\_score at 48.63 with a standard deviation of just 1.40, which makes cross-firm separation much tighter than expected.
-That gap is a bit wierd, but it does not break the model.
+That gap is a bit weird, but it does not break the model.
 
 The dependence checks are reassuring.
-Maximum VIF is 2.80, so multicollinearity stays low, and PCA still needs three components to explain 67.4\% of total variance.
+Maximum VIF is 3.26, so multicollinearity stays low, and PCA still needs three components to explain 51.9\% of total variance.
 That means no single hidden axis is doing all the work.
 The sample itself is broad enough to make that matter: 186 US firms, 90 Indian firms, and 11 sectors.
 Technology and Healthcare generally look better on ESG and growth, while Energy and Basic Materials stay stronger on financial and risk screens.
-Nothing shocking there, but it does make the final ranking easier to intepret.
+Nothing shocking there, but it does make the final ranking easier to interpret.
 
 \section{What the ranking actually does}
 \label{sec:esg_financial}
@@ -48,7 +48,7 @@ The best construction is the score-weighted version at $+8.66\%$ with cross-sect
 So construction choice matters a lot.
 Equal-weighting looked fine at first glance, then it really did not.
 
-At the top of teh balanced ranking, INCY, MEDP, and EXEL lead the list.
+At the top of the balanced ranking, INCY, MEDP, and EXEL lead the list.
 That is not a random mix.
 It reflects strong growth and risk-adjusted readings more than one lucky spike.
 The three investor profiles also do something real instead of just changing labels: ESG-First and Financial-First still share a core investable set, but their rank agreement is only Kendall $\tau = 0.593$.
@@ -70,7 +70,7 @@ That feels about right.
 This is where the chapter gets more convincing.
 Bootstrap ordering is extremely stable at Kendall $\tau = 1.000$, even if the rank confidence bands are still wide at 247 to 255 places.
 Weight perturbations are also very tame, with profile rankings staying above Spearman $\rho = 0.99$ under \(\pm 20\%\) changes.
-The balanced strategy is especially usefull in ugly markets, posting bear-period excess of $+7.27$ percentage points, or $+10.65$ percentage points in the decomposition with portfolio $\beta = 0.82$ and IR $=0.585$.
+The balanced strategy is especially useful in ugly markets, posting bear-period excess of $+7.27$ percentage points, or $+10.65$ percentage points in the decomposition with portfolio $\beta = 0.82$ and IR $=0.585$.
 Across rolling rebalances it beats the universe in all 12 periods, with mean excess of $+7.38\%$.
 That is probably the most practical result in the chapter.
 
@@ -114,8 +114,8 @@ Area & Result & Read \\
 Universe & 276 firms, 186 US, 90 India & Broad enough to stress the model across markets and sectors \\
 Score scaling & Most factors centred near 50 with standard deviations near 10 & Re-standardisation worked as intended \\
 Financial score spread & Mean $=48.63$, standard deviation $=1.40$ & Much tighter than the rest, which is useful but a little odd \\
-Collinearity & Max VIF $=2.80$ & Low enough that the factors still look distinct \\
-PCA structure & 3 components explain 67.4\% & Multi-dimensional, not one hidden mega-factor \\
+Collinearity & Max VIF $=3.26$ & Low enough that the factors still look distinct \\
+PCA structure & 3 components explain 51.9\% & Multi-dimensional, not one hidden mega-factor \\
 ESG-financial fit & $R^2 = 0.544$ & Real signal maybe, but still tangled up with proxy construction \\
 Profile differentiation & Kendall $\tau = 0.593$ between ESG-First and Financial-First & Profiles are meaningfully different, not cosmetic \\
 Forward-quality monotonicity & 7 of 8 factors monotonic & Strong evidence for ranking quality \\
@@ -138,6 +138,6 @@ Multiple testing & 521 tests; 235 BH-FDR sig.; 169 Bonferroni sig. & The sturdie
 \end{table}
 
 Taken together the picture is pretty clear.
-The index is structurally sound, the ranking engine is usefull, and the portfolio results get a lot better once construction is handled sensibly.
+The index is structurally sound, the ranking engine is useful, and the portfolio results get a lot better once construction is handled sensibly.
 But the ESG-financial story is still doing some work through proxy design, so any big causal claim would be pushing it.
 That trade-off is annoying, but it is also real.

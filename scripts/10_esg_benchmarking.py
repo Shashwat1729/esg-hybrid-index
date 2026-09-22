@@ -85,7 +85,7 @@ COLORS = {
 PALETTE = list(COLORS.values())
 
 # ---------------------------------------------------------------------------
-# MSCI letter-to-numeric mapping (CCC=1 … AAA=7)
+# MSCI letter-to-numeric mapping (CCC=1 ... AAA=7)
 # ---------------------------------------------------------------------------
 MSCI_MAP = {"CCC": 1, "B": 2, "BB": 3, "BBB": 4, "A": 5, "AA": 6, "AAA": 7}
 
@@ -116,7 +116,7 @@ def _load_data():
     log.info("Loaded %d companies from indexed_data.csv", len(df))
 
     if not BENCHMARK_CSV.exists():
-        log.warning("Benchmark CSV not found at %s – skipping provider analyses", BENCHMARK_CSV)
+        log.warning("Benchmark CSV not found at %s - skipping provider analyses", BENCHMARK_CSV)
         return df, None
 
     bench = pd.read_csv(BENCHMARK_CSV)
@@ -139,7 +139,7 @@ def cross_provider_correlation(df: pd.DataFrame, bench: pd.DataFrame) -> pd.Data
     log.info("--- (a) Cross-Provider Correlation Analysis ---")
 
     if bench is None:
-        log.warning("  No benchmark data – skipping cross-provider correlation")
+        log.warning("  No benchmark data - skipping cross-provider correlation")
         return None
 
     # Build a normalised ticker column on both sides
@@ -158,12 +158,12 @@ def cross_provider_correlation(df: pd.DataFrame, bench: pd.DataFrame) -> pd.Data
 
     # Convert MSCI to numeric
     merged["msci_numeric"] = merged["msci_rating"].map(MSCI_MAP)
-    # Invert Sustainalytics (lower = better → higher numeric = better)
+    # Invert Sustainalytics (lower = better -> higher numeric = better)
     merged["sust_inverted"] = -merged["sustainalytics_risk"]
 
     our_score = "ESG_composite"
     if our_score not in merged.columns:
-        log.warning("  ESG_composite not found – skipping")
+        log.warning("  ESG_composite not found - skipping")
         return None
 
     providers = {
@@ -196,7 +196,7 @@ def cross_provider_correlation(df: pd.DataFrame, bench: pd.DataFrame) -> pd.Data
     log.info("  Saved benchmark_provider_correlations.csv")
 
     for _, r in result.iterrows():
-        log.info("    %s: ρ=%.3f (p=%.4f), τ=%.3f, r=%.3f  [n=%d]",
+        log.info("    %s: rho=%.3f (p=%.4f), τ=%.3f, r=%.3f  [n=%d]",
                  r["provider"], r["spearman_rho"], r["spearman_p"],
                  r["kendall_tau"], r["pearson_r"], r["n_overlap"])
 
@@ -224,7 +224,7 @@ def cross_provider_correlation(df: pd.DataFrame, bench: pd.DataFrame) -> pd.Data
         ax.plot(x_line, np.polyval(z, x_line), "--", color=COLORS["danger"], lw=1.5, alpha=0.7)
         # Stats annotation
         sp_rho, _ = stats.spearmanr(valid[our_score], valid[prov_col])
-        ax.set_title(f"vs {prov_label}\nSpearman ρ = {sp_rho:.3f}", fontsize=11, fontweight="bold")
+        ax.set_title(f"vs {prov_label}\nSpearman rho = {sp_rho:.3f}", fontsize=11, fontweight="bold")
         ax.set_xlabel("Our ESG Composite", fontsize=10)
         ax.set_ylabel(ylabel, fontsize=10)
         ax.grid(True, alpha=0.3)
@@ -289,7 +289,7 @@ def sector_benchmarking(df: pd.DataFrame, bench: pd.DataFrame) -> pd.DataFrame:
     log.info("--- (b) Sector-Level Benchmarking ---")
 
     if "sector" not in df.columns or "ESG_composite" not in df.columns:
-        log.warning("  Missing sector or ESG_composite – skipping")
+        log.warning("  Missing sector or ESG_composite - skipping")
         return pd.DataFrame()
 
     # Our sector averages
@@ -377,13 +377,13 @@ def factor_validity(df: pd.DataFrame) -> pd.DataFrame:
 
     return_col = _best_return_col(df)
     if return_col is None:
-        log.warning("  No usable return proxy – skipping factor validity")
+        log.warning("  No usable return proxy - skipping factor validity")
         return pd.DataFrame()
     log.info("  Using return proxy: %s", return_col)
 
     avail_factors = [f for f in FACTOR_SCORES if f in df.columns]
     if not avail_factors:
-        log.warning("  No factor scores found – skipping")
+        log.warning("  No factor scores found - skipping")
         return pd.DataFrame()
 
     rows = []
@@ -550,7 +550,7 @@ def _plot_factor_ic(validity_df: pd.DataFrame):
     ax.axvline(0, color="black", lw=0.8, alpha=0.5)
     ax.axvline(0.05, color=COLORS["accent"], lw=1, ls="--", alpha=0.5, label="IC = 0.05 (strong)")
     ax.axvline(-0.05, color=COLORS["accent"], lw=1, ls="--", alpha=0.5)
-    ax.set_xlabel("Information Coefficient (Spearman ρ)", fontsize=10)
+    ax.set_xlabel("Information Coefficient (Spearman rho)", fontsize=10)
     ax.set_title(f"Factor Information Coefficients\n(vs {validity_df['return_proxy'].iloc[0]})",
                  fontsize=13, fontweight="bold")
     ax.legend(fontsize=9)
@@ -624,7 +624,7 @@ def bootstrap_robustness(df: pd.DataFrame, n_iter: int = 1000,
         # Fallback: use whatever FACTOR_SCORES are available
         avail = [f for f in FACTOR_SCORES if f in df.columns]
         if len(avail) < 3:
-            log.warning("  Skipping bootstrap – insufficient factors")
+            log.warning("  Skipping bootstrap - insufficient factors")
             return pd.DataFrame()
         # Equal weights as fallback
         col_map = {f: f for f in avail}
@@ -778,7 +778,7 @@ def portfolio_comparison(df: pd.DataFrame) -> pd.DataFrame:
             rank_col = candidate
             break
     if rank_col is None:
-        log.warning("  No ranking column found – skipping portfolio comparison")
+        log.warning("  No ranking column found - skipping portfolio comparison")
         return pd.DataFrame()
 
     top20 = df.nlargest(20, rank_col)
@@ -914,7 +914,7 @@ def _print_summary(corr_df, sector_df, validity_df, bootstrap_df, portfolio_df):
     if corr_df is not None and len(corr_df) > 0:
         print("\n  Cross-Provider Correlations:")
         for _, r in corr_df.iterrows():
-            print(f"    {r['provider']:30s}  Spearman ρ = {r['spearman_rho']:+.3f}  "
+            print(f"    {r['provider']:30s}  Spearman rho = {r['spearman_rho']:+.3f}  "
                   f"(p = {r['spearman_p']:.4f})")
 
     # Factor validity highlights

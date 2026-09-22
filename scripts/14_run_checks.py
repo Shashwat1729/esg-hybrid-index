@@ -41,7 +41,7 @@ if errors:
     # Don't hard-fail if only legacy/optional tables are missing
     critical_missing = [e for e in errors if 'predictive_validation' in e or 'benchmark' in e]
     if critical_missing:
-        print('CRITICAL tables missing — run the pipeline first.')
+        print('CRITICAL tables missing -- run the pipeline first.')
         sys.exit(2)
     else:
         print('Some optional tables missing (non-critical).')

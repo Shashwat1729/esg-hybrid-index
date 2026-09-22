@@ -331,7 +331,7 @@ for score in ['ESG_composite', 'financial_score', 'value_score']:
             us_sector_means.loc[common_sectors],
             india_sector_means.loc[common_sectors]
         )
-        print(f"  {score}: Spearman ρ = {rho:.4f}, p = {p_rho:.4f} (n={len(common_sectors)} sectors)")
+        print(f"  {score}: Spearman rho = {rho:.4f}, p = {p_rho:.4f} (n={len(common_sectors)} sectors)")
     else:
         print(f"  {score}: Too few common sectors ({len(common_sectors)}) for rank correlation")
 

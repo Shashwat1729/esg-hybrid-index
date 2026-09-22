@@ -31,7 +31,7 @@ warnings.filterwarnings("ignore", message=".*invalid value.*")
 from src.constants import RANDOM_SEED
 
 # ---------------------------------------------------------------------------
-# Company Universe — 280+ companies across US and India, focused on mid-caps
+# Company Universe -- 280+ companies across US and India, focused on mid-caps
 # ---------------------------------------------------------------------------
 # U.S. mid-caps from S&P MidCap 400 / Russell Midcap ESG
 US_TICKERS = [
@@ -145,7 +145,7 @@ INDIAN_TICKERS = [
 
 ALL_TICKERS = US_TICKERS + INDIAN_TICKERS
 
-# SEC EDGAR CIK mapping (for R&D data — covers US mid-cap + large-cap subset)
+# SEC EDGAR CIK mapping (for R&D data -- covers US mid-cap + large-cap subset)
 # ~130 companies across Tech, Healthcare, Industrials, Energy, Materials, Financials, Consumer
 SEC_CIK_MAP = {
     # --- Large-cap benchmarks ---
@@ -622,7 +622,7 @@ def download_yahoo_esg(tickers, batch_size=10):
     -------
     pd.DataFrame
         One row per ticker with whatever ESG data Yahoo exposes.
-        Missing values are np.nan — the caller decides how to handle gaps.
+        Missing values are np.nan -- the caller decides how to handle gaps.
     """
     import yfinance as yf
 
@@ -907,7 +907,7 @@ def expand_sec_governance(cik_map, financials_df=None, max_retries=3):
     - Stock repurchases (capital return / shareholder alignment)
     - Dividends paid (shareholder return discipline)
     - Operating segments (complexity / governance scope)
-    - Employee count (from dei namespace — reliable for most filers)
+    - Employee count (from dei namespace -- reliable for most filers)
     - Goodwill (acquisition activity / governance discipline)
     - Long-term debt (leverage discipline)
     - Effective tax rate (tax governance transparency)
@@ -932,7 +932,7 @@ def expand_sec_governance(cik_map, financials_df=None, max_retries=3):
         # Executive compensation (widely reported)
         "ShareBasedCompensation": "share_based_comp_sec",
         "AllocatedShareBasedCompensationExpense": "share_based_comp_expense_sec",
-        # Shareholder returns — capital allocation discipline
+        # Shareholder returns -- capital allocation discipline
         "PaymentsForRepurchaseOfCommonStock": "stock_repurchase_sec",
         "PaymentsOfDividends": "dividends_paid_sec",
         "PaymentsOfDividendsCommonStock": "dividends_common_sec",
@@ -1273,11 +1273,11 @@ def derive_esg_proxies(financials_df, sector_map):
     Parameters
     ----------
     financials_df : pd.DataFrame
-        Output of download_yahoo_financials() — must contain columns:
+        Output of download_yahoo_financials() -- must contain columns:
         ticker, total_revenue, market_cap, operating_margins, employees,
         and optionally: forward_pe, sector.
     sector_map : dict
-        ticker → sector string.
+        ticker -> sector string.
 
     Returns
     -------
@@ -1294,14 +1294,14 @@ def derive_esg_proxies(financials_df, sector_map):
 
     Proxy Rationale
     ---------------
-    1. energy_efficiency_proxy → maps to renewable_energy_pct
+    1. energy_efficiency_proxy -> maps to renewable_energy_pct
        Observable: total_revenue / market_cap (revenue yield).
        Rationale: Higher revenue per dollar of market value indicates
        capital-efficient operations. Capital-efficient firms tend to have
        lower resource intensity per unit of output (Eccles et al., 2014).
        Within each sector, we rank firms by this ratio and scale to 0-100.
 
-    2. emissions_intensity_proxy → maps to scope1_emissions (inverted)
+    2. emissions_intensity_proxy -> maps to scope1_emissions (inverted)
        Observable: operating_margin percentile within sector, mapped to [5, 95].
        Rationale: Within the same sector, firms with higher operating margins
        tend to have more modern, efficient production processes, which
@@ -1309,7 +1309,7 @@ def derive_esg_proxies(financials_df, sector_map):
        The within-sector percentile rank maps directly to the [5, 95] score
        range, giving full discrimination across the distribution.
 
-    3. employee_productivity_proxy → maps to employee_satisfaction
+    3. employee_productivity_proxy -> maps to employee_satisfaction
        Observable: revenue_per_employee, normalized by sector.
        Rationale: Higher revenue per employee is associated with greater
        investment in training, better tools, and higher engagement
@@ -1317,11 +1317,11 @@ def derive_esg_proxies(financials_df, sector_map):
        This is a well-documented proxy in human capital literature.
        NOTE: This proxy assumes productivity correlates with engagement,
        which is a first-order approximation. The causal direction
-       (Edmans, 2011) runs from satisfaction → productivity, not the
+       (Edmans, 2011) runs from satisfaction -> productivity, not the
        reverse. The proxy captures the observable correlate, not the
        causal mechanism.
 
-    4. workforce_investment_proxy → maps to gender_diversity_pct
+    4. workforce_investment_proxy -> maps to gender_diversity_pct
        Observable: r_d_intensity (R&D spend / revenue).
        Rationale: R&D-intensive firms require specialized talent and
        compete aggressively for human capital, leading to stronger
@@ -1329,9 +1329,9 @@ def derive_esg_proxies(financials_df, sector_map):
        the top quartile of R&D intensity show 15-20% higher diversity
        scores in MSCI ESG data.
 
-    5. financial_transparency_proxy → maps to anti_corruption_policy
+    5. financial_transparency_proxy -> maps to anti_corruption_policy
        Observable: low audit_risk (from Yahoo) AND analyst coverage
-       (proxied by non-NaN forward_pe — covered firms have analyst
+       (proxied by non-NaN forward_pe -- covered firms have analyst
        estimates).
        Rationale: Companies with lower audit risk AND higher analyst
        coverage operate under greater scrutiny, which is associated with
@@ -1340,38 +1340,38 @@ def derive_esg_proxies(financials_df, sector_map):
         ethics_compliance_score to avoid double-sourcing from audit_risk
         (which already feeds ethics_compliance_score via the Yahoo overlay).
 
-    6. capital_efficiency_proxy → maps to energy_efficiency
+    6. capital_efficiency_proxy -> maps to energy_efficiency
        Observable: total_revenue / total_assets (asset turnover ratio).
        Rationale: Higher asset turnover within a sector means less
-       capital and physical resources per unit of output — a proxy for
+       capital and physical resources per unit of output -- a proxy for
        operational energy efficiency (Konar & Cohen, 2001).
 
-    7. debt_discipline_proxy → maps to shareholder_rights_score
+    7. debt_discipline_proxy -> maps to shareholder_rights_score
        Observable: (1/debt_to_equity) + dividend_yield, within-sector pctile.
        Rationale: Low leverage combined with shareholder returns signals
        disciplined governance and shareholder rights (Bebchuk et al., 2009).
 
-    8. workforce_scale_proxy → maps to safety_training_hours
+    8. workforce_scale_proxy -> maps to safety_training_hours
        Observable: log(employees) * operating_margins percentile.
        Rationale: Larger firms with better margins invest more in
        workplace safety programs (Dye, 1993; OSHA data).
 
-    9. waste_efficiency_proxy → maps to waste_recycling_pct
+    9. waste_efficiency_proxy -> maps to waste_recycling_pct
        Observable: gross_margins percentile within sector.
        Rationale: Higher gross margins suggest efficient input-to-output
        conversion, i.e. less material waste (Guenster et al., 2011).
 
-    10. supply_chain_proxy → maps to supply_chain_audit_pct
+    10. supply_chain_proxy -> maps to supply_chain_audit_pct
         Observable: (payout_ratio + current_ratio) normalised, within-sector.
         Rationale: Financially stable firms invest more in supply chain
         oversight and auditing (Krause, Vachon & Klassen, 2009).
 
-    11. board_quality_proxy → maps to board_diversity_pct
+    11. board_quality_proxy -> maps to board_diversity_pct
         Observable: market_cap quartile * (1/beta), within-sector.
         Rationale: Larger-cap, lower-risk firms attract more diverse
         boards (Adams & Ferreira, 2009).
 
-    12. community_proxy → maps to community_investment_pct
+    12. community_proxy -> maps to community_investment_pct
         Observable: (dividend_yield + free_cashflow/revenue), within-sector.
         Rationale: Firms with excess cash flows invest more in community
         programs (Campbell, Moore & Metzger, 2002; Waddock & Graves, 1997).
@@ -1385,7 +1385,7 @@ def derive_esg_proxies(financials_df, sector_map):
     df["_sector"] = df["ticker"].map(sector_map).fillna("Unknown")
 
     # ------------------------------------------------------------------
-    # 1. energy_efficiency_proxy (→ renewable_energy_pct)
+    # 1. energy_efficiency_proxy (-> renewable_energy_pct)
     #    revenue / market_cap, ranked within sector, scaled 0-100
     # ------------------------------------------------------------------
     fin = financials_df.set_index("ticker")
@@ -1394,7 +1394,7 @@ def derive_esg_proxies(financials_df, sector_map):
 
     if rev is not None and mcap is not None:
         ratio = (rev / mcap.replace(0, np.nan)).dropna()
-        # Rank within sector → percentile 0-100
+        # Rank within sector -> percentile 0-100
         proxy_vals = {}
         for t in ratio.index:
             sec = sector_map.get(t, "Unknown")
@@ -1411,9 +1411,9 @@ def derive_esg_proxies(financials_df, sector_map):
         df["energy_efficiency_proxy"] = np.nan
 
     # ------------------------------------------------------------------
-    # 2. emissions_intensity_proxy (→ scope1_emissions, inverted)
+    # 2. emissions_intensity_proxy (-> scope1_emissions, inverted)
     #    operating_margin_percentile within sector, mapped to [5, 95]
-    #    Higher margin within sector → lower emissions → higher proxy score
+    #    Higher margin within sector -> lower emissions -> higher proxy score
     # ------------------------------------------------------------------
     opm = fin.get("operating_margins")
     gm = fin.get("gross_margins")
@@ -1489,7 +1489,7 @@ def derive_esg_proxies(financials_df, sector_map):
         df["emissions_intensity_proxy"] = np.nan
 
     # ------------------------------------------------------------------
-    # 3. employee_productivity_proxy (→ employee_satisfaction)
+    # 3. employee_productivity_proxy (-> employee_satisfaction)
     #    revenue_per_employee, ranked within sector, scaled 0-100
     # ------------------------------------------------------------------
     emp = fin.get("employees")  # fullTimeEmployees from Yahoo
@@ -1510,7 +1510,7 @@ def derive_esg_proxies(financials_df, sector_map):
         df["employee_productivity_proxy"] = np.nan
 
     # ------------------------------------------------------------------
-    # 4. workforce_investment_proxy (→ gender_diversity_pct)
+    # 4. workforce_investment_proxy (-> gender_diversity_pct)
     #    R&D intensity (r_d_expenditure / revenue), ranked, scaled 0-100
     #    Falls back to operating_margins as a secondary signal
     # ------------------------------------------------------------------
@@ -1539,7 +1539,7 @@ def derive_esg_proxies(financials_df, sector_map):
         df["workforce_investment_proxy"] = np.nan
 
     # ------------------------------------------------------------------
-    # 5. financial_transparency_proxy (→ anti_corruption_policy)
+    # 5. financial_transparency_proxy (-> anti_corruption_policy)
     #    Combines audit_risk (from Yahoo, if merged) + analyst coverage
     #    (proxied by non-NaN forward_pe)
     # ------------------------------------------------------------------
@@ -1554,7 +1554,7 @@ def derive_esg_proxies(financials_df, sector_map):
         if audit is not None:
             a_val = audit.get(t, np.nan)
             if pd.notna(a_val) and float(a_val) > 0:
-                # Invert: lower audit risk → higher transparency score
+                # Invert: lower audit risk -> higher transparency score
                 score_components.append((10 - float(a_val)) / 10 * 100)
 
         # Component 2: Analyst coverage proxy (has forward PE estimate?)
@@ -1571,7 +1571,7 @@ def derive_esg_proxies(financials_df, sector_map):
         df["financial_transparency_proxy"] = np.nan
 
     # ------------------------------------------------------------------
-    # 6. capital_efficiency_proxy (→ energy_efficiency)
+    # 6. capital_efficiency_proxy (-> energy_efficiency)
     #    total_revenue / total_assets (asset turnover ratio), ranked
     #    within sector, scaled 0-100.
     #    Rationale: Higher asset turnover within a sector indicates less
@@ -1598,7 +1598,7 @@ def derive_esg_proxies(financials_df, sector_map):
         df["capital_efficiency_proxy"] = np.nan
 
     # ------------------------------------------------------------------
-    # 7. debt_discipline_proxy (→ shareholder_rights_score)
+    # 7. debt_discipline_proxy (-> shareholder_rights_score)
     #    Within-sector percentile of (1/debt_to_equity) + dividend_yield.
     #    Rationale: Low leverage combined with consistent shareholder
     #    returns signals disciplined capital allocation and governance
@@ -1632,7 +1632,7 @@ def derive_esg_proxies(financials_df, sector_map):
         df["debt_discipline_proxy"] = np.nan
 
     # ------------------------------------------------------------------
-    # 8. workforce_scale_proxy (→ safety_training_hours)
+    # 8. workforce_scale_proxy (-> safety_training_hours)
     #    log(employees) * operating_margins percentile within sector.
     #    Rationale: Larger firms (by headcount) with better operating
     #    margins invest more in workplace safety programs. Firm size
@@ -1664,7 +1664,7 @@ def derive_esg_proxies(financials_df, sector_map):
         df["workforce_scale_proxy"] = np.nan
 
     # ------------------------------------------------------------------
-    # 9. waste_efficiency_proxy (→ waste_recycling_pct)
+    # 9. waste_efficiency_proxy (-> waste_recycling_pct)
     #    Within-sector percentile of gross_margins.
     #    Rationale: Higher gross margins within a sector suggest more
     #    efficient conversion of raw inputs to output (less material
@@ -1692,7 +1692,7 @@ def derive_esg_proxies(financials_df, sector_map):
         df["waste_efficiency_proxy"] = np.nan
 
     # ------------------------------------------------------------------
-    # 10. supply_chain_proxy (→ supply_chain_audit_pct)
+    # 10. supply_chain_proxy (-> supply_chain_audit_pct)
     #     Within-sector percentile of (payout_ratio + current_ratio),
     #     normalised. Rationale: Firms with stable cash distributions
     #     (payout_ratio) AND healthy liquidity (current_ratio) are more
@@ -1725,7 +1725,7 @@ def derive_esg_proxies(financials_df, sector_map):
         df["supply_chain_proxy"] = np.nan
 
     # ------------------------------------------------------------------
-    # 11. board_quality_proxy (→ board_diversity_pct)
+    # 11. board_quality_proxy (-> board_diversity_pct)
     #     Within-sector percentile of market_cap quartile * (1/beta).
     #     Rationale: Larger-cap, lower-systematic-risk firms attract
     #     more diverse and experienced board candidates. Market cap
@@ -1758,7 +1758,7 @@ def derive_esg_proxies(financials_df, sector_map):
         df["board_quality_proxy"] = np.nan
 
     # ------------------------------------------------------------------
-    # 12. community_proxy (→ community_investment_pct)
+    # 12. community_proxy (-> community_investment_pct)
     #     Within-sector percentile of (dividend_yield + fcf/revenue).
     #     Rationale: Firms generating excess cash flows (high FCF yield)
     #     AND returning capital (dividend yield) have the financial
@@ -1948,25 +1948,25 @@ def create_hybrid_esg(tickers, yahoo_esg_df, sec_gov_df, sector_map,
     SEC_TO_ESG_MAP = {
         # Direct governance indicators from SEC filings
         "employees_sec": None,  # not an ESG col, but useful cross-check
-        # Share-based compensation → exec_comp_esg_linked proxy
+        # Share-based compensation -> exec_comp_esg_linked proxy
         # Higher SBC relative to revenue signals equity-aligned compensation
         "share_based_comp_sec": "exec_comp_esg_linked",
         "share_based_comp_expense_sec": None,  # backup for above
-        # Stock repurchases → shareholder_rights_score proxy
+        # Stock repurchases -> shareholder_rights_score proxy
         # Active buybacks signal capital return governance discipline
         "stock_repurchase_sec": "shareholder_rights_score",
-        # Dividends → board governance quality proxy
+        # Dividends -> board governance quality proxy
         # Consistent dividends signal board discipline and oversight
         "dividends_paid_sec": "board_independence_pct",
         "dividends_common_sec": None,  # backup for dividends_paid
-        # Operating segments → board_size proxy (governance complexity)
+        # Operating segments -> board_size proxy (governance complexity)
         "operating_segments_sec": "board_size",
         "reportable_segments_sec": None,  # backup for above
-        # Effective tax rate → tax_transparency_score
+        # Effective tax rate -> tax_transparency_score
         "effective_tax_rate_sec": "tax_transparency_score",
-        # Public float → data_privacy_score proxy (market scrutiny)
+        # Public float -> data_privacy_score proxy (market scrutiny)
         "public_float_sec": None,  # used for cross-check only
-        # Shares outstanding → esg_controversy_score proxy
+        # Shares outstanding -> esg_controversy_score proxy
         "shares_outstanding_sec": None,  # used for cross-check only
     }
 
@@ -2042,13 +2042,13 @@ def create_hybrid_esg(tickers, yahoo_esg_df, sec_gov_df, sector_map,
     # Extended Yahoo real data -> ESG column mappings
     # These use additional Yahoo .info fields that ARE populated post-2023
     YAHOO_EXTENDED_MAP = {
-        # Institutional ownership → governance transparency proxy
+        # Institutional ownership -> governance transparency proxy
         # High inst. ownership = more oversight = better governance
         "heldPercentInstitutions": "tax_transparency_score",
-        # Insider ownership → data privacy/ethics proxy
+        # Insider ownership -> data privacy/ethics proxy
         # Moderate insider ownership signals alignment (not entrenchment)
         "heldPercentInsiders": "data_privacy_score",
-        # Analyst coverage → anti-corruption policy proxy  
+        # Analyst coverage -> anti-corruption policy proxy  
         # More analyst coverage = more scrutiny = higher transparency
         "numberOfAnalystOpinions": "esg_controversy_score",
     }
@@ -2156,7 +2156,7 @@ def create_hybrid_esg(tickers, yahoo_esg_df, sec_gov_df, sector_map,
                 
                 val = prow.get(pub_col, 0)
                 if pd.notna(val) and float(val) > 0:
-                    # Binary commitment → score: participants score 75-90 range
+                    # Binary commitment -> score: participants score 75-90 range
                     # Non-participants get no score (stays as proxy/imputed)
                     commitment_score = 80.0 + rng.normal(0, 5)  # 75-85 range
                     commitment_score = max(65, min(95, commitment_score))
@@ -2519,7 +2519,7 @@ def main():
 
     fin_df = download_yahoo_financials(ALL_TICKERS)
 
-    # Validate benchmark coverage — large-cap benchmarks (lines 80-94 in US_TICKERS)
+    # Validate benchmark coverage -- large-cap benchmarks (lines 80-94 in US_TICKERS)
     LARGE_CAP_BENCHMARKS = [
         "AAPL", "MSFT", "GOOGL", "AMZN", "NVDA",
         "JNJ", "JPM", "XOM", "PG", "UNH", "CAT", "NEE", "KO", "CVX", "HON", "BRK-B",

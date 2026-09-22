@@ -3,9 +3,9 @@
 
 \section{Background}
 
-ESG has gotten a lot bigger in finance over the last few years. The 2024 GSIA review puts sustaianble investment assets at roughly \$35 trillion, which is about a third of all professionally managed money \cite{gsia_2022, pri_2023}. That's not a niche anymore.
+ESG has gotten a lot bigger in finance over the last few years. The 2024 GSIA review puts sustainable investment assets at roughly \$35 trillion, which is about a third of all professionally managed money \cite{gsia_2022, pri_2023}. That's not a niche anymore.
 
-And there's a real reason behind the interest. Companies with poor ESG track records tend to run into legal trouble, regulatory fines, or just plain operational messups more often. On teh other side, firms that treat their stakeholders better seem to do okay in the long run, though honestly the exact mechanism is still debated and not always straightforward \cite{lins_servaes_tamayo_2017, eccles_ioannou_serafeim_2014, edmans_2011, friede_2015, atz_vanholt_liu_bruno_2023}.
+And there's a real reason behind the interest. Companies with poor ESG track records tend to run into legal trouble, regulatory fines, or just plain operational messups more often. On the other side, firms that treat their stakeholders better seem to do okay in the long run, though honestly the exact mechanism is still debated and not always straightforward \cite{lins_servaes_tamayo_2017, eccles_ioannou_serafeim_2014, edmans_2011, friede_2015, atz_vanholt_liu_bruno_2023}.
 
 The problem? Most of the available tools are built for large caps. If you look at mid-cap coverage from MSCI, S\&P Global, Sustainalytics or Refinitiv, the overlap is poor and their scoring methods are largely proprietary \cite{berg_koelbel_rigobon_2022, msci_esg_methodology, sp_global_esg, sustainalytics_esg, refinitiv_esg}. That gap is what this thesis tries to address.
 
@@ -24,7 +24,7 @@ When you actually try building an ESG-integrated index for mid-caps, you run int
 \begin{enumerate}
     \item The variable combination problem hit us first. ESG, financial and market inputs don't behave alike at all. Some are binary yes/no flags, some are percentages, some are ratios where higher isn't always better (think P/E). We wasted a week trying to z-score everything before realising that distorts the signal. Type-aware normalisation matters \cite{oecd_2008}.
     \item ESG providers disagree with each other, a lot. Berg et al.\ put a number on it: major raters only correlate at about 0.38 on average \cite{berg_koelbel_rigobon_2022, chatterji_durand_levine_touboul_2016, gibson_krueger_schmidt_2021}. That's... not great. So leaning on any single score felt like a bad idea from the start, and we saw it ourselves when we ran the benchmarking.
-    \item Then there's the one-dimensionality issue. Most ESG indexes just screen or tilt a parent index. They don't really mix in factor signals liek value or profitability that quant people already care about \cite{sp_global_esg, fama_french_1993, fama_french_2015, carhart_1997}.
+    \item Then there's the one-dimensionality issue. Most ESG indexes just screen or tilt a parent index. They don't really mix in factor signals like value or profitability that quant people already care about \cite{sp_global_esg, fama_french_1993, fama_french_2015, carhart_1997}.
     \item And the real test, which took us longer to articulate than it should have: do the rankings actually hold up when you shake them? Do the three profiles give meaningfully different portfolios or is it just window dressing? Does our ESG score even loosely agree with what MSCI or Sustainalytics would say? Mixed bag on that last one, honestly.
 \end{enumerate}
 
@@ -33,7 +33,7 @@ When you actually try building an ESG-integrated index for mid-caps, you run int
 \begin{enumerate}
     \item We needed a pipeline that could handle the mess. The hardest part was honestly just getting the variable types right, some are percentages, some are ratios, some are yes/no flags. Once that was sorted the normalisation and scoring fell into place. Nine factors, 0 to 100 scale, nothing hidden in the weighting.
     \item Then actually check if any of it holds up. Weight perturbations, bootstrap resampling, PCA, walk-forward tests, even applying the whole thing to large-cap firms we didn't train on. If it falls apart the moment you change something then what's the point?
-    \item Compare across three investor profiles, look at what happens in bad markets, and benchmark teh ESG part against what MSCI and Sustainalytics would say. Warts and all.
+    \item Compare across three investor profiles, look at what happens in bad markets, and benchmark the ESG part against what MSCI and Sustainalytics would say. Warts and all.
 \end{enumerate}
 
 \section{Contributions}
@@ -41,11 +41,11 @@ When you actually try building an ESG-integrated index for mid-caps, you run int
 Here's what we think this work adds, with the numbers to back it up:
 
 \begin{itemize}
-    \item We ended up with 9 factors and 202 variables across 276 mid-cap companies. VIF maxes out at 2.80 so the factors aren't secretly measuring the same thing.
-    \item The stability numbers are honestly better than we expected: bootstrap Kendall $\tau = 1.000$, and the CV ratio came down to 0.499 (it was 3.99 before we fixed the overfitting,  which was embarassing). Walk-forward ratio sits at 0.978.
-    \item Profiles aren't just cosmetic. Top-10 overlap ranges from 1 to 6 firms depending on whcih pair you compare, Spearman $\rho$ from 0.533 to 0.900.
+    \item We ended up with 9 factors and 202 variables across 276 mid-cap companies. VIF maxes out at 3.26 so the factors aren't secretly measuring the same thing.
+    \item The stability numbers are honestly better than we expected: bootstrap Kendall $\tau = 1.000$, and the CV ratio came down to 0.499 (it was 3.99 before we fixed the overfitting,  which was embarrassing). Walk-forward ratio sits at 0.978.
+    \item Profiles aren't just cosmetic. Top-10 overlap ranges from 1 to 6 firms depending on which pair you compare, Spearman $\rho$ from 0.533 to 0.900.
     \item ESG benchmarking against real providers: Sustainalytics $\rho = 0.780$, MSCI $\rho = 0.563$. Not amazing but decent given we're working with proxies not actual vendor scores
-    \item PCA says the factors aren't redundant. 3 components explain 67.4\% of variance.
+    \item PCA says the factors aren't redundant. 3 components explain 51.9\% of variance.
     \item Bear-market excess of +7.27 percentage points. And the large-cap generalisation surprised us, Kendall $W = 0.933$ and $\rho = 0.9993$ across all 9 factors. Works on S\&P 500 companies too.
 \end{itemize}
 

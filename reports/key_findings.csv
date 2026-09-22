@@ -2,18 +2,18 @@ category,finding,significance
 Data,Sample of 276 companies across 11 sectors,N/A
 Data,US: 186 companies,N/A
 Data,India: 90 companies,N/A
-ESG-Financial (Synthetic Calibration),"ESG_composite associated with roa (R2=0.1670) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
-ESG-Financial (Synthetic Calibration),"ESG_composite associated with roe (R2=0.0581) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0001
-ESG-Financial (Synthetic Calibration),"ESG_composite associated with net_margin (R2=0.1750) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
-ESG-Financial (Synthetic Calibration),"ESG_composite associated with financial_score (R2=0.5444) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
-ESG-Financial (Synthetic Calibration),"ESG_composite associated with revenue_growth (R2=0.0272) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0061
-ESG-Financial (Synthetic Calibration),"ESG_composite associated with operating_margins (R2=0.3563) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
-ESG-Financial (Synthetic Calibration),"E_score associated with roa (R2=0.0916) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
-ESG-Financial (Synthetic Calibration),"E_score associated with financial_score (R2=0.4500) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
-ESG-Financial (Synthetic Calibration),"S_score associated with roa (R2=0.0511) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0002
-ESG-Financial (Synthetic Calibration),"S_score associated with financial_score (R2=0.2519) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
-ESG-Financial (Synthetic Calibration),"G_score associated with roa (R2=0.0187) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0231
-ESG-Financial (Synthetic Calibration),"G_score associated with financial_score (R2=0.0204) [ESG data predominantly synthetic — corr_weight removed, correlation emergent from sector patterns only]",p=0.0177
+ESG-Financial (Synthetic Calibration),"ESG_composite associated with roa (R2=0.1670) [ESG data predominantly synthetic -- corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
+ESG-Financial (Synthetic Calibration),"ESG_composite associated with roe (R2=0.0581) [ESG data predominantly synthetic -- corr_weight removed, correlation emergent from sector patterns only]",p=0.0001
+ESG-Financial (Synthetic Calibration),"ESG_composite associated with net_margin (R2=0.1750) [ESG data predominantly synthetic -- corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
+ESG-Financial (Synthetic Calibration),"ESG_composite associated with financial_score (R2=0.5444) [ESG data predominantly synthetic -- corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
+ESG-Financial (Synthetic Calibration),"ESG_composite associated with revenue_growth (R2=0.0272) [ESG data predominantly synthetic -- corr_weight removed, correlation emergent from sector patterns only]",p=0.0061
+ESG-Financial (Synthetic Calibration),"ESG_composite associated with operating_margins (R2=0.3563) [ESG data predominantly synthetic -- corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
+ESG-Financial (Synthetic Calibration),"E_score associated with roa (R2=0.0916) [ESG data predominantly synthetic -- corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
+ESG-Financial (Synthetic Calibration),"E_score associated with financial_score (R2=0.4500) [ESG data predominantly synthetic -- corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
+ESG-Financial (Synthetic Calibration),"S_score associated with roa (R2=0.0511) [ESG data predominantly synthetic -- corr_weight removed, correlation emergent from sector patterns only]",p=0.0002
+ESG-Financial (Synthetic Calibration),"S_score associated with financial_score (R2=0.2519) [ESG data predominantly synthetic -- corr_weight removed, correlation emergent from sector patterns only]",p=0.0000
+ESG-Financial (Synthetic Calibration),"G_score associated with roa (R2=0.0187) [ESG data predominantly synthetic -- corr_weight removed, correlation emergent from sector patterns only]",p=0.0231
+ESG-Financial (Synthetic Calibration),"G_score associated with financial_score (R2=0.0204) [ESG data predominantly synthetic -- corr_weight removed, correlation emergent from sector patterns only]",p=0.0177
 Sector Differences,Significant sector differences in S_score (eta2=0.294),p=0.0000
 Sector Differences,Significant sector differences in G_score (eta2=0.138),p=0.0000
 Country Differences,Significant country difference in E_score (d=0.320),p=0.0146

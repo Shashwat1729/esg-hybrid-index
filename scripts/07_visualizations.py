@@ -898,7 +898,7 @@ def fig_esg_return_scatter(df, out_dir):
     # Add correlation annotation
     from scipy.stats import spearmanr
     rho, pval = spearmanr(clean[esg_col], clean[ret_col])
-    ax.annotate(f"Spearman ρ = {rho:.3f} (p={pval:.4f})\nn = {len(clean)}",
+    ax.annotate(f"Spearman rho = {rho:.3f} (p={pval:.4f})\nn = {len(clean)}",
                xy=(0.05, 0.95), xycoords="axes fraction",
                fontsize=10, va="top",
                bbox=dict(boxstyle="round,pad=0.3", facecolor="lightyellow", alpha=0.8))
