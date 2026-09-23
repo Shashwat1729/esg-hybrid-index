@@ -1,4 +1,4 @@
 variable,n,proportion_yes,proportion_no,pb_r_ESG_composite,pb_p_ESG_composite,pb_sig_ESG_composite,pb_r_financial_score,pb_p_financial_score,pb_sig_financial_score,pb_r_pref_balanced,pb_p_pref_balanced,pb_sig_pref_balanced
-human_rights_policy,276,1.0,0.0,,,False,,,False,,,False
 anti_corruption_policy,276,1.0,0.0,,,False,,,False,,,False
 carbon_reduction_target,276,1.0,0.0,,,False,,,False,,,False
+human_rights_policy,276,1.0,0.0,,,False,,,False,,,False

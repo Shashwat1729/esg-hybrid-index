@@ -21,21 +21,30 @@ constructed rather than directly observed. Consequently, the observed
 ESG--financial relationship ($R^2=0.544$) partly reflects the construction
 methodology itself.
 
-\item \textbf{Cross-sectional single-period design (M4).} The study uses a
-single snapshot rather than a multi-year time-series backtest. Reported
+\item \textbf{Cross-sectional single-period design (M4, partially addressed).} The core study uses a
+single snapshot rather than a multi-year time-series backtest; reported
 ``returns'' are cross-sectional momentum proxies, not forward realized
-P\&L computed at timestamped rebalance dates.
+P\&L at timestamped rebalance dates. To address this, \texttt{21\_temporal\_stability.py} attempts a true
+out-of-sample test by downloading realized forward returns (\texttt{T}$\rightarrow$\texttt{T+1m/3m/6m}) via
+\texttt{yfinance} and correlating them with factor scores at \texttt{T}; when offline it falls back to momentum
+proxies but labels the source as \texttt{proxy} vs.\ \texttt{real\_yfinance\_forward} in every output table.
 
-\item \textbf{Zero-variance binary ESG inputs.} Several binary ESG indicators
+\item \textbf{Zero-variance binary ESG inputs (handled, not proxied).} Several binary ESG indicators
 show no cross-sectional variation in this sample
 (\texttt{carbon\_reduction\_target}, \texttt{anti\_corruption\_policy},
-\texttt{human\_rights\_policy}: all proportion $=1.00$), so these variables
-cannot contribute discriminative ranking information.
+\texttt{human\_rights\_policy}: all proportion $=1.00$). They are
+automatically excluded by the zero-variance filter at scoring time and
+therefore do not contribute (nor dilute) discriminative ranking information;
+they are not imputed as proxies.
 
-\item \textbf{Fixed FX conversion assumption.} INR financials are converted
-using a fixed INR/USD rate (\$\textyen 83/\$), while realized annual FX
-variation is typically around $\pm 5$--$8\%$. This can introduce
-cross-country comparability error in level-based financial metrics.
+\item \textbf{FX conversion (proxy when offline).} INR financials are converted
+using a live INR/USD rate from \texttt{INR=X} at run time when internet
+is available; offline the pipeline falls back to a fixed proxy
+(\$\textyen 83/\$, March 2024 RBI). Realized annual FX variation is
+$\pm 5$--$8\%$; the fallback can introduce cross-country comparability
+error in level-based financial metrics. The rate and its source
+(\texttt{live} vs. \texttt{config\_fallback}) are recorded in
+\texttt{cleaning\_metadata.json} and disclosed in every run log.
 
 \item \textbf{Partial factor monotonicity.} Factor ranking monotonicity is
 stronger against the forward-quality proxy ($7/8$ factors monotonic) than

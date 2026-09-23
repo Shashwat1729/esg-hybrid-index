@@ -440,8 +440,8 @@ be interpreted as reflecting the proxy construction methodology.
     Total outlier observations flagged: 1299
     Most affected variables:
       total_debt                    : 56 outliers (17.8%)
-      total_revenue                 : 55 outliers (17.6%)
       net_income                    : 55 outliers (17.5%)
+      total_revenue                 : 55 outliers (17.6%)
       market_cap                    : 54 outliers (17.2%)
       total_cash                    : 48 outliers (15.3%)
 
@@ -459,9 +459,9 @@ be interpreted as reflecting the proxy construction methodology.
     Significant associations with financial_score: 0/3
     Significant associations with pref_balanced: 0/3
 
-    human_rights_policy           : prop=1.00, ESG r=nan , Fin r=nan , Pref r=nan 
     anti_corruption_policy        : prop=1.00, ESG r=nan , Fin r=nan , Pref r=nan 
     carbon_reduction_target       : prop=1.00, ESG r=nan , Fin r=nan , Pref r=nan 
+    human_rights_policy           : prop=1.00, ESG r=nan , Fin r=nan , Pref r=nan 
 
   Phi Coefficients (binary-binary associations):
     carbon_reduction_target x human_rights_policy: phi=0.111, p=0.0751  
@@ -736,7 +736,7 @@ LIMITATIONS: SYNTHETIC ESG DATA
   - bottom20_financial.csv                             (   3.8 KB)
   - bottom20_growth.csv                                (   3.9 KB)
   - bottom20_value.csv                                 (   4.0 KB)
-  - capacity_analysis.csv                              (   2.1 KB)
+  - capacity_analysis.csv                              (   2.0 KB)
   - capacity_aum_feasibility.csv                       (   0.5 KB)
   - circularity_comparison.csv                         (   0.7 KB)
   - company_rankings.csv                               (  93.8 KB)
@@ -798,13 +798,13 @@ LIMITATIONS: SYNTHETIC ESG DATA
   - pillar_correlations.csv                            (   0.3 KB)
   - power_analysis.csv                                 (   2.0 KB)
   - predictive_validation_bootstrap.csv                (   0.4 KB)
-  - predictive_validation_ic.csv                       (   8.1 KB)
+  - predictive_validation_ic.csv                       (   7.9 KB)
   - predictive_validation_ic_bootstrap_ci.csv          (   3.7 KB)
   - predictive_validation_ic_power.csv                 (   3.8 KB)
-  - predictive_validation_kruskal.csv                  (   3.4 KB)
-  - predictive_validation_quintiles.csv                (  21.5 KB)
-  - predictive_validation_spreads.csv                  (   4.2 KB)
-  - predictive_validation_summary.csv                  (   9.8 KB)
+  - predictive_validation_kruskal.csv                  (   3.2 KB)
+  - predictive_validation_quintiles.csv                (  18.8 KB)
+  - predictive_validation_spreads.csv                  (   4.1 KB)
+  - predictive_validation_summary.csv                  (   9.1 KB)
   - profile_cluster_distribution.csv                   (   0.1 KB)
   - profile_grid_search_optimisation.csv               (   1.7 KB)
   - profile_literature_mapping.csv                     (   1.2 KB)
@@ -856,7 +856,7 @@ LIMITATIONS: SYNTHETIC ESG DATA
   - top20_financial.csv                                (   3.8 KB)
   - top20_growth.csv                                   (   4.0 KB)
   - top20_value.csv                                    (   3.9 KB)
-  - transaction_cost_analysis.csv                      (   2.5 KB)
+  - transaction_cost_analysis.csv                      (   2.3 KB)
   - turnover_analysis.csv                              (   0.7 KB)
   - variable_type_classification.csv                   (   8.1 KB)
   - vif_multicollinearity.csv                          (   0.3 KB)

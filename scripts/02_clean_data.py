@@ -767,12 +767,34 @@ def main():
 
     # --- Currency Conversion (before any normalization) ---
     # Convert INR-denominated absolute values to USD so magnitudes are comparable
-    # Exchange rate read from config/index_config.yaml -> universe.exchange_rates.INR_USD
-    # Sensitivity: ±5% rate change affects Indian company market_cap by ±5%
-    # but financial RATIOS (ROA, ROE, D/E, margins) are unaffected since
-    # both numerator and denominator scale proportionally.
+    # Exchange rate: try live INR=X via yfinance (real), fallback to
+    # config/index_config.yaml -> universe.exchange_rates.INR_USD (83.0 proxy).
+    # This eliminates the fixed-rate proxy when internet is available while
+    # remaining fully reproducible offline via the fallback.  Sensitivity:
+    # ±5% rate change affects Indian company market_cap by ±5% but financial
+    # RATIOS (ROA, ROE, D/E, margins) are unaffected since both numerator and
+    # denominator scale proportionally.
     index_cfg, _ = load_configs()
-    EXCHANGE_RATE_USED = index_cfg.get("universe", {}).get("exchange_rates", {}).get("INR_USD", 83.0)
+    EXCHANGE_RATE_FALLBACK = index_cfg.get("universe", {}).get("exchange_rates", {}).get("INR_USD", 83.0)
+    EXCHANGE_RATE_USED = EXCHANGE_RATE_FALLBACK
+    EXCHANGE_RATE_SOURCE = "config_fallback (proxy, 83.0 March 2024 RBI)"
+    try:
+        import yfinance as yf
+        fx = yf.Ticker("INR=X")
+        hist = fx.history(period="5d")
+        if not hist.empty and "Close" in hist.columns:
+            live_rate = float(hist["Close"].dropna().iloc[-1])
+            # Sanity: INR/USD should be 70-95 in 2024-2026
+            if 70 <= live_rate <= 95:
+                EXCHANGE_RATE_USED = round(live_rate, 2)
+                EXCHANGE_RATE_SOURCE = f"yfinance INR=X live ({EXCHANGE_RATE_USED}, {hist.index[-1].date()})"
+                print(f"  FX live rate: INR/USD = {EXCHANGE_RATE_USED} (vs fallback {EXCHANGE_RATE_FALLBACK})")
+            else:
+                print(f"  FX live rate {live_rate:.2f} outside 70-95 sanity band — using fallback {EXCHANGE_RATE_FALLBACK}")
+        else:
+            print(f"  FX live fetch returned empty — using fallback {EXCHANGE_RATE_FALLBACK}")
+    except Exception as e:
+        print(f"  FX live fetch failed ({e}) — using fallback {EXCHANGE_RATE_FALLBACK} (proxy)")
     df = convert_inr_to_usd(df, exchange_rate=EXCHANGE_RATE_USED)
 
     # Remove columns with very low coverage
@@ -869,8 +891,10 @@ def main():
     ].tolist()
     metadata = {
         "exchange_rate_used": EXCHANGE_RATE_USED,
-        "exchange_rate_date": "March 2024 RBI reference rate",
-        "exchange_rate_note": "INR per USD, used to convert Indian company monetary values",
+        "exchange_rate_source": EXCHANGE_RATE_SOURCE,
+        "exchange_rate_is_proxy": "config_fallback" in EXCHANGE_RATE_SOURCE,
+        "exchange_rate_date": "March 2024 RBI reference rate" if "config_fallback" in EXCHANGE_RATE_SOURCE else EXCHANGE_RATE_SOURCE,
+        "exchange_rate_note": "INR per USD, used to convert Indian company monetary values; live rate preferred, fallback 83.0 is proxy",
         "monetary_columns_converted": [
             "market_cap", "total_revenue", "ebitda", "net_income",
             "gross_profit", "total_debt", "total_cash", "total_assets",

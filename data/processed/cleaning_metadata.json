@@ -1,7 +1,9 @@
 {
   "exchange_rate_used": 83.0,
+  "exchange_rate_source": "config_fallback (proxy, 83.0 March 2024 RBI)",
+  "exchange_rate_is_proxy": true,
   "exchange_rate_date": "March 2024 RBI reference rate",
-  "exchange_rate_note": "INR per USD, used to convert Indian company monetary values",
+  "exchange_rate_note": "INR per USD, used to convert Indian company monetary values; live rate preferred, fallback 83.0 is proxy",
   "monetary_columns_converted": [
     "market_cap",
     "total_revenue",
