@@ -27,9 +27,12 @@ at the firm-level coverage frontier). Fourth, benchmark index series are used fo
 validation windows: 753 trading days for the S\&P 500 and
 739 trading days for the NIFTY 50 over the 2023--2026 period.
 
-All Indian monetary fields are converted to USD using a fixed
-INR/USD rate of 83.0 (March~2025 reference rate), ensuring cross-country
-comparability and reproducibility of all ratio constructions.
+All Indian monetary fields are converted to USD using either a live
+INR/USD rate from \texttt{INR=X} when internet is available or a fixed
+proxy of 83.0 (March~2025 RBI reference) offline, with the source
+(\texttt{live} vs. \texttt{config\_fallback}) recorded in
+\texttt{cleaning\_metadata.json} for reproducibility; ratios remain
+comparable as both numerator and denominator scale identically.
 
 \subsubsection{ESG Data: Hybrid Proxy Pipeline}
 \label{sec:proxy_esg}
@@ -154,7 +157,7 @@ after collinearity diagnostics showed high overlap with
 \texttt{ESG\_composite} ($r=0.70$). The deployed model therefore uses 9 factors after excluding \texttt{similarity\_rank} due to this collinearity. Its prior profile budget was redistributed
 across the remaining nine factors while preserving the profile-level total
 weight budget. Variance-inflation diagnostics remain low after deployment
-($\max\,\mathrm{VIF}=2.80$).
+($\max\,\mathrm{VIF}=3.26$, all $<$5).
 
 Governance inputs from Yahoo and SEC are harmonized before G-pillar
 construction using source-wise quantile normalization. This removes provider
@@ -181,6 +184,11 @@ C_i^{(p)} = \sum_{k=1}^{9} w_k^{(p)}\,F_{ik}
 with $\sum_k w_k^{(p)}=1$. To prevent circularity in forward-return validation,
 the default scoring profile excludes \texttt{market\_score} from deployment-time
 weights and re-normalizes the remaining eight-factor vector.
+Portfolio construction uses a dynamic top-$N$ rule,
+$N^\star = \max(10,\min(50,\mathrm{round}(N\cdot0.07)))$ (config
+\texttt{universe.portfolio.top\_pct}=0.07, $\approx 20/276$), so the
+method generalizes to any universe size ($N=100\!\rightarrow\!10$,
+$N=500\!\rightarrow\!35$) rather than being fixed to $N=276$.
 
 \subsubsection{Re-standardisation and Rank Aggregation}
 \label{sec:rank_aggregation}
