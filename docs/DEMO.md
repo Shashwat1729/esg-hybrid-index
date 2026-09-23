@@ -175,7 +175,7 @@ Include verbatim in:
 |------|-------|
 | Local demo (`python app.py`) | ✅ Verified on :7860 |
 | HF Space bundle prepared | ✅ `app.py` + `data/processed/indexed_data.csv` + `config/` ready to push |
-| Public URL | ⏳ **Not yet deployed** — bundle `demo/` is ready; create Space manually at `hf.co/new-space` (API create now requires PRO, see §3.2 note) then `git push` per §3.2. After push, update `README.md` badge to `https://huggingface.co/spaces/Shashwat1729/esg-hybrid-index` |
+| Public URL | ✅ **Deployed** — https://huggingface.co/spaces/Shashwat1729/esg-hybrid-index (Gradio, CPU basic) — bundle `demo/` pushed via `git` with global HF token (`hf auth whoami` → `Shashwat1729`). Auto-builds on push (~1–2 min). |
 
 ## 8. Troubleshooting
 
