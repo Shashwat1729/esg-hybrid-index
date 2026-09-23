@@ -8,7 +8,7 @@ sdk_version: 4.44.0
 app_file: app.py
 pinned: false
 license: mit
-short_description: Verifiable research demo for the 10-factor ESG-integrated mid-cap index (276 US+India + 45 benchmarks)
+short_description: 9-factor ESG mid-cap index explorer (276 US+India)
 tags: [finance, esg, research-demo, gradio]
 ---
 

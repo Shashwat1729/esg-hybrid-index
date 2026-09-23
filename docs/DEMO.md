@@ -56,6 +56,7 @@ Simpler (recommended): push the **whole repository** as the Space — `app.py` a
    - SDK: **Gradio**
    - Hardware: **CPU basic** (no GPU needed)
    - Visibility: **Public**
+   - *Note (2026):* Creating Gradio Spaces via the `huggingface_hub` API now requires a PRO subscription (`402 Payment Required`). If API creation fails, **create the Space manually via the HF website UI** (still free via UI), then push via `git` as in step 2. The HF token is stored globally (see §6) so `git push` will authenticate automatically.
 
 2. **Push the code**
 
@@ -93,7 +94,7 @@ sdk_version: 4.44.0
 app_file: app.py
 pinned: false
 license: mit
-short_description: Verifiable research demo for the 10-factor ESG-integrated mid-cap index (276 US+India + 45 benchmarks)
+short_description: 9-factor ESG mid-cap index explorer (276 US+India)
 tags: [finance, esg, research-demo, gradio]
 ---
 ```
@@ -166,6 +167,7 @@ Include verbatim in:
 
 - **No credentials required** for local or HF Space deployment.  
 - If SEC EDGAR data needs refresh, set `SEC_EDGAR_USER_AGENT` only for `01_download_data.py` (not needed at demo runtime).
+- **HF token (global):** The Hugging Face token (`hf_MFlJ...`) is stored globally at `D:\cache\huggingface\token` (via `HF_HOME`) and `C:\Users\shash\.cache\huggingface\token`, plus `HF_TOKEN`/`HUGGING_FACE_HUB_TOKEN` env vars (set via `setx` for any terminal) and `~/.git-credentials` (`https://oauth:<token>@huggingface.co`). Verify from any project with `hf auth whoami` (logged in as `Shashwat1729`) or `huggingface_hub` API. No need to re-login per project; `git push` to `huggingface.co` will use the stored credential automatically.
 
 ## 7. Status
 
@@ -173,7 +175,7 @@ Include verbatim in:
 |------|-------|
 | Local demo (`python app.py`) | ✅ Verified on :7860 |
 | HF Space bundle prepared | ✅ `app.py` + `data/processed/indexed_data.csv` + `config/` ready to push |
-| Public URL | ⏳ **Not yet deployed** — push to `hf.co/spaces/<username>/esg-hybrid-index` per §3.2 and update `README.md` badge |
+| Public URL | ⏳ **Not yet deployed** — bundle `demo/` is ready; create Space manually at `hf.co/new-space` (API create now requires PRO, see §3.2 note) then `git push` per §3.2. After push, update `README.md` badge to `https://huggingface.co/spaces/Shashwat1729/esg-hybrid-index` |
 
 ## 8. Troubleshooting
 
