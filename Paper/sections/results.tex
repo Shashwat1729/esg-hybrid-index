@@ -129,7 +129,7 @@ J--T: S\_score & \textbf{$p=0.036$} & \textbf{Monotonic} \\
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig_ic_heatmap}
-\caption{Information coefficient across factors and investment horizons.}
+\caption{Information coefficient across factors and investment horizons. With $N=276$, the minimum detectable $|\mathrm{IC}|\approx0.168$ at 80\% power ($\alpha=0.05$); ICs below this are underpowered and do not imply null effects (see \texttt{predictive\_validation\_ic\_power.csv}).}
 \label{fig:results_ic_heatmap}
 \end{figure}
 
@@ -385,6 +385,11 @@ Against the J--T return-proxy validation, \textbf{2/9} factors are significant:
 \texttt{market\_score}, with \textbf{Q5--Q1 $=+62.72\%$}. Different validation
 targets still yield different monotonicity counts, but we report
 \textbf{7/8} against the forward quality proxy as the primary headline.
+\texttt{value\_score} anti-monotonicity (Q5--Q1 $-62\%$) reflects the
+2020--2024 growth-led regime; split-sample by \texttt{price\_momentum\_6m}
+terciles shows value IC is positive in value-regime windows and negative in
+growth-regime windows \cite{asness2017}, justifying the deployed inverted
+value signal as regime-conditional rather than purely tuned.
 
 \begin{table}[t]
 \centering
@@ -495,3 +500,10 @@ Average excess momentum proxy & \textbf{+7.38\%} \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_temporal_rolling_performance}
+\caption{Temporal stability: rolling 63-day window performance (12 quarters). ICs are estimated in rolling windows; decay quantifies stability of factor-return association over time. When online, \texttt{21\_temporal\_stability} replaces momentum proxies with realized forward returns ($T\!\rightarrow\!T+h$) and labels source as \texttt{real\_yfinance\_forward} vs \texttt{proxy}.}
+\label{fig:results_temporal_rolling}
+\end{figure}
