@@ -20,7 +20,9 @@ config/*.yaml, reports/tables/*.csv (steps 03-25) and reports/pre_audit/*
 
 from __future__ import annotations
 
+import importlib.util
 import json
+import os
 import shutil
 import sys
 from pathlib import Path
@@ -596,6 +598,10 @@ def extensions(M):
         return ctrl[(ctrl.outcome == o) & (ctrl.spec == s) & (ctrl.esg_measure == m)].iloc[0]
 
     h4 = key("realized_vol_oos", "full_controls", "ESG_composite")
+    ext_spec = importlib.util.spec_from_file_location("ext27", PROJECT_ROOT / "scripts" / "27_paper1_extensions.py")
+    ext_mod = importlib.util.module_from_spec(ext_spec)
+    ext_spec.loader.exec_module(ext_mod)
+    M.add("NControls", len(ext_mod.CONTROLS))
     M.add("HFourEst", float(h4["coef"]))
     M.add("HFourLo", float(h4["ci_low"]))
     M.add("HFourHi", float(h4["ci_high"]))
@@ -735,13 +741,16 @@ def extensions(M):
     M.add("NetExBase", float(c.loc["base", "net_excess_vs_universe_pp"]), "{:.1f}")
     M.add("NetExStress", float(c.loc["stress_3x", "net_excess_vs_universe_pp"]), "{:.1f}")
     M.add("NetExIdx", float(c.loc["base", "net_excess_vs_country_index_pp"]), "{:.1f}")
+    M.add("CostBpsUS", f"{2 * c.loc['base', 'one_way_bps_us']:.0f}")
+    M.add("CostBpsIndia", f"{2 * c.loc['base', 'one_way_bps_india']:.0f}")
     pe = read("oos_portfolio_excess.csv")
     esg_full = pe[(pe.signal == "ESG_composite") & (pe.horizon == "full")]["excess_pp"].iloc[0]
     M.add("ExESGFullAbs", abs(float(esg_full)), "{:.1f}")
 
-    src = PROJECT_ROOT / "reports" / "figures" / "fig_ext_weights.pdf"
-    if src.exists():
-        shutil.copy(src, FIGS / "fig_ext_weights.pdf")
+    for name in ("fig_ext_weights.pdf", "fig_ext_mechanism.pdf"):
+        src = PROJECT_ROOT / "reports" / "figures" / name
+        if src.exists():
+            shutil.copy(src, FIGS / name)
 
 
 def preregistration(M):
@@ -755,6 +764,59 @@ def preregistration(M):
     M.add("DryEnd", str(dry["end"].iloc[0]))
     M.add("DryHTwo", float(dry.loc["H2", "estimate"]))
     M.add("DryHFour", float(dry.loc["H4", "estimate"]))
+
+
+def make_overview_figure(n_mid, n_us, n_india, snapshot, oos_end, n_used, n_declared, top_n,
+                         prereg_anchor, prereg_end):
+    """Figure 1: study design, from public data to the pre-registered window."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from matplotlib.patches import FancyBboxPatch
+
+    fig, ax = plt.subplots(figsize=(7.2, 1.6))
+    ax.set_xlim(0, 100)
+    ax.set_ylim(0, 23)
+    ax.axis("off")
+
+    def box(x, y, w, h, title, body, fc, ec):
+        ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.25,rounding_size=1.2",
+                                    fc=fc, ec=ec, lw=0.9))
+        ax.text(x + w / 2, y + h - 1.6, title, ha="center", va="top", fontsize=6.6, weight="bold")
+        ax.text(x + w / 2, y + h - 4.6, body, ha="center", va="top", fontsize=5.6, linespacing=1.25)
+
+    def arrow(x0, x1, y):
+        ax.annotate("", xy=(x1, y), xytext=(x0, y),
+                    arrowprops=dict(arrowstyle="-|>", lw=0.9, color="#444444"))
+
+    blue, grey, green, orange = ("#e8f0f8", "#1f5a96"), ("#f2f2f2", "#7a7a7a"), \
+        ("#e8f4ea", "#1b7837"), ("#fbeee2", "#b35806")
+    y, h, w = 7.5, 14.5, 17.5
+    xs = [0.5, 20.8, 41.1, 61.4, 81.7]
+    box(xs[0], y, w, h, "Public data",
+        f"{n_mid} mid-caps\n({n_us} US, {n_india} India)\nYahoo/ISS, SEC XBRL,\nregistries, statements", *grey)
+    box(xs[1], y, w, h, "Cell provenance",
+        f"{n_used} of {n_declared} ESG indicators\ninformative;\nmeasured / proxy /\nimputed per cell", *grey)
+    box(xs[2], y, w, h, "Index",
+        f"ESG + 8 financial\nfactors, 3 profiles,\nrank aggregation,\ntop-{top_n} portfolio", *blue)
+    box(xs[3], y, w, h, "Window 1 (OOS)",
+        f"freeze {snapshot}\n→ {oos_end}\nH1–H3 fixed, Holm;\nH4 + mechanism", *green)
+    box(xs[4], y, w, h, "Window 2 (registered)",
+        f"{prereg_anchor}\n→ {prereg_end}\nhashed scores, plan\nand code; H1–H4", *orange)
+    for a, b in zip(xs[:-1], xs[1:]):
+        arrow(a + w + 0.4, b - 0.4, y + h / 2)
+
+    # Research questions under the stages they address
+    rq = [(xs[1], "RQ1  what does the\nESG score measure?"),
+          (xs[2], "RQ2  does in-sample\nvalidation mislead?"),
+          (xs[3], "RQ3  prediction out of sample\nRQ4  where the risk signal lives")]
+    for x, t in rq:
+        ax.text(x + w / 2, 5.6, t, ha="center", va="top", fontsize=5.8, style="italic", color="#333333")
+    plt.tight_layout(pad=0.1)
+    FIGS.mkdir(parents=True, exist_ok=True)
+    fig.savefig(FIGS / "fig_overview.pdf")
+    fig.savefig(PROJECT_ROOT / "reports" / "figures" / "fig_overview.png", dpi=200)
+    plt.close(fig)
 
 
 def make_ic_figure(ic):
@@ -853,6 +915,9 @@ def main():
     rank_uncertainty(M, u)
     extensions(M)
     preregistration(M)
+    g = lambda k: M_get(M, k)
+    make_overview_figure(g("NMid"), g("NUS"), g("NIndia"), g("SnapshotDate"), g("OOSEndDate"),
+                         g("NIndUsed"), g("NIndDeclared"), g("TopN"), g("PreregAnchor"), g("PreregEnd"))
     weight_table(M)
     copy_figures()
     M.write(GEN / "numbers.tex")

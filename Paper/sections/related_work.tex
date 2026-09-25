@@ -27,8 +27,14 @@ investor tastes for sustainability can \emph{lower} the expected returns of
 green assets while making them hedges \cite{pastor_2021, pedersen_2021}, and
 carbon exposure is priced \cite{bolton_2021}. On the risk side, CSR is associated with lower
 systematic risk \cite{albuquerque_2019}, and high-trust firms fared better in
-the 2008--2009 crisis \cite{lins_2017}. Our OOS evidence is consistent with a
-risk channel and not with a return premium over a six-month horizon.
+the 2008--2009 crisis \cite{lins_2017}. A risk association alone does not
+identify an ESG effect, however. Low-volatility and low-beta stocks
+\cite{ang_2006, frazzini_pedersen_2014} and high-quality firms
+\cite{asness_2019} have distinct risk and return profiles, and realised
+volatility is highly persistent. An ESG score that loads on these
+characteristics will ``predict'' risk without containing ESG information.
+We therefore test the risk channel against these characteristics and against
+recent volatility, and trace it back to the sources of the score's inputs.
 
 \subsection{Public-Data and Proxy ESG}
 
@@ -60,8 +66,10 @@ Hundreds of published factors fail to replicate once multiple testing is
 taken into account \cite{harvey_2016}. Backtests that choose among many
 configurations overfit with high probability \cite{bailey_2017}. The remedy
 proposed across empirical sciences is to fix the hypotheses and the analysis
-plan before outcomes are observed \cite{nosek_2018}. We adopt this remedy at
-small scale: a single hold-out window, three hypotheses and a
-family-wise error correction \cite{holm_1979}. We also show concretely how
-three in-sample designs common in index research produce favourable evidence
-irrespective of predictive validity.
+plan before outcomes are observed \cite{nosek_2018}. We adopt this remedy in
+two steps. The first is a hold-out window with hypotheses fixed before
+outcomes were computed and a family-wise error correction \cite{holm_1979}.
+The second is a formally pre-registered window whose scores, plan and code
+are hashed before it opens. We also show concretely how in-sample designs
+common in index research produce favourable evidence irrespective of
+predictive validity.

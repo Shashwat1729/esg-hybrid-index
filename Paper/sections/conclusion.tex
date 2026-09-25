@@ -21,7 +21,7 @@ Indian mid-caps and audited it end to end. The audit answers four questions.
   volatility (partial $\rho=\HTwoEst$, Holm $p=\HTwoHolm$). In a rising
   market this risk tilt was costly: an ESG-only top-\TopN screen had an excess
   return of \ExESGFull~pp.
-\item \emph{Is that risk signal ESG?} Only in name. It survives nine known risk
+\item \emph{Is that risk signal ESG?} Only in name. It survives \NControls known risk
   characteristics and sector effects (\HFourEst), but it comes from
   financial-proxy cells (measured cells: \PartMeas), adds \CVDeltaESG to an
   out-of-fold volatility forecast, and falls to \RecFirst given recent
@@ -46,8 +46,14 @@ from public data.
   regimes, and whether measured E and S data share it.
 \end{itemize}
 
-\textbf{Reproducibility.} The code, configuration, cached raw data and
-frozen pre-audit outputs are in the project repository. Running
-\texttt{python scripts/run\_all.py --skip-download} rebuilds every table,
-figure and number in this paper from the \SnapshotDate snapshot and the cached
-post-snapshot prices; \texttt{--refresh} re-downloads them.
+\textbf{Reproducibility.} The code, configuration, cached raw data, frozen
+pre-audit outputs and the registration package are in the project
+repository\RepoNote.
+\begin{itemize}
+\item \texttt{run\_all.py --skip-download} rebuilds every table, figure and
+  number in this paper from the \SnapshotDate snapshot and the cached
+  post-snapshot prices.
+\item Step~25 with \texttt{--refresh} re-downloads the prices.
+\item Step~28 (\texttt{evaluate}) runs the registered test once the second
+  window has closed.
+\end{itemize}
