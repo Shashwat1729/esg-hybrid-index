@@ -79,8 +79,10 @@ emissions, energy, labour, board), categories are weighted into E, S and G,
 and the pillars are combined with sector-specific SASB materiality weights
 (Appendix~\ref{app:sasb}) \cite{khan_2016, sasb_2023}. Before the G pillar
 is formed, governance values are quantile-harmonised by source so that the
-scales of ISS and SEC-derived inputs do not differ. The composite is mapped to
-$50+20z$ and clipped to $[0,100]$.
+scales of ISS and SEC-derived inputs do not differ. The composite is re-standardised to mean 50
+and standard deviation 10 over the scored firms and clipped to $[0,100]$;
+because aggregation uses ranks (Eq.~\eqref{eq:composite}), this scale does
+not affect the index.
 
 \textbf{Eight financial factors.}
 \begin{itemize}
@@ -239,7 +241,8 @@ effect can be attributed to ESG. All tests below are exploratory and were
 specified after H1--H3 had been evaluated.
 \begin{enumerate}
 \item \emph{Known factors.} ESG may proxy for a known low-risk
-  characteristic. We regress the percentile rank of realised volatility on
+  characteristic \cite{ang_2006, frazzini_pedersen_2014, asness_2019}. We
+  regress the percentile rank of realised volatility on
   the ESG rank and on the ranks of trailing volatility, trailing beta, size,
   quality (profitability score), leverage (debt/equity), liquidity (log
   dollar volume), six-month momentum and value (price/book), with sector and
@@ -270,8 +273,8 @@ For the return null we report three checks:
 \item the distribution of the OOS IC over \WDraws weight vectors drawn
   uniformly from the simplex, and over a sweep of the ESG weight from 0 to 1;
 \item month-by-month ICs;
-\item top-\TopN excess returns net of round-trip costs of 16~bps (US) and
-  50~bps (India, including securities transaction tax), and three times
+\item top-\TopN excess returns net of round-trip costs of \CostBpsUS~bps (US) and
+  \CostBpsIndia~bps (India, including securities transaction tax), and three times
   those costs.
 \end{itemize}
 

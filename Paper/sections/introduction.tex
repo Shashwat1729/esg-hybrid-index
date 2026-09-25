@@ -61,6 +61,17 @@ fixed from the snapshot before any post-snapshot price was downloaded.
 \item[\textbf{RQ4}] (Mechanism) If ESG predicts risk, is that ESG
   information, a known risk factor, or past volatility carried forward?
 \end{itemize}
+Figure~\ref{fig:overview} shows how the study design maps onto these
+questions.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_overview}
+\caption{Study design. Scores are frozen at the \SnapshotDate close and
+evaluated on the following window (RQ3--RQ4). A second window, whose scores,
+plan and code were hashed before it opened, provides a confirmatory test.}
+\label{fig:overview}
+\end{figure*}
 
 \textbf{Contributions.}
 \begin{enumerate}
@@ -83,7 +94,7 @@ fixed from the snapshot before any post-snapshot price was downloaded.
   ESG component predicts lower risk (Sections~\ref{sec:res_oos}
   and~\ref{sec:res_null}).
 \item \emph{A decomposition of the ESG risk signal} by factor, data source
-  and horizon. The signal survives nine known risk characteristics and sector
+  and horizon. The signal survives \NControls known risk characteristics and sector
   effects. But it lives in financial-proxy cells, not in measured ESG data,
   adds little to a volatility forecast, and fades given recent realised
   volatility (Section~\ref{sec:res_mechanism}).

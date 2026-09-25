@@ -9,8 +9,9 @@
   \TradingDaysUS trading days in a rising market. With $N=\NOOS$, only
   $|\rho|\ge\MDEOOS$ is detectable at 80\% power. H1 and H3 therefore exclude
   large effects, not small ones, and the risk result (H2) may not generalise
-  to other regimes. Extending the window, or repeating the snapshot--hold-out
-  cycle, is the most direct next step.
+  to other regimes. The registered second window adds a second, independent
+  period; repeating the snapshot--hold-out cycle beyond it is the most direct
+  way to accumulate power.
 \item \textbf{Hypotheses fixed after the window ended.} The hypotheses and
   analysis code were fixed before OOS prices were downloaded, but after the
   calendar window had passed, and they were not externally registered. Two
@@ -41,8 +42,9 @@
 \item \textbf{Multi-market pooling.} US and Indian firms are scored against a
   common reference, including \NLarge large caps. Country-neutral returns
   remove market-level differences in outcomes but not differences in
-  disclosure regimes. Country subsamples ($N=\NUS$, $N=\NIndia$) are too
-  small for separate inference.
+  disclosure regimes. The ESG--volatility association has the same sign in
+  both country subsamples (Table~\ref{tab:ext_robust}), but at $N=\NIndia$
+  the Indian estimates are imprecise.
 \item \textbf{Transaction costs and capacity.} Portfolio results are
   equal-weighted and single-period. We deduct stylised round-trip costs
   (Section~\ref{sec:res_null}), but do not model market impact at scale.

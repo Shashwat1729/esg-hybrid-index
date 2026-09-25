@@ -19,7 +19,12 @@ numbers**. `scripts/26_paper_artifacts.py` (the last step of
 | `tab_sasb.tex` (Table XI) | SASB pillar weights | `config/sasb_materiality.yaml` |
 | `tab_ext_controls.tex` | ESG vs realised risk with trailing / full controls | `ext_risk_controls.csv` (step 27) |
 | `tab_ext_robust.tex` | H2/H4 on subsamples; recent-volatility control | `ext_subsample_robustness.csv`, `ext_recent_vol_control.csv` |
-| `Figures/fig_oos_ic.pdf`, `fig_ext_weights.pdf`, `fig_rank_ci.pdf` | Figures 1–3 | same tables; `ext_weight_uncertainty.csv`, `ext_esg_weight_sweep.csv` |
+| `Figures/fig_overview.pdf` | Figure 1 (study design) | sample macros + `preregistration/window2/manifest.json` |
+| `Figures/fig_oos_ic.pdf` | Figure 2 | `oos_information_coefficients.csv` |
+| `Figures/fig_ext_mechanism.pdf` | Figure 3 (where the risk signal lives) | `ext_risk_controls.csv`, `ext_recent_vol_control.csv`, `dry_run_results.csv` |
+| `Figures/fig_ext_weights.pdf` | Figure 4 | `ext_weight_uncertainty.csv`, `ext_esg_weight_sweep.csv` |
+| `Figures/fig_rank_ci.pdf` | Figure 5 | `advanced_bootstrap_ci.csv` |
+| Counts in text (`\NControls`, `\CostBpsUS`, `\CostBpsIndia`) | Sections IV–V | `27_paper1_extensions.py` constants, `ext_costs.csv` |
 | Pre-registration macros (`\PreregAnchor`, `\DryHTwo`, …) | Section IV-E | `preregistration/window2/manifest.json`, `dry_run_results.csv` |
 
 Qualitative statements that depend on the data (e.g. the sector composition of

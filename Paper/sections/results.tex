@@ -212,8 +212,21 @@ beta, size, and sector and country effects (HC3).}
 \label{sec:res_mechanism}
 
 H2 is the only positive result, so we test it hardest.
-Tables~\ref{tab:ext_controls} and~\ref{tab:ext_robust} report the evidence,
-which gives a three-part answer.
+Figure~\ref{fig:mechanism} summarises the evidence, and
+Tables~\ref{tab:ext_controls} and~\ref{tab:ext_robust} give the details. The
+answer has three parts.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{fig_ext_mechanism}
+\caption{Where the ESG risk signal comes from. (a) Coefficient of each ESG
+measure in a rank regression of realised OOS volatility with all
+\NControls controls and sector and country fixed effects. (b) Partial
+Spearman correlation of ESG with realised volatility after \SplitDate, given
+earlier volatility. The orange point is the registered dry run: volatility
+over (\DryAnchor,\,\DryEnd] given the preceding months. 95\% intervals.}
+\label{fig:mechanism}
+\end{figure*}
 
 \textbf{It survives known risk factors.} With full controls (trailing
 volatility and beta, size, quality, leverage, liquidity, momentum, value, and

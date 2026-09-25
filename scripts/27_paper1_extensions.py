@@ -343,7 +343,9 @@ def cost_adjusted(u, top_n):
                          "gross_excess_vs_country_index_pp": gross_i,
                          "net_excess_vs_country_index_pp": gross_i - cost * mult,
                          "n_us": int((top & (d["country"] == "US")).sum()),
-                         "n_india": int((top & (d["country"] == "India")).sum())})
+                         "n_india": int((top & (d["country"] == "India")).sum()),
+                         "one_way_bps_us": ONE_WAY_COST_BPS["US"] * mult,
+                         "one_way_bps_india": ONE_WAY_COST_BPS["India"] * mult})
     return pd.DataFrame(rows)
 
 
@@ -412,16 +414,23 @@ def recent_vol_control(u, snapshot, end, rng):
         rows.append({"control": label, "partial_rho_esg_second_half_vol": r, "ci_low": lo,
                      "ci_high": hi, "p_two_sided": p, "n": n,
                      "control_vs_outcome_spearman": stats.spearmanr(z, v2, nan_policy="omit")[0]})
-    # Both controls jointly (rank-residualise on the two)
-    m = esg.notna() & v2.notna() & v1.notna() & trail.notna()
-    rk = lambda s: stats.rankdata(s[m])
-    Z = np.column_stack([np.ones(m.sum()), rk(trail), rk(v1)])
-    res = lambda y: y - Z @ np.linalg.lstsq(Z, y, rcond=None)[0]
-    r = np.corrcoef(res(rk(esg)), res(rk(v2)))[0, 1]
-    n = int(m.sum())
+    # Both controls jointly (rank-residualise on the two), with firm bootstrap CI.
+    m = (esg.notna() & v2.notna() & v1.notna() & trail.notna()).to_numpy()
+    arr = np.column_stack([esg.to_numpy()[m], v2.to_numpy()[m], trail.to_numpy()[m], v1.to_numpy()[m]])
+
+    def partial2(a):
+        rk = [stats.rankdata(a[:, j]) for j in range(4)]
+        Z = np.column_stack([np.ones(len(a)), rk[2], rk[3]])
+        res = lambda y: y - Z @ np.linalg.lstsq(Z, y, rcond=None)[0]
+        return np.corrcoef(res(rk[0]), res(rk[1]))[0, 1]
+
+    r = partial2(arr)
+    n = len(arr)
     t = r * np.sqrt((n - 4) / (1 - r ** 2))
-    rows.append({"control": "both", "partial_rho_esg_second_half_vol": r, "p_two_sided": 2 * stats.t.sf(abs(t), n - 4),
-                 "n": n})
+    boots = [partial2(arr[rng.integers(0, n, n)]) for _ in range(1000)]
+    lo, hi = np.nanpercentile(boots, [2.5, 97.5])
+    rows.append({"control": "both", "partial_rho_esg_second_half_vol": r, "ci_low": lo, "ci_high": hi,
+                 "p_two_sided": 2 * stats.t.sf(abs(t), n - 4), "n": n})
     out = pd.DataFrame(rows)
     out.insert(0, "split_date", str(mid.date()))
     return out
@@ -462,6 +471,62 @@ def subsample_robustness(u, rng):
 # ---------------------------------------------------------------------------
 # Figure
 # ---------------------------------------------------------------------------
+def make_mechanism_figure(ctrl, rv, dry):
+    """Headline RQ4 figure: where the ESG risk signal lives and how it fades."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.5), gridspec_kw={"width_ratios": [1.15, 1]})
+    ax = axes[0]
+    labels = {"ESG_composite": "ESG composite", "E_score": "E pillar", "S_score": "S pillar",
+              "G_score": "G pillar", "ESG_measured": "measured cells", "ESG_proxy": "proxy cells",
+              "ESG_imputed": "imputed cells"}
+    colors = {"ESG_composite": "#1f5a96", "E_score": "#7a7a7a", "S_score": "#7a7a7a", "G_score": "#7a7a7a",
+              "ESG_measured": "#1b7837", "ESG_proxy": "#b35806", "ESG_imputed": "#9e9e9e"}
+    sub = ctrl[(ctrl.outcome == "realized_vol_oos") & (ctrl.spec == "full_controls")].set_index("esg_measure")
+    order = [m for m in labels if m in sub.index]
+    y = np.arange(len(order))[::-1]
+    for yi, m in zip(y, order):
+        r = sub.loc[m]
+        ax.errorbar(r["coef"], yi, xerr=[[r["coef"] - r["ci_low"]], [r["ci_high"] - r["coef"]]],
+                    fmt="o", color=colors[m], ms=4, elinewidth=1.3, capsize=2)
+    ax.axvline(0, color="black", lw=0.8)
+    ax.axhline(y[3] - 0.5, color="#cccccc", lw=0.8)
+    ax.set_yticks(y)
+    ax.set_yticklabels([labels[m] for m in order], fontsize=7)
+    ax.set_xlabel("ESG coefficient on realised-vol rank\n(full controls, 95% CI)", fontsize=8)
+    ax.set_title("(a) which ESG data carry the signal", fontsize=8, loc="left")
+
+    ax = axes[1]
+    rows = [("pre-snapshot\nvol.", rv.loc["pre_snapshot_trailing_vol"]),
+            ("first-half\nvol.", rv.loc["first_half_realised_vol"]),
+            ("both", rv.loc["both"])]
+    xs = np.arange(len(rows))
+    for x, (lab, r) in zip(xs, rows):
+        ax.errorbar(x, r["partial_rho_esg_second_half_vol"],
+                    yerr=[[r["partial_rho_esg_second_half_vol"] - r["ci_low"]],
+                          [r["ci_high"] - r["partial_rho_esg_second_half_vol"]]],
+                    fmt="o", color="#1f5a96", ms=4, elinewidth=1.3, capsize=2)
+    if dry is not None:
+        ax.errorbar(len(rows), dry["estimate"], yerr=[[dry["estimate"] - dry["ci_low"]],
+                                                      [dry["ci_high"] - dry["estimate"]]],
+                    fmt="s", color="#b35806", ms=4, elinewidth=1.3, capsize=2)
+        rows.append(("recent 3m vol.\n(dry run)", None))
+    ax.axhline(0, color="black", lw=0.8)
+    ax.set_xticks(np.arange(len(rows)))
+    ax.set_xticklabels([r[0] for r in rows], fontsize=7)
+    ax.set_xlabel("control for earlier volatility", fontsize=8)
+    ax.set_ylabel("partial $\\rho$(ESG, later vol.)", fontsize=8)
+    ax.set_title("(b) the signal fades given recent volatility", fontsize=8, loc="left")
+    for a in axes:
+        a.tick_params(labelsize=7)
+    plt.tight_layout()
+    fig.savefig(FIGURES / "fig_ext_mechanism.png", dpi=200)
+    fig.savefig(FIGURES / "fig_ext_mechanism.pdf")
+    plt.close(fig)
+
+
 def make_figure(per_draw, sweep, w_esg_deployed, ic_deployed):
     import matplotlib
     matplotlib.use("Agg")
@@ -569,6 +634,9 @@ def main():
     rv = recent_vol_control(u, snapshot, end, rng)
     rv.to_csv(TABLES / "ext_recent_vol_control.csv", index=False, encoding="utf-8")
     print(rv.round(3).to_string(index=False))
+    dry_path = PROJECT_ROOT / "preregistration" / "window2" / "dry_run_results.csv"
+    dry = pd.read_csv(dry_path).set_index("hypothesis").loc["H2"] if dry_path.exists() else None
+    make_mechanism_figure(ctrl, rv.set_index("control"), dry)
     monthly, magg = monthly_stability(u, snapshot, end)
     monthly.to_csv(TABLES / "ext_monthly.csv", index=False, encoding="utf-8")
     magg.to_csv(TABLES / "ext_monthly_summary.csv", index=False, encoding="utf-8")
