@@ -1,0 +1,4 @@
+hypothesis,test,estimate,ci_low,ci_high,p_one_sided,n,p_holm,reject_h0_at_5pct
+H1,"Spearman IC(pref_balanced, country-neutral full-window return)",-0.09394155135571408,-0.21860812782953462,0.03619293759921722,0.9345810883821349,260,1.0,False
+H2,"Partial Spearman(ESG_composite, realised OOS vol | trailing vol)",-0.16327717478727424,-0.27602417760853704,-0.04134481833693387,0.004235733153550516,260,0.012707199460651549,True
+H3,"Top-19 minus universe, country-neutral full-window return (pp)",1.8946796165395785,-10.892188206251886,11.510797678198562,0.543,260,1.0,False

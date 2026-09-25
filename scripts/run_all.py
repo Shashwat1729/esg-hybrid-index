@@ -21,6 +21,13 @@ Executes the complete analysis pipeline in order:
   20. Subsampling stability (rolling-window & bootstrap stability)
   13. Compute summary statistics
   14. Pipeline health checks (final validation)
+  21-24. Temporal, incremental-value, PCA-weight and geographic robustness
+  25. Genuine out-of-sample evaluation (pre-declared H1-H3)
+  27. Paper 1 extensions (factor controls, provenance split, weights, costs)
+  26. Paper artifacts (numbers.tex, tables, figures)
+
+Step 28 (pre-registered window 2) is run by hand:
+  python scripts/28_preregistration.py verify | evaluate [--dry-run]
 
 Note: Step 08 runs before 07 so that advanced tables are available for figures.
 
@@ -66,6 +73,13 @@ SCRIPTS = [
     ("18_sector_cv.py", "Sector cross-validation: leave-one-sector-out stability"),
     ("19_synthetic_sensitivity.py", "Synthetic sensitivity: noise injection & factor dropout"),
     ("20_subsampling_stability.py", "Subsampling stability: rolling-window & bootstrap stability"),
+    ("21_temporal_stability.py", "Temporal stability of trailing-window ICs (in-sample diagnostics)"),
+    ("22_esg_incremental_value.py", "ESG incremental value beyond financial factors"),
+    ("23_pca_weight_validation.py", "PCA-based weight validation"),
+    ("24_geographic_robustness.py", "Geographic (US vs India) robustness"),
+    ("25_out_of_sample_evaluation.py", "Genuine out-of-sample evaluation on post-snapshot returns"),
+    ("27_paper1_extensions.py", "Paper 1 extensions: factor controls, provenance split, weights, costs"),
+    ("26_paper_artifacts.py", "Generate paper macros, tables and figures from outputs"),
     ("13_compute_summaries.py", "Compute summary statistics across all analyses"),
     ("14_run_checks.py", "Pipeline health checks and final validation"),
 ]
@@ -141,6 +155,8 @@ def main():
     print(f"  Tables:  reports/tables/")
     print(f"  Figures: reports/figures/")
     print(f"  Report:  reports/research_summary.txt")
+    if success_count != total_count:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

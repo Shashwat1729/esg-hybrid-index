@@ -1,12 +1,12 @@
 metric,value
-N companies (US),168.0
-N companies (India),90.0
+N companies (US),181.0
+N companies (India),88.0
 N factors tested,16.0
-Mann-Whitney significant (Bonferroni),10.0
-Mean |Cohen's d|,0.4447
-Max |Cohen's d|,0.8376
-Factors with medium/large effect (|d|>=0.5),7.0
-Mean percentile shift from pooling (US),4.01
-Mean percentile shift from pooling (India),-8.0438
-Country significant after sector control (Bonferroni),8.0
+Mann-Whitney significant (Bonferroni),5.0
+Mean |Cohen's d|,0.3254
+Max |Cohen's d|,1.0217
+Factors with medium/large effect (|d|>=0.5),5.0
+Mean percentile shift from pooling (US),1.4094
+Mean percentile shift from pooling (India),-3.4669
+Country significant after sector control (Bonferroni),5.0
 Mean renorm rank corr (pooled vs within-geo),1.0

@@ -39,7 +39,7 @@ with open(CONFIG_PATH) as f:
 try:
     with open(META_PATH) as _mf:
         _meta = json.load(_mf)
-    META_STR = f"N={_meta.get('n_companies', len(df))} (mid-cap 276 + 45 benchmarks) · INR/USD={_meta.get('exchange_rate_used', 83.0)} · {_meta.get('exchange_rate_date', 'March 2024')}"
+    META_STR = f"N={_meta.get('n_companies', len(df))} (mid-caps + 45 large-cap reference firms) · INR/USD={_meta.get('exchange_rate_used')} · snapshot {_meta.get('exchange_rate_date')}"
 except Exception:
     META_STR = f"N={len(df)} · indexed_data.csv"
 # File mtime for "generated on" date
@@ -648,30 +648,30 @@ with gr.Blocks(title="Multi-Factor ESG Index Explorer") as demo:
         gr.Markdown(f"""
 ### About This Demo
 
-This is an **academic research demonstration**, not investment advice. The index ranks **276 mid-cap companies (186 US + 90 India)** plus 45 large-cap benchmarks across **9 deployed factors** (ESG Composite, Financial, Market, Operational, Risk-Adjusted, Growth, Value, Stability, Sector Position). `similarity_rank` is excluded from the deployed composite (r=0.70 with ESG_composite).
+This is an **academic research demonstration**, not investment advice. The index ranks **269 mid-cap companies (181 US + 88 India)** plus 45 large-cap reference firms on a data snapshot taken at the close of **2026-04-02**. Profiles weight 8 factors (ESG Composite, Financial, Operational, Risk-Adjusted, Growth, Value, Stability, Sector Position); `market_score` is computed but carries zero weight, and `similarity_rank` is excluded.
 
-**What "performance" means here:** All return figures are **cross-sectional trailing momentum proxies** (`price_momentum_1m/3m/6m` at a single point in time), not realized forward portfolio returns or backtested P&L. They measure relative stock-selection quality, not investable performance. See paper §IV footnote and `docs/METHODOLOGY.md` §9.
+**What the evidence says:** In a genuine hold-out window (2026-04-02 → 2026-09-23, N=260) the composite did **not** predict returns (IC −0.094, 95% CI [−0.22, 0.04]) and its top-19 portfolio did not beat the universe. Higher ESG **did** predict lower future volatility beyond trailing volatility (partial ρ −0.16, Holm p 0.013) — but that signal comes from the financial-proxy S pillar, not from measured ESG data, and it fades once recent realised volatility is known. Treat the rankings as a transparent multi-criteria screen / low-risk tilt, not an alpha signal. Any "return" shown in other tabs is a trailing (pre-snapshot) figure.
 
-**Dataset:** `data/processed/indexed_data.csv` — **{META_STR}** · generated **{_mtime}** · Universe as of March 2025 (S&P MidCap 400 / Russell Midcap / NIFTY Midcap 150). Regenerate via `python scripts/run_all.py --skip-download`.
+**Dataset:** `data/processed/indexed_data.csv` — **{META_STR}** · generated **{_mtime}** · Snapshot 2026-04-02 (S&P MidCap 400 / Russell Midcap / NIFTY Midcap 150 constituents). Regenerate via `python scripts/run_all.py --skip-download`.
 
 **How scores are built:**
 
-1. **Hybrid ESG pipeline** (6 tiers per `company × indicator` cell): real Yahoo governance risk → real SEC EDGAR disclosures → financial-proxy indicators → sector-median → global-median → NaN. Provenance tracked in `reports/tables/esg_data_provenance.csv`; large E/S share is proxy-derived and labeled as a construction artifact (R²=0.544 reflects construction).
-2. **Type-aware cleaning:** 7 variable types, multi-method outlier consensus (IQR+MAD+z+Mahalanobis), adaptive winsorization (530 obs clipped), INR→USD at 83.0 for absolute monetary columns only.
+1. **Public-data ESG with cell-level provenance:** EPA TRI → SEC XBRL → ISS governance scores (via Yahoo) → Yahoo ownership fields → public registries (0/1) → financial proxies → sector/global median. Only 21 of 34 declared indicators carry information; E and S are ~75–85% financial ratios/proxies (R² 0.42 / 0.51 on the other factors), G is mostly ISS/ownership data (R² 0.03). See `reports/tables/esg_data_provenance.csv`.
+2. **Type-aware cleaning:** 7 variable types, multi-method outlier consensus (IQR+MAD+z+Mahalanobis), adaptive winsorization (530 obs clipped), INR→USD at the snapshot close (92.97) for absolute monetary columns only; firms not trading on the snapshot date are removed.
 3. **3-stage normalization:** robust MAD-z per indicator → hierarchical category×indicator weighted factor aggregation (0% overlap after dedup) → single re-standardization to 50±10, clipped [0,100].
 4. **Market circularity fix:** `market_score` (contains momentum) excluded from deployed `pref_*` weights; `pref_*_with_market` retained only for audit; validation uses `market_score_ex_momentum`.
 5. **Profiles:** ESG-First / Balanced / Financial-First (weights sum to 1.0; see Index Methodology tab). Aggregation is percentile-rank before weighting.
 
-**Validation:** IC / quintiles / bootstrap (B=500) / sector-stratified CV / leave-one-sector-out / walk-forward (165 splits) / high-cap transfer (Kendall W=0.933). VIF max 3.26 (LOW). See `docs/RESEARCH_AUDIT.md` for full audit.
+**Validation:** pre-declared out-of-sample test (`scripts/25_out_of_sample_evaluation.py`, Holm-corrected), rank intervals from universe resampling + Dirichlet weight perturbation (median width 15 ranks for the top-19), VIF max 2.04. See `docs/RESEARCH_AUDIT.md` for the full audit.
 
 **Links:** [GitHub]({REPO_URL}) · [Paper (repo)]({PAPER_URL}) · Reproducibility: `docs/REPRODUCIBILITY.md` · Audit: `docs/RESEARCH_AUDIT.md`
 """)
         gr.Markdown("""
-### Known Limitations (Paper §VI)
+### Known Limitations (Paper §VII)
 
-- Cross-sectional single-period design (not a time-series backtest); survivorship-exposed (current constituents only).
-- Hybrid ESG: large E/S share proxy-derived; zero-variance binaries; ESG R² partly reflects construction.
-- Fixed FX (83.0); individual rank bootstrap CIs wide (247–255 positions) — portfolio-level inference only.
+- One out-of-sample window (≈6 months, rising market); only |ρ| ≥ 0.17 is detectable at 80% power.
+- E and S pillars are financial proxies, not environmental/social measurements.
+- Candidate list is not a point-in-time membership history; results are gross of costs.
 """)
 
     # Footer

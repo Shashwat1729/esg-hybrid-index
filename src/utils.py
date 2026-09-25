@@ -271,11 +271,9 @@ def get_portfolio_top_n(
     except Exception:
         pass
 
-    # Dynamic: round(N * pct), bounded by min/max and by N itself
-    n = int(round(n_universe * top_pct))
-    n = max(min_n, min(n, max_n, n_universe))
-    # Backward compat: legacy N=276 should map to 20 (19.32 rounds to 19 with pct=0.07)
-    # Ensure the canonical mid-cap portfolio remains 20 for reproducibility
-    if n_universe == 276 and n == 19:
-        n = 20
-    return n
+    # Dynamic: ceil(N * pct), bounded by min/max and by N itself.  The ceiling
+    # (rather than rounding) is the documented rule and gives the canonical
+    # mid-cap portfolio of 20 at N=276 without any special-casing.
+    import math
+    n = int(math.ceil(n_universe * top_pct - 1e-9))
+    return max(min(min_n, n_universe), min(n, max_n, n_universe))

@@ -1,4 +1,4 @@
 profile_1,profile_2,paired_t_stat,paired_t_pval,ks_stat,ks_pval,spearman_r,spearman_pval,kendall_tau,kendall_pval,cohens_d,cohens_d_interpretation,mean_rank_diff,max_rank_diff
-ESG-First,Balanced,-1.7109,0.088224,0.1087,0.076666,0.9036,0.0,0.7378,0.0,-0.103,negligible,25.27,129
-ESG-First,Financial-First,-1.5809,0.115048,0.1268,0.023538,0.7772,0.0,0.5931,0.0,-0.0952,negligible,38.89,182
-Balanced,Financial-First,-1.1797,0.239123,0.0399,0.981109,0.9635,0.0,0.8434,0.0,-0.071,negligible,15.54,66
+ESG-First,Balanced,-1.1561,0.24869,0.0781,0.385932,0.8984,0.0,0.7309,0.0,-0.0705,negligible,26.25,155
+ESG-First,Financial-First,-0.8655,0.387565,0.0967,0.162089,0.7999,0.0,0.6124,0.0,-0.0528,negligible,37.0,184
+Balanced,Financial-First,-0.1059,0.915709,0.0446,0.952358,0.9736,0.0,0.8664,0.0,-0.0065,negligible,12.65,72

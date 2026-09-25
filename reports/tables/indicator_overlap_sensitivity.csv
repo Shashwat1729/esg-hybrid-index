@@ -1,8 +1,8 @@
 factor,n_total_indicators,n_exclusive_indicators,n_shared_indicators,pct_shared,spearman_rho,spearman_p,interpretation
-financial_score,14,14,0,0.0,0.8605,0.0,rho=0.861: Overlap has MODERATE impact; shared indicators shift some rankings but overall structure is preserved
-growth_score,4,4,0,0.0,0.8829,0.0,rho=0.883: Overlap has MODERATE impact; shared indicators shift some rankings but overall structure is preserved
-market_score,7,7,0,0.0,0.7862,0.0,rho=0.786: Overlap has SUBSTANTIAL impact; removing shared indicators meaningfully changes factor rankings
-operational_score,5,5,0,0.0,0.7033,0.0,rho=0.703: Overlap has SUBSTANTIAL impact; removing shared indicators meaningfully changes factor rankings
-risk_adjusted_score,6,6,0,0.0,0.8464,0.0,rho=0.846: Overlap has MODERATE impact; shared indicators shift some rankings but overall structure is preserved
-stability_score,6,6,0,0.0,0.7556,0.0,rho=0.756: Overlap has SUBSTANTIAL impact; removing shared indicators meaningfully changes factor rankings
-value_score,6,6,0,0.0,0.8221,0.0,rho=0.822: Overlap has MODERATE impact; shared indicators shift some rankings but overall structure is preserved
+financial_score,14,14,0,0.0,0.9299,0.0,rho=0.930: Overlap has MODERATE impact; shared indicators shift some rankings but overall structure is preserved
+growth_score,4,4,0,0.0,0.8827,0.0,rho=0.883: Overlap has MODERATE impact; shared indicators shift some rankings but overall structure is preserved
+market_score,7,7,0,0.0,0.8206,0.0,rho=0.821: Overlap has MODERATE impact; shared indicators shift some rankings but overall structure is preserved
+operational_score,5,5,0,0.0,0.7053,0.0,rho=0.705: Overlap has SUBSTANTIAL impact; removing shared indicators meaningfully changes factor rankings
+risk_adjusted_score,6,6,0,0.0,0.8763,0.0,rho=0.876: Overlap has MODERATE impact; shared indicators shift some rankings but overall structure is preserved
+stability_score,6,6,0,0.0,0.7584,0.0,rho=0.758: Overlap has SUBSTANTIAL impact; removing shared indicators meaningfully changes factor rankings
+value_score,6,6,0,0.0,0.839,0.0,rho=0.839: Overlap has MODERATE impact; shared indicators shift some rankings but overall structure is preserved

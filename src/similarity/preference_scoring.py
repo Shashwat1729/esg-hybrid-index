@@ -65,9 +65,13 @@ class PreferenceScorer:
         pref_cfg = config.get("preference_scoring", {})
         self.profiles = pref_cfg.get("investor_profiles", {})
         self.aggregation_mode: str = pref_cfg.get("aggregation_mode", "rank")
-        self.quality_gate_quantile: float = float(pref_cfg.get("quality_gate_quantile", 0.30))
+        # Optional post-aggregation adjustments.  Both default to OFF so that
+        # every code path produces the documented rank-weighted composite:
+        # the quality gate zeroes firms below a financial_score quantile and
+        # the power transform is a monotone reshaping of the score scale.
+        self.quality_gate_quantile: float = float(pref_cfg.get("quality_gate_quantile", 0.0))
         self.quality_gate_min_universe: int = int(pref_cfg.get("quality_gate_min_universe", 20))
-        self.power_transform_exponent: float = float(pref_cfg.get("power_transform_exponent", 1.5))
+        self.power_transform_exponent: float = float(pref_cfg.get("power_transform_exponent", 1.0))
         self.momentum_tilt_weight: float = float(pref_cfg.get("momentum_tilt_weight", 0.15))
 
     def compute_preference_score(
@@ -180,7 +184,8 @@ class PreferenceScorer:
             # Quality gate: penalize the lowest financial quality names.
             fin_col = financial_score_col or SCORE_COLUMN_MAP["financial_score"]
             if (
-                len(df) >= self.quality_gate_min_universe
+                self.quality_gate_quantile > 0
+                and len(df) >= self.quality_gate_min_universe
                 and fin_col in df.columns
                 and df[fin_col].notna().any()
             ):

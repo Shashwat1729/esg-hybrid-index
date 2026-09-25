@@ -227,187 +227,130 @@ def kmeans_clustering(df):
 # ---------------------------------------------------------------------------
 # 4. Bootstrap Confidence Intervals for Rankings
 # ---------------------------------------------------------------------------
-def bayesian_bootstrap_rankings(df, n_bootstrap=1000):
-    """Bayesian bootstrap ranking stability via Dirichlet reweighting."""
-    if "pref_balanced" not in df.columns:
-        return pd.DataFrame(columns=["ticker", "bayesian_mean_rank", "bayesian_rank_std", "_bayesian_rank_history"])
+def _percentile_composite(frame, weights, reference=None):
+    """Weighted mean of per-factor percentile ranks on a 0-100 scale.
 
-    n_companies = len(df)
-    base_scores = df["pref_balanced"].fillna(df["pref_balanced"].median()).values
-    rng = np.random.default_rng(RANDOM_SEED + 17)
-
-    bayesian_rank_matrix = np.zeros((n_companies, n_bootstrap))
-    for b in range(n_bootstrap):
-        weights = rng.dirichlet(np.ones(n_companies))
-        bayesian_scores = base_scores * weights * n_companies
-        bayesian_rank_matrix[:, b] = pd.Series(bayesian_scores).rank(ascending=False).values
-
-    bayesian_df = pd.DataFrame({
-        "ticker": df["ticker"].values,
-        "bayesian_mean_rank": bayesian_rank_matrix.mean(axis=1),
-        "bayesian_rank_std": bayesian_rank_matrix.std(axis=1),
-        "_bayesian_rank_history": [bayesian_rank_matrix[i, :] for i in range(n_companies)],
-    })
-    return bayesian_df
-
-
-def bootstrap_rankings(df, n_bootstrap=1000):
-    """Bootstrap confidence intervals for company rankings.
-
-    Performs PROPER bootstrap resampling: in each iteration, companies are
-    resampled with replacement from the original dataset, and preference
-    scores are recomputed from the resampled factor scores.  This captures
-    genuine sampling uncertainty in the ranking, not just score perturbation.
-
-    For each original company, we track how often it appears in the bootstrap
-    sample and what rank it receives, giving empirically grounded CIs.
+    Matches the deployed ``pref_*`` aggregation (rank mode): each factor is
+    median-filled, converted to an average-rank percentile and combined with
+    normalised weights.  When *reference* is given, each firm's percentile is
+    its average-rank position within the reference sample instead of within
+    *frame* itself, which is how a resampled universe changes the scores.
     """
-    print("\n--- Advanced 4: Bootstrap Confidence Intervals ---")
+    total_w = sum(weights.values())
+    score = np.zeros(len(frame))
+    for col, w in weights.items():
+        fill = frame[col].median()
+        x = frame[col].fillna(fill).to_numpy(dtype=float)
+        ref_df = frame if reference is None else reference
+        ref = np.sort(ref_df[col].fillna(fill).to_numpy(dtype=float))
+        lo = np.searchsorted(ref, x, side="left")
+        hi = np.searchsorted(ref, x, side="right")
+        pct = (lo + hi + 1) / 2.0 / len(ref) * 100.0
+        score += (w / total_w) * pct
+    return score
+
+
+def bootstrap_rankings(df, n_bootstrap=1000, dirichlet_concentration=100.0):
+    """Rank uncertainty of the deployed balanced composite.
+
+    Three sources of construction uncertainty are quantified for every firm:
+
+    * sampling  -- the universe used for percentile normalisation is
+      resampled with replacement and all original firms are re-ranked
+      against it (their own factor values are held fixed);
+    * weights   -- profile weights are drawn from Dirichlet(kappa * w)
+      around the deployed weights (kappa=100 gives roughly +/-20% relative
+      variation for a 0.2 weight);
+    * combined  -- both at once (the headline interval).
+
+    The previous implementation mixed in a "Bayesian bootstrap" that
+    multiplied each firm's *score* by i.i.d. Dirichlet*N weights (i.e.
+    Exponential(1) noise), which scrambled ranks and produced CI widths of
+    ~250 positions for every firm.  That procedure has no statistical
+    interpretation and was removed (audit fix 2026-09).
+    """
+    print("\n--- Advanced 4: Bootstrap Rank Uncertainty ---")
     if "pref_balanced" not in df.columns:
         return
 
-    score_cols = [c for c in EXTENDED_FACTORS if c in df.columns]
-    if not score_cols:
-        return
+    from src.constants import DEFAULT_WEIGHTS
+    weights = {c: w for c, w in DEFAULT_WEIGHTS.items() if w > 0 and c in df.columns}
+    names = list(weights)
+    base_w = np.array([weights[c] for c in names])
+    base_w = base_w / base_w.sum()
+
+    n = len(df)
+    frame = df[names].reset_index(drop=True)
+    original_rank = df["pref_balanced"].rank(ascending=False, method="first").to_numpy()
+    recon = _percentile_composite(frame, dict(zip(names, base_w)))
+    recon_rho = stats.spearmanr(recon, df["pref_balanced"].to_numpy())[0]
+    print(f"  Reconstruction check: Spearman(recomputed, pref_balanced) = {recon_rho:.6f}")
 
     rng = np.random.default_rng(RANDOM_SEED)
-    n = len(df)
-    relaxed_window = 0.15 * n
-    original_rank = df["pref_balanced"].rank(ascending=False).values
-
-    # Load balanced profile weights from config (all 10 factors).
-    # Done once outside the loop to avoid re-reading the YAML file each iteration.
-    balanced_weights = load_profile_weights("balanced")
-
-    # Store rank for each company across bootstrap iterations
-    # For companies not in a particular bootstrap sample, we record NaN
-    rank_matrix = np.full((n, n_bootstrap), np.nan)
-
+    top_n = get_portfolio_top_n(n)
+    ranks = {k: np.empty((n, n_bootstrap)) for k in ("sampling", "weights", "combined")}
     for b in range(n_bootstrap):
-        # Resample WITH REPLACEMENT from the company universe
-        boot_idx = rng.choice(n, size=n, replace=True)
-        boot_df = df.iloc[boot_idx].copy().reset_index(drop=True)
+        ref = frame.iloc[rng.choice(n, size=n, replace=True)]
+        w_draw = rng.dirichlet(dirichlet_concentration * base_w)
+        s_samp = _percentile_composite(frame, dict(zip(names, base_w)), reference=ref)
+        s_wts = _percentile_composite(frame, dict(zip(names, w_draw)))
+        s_comb = _percentile_composite(frame, dict(zip(names, w_draw)), reference=ref)
+        for key, s in (("sampling", s_samp), ("weights", s_wts), ("combined", s_comb)):
+            ranks[key][:, b] = stats.rankdata(-s, method="average")
 
-        # Recompute preference scores from bootstrapped factor scores
-        # using balanced profile weights loaded from config/index_config.yaml
-        boot_score = pd.Series(0.0, index=boot_df.index)
-        total_w = 0
-        for sc, w in balanced_weights.items():
-            if sc in boot_df.columns:
-                boot_score += w * boot_df[sc].fillna(50)
-                total_w += w
-        if total_w > 0:
-            boot_score /= total_w
-
-        boot_rank = boot_score.rank(ascending=False)
-
-        # Map back to original company positions
-        for orig_pos, boot_pos in enumerate(boot_idx):
-            # For the original company at position boot_pos,
-            # record the rank it got in this bootstrap sample
-            if np.isnan(rank_matrix[boot_pos, b]):
-                rank_matrix[boot_pos, b] = boot_rank.iloc[orig_pos]
-            else:
-                # Company appeared multiple times; take average rank
-                rank_matrix[boot_pos, b] = min(rank_matrix[boot_pos, b],
-                                                 boot_rank.iloc[orig_pos])
-
-    # Compute CI for each company (ignoring NaN = iterations where company wasn't sampled)
-    results_rows = []
-    for i in range(n):
-        ranks_i = rank_matrix[i, :]
-        valid_ranks = ranks_i[~np.isnan(ranks_i)]
-        if len(valid_ranks) < 10:
-            continue  # Too few samples for reliable CI
-        results_rows.append({
-            "_company_idx": i,
-            "ticker": df.iloc[i]["ticker"],
-            "original_rank": original_rank[i],
-            "bootstrap_mean_rank": np.mean(valid_ranks),
-            "bootstrap_std_rank": np.std(valid_ranks),
-            "ci_lower_5": np.percentile(valid_ranks, 2.5),
-            "ci_upper_95": np.percentile(valid_ranks, 97.5),
-            "ci_width": np.percentile(valid_ranks, 97.5) - np.percentile(valid_ranks, 2.5),
-            "rank_stable": np.std(valid_ranks) < 5,
-            "rank_stable_relaxed": np.std(valid_ranks) < relaxed_window,
-            "n_bootstrap_appearances": len(valid_ranks),
-        })
-
-    results = pd.DataFrame(results_rows)
-
-    bayesian_results = bayesian_bootstrap_rankings(df, n_bootstrap=n_bootstrap)
-    bayesian_rank_map = dict(zip(bayesian_results["ticker"], bayesian_results["_bayesian_rank_history"]))
-
-    consensus_rank = []
-    consensus_std = []
-    ci_lower = []
-    ci_upper = []
-    for _, row in results.iterrows():
-        idx = int(row["_company_idx"])
-        ticker = row["ticker"]
-        standard_ranks = rank_matrix[idx, :]
-        standard_valid = standard_ranks[~np.isnan(standard_ranks)]
-        bayesian_ranks = bayesian_rank_map.get(ticker, np.array([]))
-        all_ranks = np.concatenate([standard_valid, bayesian_ranks])
-        consensus_rank.append(np.mean(all_ranks))
-        consensus_std.append(np.std(all_ranks))
-        ci_lower.append(np.percentile(all_ranks, 2.5))
-        ci_upper.append(np.percentile(all_ranks, 97.5))
-
-    results["consensus_rank"] = consensus_rank
-    results["rank_std"] = consensus_std
-    results["ci_lower"] = ci_lower
-    results["ci_upper"] = ci_upper
-
-    results = results.merge(
-        bayesian_results[["ticker", "bayesian_mean_rank", "bayesian_rank_std"]],
-        on="ticker",
-        how="left",
-    )
+    comb = ranks["combined"]
+    results = pd.DataFrame({
+        "ticker": df["ticker"].to_numpy(),
+        "original_rank": original_rank,
+        "bootstrap_mean_rank": comb.mean(axis=1),
+        "bootstrap_std_rank": comb.std(axis=1),
+        "ci_lower_5": np.percentile(comb, 2.5, axis=1),
+        "ci_upper_95": np.percentile(comb, 97.5, axis=1),
+        "p_top_n": (comb <= top_n).mean(axis=1),
+    })
+    for key in ("sampling", "weights"):
+        results[f"ci_width_{key}"] = (
+            np.percentile(ranks[key], 97.5, axis=1) - np.percentile(ranks[key], 2.5, axis=1)
+        )
+    results["ci_width"] = results["ci_upper_95"] - results["ci_lower_5"]
+    # Backward-compatible aliases used by downstream report/figure scripts
+    results["consensus_rank"] = results["bootstrap_mean_rank"]
+    results["rank_std"] = results["bootstrap_std_rank"]
+    results["ci_lower"] = results["ci_lower_5"]
+    results["ci_upper"] = results["ci_upper_95"]
+    results["rank_stable"] = results["bootstrap_std_rank"] < 5
+    results["rank_stable_relaxed"] = results["bootstrap_std_rank"] < 0.15 * n
+    results["rank_stable_strict"] = results["ci_width"] < 0.20 * n
+    results["rank_stable_moderate"] = results["ci_width"] < 0.35 * n
     results = results.sort_values("original_rank")
-    results = results.rename(columns={"rank_stable": "rank_stable_legacy"})
-    results["ci_width"] = results["ci_upper"] - results["ci_lower"]
-    universe_size = len(df)
-    results["rank_stable_strict"] = results["ci_width"] < (0.20 * universe_size)
-    results["rank_stable_moderate"] = results["ci_width"] < (0.35 * universe_size)
     results.to_csv(TABLES / "advanced_bootstrap_ci.csv", index=False, encoding="utf-8")
+    results.to_csv(TABLES / "bootstrap_enhanced_stability.csv", index=False, encoding="utf-8")
 
-    enhanced_cols = [
-        "ticker",
-        "original_rank",
-        "consensus_rank",
-        "rank_std",
-        "rank_stable_legacy",
-        "rank_stable_relaxed",
-        "ci_lower",
-        "ci_upper",
-        "ci_width",
-        "rank_stable_strict",
-        "rank_stable_moderate",
-        "bayesian_mean_rank",
-        "bayesian_rank_std",
-    ]
-    results[enhanced_cols].to_csv(TABLES / "bootstrap_enhanced_stability.csv", index=False, encoding="utf-8")
+    top = results[results["original_rank"] <= top_n]
+    summary = pd.DataFrame([{
+        "n_bootstrap": n_bootstrap,
+        "dirichlet_concentration": dirichlet_concentration,
+        "top_n": top_n,
+        "reconstruction_spearman": recon_rho,
+        "median_ci_width_all": results["ci_width"].median(),
+        "median_ci_width_top_n": top["ci_width"].median(),
+        "max_ci_width_top_n": top["ci_width"].max(),
+        "median_ci_width_sampling_top_n": top["ci_width_sampling"].median(),
+        "median_ci_width_weights_top_n": top["ci_width_weights"].median(),
+        "mean_p_top_n_of_top_n": top["p_top_n"].mean(),
+        "n_top_n_with_p_ge_0_5": int((top["p_top_n"] >= 0.5).sum()),
+        "expected_top_n_overlap": float(np.sort(results["p_top_n"].to_numpy())[::-1][:top_n].sum()),
+    }])
+    summary.to_csv(TABLES / "bootstrap_rank_uncertainty_summary.csv", index=False, encoding="utf-8")
 
-    strict_pct = results["rank_stable_legacy"].mean() * 100
-    relaxed_pct = results["rank_stable_relaxed"].mean() * 100
-    consensus_corr, _ = stats.spearmanr(results["original_rank"], results["consensus_rank"])
-    mean_rank_std = results["rank_std"].mean()
+    print(f"  Bootstrap iterations: {n_bootstrap} (sampling + Dirichlet weights, kappa={dirichlet_concentration:g})")
+    print(f"  Median 95% CI width, all firms: {results['ci_width'].median():.1f} ranks")
+    print(f"  Median 95% CI width, top-{top_n}: {top['ci_width'].median():.1f} ranks "
+          f"(sampling only {top['ci_width_sampling'].median():.1f}, weights only {top['ci_width_weights'].median():.1f})")
+    print(f"  Mean P(top-{top_n}) for current top-{top_n}: {top['p_top_n'].mean():.3f}")
+    print("  [OK] Saved advanced_bootstrap_ci.csv, bootstrap_enhanced_stability.csv, "
+          "bootstrap_rank_uncertainty_summary.csv")
 
-    avg_ci = results["ci_width"].mean()
-
-    print(f"  Bootstrap iterations: {n_bootstrap}")
-    print(f"  Method: proper resampling with replacement + score recomputation")
-    print(f"  Stable companies (rank std < 5): {strict_pct:.1f}%")
-    print(f"  Stable companies (rank std < 15% of N): {relaxed_pct:.1f}%")
-    print(f"  Bootstrap stability (strict, CI<{int(0.20*universe_size)} ranks): "
-          f"{results['rank_stable_strict'].sum()}/{len(df)}")
-    print(f"  Bootstrap stability (moderate, CI<{int(0.35*universe_size)} ranks): "
-          f"{results['rank_stable_moderate'].sum()}/{len(df)}")
-    print(f"  Mean consensus rank correlation vs original: {consensus_corr:.3f}")
-    print(f"  Mean rank std (consensus): {mean_rank_std:.2f}")
-    print(f"  Average 95% CI width: {avg_ci:.1f} positions")
-    print(f"  [OK] Saved advanced_bootstrap_ci.csv, bootstrap_enhanced_stability.csv")
     return results.drop(columns=["_company_idx"], errors="ignore")
 
 

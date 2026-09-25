@@ -1,9 +1,9 @@
 factor,VIF,R2_vs_others,collinearity
-ESG_composite,1.068,0.0638,low
-financial_score,1.222,0.1819,low
-market_score,1.1,0.0912,low
-operational_score,1.213,0.1759,low
-risk_adjusted_score,1.116,0.1038,low
-growth_score,1.094,0.0862,low
-value_score,1.14,0.1226,low
-stability_score,1.066,0.0622,low
+ESG_composite,2.044,0.5107,low
+financial_score,1.914,0.4776,low
+market_score,1.237,0.1914,low
+operational_score,1.7,0.4118,low
+risk_adjusted_score,1.488,0.3277,low
+growth_score,1.174,0.1483,low
+value_score,1.396,0.2835,low
+stability_score,1.294,0.2271,low

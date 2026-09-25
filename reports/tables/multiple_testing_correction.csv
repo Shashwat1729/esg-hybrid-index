@@ -1,520 +1,528 @@
 source_file,p_column,test_label,p_value,p_adjusted_bh,significant_bh,p_adjusted_bonferroni,significant_bonferroni,significant_uncorrected
-correlation_significance.csv,pearson_p,pref_balanced | pref_financial_first,3.4808504541117634e-174,1.8065613856840052e-171,True,1.8065613856840052e-171,True,True
-correlation_significance.csv,spearman_p,ESG_composite | pref_esg_first,1.5680745500128064e-166,4.069153457283232e-164,True,8.138306914566465e-164,True,True
-correlation_significance.csv,spearman_p,pref_balanced | pref_financial_first,6.960732018206127e-163,9.03154979362245e-161,True,3.61261991744898e-160,True,True
-profile_rank_correlation.csv,spearman_p,pref_balanced | pref_financial_first,6.960732018206127e-163,9.03154979362245e-161,True,3.61261991744898e-160,True,True
-correlation_significance.csv,pearson_p,ESG_composite | pref_esg_first,2.0941990202965884e-161,2.173778583067859e-159,True,1.0868892915339293e-158,True,True
-correlation_significance.csv,pearson_p,pref_balanced | pref_esg_first,9.97151262064341e-118,8.625358416856551e-116,True,5.17521505011393e-115,True,True
-correlation_significance.csv,spearman_p,pref_balanced | pref_esg_first,4.2805487643538344e-116,2.777006010875814e-114,True,2.22160480869964e-113,True,True
-profile_rank_correlation.csv,spearman_p,pref_esg_first | pref_balanced,4.2805487643557826e-116,2.777006010875814e-114,True,2.221604808700651e-113,True,True
-correlation_significance.csv,kendall_p,pref_balanced | pref_financial_first,6.984348689294042e-99,3.624876969743608e-97,True,3.6248769697436075e-96,True,True
-profile_rank_correlation.csv,kendall_p,pref_balanced | pref_financial_first,6.984348689294042e-99,3.624876969743608e-97,True,3.6248769697436075e-96,True,True
-correlation_significance.csv,kendall_p,ESG_composite | pref_esg_first,1.8319673627611834e-96,8.643555102482312e-95,True,9.507910612730541e-94,True,True
-correlation_significance.csv,kendall_p,pref_balanced | pref_esg_first,4.7755946724992273e-79,1.90656433463623e-77,True,2.478533635027099e-76,True,True
-profile_rank_correlation.csv,kendall_p,pref_esg_first | pref_balanced,4.7755946724992273e-79,1.90656433463623e-77,True,2.478533635027099e-76,True,True
-correlation_significance.csv,spearman_p,financial_score | pref_balanced,2.7367657999936165e-71,1.0145581787119193e-69,True,1.420381450196687e-68,True,True
-factor_contributions.csv,p_value,financial_score,8.497781782743447e-70,2.7564679657774057e-68,True,4.4103487452438485e-67,True,True
-correlation_significance.csv,pearson_p,financial_score | pref_balanced,8.497781782741807e-70,2.7564679657774057e-68,True,4.410348745242998e-67,True,True
-correlation_significance.csv,pearson_p,pref_esg_first | pref_financial_first,2.4772270767724172e-67,7.56282854614638e-66,True,1.2856808528448845e-64,True,True
-correlation_significance.csv,spearman_p,ESG_composite | pref_balanced,1.535957544779741e-65,4.428677587448254e-64,True,7.971619657406856e-63,True,True
-profile_rank_correlation.csv,spearman_p,pref_esg_first | pref_financial_first,5.959455035804771e-65,1.546478581791338e-63,True,3.092957163582676e-62,True,True
-correlation_significance.csv,spearman_p,pref_esg_first | pref_financial_first,5.959455035804771e-65,1.546478581791338e-63,True,3.092957163582676e-62,True,True
-correlation_significance.csv,pearson_p,financial_score | pref_esg_first,1.856795305767314e-64,4.58893696996779e-63,True,9.63676763693236e-62,True,True
-correlation_significance.csv,spearman_p,financial_score | pref_esg_first,7.35793495780148e-64,1.7358037468631675e-62,True,3.818768243098968e-61,True,True
-correlation_significance.csv,pearson_p,ESG_composite | pref_balanced,2.0206859893542931e-63,4.369733451978659e-62,True,1.0487360284748781e-60,True,True
-factor_contributions.csv,p_value,ESG_composite,2.0206859893538565e-63,4.369733451978659e-62,True,1.0487360284746515e-60,True,True
-correlation_significance.csv,spearman_p,financial_score | pref_financial_first,2.9764971668277512e-61,6.179208118334411e-60,True,1.544802029583603e-58,True,True
-correlation_significance.csv,pearson_p,financial_score | pref_financial_first,6.695097786941395e-60,1.336444519777917e-58,True,3.474755751422584e-57,True,True
-correlation_significance.csv,kendall_p,financial_score | pref_balanced,3.190074783128121e-55,6.132032638679611e-54,True,1.6556488124434949e-52,True,True
-correlation_significance.csv,kendall_p,pref_esg_first | pref_financial_first,7.71182334765475e-53,1.3801504542871778e-51,True,4.0024363174328155e-50,True,True
-profile_rank_correlation.csv,kendall_p,pref_esg_first | pref_financial_first,7.71182334765475e-53,1.3801504542871778e-51,True,4.0024363174328155e-50,True,True
-correlation_significance.csv,kendall_p,financial_score | pref_esg_first,1.490277180626596e-52,2.5781795224840113e-51,True,7.734538567452033e-50,True,True
-correlation_significance.csv,kendall_p,ESG_composite | pref_balanced,6.34231532265792e-51,1.0618263395030516e-49,True,3.2916616524594604e-48,True,True
-correlation_significance.csv,spearman_p,ESG_composite | financial_score,1.924788195317945e-49,3.121765854281292e-48,True,9.989650733700134e-47,True,True
-correlation_significance.csv,kendall_p,financial_score | pref_financial_first,4.92668838823904e-49,7.748337192412308e-48,True,2.556951273496062e-46,True,True
-quintile_q5_vs_q1.csv,ttest_p,ESG_composite,5.509029925653323e-49,8.409372151217867e-48,True,2.8591865314140744e-46,True,True
-esg_financial_regression.csv,p_value,financial_score | ESG_composite,1.1083454485383947e-48,1.5978646883095193e-47,True,5.752312877914269e-46,True,True
-correlation_significance.csv,pearson_p,ESG_composite | financial_score,1.108345448538078e-48,1.5978646883095193e-47,True,5.752312877912624e-46,True,True
-multiple_regression.csv,p_value,financial_score | ESG_composite,1.2522400049366206e-47,1.7565204393570436e-46,True,6.499125625621061e-45,True,True
-quintile_q5_vs_q1.csv,ttest_p,financial_score,1.409439623228399e-47,1.9249978011987868e-46,True,7.31499164455539e-45,True,True
-multiple_regression.csv,f_pvalue,financial_score | ESG_composite,1.1643695294090463e-46,1.4388280613411786e-45,True,6.043077857632951e-44,True,True
-multiple_regression.csv,f_pvalue,financial_score | beta,1.1643695294090463e-46,1.4388280613411786e-45,True,6.043077857632951e-44,True,True
-multiple_regression.csv,f_pvalue,financial_score | market_cap,1.1643695294090463e-46,1.4388280613411786e-45,True,6.043077857632951e-44,True,True
-multiple_regression.csv,f_pvalue,financial_score | debt_to_equity,1.1643695294090463e-46,1.4388280613411786e-45,True,6.043077857632951e-44,True,True
-correlation_significance.csv,kendall_p,ESG_composite | financial_score,4.692772487617291e-44,5.664067258310172e-43,True,2.435548921073374e-41,True,True
-correlation_significance.csv,spearman_p,E_score | value_score,1.5857375783149716e-41,1.870449552603342e-40,True,8.229978031454703e-39,True,True
-correlation_significance.csv,pearson_p,E_score | value_score,5.760324239405771e-41,6.643573956114657e-40,True,2.9896082802515956e-38,True,True
-esg_financial_regression.csv,p_value,financial_score | E_score,1.5618114813585225e-36,1.724638635798225e-35,True,8.105801588250732e-34,True,True
-correlation_significance.csv,pearson_p,E_score | financial_score,1.561811481358701e-36,1.724638635798225e-35,True,8.105801588251657e-34,True,True
-correlation_significance.csv,spearman_p,E_score | financial_score,3.3461884966409935e-36,3.618066311993074e-35,True,1.7366718297566756e-33,True,True
-correlation_significance.csv,kendall_p,E_score | value_score,3.4682588707556217e-35,3.67352317126973e-34,True,1.8000263539221675e-32,True,True
-correlation_significance.csv,spearman_p,S_score | pref_esg_first,5.166967371196625e-35,5.363312131302097e-34,True,2.6816560656510483e-32,True,True
-correlation_significance.csv,spearman_p,ESG_composite | pref_financial_first,9.847989704322362e-35,1.002177775792805e-33,True,5.111106656543306e-32,True,True
-correlation_significance.csv,pearson_p,ESG_composite | pref_financial_first,2.01614093041243e-34,2.012263736315483e-33,True,1.0463771428840512e-31,True,True
-correlation_significance.csv,kendall_p,S_score | pref_esg_first,4.9836312006537565e-34,4.8801973455458486e-33,True,2.5865045931393e-31,True,True
-correlation_significance.csv,pearson_p,market_score | risk_adjusted_score,4.757949662751481e-33,4.572918286977812e-32,True,2.4693758749680187e-30,True,True
-correlation_significance.csv,spearman_p,market_score | risk_adjusted_score,6.768118397748136e-33,6.386642633511423e-32,True,3.512653448431282e-30,True,True
-ordinal_variable_analysis.csv,kruskal_p_sector,board_size,2.0656898699492267e-32,1.9144518616136583e-31,True,1.0720930425036487e-29,True,True
-correlation_significance.csv,kendall_p,E_score | financial_score,1.226891570313402e-31,1.117117061390624e-30,True,6.367567249926557e-29,True,True
-correlation_significance.csv,kendall_p,ESG_composite | pref_financial_first,9.398348082101756e-31,8.40990112863933e-30,True,4.877742654610812e-28,True,True
-correlation_significance.csv,pearson_p,S_score | pref_esg_first,1.835965258200864e-30,1.6150270661122855e-29,True,9.528659690062484e-28,True,True
-correlation_significance.csv,kendall_p,market_score | risk_adjusted_score,1.5727155090390306e-29,1.3603989153187616e-28,True,8.162393491912568e-27,True,True
-correlation_significance.csv,spearman_p,S_score | pref_balanced,4.3331741005870194e-29,3.686749767548628e-28,True,2.2489173582046632e-26,True,True
-correlation_significance.csv,pearson_p,E_score | pref_balanced,5.489463417777596e-29,4.595212119075117e-28,True,2.849031513826572e-26,True,True
-correlation_significance.csv,spearman_p,E_score | pref_balanced,6.542120354827229e-29,5.389461054214812e-28,True,3.395360464155332e-26,True,True
-correlation_significance.csv,spearman_p,ESG_composite | S_score,1.0421492362154683e-28,8.451178962434813e-28,True,5.40875453595828e-26,True,True
-correlation_significance.csv,kendall_p,ESG_composite | S_score,1.361388007379013e-28,1.087015962814935e-27,True,7.065603758297077e-26,True,True
-correlation_significance.csv,spearman_p,S_score | operational_score,4.122228228082011e-28,3.2415703793554e-27,True,2.1394364503745634e-25,True,True
-esg_financial_regression.csv,p_value,operating_margins | ESG_composite,4.8951196605374145e-28,3.7918911997297284e-27,True,2.540567103818918e-25,True,True
-correlation_significance.csv,kendall_p,S_score | pref_balanced,5.7533553951163056e-27,4.391163897154945e-26,True,2.9859914500653628e-24,True,True
-correlation_significance.csv,pearson_p,S_score | operational_score,1.2051943580872646e-26,9.065157563004208e-26,True,6.254958718472903e-24,True,True
-correlation_significance.csv,pearson_p,E_score | pref_esg_first,4.4919798412731397e-26,3.3304821966010848e-25,True,2.3313375376207596e-23,True,True
-correlation_significance.csv,pearson_p,S_score | pref_balanced,1.1960647462678888e-25,8.743064835394849e-25,True,6.207576033130343e-23,True,True
-correlation_significance.csv,kendall_p,E_score | pref_balanced,1.3732714559889215e-25,9.898998411920144e-25,True,7.127278856582503e-23,True,True
-correlation_significance.csv,spearman_p,E_score | pref_esg_first,1.8687196695137936e-25,1.32858288832556e-24,True,9.698655084776589e-23,True,True
-correlation_significance.csv,kendall_p,S_score | operational_score,4.8170053992464115e-25,3.378413246228227e-24,True,2.5000258022088877e-22,True,True
-correlation_significance.csv,pearson_p,ESG_composite | S_score,8.607516455812787e-25,5.9564013874224476e-24,True,4.467301040566836e-22,True,True
-correlation_significance.csv,pearson_p,operational_score | pref_esg_first,6.119725025236816e-24,4.179128010655141e-23,True,3.1761372880979075e-21,True,True
-correlation_significance.csv,pearson_p,operational_score | pref_balanced,1.5419446682059218e-23,1.0259862599985556e-22,True,8.002692827988734e-21,True,True
-factor_contributions.csv,p_value,operational_score,1.5419446682057082e-23,1.0259862599985556e-22,True,8.002692827987626e-21,True,True
-correlation_significance.csv,pearson_p,E_score | pref_financial_first,6.367990721103049e-23,4.183528081332256e-22,True,3.3049871842524827e-20,True,True
-correlation_significance.csv,kendall_p,E_score | pref_esg_first,7.905378797188492e-23,5.128614494676035e-22,True,4.1028915957408273e-20,True,True
-correlation_significance.csv,spearman_p,E_score | pref_financial_first,8.140969253266164e-23,5.216250669685357e-22,True,4.225163042445139e-20,True,True
-correlation_significance.csv,pearson_p,pref_financial_first | risk_adjusted_score,9.176296307357588e-23,5.807924126242181e-22,True,4.7624977835185885e-20,True,True
-correlation_significance.csv,spearman_p,operational_score | pref_esg_first,1.6271398644257942e-22,1.0174525176349241e-21,True,8.444855896369872e-20,True,True
-correlation_significance.csv,spearman_p,S_score | pref_financial_first,2.1613901949951816e-22,1.3354303704791658e-21,True,1.1217615112024992e-19,True,True
-correlation_significance.csv,spearman_p,pref_financial_first | risk_adjusted_score,4.860339333522062e-22,2.967666016585824e-21,True,2.52251611409795e-19,True,True
-correlation_significance.csv,pearson_p,operational_score | pref_financial_first,5.299247512427106e-22,3.198034254592637e-21,True,2.7503094589496685e-19,True,True
-correlation_significance.csv,pearson_p,ESG_composite | E_score,6.071527826467149e-22,3.621980393030403e-21,True,3.1511229419364503e-19,True,True
-correlation_significance.csv,spearman_p,operational_score | pref_balanced,8.182356533463604e-22,4.825730728258649e-21,True,4.2466430408676107e-19,True,True
-correlation_significance.csv,spearman_p,S_score | financial_score,1.5084648758688348e-21,8.796553601976688e-21,True,7.828932705759253e-19,True,True
-correlation_significance.csv,kendall_p,S_score | financial_score,1.612693021937053e-21,9.299863093170339e-21,True,8.369876783853305e-19,True,True
-correlation_significance.csv,spearman_p,ESG_composite | E_score,2.725515574611085e-21,1.554442399146322e-20,True,1.4145425832231531e-18,True,True
-correlation_significance.csv,kendall_p,operational_score | pref_esg_first,5.347548812624064e-21,3.016715036686836e-20,True,2.7753778337518893e-18,True,True
-correlation_significance.csv,kendall_p,S_score | pref_financial_first,5.693892816007786e-21,3.177559539255958e-20,True,2.9551303715080407e-18,True,True
-correlation_significance.csv,kendall_p,E_score | pref_financial_first,9.334605341574752e-21,5.153893800294996e-20,True,4.8446601722772966e-18,True,True
-correlation_significance.csv,kendall_p,pref_financial_first | risk_adjusted_score,1.0232130358707324e-20,5.589974374914843e-20,True,5.310475656169101e-18,True,True
-correlation_significance.csv,kendall_p,operational_score | pref_balanced,1.1573269890520067e-20,6.256799034562411e-20,True,6.006527073179915e-18,True,True
-correlation_significance.csv,pearson_p,S_score | pref_financial_first,2.741105772592685e-20,1.466632882449076e-19,True,1.4226338959756037e-17,True,True
-correlation_significance.csv,spearman_p,operational_score | pref_financial_first,4.8220248856878264e-20,2.5537050159918183e-19,True,2.502630915671982e-17,True,True
-correlation_significance.csv,kendall_p,ESG_composite | E_score,2.0410887113723912e-19,1.0700252941437082e-18,True,1.059325041202271e-16,True,True
-correlation_significance.csv,kendall_p,operational_score | pref_financial_first,2.807023532176322e-19,1.4568452131995112e-18,True,1.4568452131995111e-16,True,True
-esg_financial_regression.csv,p_value,financial_score | S_score,5.107262917617879e-19,2.598695543376163e-18,True,2.650669454243679e-16,True,True
-correlation_significance.csv,pearson_p,S_score | financial_score,5.107262917617893e-19,2.598695543376163e-18,True,2.6506694542436865e-16,True,True
-correlation_significance.csv,pearson_p,ESG_composite | operational_score,1.1710316378143472e-16,5.90063514588006e-16,True,6.077654200256462e-14,True,True
-correlation_significance.csv,spearman_p,ESG_composite | operational_score,2.7672514486434127e-16,1.3809649056210877e-15,True,1.4362035018459312e-13,True,True
-quintile_q5_vs_q1.csv,ttest_p,operational_score,1.0411787843366866e-15,5.146397991149908e-15,True,5.403717890707403e-13,True,True
-correlation_significance.csv,kendall_p,ESG_composite | operational_score,1.7936983102828873e-15,8.782353047517156e-15,True,9.309294230368185e-13,True,True
-sector_anova.csv,anova_p,S_score | Large,3.0212503761085826e-15,1.4654476123367797e-14,True,1.5680289452003543e-12,True,True
-correlation_significance.csv,pearson_p,pref_financial_first | growth_score,7.542925961046287e-15,3.6247949757250214e-14,True,3.914778573783023e-12,True,True
-correlation_significance.csv,pearson_p,pref_financial_first | stability_score,8.708123526888356e-15,4.146345055463355e-14,True,4.519516110455057e-12,True,True
-factor_contributions.csv,p_value,stability_score,1.4358315158218334e-14,6.713482492896681e-14,True,7.451965567115315e-12,True,True
-correlation_significance.csv,pearson_p,pref_balanced | stability_score,1.4358315158218025e-14,6.713482492896681e-14,True,7.451965567115155e-12,True,True
-factor_contributions.csv,p_value,risk_adjusted_score,4.314593026035267e-14,1.9816582128427466e-13,True,2.2392737805123037e-11,True,True
-correlation_significance.csv,pearson_p,pref_balanced | risk_adjusted_score,4.3145930260350925e-14,1.9816582128427466e-13,True,2.239273780512213e-11,True,True
-correlation_significance.csv,spearman_p,pref_balanced | risk_adjusted_score,2.463062755220129e-13,1.1213417280344272e-12,True,1.278329569959247e-10,True,True
-multiple_regression.csv,f_pvalue,roa | ESG_composite,3.18018851687032e-13,1.3869897817274757e-12,True,1.650517840255696e-10,True,True
-multiple_regression.csv,f_pvalue,roa | debt_to_equity,3.18018851687032e-13,1.3869897817274757e-12,True,1.650517840255696e-10,True,True
-multiple_regression.csv,f_pvalue,roa | market_cap,3.18018851687032e-13,1.3869897817274757e-12,True,1.650517840255696e-10,True,True
-correlation_significance.csv,kendall_p,market_score | pref_financial_first,3.161855390883484e-13,1.3869897817274757e-12,True,1.6410029478685283e-10,True,True
-multiple_regression.csv,f_pvalue,roa | beta,3.18018851687032e-13,1.3869897817274757e-12,True,1.650517840255696e-10,True,True
-multiple_regression.csv,p_value,roa | ESG_composite,3.209833496313792e-13,1.388252987155715e-12,True,1.665903584586858e-10,True,True
-correlation_significance.csv,spearman_p,pref_financial_first | growth_score,3.462903943455927e-13,1.4853282203748976e-12,True,1.7972471466536262e-10,True,True
-correlation_significance.csv,spearman_p,market_score | pref_financial_first,3.7269640025900745e-13,1.5854871453641383e-12,True,1.9342943173442488e-10,True,True
-esg_financial_regression.csv,p_value,net_margin | ESG_composite,4.073506460494638e-13,1.7188210186965181e-12,True,2.1141498529967171e-10,True,True
-correlation_significance.csv,kendall_p,pref_balanced | risk_adjusted_score,5.745053625552991e-13,2.404582928759679e-12,True,2.981682831662002e-10,True,True
-correlation_significance.csv,pearson_p,market_score | pref_financial_first,7.809033604941567e-13,3.2423107527717386e-12,True,4.0528884409646734e-10,True,True
-correlation_significance.csv,kendall_p,pref_financial_first | growth_score,7.948824147790068e-13,3.27415851801829e-12,True,4.125439732703045e-10,True,True
-correlation_significance.csv,spearman_p,pref_balanced | stability_score,1.307313947725987e-12,5.34248770763612e-12,True,6.784959388697872e-10,True,True
-country_differences.csv,ttest_p,operational_score | Large | large,1.5331038582186452e-12,6.216257050120913e-12,True,7.956809024154768e-10,True,True
-esg_financial_regression.csv,p_value,roa | ESG_composite,1.5559655528050106e-12,6.2600474566341124e-12,True,8.075461219058005e-10,True,True
-correlation_significance.csv,kendall_p,pref_balanced | stability_score,2.652886478880221e-12,1.0591139096452575e-11,True,1.3768480825388346e-09,True,True
-correlation_significance.csv,spearman_p,pref_financial_first | stability_score,2.7544399151421054e-12,1.0912628366097348e-11,True,1.4295543159587528e-09,True,True
-size_group_anova.csv,anova_p,pref_financial_first,2.8081825185432908e-12,1.1041263084272484e-11,True,1.457446727123968e-09,True,True
-country_differences.csv,mannwhitney_p,operational_score | Large | large,5.671295395764367e-12,2.2130844439110574e-11,True,2.9434023104017068e-09,True,True
-correlation_significance.csv,kendall_p,pref_financial_first | stability_score,6.089618751082477e-12,2.3585911431431385e-11,True,3.1605121318118056e-09,True,True
-size_group_anova.csv,anova_p,market_score,9.982860449601392e-12,3.8378552395134245e-11,True,5.1811045733431225e-09,True,True
-size_group_anova.csv,anova_p,operational_score,1.1959362387309184e-11,4.5639037345687253e-11,True,6.206909079013466e-09,True,True
-quintile_q5_vs_q1.csv,ttest_p,net_margin,1.2521005683275888e-11,4.7433590873140036e-11,True,6.4984019496201856e-09,True,True
-quintile_q5_vs_q1.csv,ttest_p,roa,2.499980566894764e-11,9.402100827669439e-11,True,1.2974899142183824e-08,True,True
-correlation_significance.csv,pearson_p,financial_score | stability_score,8.622161223573488e-11,3.219353723046504e-10,True,4.4749016750346404e-08,True,True
-correlation_significance.csv,pearson_p,financial_score | operational_score,1.174456500936491e-10,4.3538780284717056e-10,True,6.095429239860388e-08,True,True
-size_group_anova.csv,anova_p,pref_balanced,1.5147728433462678e-10,5.575653231891582e-10,True,7.86167105696713e-08,True,True
-correlation_significance.csv,kendall_p,financial_score | stability_score,3.5186440002866276e-10,1.2860396029216618e-09,True,1.8261762361487597e-07,True,True
-correlation_significance.csv,spearman_p,financial_score | operational_score,3.5719034679660596e-10,1.296376153758311e-09,True,1.853817899874385e-07,True,True
-correlation_significance.csv,spearman_p,financial_score | stability_score,3.67667455657112e-10,1.325134788097508e-09,True,1.9081940948604112e-07,True,True
-sector_anova.csv,kruskal_p,S_score | Large,4.763880722225824e-10,1.7051407550587606e-09,True,2.472454094835203e-07,True,True
-correlation_significance.csv,kendall_p,financial_score | operational_score,6.25122402432585e-10,2.2221816908391207e-09,True,3.2443852686251164e-07,True,True
-sector_score_interaction.csv,pearson_p,Healthcare | ESG_composite | financial_score,9.36884742478404e-10,3.307776743852324e-09,True,4.862431813462917e-07,True,True
-correlation_significance.csv,pearson_p,pref_balanced | growth_score,1.0646011752263092e-09,3.7082416774661374e-09,True,5.525280099424545e-07,True,True
-factor_contributions.csv,p_value,growth_score,1.064601175226305e-09,3.7082416774661374e-09,True,5.525280099424523e-07,True,True
-correlation_significance.csv,spearman_p,financial_score | value_score,1.0978836442894032e-09,3.793611518840164e-09,True,5.698016113862003e-07,True,True
-correlation_significance.csv,spearman_p,E_score | stability_score,1.103728977543092e-09,3.793611518840164e-09,True,5.728353393448648e-07,True,True
-correlation_significance.csv,pearson_p,pref_esg_first | stability_score,1.2659912275779103e-09,4.322693731006154e-09,True,6.570494471129355e-07,True,True
-correlation_significance.csv,kendall_p,financial_score | value_score,1.2757344043983144e-09,4.327491214919772e-09,True,6.621061558827252e-07,True,True
-correlation_significance.csv,pearson_p,financial_score | value_score,1.4149345315475791e-09,4.768513129046712e-09,True,7.343510218731936e-07,True,True
-sector_anova.csv,welch_anova_p,S_score | Large,1.6772227916900703e-09,5.615991154110623e-09,True,8.704786288871465e-07,True,True
-correlation_significance.csv,kendall_p,market_score | pref_balanced,1.9823943783082675e-09,6.595273604756351e-09,True,1.0288626823419908e-06,True,True
-correlation_significance.csv,spearman_p,pref_esg_first | stability_score,2.262294664753529e-09,7.478540961828546e-09,True,1.1741309310070816e-06,True,True
-correlation_significance.csv,kendall_p,pref_esg_first | stability_score,2.471132464720523e-09,8.117200944240199e-09,True,1.2825177491899515e-06,True,True
-sector_score_interaction.csv,pearson_p,Consumer Cyclical | ESG_composite | financial_score,2.918506277069733e-09,9.526445017604978e-09,True,1.5147047577991913e-06,True,True
-correlation_significance.csv,kendall_p,E_score | stability_score,3.190881267616606e-09,1.0286132781944215e-08,True,1.6560673778930186e-06,True,True
-correlation_significance.csv,spearman_p,market_score | pref_balanced,3.178072278169821e-09,1.0286132781944215e-08,True,1.649419512370137e-06,True,True
-country_differences.csv,ttest_p,market_score | Medium | medium,5.3576647524070945e-09,1.7164370410489394e-08,True,2.780628006499282e-06,True,True
-correlation_significance.csv,pearson_p,market_score | pref_balanced,8.922831184009951e-09,2.8237496246959195e-08,True,4.630949384501164e-06,True,True
-factor_contributions.csv,p_value,market_score,8.922831184010227e-09,2.8237496246959195e-08,True,4.6309493845013075e-06,True,True
-normality_tests.csv,shapiro_p,G_score,1.01904795712926e-08,3.2053690287884e-08,True,5.28885889750086e-06,True,True
-correlation_significance.csv,pearson_p,E_score | stability_score,1.2941310148451141e-08,4.046108413883218e-08,True,6.716539967046142e-06,True,True
-normality_tests.csv,shapiro_p,market_score,1.4752555621555531e-08,4.58477626801636e-08,True,7.656576367587322e-06,True,True
-correlation_significance.csv,kendall_p,risk_adjusted_score | value_score,1.6772693055189694e-08,5.1815641045496734e-08,True,8.705027695643451e-06,True,True
-quintile_q5_vs_q1.csv,ttest_p,roe,1.9485445937285127e-08,5.98399197718993e-08,True,1.011294644145098e-05,True,True
-country_differences.csv,mannwhitney_p,market_score | Medium | medium,2.0761448269150675e-08,6.338348030405412e-08,True,1.0775191651689201e-05,True,True
-correlation_significance.csv,spearman_p,risk_adjusted_score | value_score,3.112999014974563e-08,9.448225080536832e-08,True,1.615646488771798e-05,True,True
-correlation_significance.csv,kendall_p,pref_balanced | growth_score,3.754537863326227e-08,1.1329099715501813e-07,True,1.948605151066312e-05,True,True
-country_differences.csv,ttest_p,S_score | Medium | medium,4.0707793188397736e-08,1.219614631320894e-07,True,2.1127344664778424e-05,True,True
-correlation_significance.csv,pearson_p,risk_adjusted_score | value_score,4.0888814229255406e-08,1.219614631320894e-07,True,2.1221294584983555e-05,True,True
-correlation_significance.csv,spearman_p,pref_balanced | growth_score,4.1484906812986233e-08,1.2303238077679916e-07,True,2.1530666635939856e-05,True,True
-normality_tests.csv,shapiro_p,value_score,4.930146602077912e-08,1.45383300368093e-07,True,2.5587460864784365e-05,True,True
-correlation_significance.csv,pearson_p,risk_adjusted_score | growth_score,5.572498308736131e-08,1.6339698430700859e-07,True,2.8921266222340522e-05,True,True
-correlation_significance.csv,spearman_p,risk_adjusted_score | growth_score,5.7273776671943444e-08,1.6699488816145307e-07,True,2.9725090092738646e-05,True,True
-normality_tests.csv,shapiro_p,ESG_composite,5.8014045123400144e-08,1.682083207767859e-07,True,3.0109289419044675e-05,True,True
-correlation_significance.csv,kendall_p,risk_adjusted_score | growth_score,6.118940989483747e-08,1.7642946519678136e-07,True,3.1757303735420646e-05,True,True
-country_differences.csv,ttest_p,value_score | Medium | medium,6.274037164738213e-08,1.7990194964083606e-07,True,3.2562252884991326e-05,True,True
-normality_tests.csv,shapiro_p,financial_score,7.784689159962e-08,2.2199196011100428e-07,True,4.040253674020278e-05,True,True
-normality_tests.csv,shapiro_p,E_score,8.224101577525289e-08,2.3324091359211067e-07,True,4.268308718735625e-05,True,True
-quintile_q5_vs_q1.csv,ttest_p,market_score,9.380616356358427e-08,2.645945591820665e-07,True,4.868539888950024e-05,True,True
-sector_score_interaction.csv,pearson_p,Industrials | ESG_composite | financial_score,1.1770760917957533e-07,3.3021756304972756e-07,True,6.10902491641996e-05,True,True
-country_differences.csv,mannwhitney_p,S_score | Medium | medium,1.3938685124196308e-07,3.889342784654776e-07,True,7.234177579457884e-05,True,True
-country_differences.csv,mannwhitney_p,value_score | Medium | medium,1.5477028971209688e-07,4.295496275966753e-07,True,8.032578036057828e-05,True,True
-normality_tests.csv,shapiro_p,risk_adjusted_score,1.8801439694016159e-07,5.163564545914585e-07,True,9.757947201194386e-05,True,True
-size_group_anova.csv,anova_p,S_score,1.8803732161423053e-07,5.163564545914585e-07,True,9.759136991778565e-05,True,True
-correlation_significance.csv,kendall_p,ESG_composite | G_score,2.1618697514494226e-07,5.905317900011844e-07,True,0.00011220104010022503,True,True
-correlation_significance.csv,spearman_p,ESG_composite | G_score,2.917773132081868e-07,7.92839924371984e-07,True,0.00015143242555504895,True,True
-correlation_significance.csv,pearson_p,ESG_composite | G_score,3.401015074158397e-07,9.193368872334418e-07,True,0.00017651268234882082,True,True
-esg_financial_regression.csv,p_value,roa | E_score,4.22239481724978e-07,1.1354522850531793e-06,True,0.0002191422910152636,True,True
-correlation_significance.csv,kendall_p,value_score | growth_score,6.685997633549975e-07,1.788676686501256e-06,True,0.0003470032771812437,True,True
-sector_score_interaction.csv,pearson_p,Technology | ESG_composite | financial_score,7.260073756551996e-07,1.932296553666916e-06,True,0.0003767978279650486,True,True
-normality_tests.csv,shapiro_p,S_score,7.886768571552238e-07,2.088384126854904e-06,True,0.0004093232888635612,True,True
-correlation_significance.csv,pearson_p,pref_financial_first | value_score,8.567868431350222e-07,2.25722016034049e-06,True,0.0004446723715870765,True,True
-correlation_significance.csv,spearman_p,pref_financial_first | value_score,8.872292269577755e-07,2.3256160039953814e-06,True,0.0004604719687910855,True,True
-factor_contributions.csv,p_value,value_score,9.319777538224052e-07,2.4184822711691414e-06,True,0.00048369645423382827,True,True
-correlation_significance.csv,pearson_p,pref_balanced | value_score,9.319777538223872e-07,2.4184822711691414e-06,True,0.00048369645423381895,True,True
-correlation_significance.csv,spearman_p,value_score | growth_score,9.502840124388288e-07,2.4537184201778716e-06,True,0.0004931974024557521,True,True
-correlation_significance.csv,kendall_p,pref_financial_first | value_score,9.627504845695283e-07,2.4736014925326e-06,True,0.0004996675014915852,True,True
-sector_score_interaction.csv,pearson_p,Healthcare | ESG_composite | roa,1.380544122832805e-06,3.529568471675989e-06,True,0.0007165023997502258,True,True
-correlation_significance.csv,pearson_p,value_score | growth_score,1.5805179844814808e-06,4.021023695813179e-06,True,0.0008202888339458885,True,True
-correlation_significance.csv,spearman_p,pref_balanced | value_score,1.885638055468815e-06,4.773883662382025e-06,True,0.000978646150788315,True,True
-correlation_significance.csv,kendall_p,pref_balanced | value_score,2.0440460849819074e-06,5.149805427697136e-06,True,0.00106085991810561,True,True
-correlation_significance.csv,kendall_p,G_score | pref_esg_first,2.835103676081613e-06,7.108303419740855e-06,True,0.0014714188078863571,True,True
-correlation_significance.csv,spearman_p,G_score | pref_esg_first,2.918865180233715e-06,7.283129944910088e-06,True,0.0015148910285412982,True,True
-correlation_significance.csv,pearson_p,G_score | pref_esg_first,4.376150698829408e-06,1.0867091926758196e-05,True,0.002271222212692463,True,True
-size_group_anova.csv,anova_p,pref_esg_first,4.541439712754998e-06,1.1223843861523065e-05,True,0.002357007210919844,True,True
-normality_tests.csv,shapiro_p,pref_esg_first,7.1435415520682e-06,1.75710808792578e-05,True,0.0037074980655233958,True,True
-correlation_significance.csv,kendall_p,ESG_composite | stability_score,9.089631197404466e-06,2.2252446186098668e-05,True,0.004717518591452917,True,True
-ordinal_variable_analysis.csv,spearman_p_G_score,esg_risk_rating,1.0426036376742167e-05,2.540428581938584e-05,True,0.005411112879529185,True,True
-sector_score_interaction.csv,pearson_p,Consumer Cyclical | ESG_composite | roa,1.8487833433367155e-05,4.4837315663166136e-05,True,0.009595185551917554,True,True
-correlation_significance.csv,spearman_p,ESG_composite | stability_score,1.989626999166957e-05,4.802867035198375e-05,True,0.010326164125676506,True,True
-ordinal_variable_analysis.csv,kruskal_p_sector,esg_risk_rating,2.0629080053365556e-05,4.956709512822557e-05,True,0.010706492547696725,True,True
-normality_tests.csv,jarque_bera_p,G_score,2.4016049410919253e-05,5.7439307116438214e-05,True,0.012464329644267092,True,True
-sector_anova.csv,kruskal_p,G_score | Medium,2.428494660887681e-05,5.7815996743151674e-05,True,0.012603887290007065,True,True
-correlation_significance.csv,pearson_p,ESG_composite | stability_score,2.439662107726849e-05,5.7816649950239025e-05,True,0.012661846339102346,True,True
-pillar_correlations.csv,spearman_p,E_score | S_score,2.6332790935215026e-05,6.184035518269954e-05,True,0.013666718495376599,True,True
-correlation_significance.csv,spearman_p,E_score | S_score,2.6332790935215026e-05,6.184035518269954e-05,True,0.013666718495376599,True,True
-sector_anova.csv,anova_p,G_score | Medium,2.6921366213785088e-05,6.293778858087594e-05,True,0.013972189064954461,True,True
-ordinal_variable_analysis.csv,spearman_p_ESG_composite,esg_risk_rating,2.714197132642852e-05,6.316898259379552e-05,True,0.014086683118416403,True,True
-correlation_significance.csv,kendall_p,E_score | S_score,3.302528948639859e-05,7.651841626536101e-05,True,0.017140125243440867,True,True
-pillar_correlations.csv,pearson_p,E_score | S_score,4.910025468671794e-05,0.00011275677956817083,True,0.02548303218240661,True,True
-correlation_significance.csv,pearson_p,E_score | S_score,4.910025468671794e-05,0.00011275677956817083,True,0.02548303218240661,True,True
-esg_financial_regression.csv,p_value,roe | ESG_composite,5.173880679078931e-05,0.00011829269041594562,True,0.026852440724419654,True,True
-size_group_anova.csv,anova_p,E_score,5.544383552227871e-05,0.00012620767822834497,True,0.02877535063606265,True,True
-correlation_significance.csv,spearman_p,value_score | stability_score,6.242754982337919e-05,0.00014148427230713449,True,0.0323998983583338,True,True
-correlation_significance.csv,kendall_p,value_score | stability_score,6.786360338248757e-05,0.00015313569632830891,True,0.035221210155511044,True,True
-correlation_significance.csv,pearson_p,value_score | stability_score,8.790754802509954e-05,0.00019750656893950934,True,0.04562401742502666,True,True
-sector_score_interaction.csv,pearson_p,Technology | ESG_composite | roa,0.0001112259049763,0.0002488200201840504,True,0.0577262446826997,False,True
-normality_tests.csv,jarque_bera_p,S_score,0.0001262770623027,0.0002812780915669584,True,0.0655377953351013,False,True
-normality_tests.csv,jarque_bera_p,value_score,0.0001474313051183,0.0003269950741726397,True,0.07651684735639769,False,True
-esg_financial_regression.csv,p_value,roa | S_score,0.0001519908856377,0.00033567348785517573,True,0.0788832696459663,False,True
-multiple_regression.csv,f_pvalue,roe | beta,0.0001874696189296,0.00040709929801030297,True,0.0972967322244624,False,True
-multiple_regression.csv,f_pvalue,roe | market_cap,0.0001874696189296,0.00040709929801030297,True,0.0972967322244624,False,True
-multiple_regression.csv,f_pvalue,roe | ESG_composite,0.0001874696189296,0.00040709929801030297,True,0.0972967322244624,False,True
-multiple_regression.csv,f_pvalue,roe | debt_to_equity,0.0001874696189296,0.00040709929801030297,True,0.0972967322244624,False,True
-sector_score_interaction.csv,pearson_p,Financial Services | ESG_composite | financial_score,0.0001909786533429,0.00041299133785402127,True,0.0991179210849651,False,True
-normality_tests.csv,jarque_bera_p,financial_score,0.0001975528684177,0.0004254354303269141,True,0.10252993870878631,False,True
-sector_score_interaction.csv,pearson_p,Real Estate | ESG_composite | financial_score,0.0002040599359054,0.0004376326724582752,True,0.1059071067349026,False,True
-correlation_significance.csv,kendall_p,market_score | pref_esg_first,0.0002208415167641,0.00047167385679246053,True,0.1146167472005679,False,True
-normality_tests.csv,jarque_bera_p,ESG_composite,0.0002218703155619,0.000471929072855025,True,0.1151506937766261,False,True
-multiple_regression.csv,p_value,roa | debt_to_equity,0.0002250803982833,0.0004768029661593171,True,0.1168167267090327,False,True
-sector_anova.csv,welch_anova_p,G_score | Medium,0.0002369836495058,0.0004999776995671146,True,0.1229945140935102,False,True
-normality_tests.csv,jarque_bera_p,E_score,0.0002427865941956,0.0005101467303138316,True,0.1260062423875164,False,True
-multiple_regression.csv,p_value,roe | ESG_composite,0.0002541849293533,0.000531943461025656,True,0.1319219783343627,False,True
-sector_score_interaction.csv,pearson_p,Basic Materials | ESG_composite | financial_score,0.0002577578711911,0.0005372543580248229,True,0.1337763351481809,False,True
-normality_tests.csv,jarque_bera_p,market_score,0.0003177462280496,0.0006596411694309696,True,0.16491029235774238,False,True
-normality_tests.csv,jarque_bera_p,risk_adjusted_score,0.0003228631009465,0.0006675934238694562,True,0.1675659493912335,False,True
-correlation_significance.csv,spearman_p,market_score | pref_esg_first,0.000352361178946,0.0007256962375911666,True,0.182875451872974,False,True
-sector_score_interaction.csv,pearson_p,Communication Services | ESG_composite | financial_score,0.0004386110427423,0.0008997594117915166,True,0.22763913118325368,False,True
-correlation_significance.csv,kendall_p,market_score | operational_score,0.0004777038879363,0.0009760957395233847,True,0.2479283178389397,False,True
-size_group_anova.csv,anova_p,financial_score,0.0005397270894078,0.0010985033702064636,True,0.2801183594026482,False,True
-correlation_significance.csv,spearman_p,E_score | risk_adjusted_score,0.0005435788710706,0.0011020212268970367,True,0.2821174340856414,False,True
-correlation_significance.csv,kendall_p,E_score | risk_adjusted_score,0.0005459696620161,0.0011025613018924355,True,0.28335825458635594,False,True
-correlation_significance.csv,spearman_p,market_score | operational_score,0.0005695527929352,0.0011457282927649953,True,0.2955978995333688,False,True
-correlation_significance.csv,pearson_p,market_score | operational_score,0.0006658592267589,0.0013342893385632014,True,0.3455809386878691,False,True
-correlation_significance.csv,kendall_p,G_score | pref_balanced,0.0006765003519657,0.0013503987795007626,True,0.3511036826701983,False,True
-correlation_significance.csv,spearman_p,G_score | pref_balanced,0.0007236296037827,0.0014389416259127253,True,0.3755637643632213,False,True
-correlation_significance.csv,pearson_p,E_score | risk_adjusted_score,0.0007321612790678,0.0014503500146419396,True,0.3799917038361882,False,True
-correlation_significance.csv,kendall_p,pref_esg_first | risk_adjusted_score,0.0009064851157885,0.0017888432513088652,True,0.47046577509423154,False,True
-correlation_significance.csv,pearson_p,pref_esg_first | risk_adjusted_score,0.0009530965019746,0.0018737010777455205,True,0.4946570845248174,False,True
-normality_tests.csv,ks_p,market_score,0.0009999999999998,0.0019365671641787172,True,0.5189999999998962,False,True
-normality_tests.csv,ks_p,G_score,0.0009999999999998,0.0019365671641787172,True,0.5189999999998962,False,True
-normality_tests.csv,ks_p,ESG_composite,0.0009999999999998,0.0019365671641787172,True,0.5189999999998962,False,True
-normality_tests.csv,ks_p,S_score,0.0009999999999998,0.0019365671641787172,True,0.5189999999998962,False,True
-correlation_significance.csv,pearson_p,market_score | pref_esg_first,0.0010454072911513,0.002011287769408182,True,0.5425663841075248,False,True
-correlation_significance.csv,spearman_p,pref_esg_first | risk_adjusted_score,0.0010463346777268,0.002011287769408182,True,0.5430476977402091,False,True
-sector_score_interaction.csv,pearson_p,Consumer Defensive | ESG_composite | financial_score,0.0011393931888997,0.0021820851108448128,True,0.5913450650389442,False,True
-normality_tests.csv,jarque_bera_p,pref_esg_first,0.0011580587119624,0.002209678204075315,True,0.6010324715084856,False,True
-correlation_significance.csv,pearson_p,G_score | pref_balanced,0.0012841282567158,0.002441254817712455,True,0.6664625652355002,False,True
-correlation_significance.csv,kendall_p,market_score | stability_score,0.0015487516140101,0.0029335842615738753,True,0.803802087671242,False,True
-correlation_significance.csv,kendall_p,G_score | operational_score,0.0016712609440615,0.0031541251998833397,True,0.8673844299679184,False,True
-correlation_significance.csv,spearman_p,market_score | stability_score,0.0017252717994157,0.0032442611010751756,True,0.8954160638967483,False,True
-correlation_significance.csv,pearson_p,market_score | stability_score,0.0018230208888935,0.0034156961781073164,True,0.9461478413357266,False,True
-correlation_significance.csv,spearman_p,G_score | operational_score,0.0018430894464619,0.0034408756212723963,True,0.9565634227137261,False,True
-normality_tests.csv,ks_p,pref_esg_first,0.0028584916548982,0.0053174092074988015,True,1.0,False,True
-normality_tests.csv,shapiro_p,operational_score,0.0032029445283114,0.005936886464977201,True,1.0,False,True
-normality_tests.csv,ks_p,financial_score,0.0032623727445572,0.006025521190125219,True,1.0,False,True
-normality_tests.csv,ks_p,value_score,0.00386770197009,0.007118217455591171,True,1.0,False,True
-correlation_significance.csv,pearson_p,pref_esg_first | value_score,0.0040092681870993,0.007352686180581403,True,1.0,False,True
-correlation_significance.csv,spearman_p,pref_esg_first | value_score,0.0042240333960263,0.00771927229766778,True,1.0,False,True
-correlation_significance.csv,kendall_p,pref_esg_first | value_score,0.004487204009852,0.00817143467057259,True,1.0,False,True
-size_group_anova.csv,anova_p,ESG_composite,0.0052382714727483,0.009505814315931355,True,1.0,False,True
-normality_tests.csv,shapiro_p,growth_score,0.0058762291446328,0.010626351658761055,True,1.0,False,True
-correlation_significance.csv,pearson_p,G_score | operational_score,0.0059307517535759,0.010687708889256572,True,1.0,False,True
-esg_financial_regression.csv,p_value,revenue_growth | ESG_composite,0.0060602603095041,0.010883304846479681,True,1.0,False,True
-normality_tests.csv,ks_p,E_score,0.0062643346855712,0.011210998971763631,True,1.0,False,True
-correlation_significance.csv,kendall_p,E_score | growth_score,0.0063563264688725,0.01133654102180353,True,1.0,False,True
-correlation_significance.csv,kendall_p,G_score | pref_financial_first,0.0066517174437851,0.01182274436070023,True,1.0,False,True
-correlation_significance.csv,spearman_p,E_score | growth_score,0.0069472307715178,0.012305845632825043,True,1.0,False,True
-sector_score_interaction.csv,pearson_p,Communication Services | ESG_composite | roa,0.0069870254064983,0.012334238727798019,True,1.0,False,True
-normality_tests.csv,ks_p,risk_adjusted_score,0.0074697711718377,0.01314173301079243,True,1.0,False,True
-correlation_significance.csv,pearson_p,risk_adjusted_score | stability_score,0.0075884715309771,0.01330546190735512,True,1.0,False,True
-correlation_significance.csv,spearman_p,G_score | pref_financial_first,0.007728120904989,0.01350469612689997,True,1.0,False,True
-correlation_significance.csv,spearman_p,G_score | financial_score,0.0086253621901936,0.014971782530804275,True,1.0,False,True
-correlation_significance.csv,pearson_p,E_score | growth_score,0.0085966720555509,0.014971782530804275,True,1.0,False,True
-correlation_significance.csv,kendall_p,risk_adjusted_score | stability_score,0.0088636045339664,0.01533403584376187,True,1.0,False,True
-sector_score_interaction.csv,pearson_p,Real Estate | financial_score | market_score,0.0088958358009115,0.015338667045425478,True,1.0,False,True
-correlation_significance.csv,pearson_p,E_score | operational_score,0.0089655482194012,0.015407680549235839,True,1.0,False,True
-correlation_significance.csv,kendall_p,G_score | financial_score,0.0096750955223349,0.016572193320435025,True,1.0,False,True
-correlation_significance.csv,kendall_p,financial_score | market_score,0.0099715547045558,0.017023805564685725,True,1.0,False,True
-correlation_significance.csv,kendall_p,S_score | market_score,0.0102775194117815,0.01748863139250688,True,1.0,False,True
-sector_score_interaction.csv,pearson_p,Energy | ESG_composite | financial_score,0.0105979742889673,0.01797499560775826,True,1.0,False,True
-correlation_significance.csv,spearman_p,E_score | operational_score,0.011357559485145,0.019183828622079725,True,1.0,False,True
-correlation_significance.csv,spearman_p,risk_adjusted_score | stability_score,0.0113846227660897,0.019183828622079725,True,1.0,False,True
-correlation_significance.csv,kendall_p,E_score | operational_score,0.0123384583931616,0.020723818466184048,True,1.0,False,True
-correlation_significance.csv,spearman_p,financial_score | market_score,0.0136901599541324,0.022919977471595857,True,1.0,False,True
-country_differences.csv,ttest_p,E_score | Small | small,0.0145566575997434,0.02429229998156535,True,1.0,False,True
-country_differences.csv,mannwhitney_p,E_score | Small | small,0.0155680016417102,0.025896771961691004,True,1.0,False,True
-ordinal_variable_analysis.csv,spearman_p_pref_balanced,esg_risk_rating,0.0158119687772296,0.026218568036364732,True,1.0,False,True
-correlation_significance.csv,spearman_p,S_score | market_score,0.0162153330636813,0.026801776624364955,True,1.0,False,True
-ordinal_variable_analysis.csv,spearman_p_ESG_composite,board_size,0.0169531908444641,0.027932400153259897,True,1.0,False,True
-correlation_significance.csv,pearson_p,G_score | financial_score,0.0176856071876173,0.028955300095815074,True,1.0,False,True
-esg_financial_regression.csv,p_value,financial_score | G_score,0.0176856071876172,0.028955300095815074,True,1.0,False,True
-heteroscedasticity.csv,f_p,roa,0.0180703029363555,0.0294920981885802,True,1.0,False,True
-heteroscedasticity.csv,bp_p,roa,0.0181341703330389,0.029503556121778022,True,1.0,False,True
-normality_tests.csv,jarque_bera_p,operational_score,0.0183807122603411,0.029811217697240724,True,1.0,False,True
-sector_score_interaction.csv,pearson_p,Industrials | ESG_composite | roa,0.0193077634483513,0.031217225014624064,True,1.0,False,True
-correlation_significance.csv,pearson_p,G_score | pref_financial_first,0.0198183794450302,0.03194328860860458,True,1.0,False,True
-correlation_significance.csv,pearson_p,financial_score | market_score,0.0221891978667218,0.03565385044219385,True,1.0,False,True
-normality_tests.csv,jarque_bera_p,growth_score,0.0228190264654652,0.036552699801161846,True,1.0,False,True
-esg_financial_regression.csv,p_value,roa | G_score,0.0231077342012398,0.036901274001364476,True,1.0,False,True
-correlation_significance.csv,kendall_p,financial_score | risk_adjusted_score,0.0288668406139144,0.04595671864607845,True,1.0,False,True
-correlation_significance.csv,kendall_p,S_score | stability_score,0.0289641163557497,0.04597056999582292,True,1.0,False,True
-correlation_significance.csv,pearson_p,financial_score | risk_adjusted_score,0.0308655379283619,0.04883906763664581,True,1.0,False,True
-correlation_significance.csv,spearman_p,financial_score | risk_adjusted_score,0.0318930573923807,0.050311540384940984,False,1.0,False,True
-friedman_test.csv,p_value,Friedman,0.0390370416895478,0.06139462011174336,False,1.0,False,True
-wilcoxon_pairwise.csv,wilcoxon_p,financial_score | operational_score | small,0.0410940629437982,0.06443449748589505,False,1.0,False,True
-multiple_regression.csv,p_value,financial_score | debt_to_equity,0.042803869599452,0.06671233730365042,False,1.0,False,True
-sector_score_interaction.csv,pearson_p,Basic Materials | ESG_composite | roa,0.0427194253152524,0.06671233730365042,False,1.0,False,True
-ordinal_variable_analysis.csv,spearman_p_G_score,board_size,0.0436694371280522,0.06785759841155417,False,1.0,False,True
-correlation_significance.csv,spearman_p,S_score | stability_score,0.0438976341745331,0.06800857354203785,False,1.0,False,True
-correlation_significance.csv,pearson_p,ESG_composite | value_score,0.0443170501499745,0.0684540149637999,False,1.0,False,True
-correlation_significance.csv,kendall_p,ESG_composite | value_score,0.0489939921221095,0.07545365552336745,False,1.0,False,True
-multiple_regression.csv,p_value,roe | market_cap,0.0492327531316101,0.07559703809262024,False,1.0,False,True
-correlation_significance.csv,pearson_p,S_score | market_score,0.0500621421432139,0.07664381053784076,False,1.0,False,False
-correlation_significance.csv,spearman_p,ESG_composite | value_score,0.0512247917542888,0.07819313800139967,False,1.0,False,False
-correlation_significance.csv,pearson_p,operational_score | stability_score,0.0519164658064027,0.07901655646194428,False,1.0,False,False
-normality_tests.csv,shapiro_p,pref_balanced,0.053207229822874,0.08074430490664213,False,1.0,False,False
-correlation_significance.csv,spearman_p,E_score | market_score,0.061418667135633,0.09293378496616188,False,1.0,False,False
-correlation_significance.csv,kendall_p,E_score | market_score,0.0633495425180935,0.095576780717705,False,1.0,False,False
-correlation_significance.csv,pearson_p,pref_esg_first | growth_score,0.0654172670804146,0.09841032352097155,False,1.0,False,False
-sector_anova.csv,kruskal_p,pref_esg_first | Medium,0.071002118004788,0.10650317700718201,False,1.0,False,False
-sector_anova.csv,kruskal_p,ESG_composite | Medium,0.0725698060464254,0.10854100673802532,False,1.0,False,False
-correlation_significance.csv,kendall_p,ESG_composite | market_score,0.0747453064855786,0.11147360363797498,False,1.0,False,False
-binary_phi_coefficients.csv,p_value,carbon_reduction_target | human_rights_policy,0.075120623949632,0.11171233189071349,False,1.0,False,False
-sector_anova.csv,anova_p,pref_esg_first | Medium,0.0756600772684206,0.11219308600660083,False,1.0,False,False
-correlation_significance.csv,spearman_p,G_score | market_score,0.0763978168231626,0.11296429325134298,False,1.0,False,False
-correlation_significance.csv,kendall_p,G_score | market_score,0.086259579916134,0.1271838692513453,False,1.0,False,False
-sector_anova.csv,welch_anova_p,pref_esg_first | Medium,0.0881924959840069,0.12966545443540958,False,1.0,False,False
-sector_anova.csv,anova_p,ESG_composite | Medium,0.0916846254985318,0.13441898484106782,False,1.0,False,False
-correlation_significance.csv,spearman_p,ESG_composite | market_score,0.0981961127847799,0.14355995080366413,False,1.0,False,False
-correlation_significance.csv,pearson_p,S_score | stability_score,0.0986169901415912,0.1437702749536119,False,1.0,False,False
-correlation_significance.csv,spearman_p,pref_esg_first | growth_score,0.1028238322320186,0.14948338635411107,False,1.0,False,False
-correlation_significance.csv,pearson_p,G_score | stability_score,0.1040182867543006,0.15079746040637435,False,1.0,False,False
-correlation_significance.csv,kendall_p,pref_esg_first | growth_score,0.1057510344167596,0.15288241465821237,False,1.0,False,False
-sector_score_interaction.csv,pearson_p,Utilities | ESG_composite | financial_score,0.1089917284676001,0.15712974187412346,False,1.0,False,False
-correlation_significance.csv,pearson_p,E_score | market_score,0.1111165110420789,0.15974922224609125,False,1.0,False,False
-sector_anova.csv,welch_anova_p,ESG_composite | Medium,0.1177208656440176,0.1687766001912849,False,1.0,False,False
-correlation_significance.csv,spearman_p,operational_score | stability_score,0.1189445702156814,0.1700612450191147,False,1.0,False,False
-sector_score_interaction.csv,pearson_p,Financial Services | ESG_composite | roa,0.1254310693068354,0.17884265101716368,False,1.0,False,False
-sector_anova.csv,kruskal_p,pref_balanced | Small,0.1269163089916775,0.18046455990871405,False,1.0,False,False
-correlation_significance.csv,kendall_p,operational_score | stability_score,0.130228528245702,0.18466832284021678,False,1.0,False,False
-sector_score_interaction.csv,pearson_p,Utilities | ESG_composite | roa,0.1331560435435561,0.18830514059701803,False,1.0,False,False
-normality_tests.csv,jarque_bera_p,pref_balanced,0.1351955762698744,0.19066984805452397,False,1.0,False,False
-sector_score_interaction.csv,pearson_p,Energy | ESG_composite | roa,0.1376685230992755,0.19363133736727364,False,1.0,False,False
-correlation_significance.csv,spearman_p,G_score | stability_score,0.1402952441247918,0.19679251811018092,False,1.0,False,False
-country_differences.csv,mannwhitney_p,pref_financial_first | Small | negligible,0.1410331373965972,0.19729433506424246,False,1.0,False,False
-sector_score_interaction.csv,pearson_p,Consumer Defensive | financial_score | market_score,0.1420951414163234,0.19824564084696733,False,1.0,False,False
-multiple_regression.csv,p_value,financial_score | market_cap,0.1428584212293517,0.19877619468641697,False,1.0,False,False
-correlation_significance.csv,pearson_p,market_score | growth_score,0.1503216858212755,0.20860148380011226,False,1.0,False,False
-wilcoxon_pairwise.csv,wilcoxon_p,ESG_composite | operational_score | negligible,0.1509862657842178,0.20896499184535744,False,1.0,False,False
-sector_anova.csv,anova_p,pref_balanced | Small,0.1613441816695735,0.22270646352794854,False,1.0,False,False
-multiple_regression.csv,p_value,roe | debt_to_equity,0.1633205778163339,0.22424174573195055,False,1.0,False,False
-country_differences.csv,ttest_p,pref_financial_first | Small | negligible,0.1630614697724872,0.22424174573195055,False,1.0,False,False
-correlation_significance.csv,kendall_p,G_score | stability_score,0.1643728998072147,0.22509112137188506,False,1.0,False,False
-wilcoxon_pairwise.csv,wilcoxon_p,market_score | operational_score | negligible,0.1677248583870192,0.2290768460601657,False,1.0,False,False
-correlation_significance.csv,pearson_p,operational_score | growth_score,0.1779812850633859,0.24244694736980912,False,1.0,False,False
-sector_anova.csv,welch_anova_p,pref_balanced | Small,0.1806903852922695,0.24549295802797869,False,1.0,False,False
-correlation_significance.csv,kendall_p,market_score | growth_score,0.1859469588530323,0.2519751217877905,False,1.0,False,False
-correlation_significance.csv,spearman_p,operational_score | value_score,0.1933465055382994,0.2613198863916078,False,1.0,False,False
-correlation_significance.csv,pearson_p,ESG_composite | market_score,0.1992650784194237,0.26861967714202833,False,1.0,False,False
-correlation_significance.csv,spearman_p,G_score | growth_score,0.2027502381544592,0.27260977617141013,False,1.0,False,False
-correlation_significance.csv,pearson_p,G_score | growth_score,0.2062771470372306,0.2766352437010922,False,1.0,False,False
-correlation_significance.csv,spearman_p,market_score | growth_score,0.2091338971745726,0.2797435377154721,False,1.0,False,False
-correlation_significance.csv,spearman_p,market_score | value_score,0.213256800314552,0.28379558811090383,False,1.0,False,False
-correlation_significance.csv,kendall_p,G_score | growth_score,0.2128910612946288,0.28379558811090383,False,1.0,False,False
-wilcoxon_pairwise.csv,wilcoxon_p,ESG_composite | financial_score | negligible,0.2171527537166582,0.28824112321980977,False,1.0,False,False
-correlation_significance.csv,kendall_p,operational_score | value_score,0.2186947643445504,0.2895474048337287,False,1.0,False,False
-correlation_significance.csv,pearson_p,G_score | market_score,0.2264699881624632,0.2990786866572987,False,1.0,False,False
-correlation_significance.csv,spearman_p,S_score | value_score,0.2316413571653766,0.3051316354538844,False,1.0,False,False
-correlation_significance.csv,kendall_p,market_score | value_score,0.2352513991434793,0.3090029323873023,False,1.0,False,False
-correlation_significance.csv,kendall_p,S_score | value_score,0.2357710235556295,0.3090029323873023,False,1.0,False,False
-correlation_significance.csv,pearson_p,operational_score | value_score,0.2385179423706487,0.31181564758278757,False,1.0,False,False
-normality_tests.csv,jarque_bera_p,pref_financial_first,0.2458123747875433,0.32054427767521354,False,1.0,False,False
-sector_score_interaction.csv,pearson_p,Technology | financial_score | market_score,0.2491365366917155,0.32406481840350965,False,1.0,False,False
-country_differences.csv,ttest_p,growth_score | Small | negligible,0.2508856156027171,0.32552408624452545,False,1.0,False,False
-normality_tests.csv,shapiro_p,pref_financial_first,0.2527446448802948,0.3271183807802319,False,1.0,False,False
-correlation_significance.csv,pearson_p,market_score | value_score,0.2549109615729753,0.3291014653143637,False,1.0,False,False
-heteroscedasticity.csv,bp_p,financial_score,0.2631023091111733,0.33883399113821083,False,1.0,False,False
-heteroscedasticity.csv,f_p,financial_score,0.2647317554827895,0.340088567068237,False,1.0,False,False
-heteroscedasticity.csv,bp_p,roe,0.2695644347115891,0.3437443282931566,False,1.0,False,False
-country_differences.csv,mannwhitney_p,stability_score | Small | negligible,0.2694299972336815,0.3437443282931566,False,1.0,False,False
-country_differences.csv,mannwhitney_p,growth_score | Small | negligible,0.2694299972336815,0.3437443282931566,False,1.0,False,False
-heteroscedasticity.csv,f_p,roe,0.2712135409962196,0.3441560581345672,False,1.0,False,False
-ordinal_variable_analysis.csv,spearman_p_pref_balanced,board_size,0.2706172490041257,0.3441560581345672,False,1.0,False,False
-sector_anova.csv,kruskal_p,pref_financial_first | Small,0.2741508709603778,0.3470348829961856,False,1.0,False,False
-correlation_significance.csv,spearman_p,operational_score | growth_score,0.2750536021938186,0.34733046116445704,False,1.0,False,False
-normality_tests.csv,jarque_bera_p,stability_score,0.2792548306488733,0.35177975025913893,False,1.0,False,False
-correlation_significance.csv,kendall_p,operational_score | growth_score,0.2813391974498579,0.3535473207662863,False,1.0,False,False
-ordinal_variable_analysis.csv,spearman_p_financial_score,esg_risk_rating,0.2869770410446023,0.3597610731935956,False,1.0,False,False
-correlation_significance.csv,pearson_p,G_score | value_score,0.2891775399126565,0.3616461282281174,False,1.0,False,False
-country_differences.csv,ttest_p,stability_score | Small | negligible,0.2912495534968494,0.36336182275207896,False,1.0,False,False
-correlation_significance.csv,pearson_p,S_score | value_score,0.2925968723741327,0.3641673303649277,False,1.0,False,False
-correlation_significance.csv,kendall_p,financial_score | growth_score,0.296770197388925,0.3684778288154356,False,1.0,False,False
-multiple_regression.csv,p_value,financial_score | beta,0.2978135991019876,0.3688908303912448,False,1.0,False,False
-quintile_q5_vs_q1.csv,ttest_p,dividend_yield,0.2987755878086389,0.36920126207781806,False,1.0,False,False
-sector_anova.csv,anova_p,pref_financial_first | Small,0.313654579833417,0.38666680981839296,False,1.0,False,False
-quintile_q5_vs_q1.csv,ttest_p,current_ratio,0.3189785853300294,0.392298307550439,False,1.0,False,False
-sector_anova.csv,welch_anova_p,pref_financial_first | Small,0.3233466649508157,0.3967303052233413,False,1.0,False,False
-correlation_significance.csv,pearson_p,operational_score | risk_adjusted_score,0.3362714501512097,0.4116152892181081,False,1.0,False,False
-country_differences.csv,mannwhitney_p,ESG_composite | Small | negligible,0.3380746955604354,0.41284886351968464,False,1.0,False,False
-sector_score_interaction.csv,pearson_p,Consumer Cyclical | financial_score | market_score,0.3410603381758482,0.41551717256635023,False,1.0,False,False
-normality_tests.csv,ks_p,operational_score,0.3538520460622587,0.43009183116232375,False,1.0,False,False
-country_differences.csv,ttest_p,ESG_composite | Small | negligible,0.3561775013441569,0.4319068299009753,False,1.0,False,False
-correlation_significance.csv,spearman_p,G_score | value_score,0.3578048557897728,0.4326924391611064,False,1.0,False,False
-correlation_significance.csv,spearman_p,financial_score | growth_score,0.3593264764517088,0.4326924391611064,False,1.0,False,False
-country_differences.csv,mannwhitney_p,G_score | Small | negligible,0.3587450423049388,0.4326924391611064,False,1.0,False,False
-sector_score_interaction.csv,pearson_p,Real Estate | ESG_composite | roa,0.3637073324031179,0.4369539479565236,False,1.0,False,False
-correlation_significance.csv,spearman_p,E_score | G_score,0.3770710070246652,0.4509213194603715,False,1.0,False,False
-pillar_correlations.csv,spearman_p,E_score | G_score,0.3770710070246652,0.4509213194603715,False,1.0,False,False
-multiple_regression.csv,p_value,roa | market_cap,0.3809510392016022,0.45451399849570473,False,1.0,False,False
-correlation_significance.csv,kendall_p,E_score | G_score,0.3853881922716188,0.4587533756627756,False,1.0,False,False
-sector_score_interaction.csv,pearson_p,Basic Materials | financial_score | market_score,0.3866062688497476,0.4591502369176636,False,1.0,False,False
-multiple_regression.csv,p_value,roe | beta,0.3880471743955254,0.45980676157683564,False,1.0,False,False
-sector_score_interaction.csv,pearson_p,Industrials | financial_score | market_score,0.3889309601777088,0.45980676157683564,False,1.0,False,False
-correlation_significance.csv,kendall_p,G_score | value_score,0.3944723662009295,0.4647067432183557,False,1.0,False,False
-correlation_significance.csv,pearson_p,financial_score | growth_score,0.3948664234283138,0.4647067432183557,False,1.0,False,False
-sector_anova.csv,anova_p,operational_score | Small,0.3959339800073842,0.4649089041263177,False,1.0,False,False
-wilcoxon_pairwise.csv,wilcoxon_p,financial_score | market_score | negligible,0.3974887518018449,0.46568095301389956,False,1.0,False,False
-correlation_significance.csv,spearman_p,operational_score | risk_adjusted_score,0.406184372200696,0.47479659723459733,False,1.0,False,False
-sector_score_interaction.csv,pearson_p,Energy | financial_score | market_score,0.4087921661870844,0.4767710882047119,False,1.0,False,False
-correlation_significance.csv,kendall_p,S_score | G_score,0.4199526107323831,0.4886892488118987,False,1.0,False,False
-normality_tests.csv,ks_p,growth_score,0.4249545970617926,0.49340365967577265,False,1.0,False,False
-correlation_significance.csv,kendall_p,ESG_composite | risk_adjusted_score,0.4401572660034439,0.5096676251414697,False,1.0,False,False
-correlation_significance.csv,kendall_p,operational_score | risk_adjusted_score,0.4409263269528322,0.5096676251414697,False,1.0,False,False
-multiple_regression.csv,p_value,roa | beta,0.4451454509940181,0.5134010868131008,False,1.0,False,False
-normality_tests.csv,ks_p,pref_balanced,0.454162073874293,0.5226388388930334,False,1.0,False,False
-correlation_significance.csv,pearson_p,E_score | G_score,0.4579935711440292,0.524721111310709,False,1.0,False,False
-pillar_correlations.csv,pearson_p,E_score | G_score,0.4579935711440292,0.524721111310709,False,1.0,False,False
-sector_anova.csv,welch_anova_p,operational_score | Small,0.4680998621222606,0.535118564849016,False,1.0,False,False
-correlation_significance.csv,spearman_p,ESG_composite | risk_adjusted_score,0.4842013406712859,0.5512788161287793,False,1.0,False,False
-correlation_significance.csv,pearson_p,growth_score | stability_score,0.4843605783328003,0.5512788161287793,False,1.0,False,False
-normality_tests.csv,shapiro_p,stability_score,0.4876222312450409,0.5537766696196416,False,1.0,False,False
-country_differences.csv,mannwhitney_p,pref_balanced | Small | negligible,0.4951847765488227,0.5611373341241026,False,1.0,False,False
-sector_score_interaction.csv,pearson_p,Financial Services | financial_score | market_score,0.501151314923548,0.5666612907305478,False,1.0,False,False
-correlation_significance.csv,spearman_p,S_score | G_score,0.5049680891256689,0.5684998660655579,False,1.0,False,False
-pillar_correlations.csv,spearman_p,S_score | G_score,0.5049680891256689,0.5684998660655579,False,1.0,False,False
-sector_anova.csv,kruskal_p,financial_score | Small,0.5119782409020297,0.5739021750068108,False,1.0,False,False
-correlation_significance.csv,pearson_p,ESG_composite | risk_adjusted_score,0.5114372783267652,0.5739021750068108,False,1.0,False,False
-country_differences.csv,ttest_p,pref_balanced | Small | negligible,0.5229481625182044,0.5849355524718709,False,1.0,False,False
-sector_anova.csv,anova_p,financial_score | Small,0.5253203490807536,0.5863252928449701,False,1.0,False,False
-sector_anova.csv,kruskal_p,operational_score | Small,0.527857147755143,0.5878924027573375,False,1.0,False,False
-sector_score_interaction.csv,pearson_p,Utilities | financial_score | market_score,0.564401807907851,0.6272474053622584,False,1.0,False,False
-sector_anova.csv,welch_anova_p,financial_score | Small,0.5757055190367467,0.6384426589317768,False,1.0,False,False
-country_differences.csv,mannwhitney_p,financial_score | Small | negligible,0.5783423432655478,0.6399993094985487,False,1.0,False,False
-correlation_significance.csv,spearman_p,ESG_composite | growth_score,0.5847944438728758,0.6457623752553671,False,1.0,False,False
-quintile_q5_vs_q1.csv,ttest_p,revenue_growth,0.5981454830296065,0.6591029844848529,False,1.0,False,False
-correlation_significance.csv,kendall_p,ESG_composite | growth_score,0.6112354083998421,0.6720999511854197,False,1.0,False,False
-ordinal_variable_analysis.csv,spearman_p_financial_score,board_size,0.6132687381391577,0.6729100953366234,False,1.0,False,False
-correlation_significance.csv,pearson_p,ESG_composite | growth_score,0.6759265434063924,0.7385386863745634,False,1.0,False,False
-correlation_significance.csv,pearson_p,S_score | growth_score,0.6756872273673366,0.7385386863745634,False,1.0,False,False
-country_differences.csv,ttest_p,financial_score | Small | negligible,0.6786933322084452,0.7400038643197123,False,1.0,False,False
-esg_financial_regression.csv,p_value,current_ratio | ESG_composite,0.683728190581059,0.7439306727705862,False,1.0,False,False
-wilcoxon_pairwise.csv,wilcoxon_p,ESG_composite | market_score | negligible,0.7002316355108369,0.7602933448328961,False,1.0,False,False
-correlation_significance.csv,spearman_p,growth_score | stability_score,0.7050558093952086,0.7639331212444954,False,1.0,False,False
-correlation_significance.csv,kendall_p,S_score | risk_adjusted_score,0.708484466815289,0.7660488297440312,False,1.0,False,False
-correlation_significance.csv,spearman_p,G_score | risk_adjusted_score,0.7169956700804294,0.773639818652272,False,1.0,False,False
-correlation_significance.csv,kendall_p,G_score | risk_adjusted_score,0.7358520797374809,0.7923386501737606,False,1.0,False,False
-sector_score_interaction.csv,pearson_p,Healthcare | financial_score | market_score,0.7508749790245661,0.8068408159704965,False,1.0,False,False
-correlation_significance.csv,kendall_p,growth_score | stability_score,0.7635569424711094,0.8187728370712929,False,1.0,False,False
-size_group_anova.csv,anova_p,G_score,0.7678212723272697,0.8216479182223773,False,1.0,False,False
-correlation_significance.csv,spearman_p,S_score | risk_adjusted_score,0.7791365405277406,0.8303323707061548,False,1.0,False,False
-normality_tests.csv,ks_p,pref_financial_first,0.7788671988036773,0.8303323707061548,False,1.0,False,False
-sector_score_interaction.csv,pearson_p,Communication Services | financial_score | market_score,0.8134002506244311,0.8650711681845896,False,1.0,False,False
-correlation_significance.csv,pearson_p,G_score | risk_adjusted_score,0.8523979704424092,0.9046923244572809,False,1.0,False,False
-pillar_correlations.csv,pearson_p,S_score | G_score,0.8616343019932244,0.9107702703349969,False,1.0,False,False
-correlation_significance.csv,pearson_p,S_score | G_score,0.8616343019932244,0.9107702703349969,False,1.0,False,False
-correlation_significance.csv,spearman_p,S_score | growth_score,0.9230565428425236,0.9725108689914271,False,1.0,False,False
-country_differences.csv,ttest_p,pref_esg_first | Small | negligible,0.9237916347066928,0.9725108689914271,False,1.0,False,False
-correlation_significance.csv,kendall_p,S_score | growth_score,0.9298053016043222,0.9768602257745814,False,1.0,False,False
-correlation_significance.csv,pearson_p,S_score | risk_adjusted_score,0.9328469776365846,0.9780759220068432,False,1.0,False,False
-sector_anova.csv,welch_anova_p,growth_score | Small,0.937681690142421,0.980783128117927,False,1.0,False,False
-sector_anova.csv,anova_p,growth_score | Small,0.9392085061167816,0.980783128117927,False,1.0,False,False
-sector_anova.csv,kruskal_p,growth_score | Small,0.9470149633466792,0.9869493292709368,False,1.0,False,False
-sector_anova.csv,kruskal_p,market_score | Small,0.9598218877062752,0.9982917028448033,False,1.0,False,False
-sector_anova.csv,welch_anova_p,E_score | Small,0.9640871680970532,0.9987250304238934,False,1.0,False,False
-sector_anova.csv,anova_p,market_score | Small,0.9624031377867522,0.9987250304238934,False,1.0,False,False
-country_differences.csv,mannwhitney_p,pref_esg_first | Small | negligible,0.9749748631220077,0.9997345796249112,False,1.0,False,False
-sector_anova.csv,anova_p,E_score | Small,0.97624425574557,0.9997345796249112,False,1.0,False,False
-country_differences.csv,mannwhitney_p,risk_adjusted_score | Small | negligible,0.9826732873162266,0.9997345796249112,False,1.0,False,False
-country_differences.csv,ttest_p,G_score | Small | negligible,0.9842877756507832,0.9997345796249112,False,1.0,False,False
-sector_anova.csv,kruskal_p,stability_score | Small,0.9899076435812488,0.9997345796249112,False,1.0,False,False
-sector_anova.csv,kruskal_p,value_score | Small,0.9994806060804464,0.9997345796249112,False,1.0,False,False
-sector_anova.csv,kruskal_p,risk_adjusted_score | Small,0.9876039253380337,0.9997345796249112,False,1.0,False,False
-sector_anova.csv,anova_p,value_score | Small,0.9993912140717388,0.9997345796249112,False,1.0,False,False
-sector_anova.csv,welch_anova_p,stability_score | Small,0.9926675034549788,0.9997345796249112,False,1.0,False,False
-sector_anova.csv,welch_anova_p,value_score | Small,0.9986511360746584,0.9997345796249112,False,1.0,False,False
-sector_anova.csv,welch_anova_p,risk_adjusted_score | Small,0.9865673881328552,0.9997345796249112,False,1.0,False,False
-sector_anova.csv,welch_anova_p,market_score | Small,0.9715661630955074,0.9997345796249112,False,1.0,False,False
-sector_anova.csv,anova_p,risk_adjusted_score | Small,0.9872235612979874,0.9997345796249112,False,1.0,False,False
-normality_tests.csv,ks_p,stability_score,0.983009487507006,0.9997345796249112,False,1.0,False,False
-sector_score_interaction.csv,pearson_p,Consumer Defensive | ESG_composite | roa,0.9914123177654228,0.9997345796249112,False,1.0,False,False
-sector_anova.csv,anova_p,stability_score | Small,0.9918010987756628,0.9997345796249112,False,1.0,False,False
-sector_anova.csv,kruskal_p,E_score | Small,0.9767025913264356,0.9997345796249112,False,1.0,False,False
-country_differences.csv,ttest_p,risk_adjusted_score | Small | negligible,0.9997345796249112,0.9997345796249112,False,1.0,False,False
+correlation_significance.csv,spearman_p,ESG_composite | pref_esg_first,4.248082898753578e-160,2.2387396876431356e-157,True,2.238739687643136e-157,True,True
+correlation_significance.csv,pearson_p,pref_balanced | pref_financial_first,6.197587108203953e-154,1.6330642030117414e-151,True,3.2661284060234836e-151,True,True
+correlation_significance.csv,spearman_p,pref_balanced | pref_financial_first,7.564681132966867e-145,9.966467392683846e-143,True,3.9865869570735386e-142,True,True
+profile_rank_correlation.csv,spearman_p,pref_balanced | pref_financial_first,7.564681132966867e-145,9.966467392683846e-143,True,3.9865869570735386e-142,True,True
+correlation_significance.csv,pearson_p,ESG_composite | pref_esg_first,4.587667944453124e-136,4.835402013453593e-134,True,2.417701006726796e-133,True,True
+correlation_significance.csv,pearson_p,pref_balanced | pref_esg_first,6.628650612117362e-103,5.822164787643083e-101,True,3.4932988725858497e-100,True,True
+correlation_significance.csv,spearman_p,pref_balanced | pref_esg_first,1.6270575814488022e-100,1.0718241817793984e-98,True,8.574593454235187e-98,True,True
+profile_rank_correlation.csv,spearman_p,pref_esg_first | pref_balanced,1.6270575814488022e-100,1.0718241817793984e-98,True,8.574593454235187e-98,True,True
+correlation_significance.csv,kendall_p,ESG_composite | pref_esg_first,3.3894505456144238e-93,1.9847115972653347e-91,True,1.7862404375388013e-90,True,True
+correlation_significance.csv,kendall_p,pref_balanced | pref_financial_first,6.587976415036107e-91,3.156239609749117e-89,True,3.4718635707240285e-88,True,True
+profile_rank_correlation.csv,kendall_p,pref_balanced | pref_financial_first,6.587976415036107e-91,3.156239609749117e-89,True,3.4718635707240285e-88,True,True
+ordinal_variable_analysis.csv,spearman_p_G_score,esg_risk_rating,2.952685883868185e-75,1.2967212173321113e-73,True,1.5560654607985334e-72,True,True
+correlation_significance.csv,kendall_p,pref_balanced | pref_esg_first,1.3869875185848158e-71,5.221017302101414e-70,True,7.30942422294198e-69,True,True
+profile_rank_correlation.csv,kendall_p,pref_esg_first | pref_balanced,1.3869875185848158e-71,5.221017302101414e-70,True,7.30942422294198e-69,True,True
+correlation_significance.csv,spearman_p,ESG_composite | E_score,1.6504523250417036e-68,5.798589168646519e-67,True,8.697883752969778e-66,True,True
+correlation_significance.csv,pearson_p,ESG_composite | E_score,1.6499512166414938e-66,5.43452681981292e-65,True,8.695242911700672e-64,True,True
+correlation_significance.csv,pearson_p,financial_score | pref_financial_first,1.1664446368537542e-60,3.615978374246638e-59,True,6.147163236219284e-58,True,True
+correlation_significance.csv,spearman_p,E_score | pref_esg_first,3.190533103315488e-59,9.341171919151456e-58,True,1.6814109454472621e-56,True,True
+correlation_significance.csv,pearson_p,E_score | pref_esg_first,3.699613055755012e-59,1.026155831780469e-57,True,1.9496960803828913e-56,True,True
+correlation_significance.csv,spearman_p,financial_score | pref_financial_first,1.8213612158021075e-58,4.799286803638554e-57,True,9.598573607277107e-56,True,True
+correlation_significance.csv,pearson_p,financial_score | pref_balanced,9.206943878164696e-57,2.205481556269452e-55,True,4.852059423792795e-54,True,True
+factor_contributions.csv,p_value,financial_score,9.206943878164369e-57,2.205481556269452e-55,True,4.8520594237926225e-54,True,True
+correlation_significance.csv,spearman_p,financial_score | pref_balanced,3.789469570954721e-55,8.682828103883209e-54,True,1.997050463893138e-52,True,True
+correlation_significance.csv,spearman_p,ESG_composite | pref_balanced,4.4790410980230006e-55,9.835227744408839e-54,True,2.3604546586581214e-52,True,True
+correlation_significance.csv,pearson_p,pref_esg_first | pref_financial_first,9.368570507646887e-54,1.974894663011964e-52,True,4.937236657529909e-51,True,True
+correlation_significance.csv,kendall_p,ESG_composite | E_score,2.6473585759860547e-53,5.365992190556349e-52,True,1.395157969544651e-50,True,True
+correlation_significance.csv,spearman_p,pref_esg_first | pref_financial_first,1.515526633251765e-51,2.852437627584572e-50,True,7.986825357236802e-49,True,True
+profile_rank_correlation.csv,spearman_p,pref_esg_first | pref_financial_first,1.515526633251765e-51,2.852437627584572e-50,True,7.986825357236802e-49,True,True
+factor_contributions.csv,p_value,ESG_composite,2.1390891853321774e-50,3.75766666890188e-49,True,1.1273000006700576e-47,True,True
+correlation_significance.csv,pearson_p,ESG_composite | pref_balanced,2.1390891853331384e-50,3.75766666890188e-49,True,1.127300000670564e-47,True,True
+ordinal_variable_analysis.csv,kruskal_p_sector,board_size,1.6925574547542418e-49,2.877347673082211e-48,True,8.919777786554855e-47,True,True
+correlation_significance.csv,kendall_p,financial_score | pref_financial_first,8.346735392445386e-48,1.3746029849433495e-46,True,4.398729551818718e-45,True,True
+correlation_significance.csv,kendall_p,E_score | pref_esg_first,2.7112401077609917e-47,4.329768293303159e-46,True,1.4288235367900425e-44,True,True
+correlation_significance.csv,spearman_p,S_score | pref_esg_first,1.5257277626323856e-46,2.3648780320801977e-45,True,8.040585309072672e-44,True,True
+correlation_significance.csv,kendall_p,financial_score | pref_balanced,2.3124224654315257e-45,3.481847540806898e-44,True,1.2186466392824141e-42,True,True
+correlation_significance.csv,kendall_p,ESG_composite | pref_balanced,5.3880080020576296e-45,7.887445047456585e-44,True,2.839480217084371e-42,True,True
+profile_rank_correlation.csv,kendall_p,pref_esg_first | pref_financial_first,5.78810405638423e-44,8.02718641503813e-43,True,3.0503308377144895e-41,True,True
+correlation_significance.csv,kendall_p,pref_esg_first | pref_financial_first,5.78810405638423e-44,8.02718641503813e-43,True,3.0503308377144895e-41,True,True
+correlation_significance.csv,pearson_p,S_score | pref_esg_first,8.045565073633593e-44,1.087182767642283e-42,True,4.2400127938049037e-41,True,True
+correlation_significance.csv,kendall_p,S_score | pref_esg_first,2.643800001218027e-40,3.483206501604751e-39,True,1.3932826006419002e-37,True,True
+correlation_significance.csv,pearson_p,ESG_composite | S_score,3.1515023588548135e-39,4.050833519796309e-38,True,1.6608417431164868e-36,True,True
+correlation_significance.csv,pearson_p,financial_score | pref_esg_first,3.919566876185682e-39,4.918123199404416e-38,True,2.0656117437498543e-36,True,True
+correlation_significance.csv,spearman_p,ESG_composite | S_score,6.915027437785182e-39,8.474928976076258e-38,True,3.6442194597127906e-36,True,True
+correlation_significance.csv,spearman_p,financial_score | pref_esg_first,1.2634598619005514e-38,1.5132803345945241e-37,True,6.658433472215906e-36,True,True
+correlation_significance.csv,spearman_p,S_score | pref_balanced,1.967646420180436e-34,2.3043325854113105e-33,True,1.0369496634350897e-31,True,True
+correlation_significance.csv,kendall_p,ESG_composite | S_score,3.7168530788764445e-34,4.258220809930188e-33,True,1.9587815725678863e-31,True,True
+correlation_significance.csv,kendall_p,financial_score | pref_esg_first,5.491916766815488e-34,6.157957736408004e-33,True,2.894240136111762e-31,True,True
+correlation_significance.csv,pearson_p,S_score | pref_balanced,1.1246965550743415e-32,1.2348230927587043e-31,True,5.92715084524178e-30,True,True
+correlation_significance.csv,spearman_p,E_score | pref_balanced,4.938950944720317e-32,5.311892138505322e-31,True,2.6028271478676073e-29,True,True
+correlation_significance.csv,pearson_p,E_score | pref_balanced,7.064799328910904e-32,7.446298492672093e-31,True,3.7231492463360466e-29,True,True
+correlation_significance.csv,pearson_p,operational_score | pref_esg_first,1.7046161473025076e-31,1.7614366855459244e-30,True,8.983327096284215e-29,True,True
+quintile_q5_vs_q1.csv,ttest_p,ESG_composite,1.0967138063309704e-30,1.1114772614161949e-29,True,5.779681759364214e-28,True,True
+quintile_q5_vs_q1.csv,ttest_p,financial_score,1.2439179344060802e-30,1.2368768894943477e-29,True,6.555447514320043e-28,True,True
+correlation_significance.csv,spearman_p,operational_score | pref_esg_first,1.878170924040153e-30,1.8329556980910383e-29,True,9.897960769691606e-28,True,True
+correlation_significance.csv,kendall_p,S_score | pref_balanced,5.4777424901833364e-30,5.248673258775669e-29,True,2.8867702923266185e-27,True,True
+correlation_significance.csv,kendall_p,E_score | pref_balanced,1.5966380460948943e-28,1.5025504469500166e-27,True,8.414282502920093e-26,True,True
+correlation_significance.csv,spearman_p,S_score | operational_score,3.4512045326973778e-28,3.1908505065465232e-27,True,1.8187847887315181e-25,True,True
+multiple_regression.csv,f_pvalue,financial_score | debt_to_equity,1.7338422918293588e-27,1.4979260455640526e-26,True,9.13734887794072e-25,True,True
+multiple_regression.csv,f_pvalue,financial_score | market_cap,1.7338422918293588e-27,1.4979260455640526e-26,True,9.13734887794072e-25,True,True
+multiple_regression.csv,f_pvalue,financial_score | beta,1.7338422918293588e-27,1.4979260455640526e-26,True,9.13734887794072e-25,True,True
+multiple_regression.csv,f_pvalue,financial_score | ESG_composite,1.7338422918293588e-27,1.4979260455640526e-26,True,9.13734887794072e-25,True,True
+correlation_significance.csv,pearson_p,S_score | operational_score,2.7265791664604304e-27,2.3175922914913658e-26,True,1.4369072207246468e-24,True,True
+correlation_significance.csv,kendall_p,operational_score | pref_esg_first,3.648383614155579e-27,3.051901848666651e-26,True,1.92269816465999e-24,True,True
+size_group_anova.csv,anova_p,market_score,1.924307543231828e-26,1.5845469926299585e-25,True,1.0141100752831734e-23,True,True
+correlation_significance.csv,spearman_p,ESG_composite | pref_financial_first,5.267350707969812e-26,4.270605881692447e-25,True,2.775893823100091e-23,True,True
+correlation_significance.csv,spearman_p,ESG_composite | financial_score,1.1076093368323835e-25,8.844092735010093e-25,True,5.837101205106661e-23,True,True
+binary_phi_coefficients.csv,p_value,human_rights_policy | carbon_reduction_target,1.7674409091918712e-25,1.3902109837971882e-24,True,9.314413591441162e-23,True,True
+multiple_regression.csv,p_value,financial_score | ESG_composite,2.1643774356825418e-25,1.67739251265397e-24,True,1.1406269086046994e-22,True,True
+correlation_significance.csv,spearman_p,ESG_composite | operational_score,2.563934728150765e-25,1.958251596718048e-24,True,1.351193601735453e-22,True,True
+correlation_significance.csv,kendall_p,S_score | operational_score,6.732074060418747e-25,5.068290042629543e-24,True,3.5478030298406797e-22,True,True
+factor_contributions.csv,p_value,operational_score,7.295720434482662e-25,5.3400620402393926e-24,True,3.844844668972363e-22,True,True
+correlation_significance.csv,pearson_p,operational_score | pref_balanced,7.295720434482405e-25,5.3400620402393926e-24,True,3.844844668972227e-22,True,True
+correlation_significance.csv,pearson_p,ESG_composite | operational_score,1.1921876836021774e-24,8.606615195319829e-24,True,6.282829092583475e-22,True,True
+correlation_significance.csv,pearson_p,ESG_composite | financial_score,1.3946107839894735e-24,9.799465108832701e-24,True,7.349598831624526e-22,True,True
+esg_financial_regression.csv,p_value,financial_score | ESG_composite,1.3946107839891881e-24,9.799465108832701e-24,True,7.349598831623021e-22,True,True
+correlation_significance.csv,pearson_p,ESG_composite | pref_financial_first,4.0617516498111525e-24,2.8165041045401014e-23,True,2.1405431194504775e-21,True,True
+correlation_significance.csv,kendall_p,ESG_composite | pref_financial_first,6.5924196942208324e-24,4.511954777732959e-23,True,3.474205178854379e-21,True,True
+correlation_significance.csv,kendall_p,ESG_composite | financial_score,1.8346476785600762e-23,1.2395632392322566e-22,True,9.6685932660116e-21,True,True
+correlation_significance.csv,spearman_p,S_score | pref_financial_first,3.709052792272457e-23,2.4742668626931454e-22,True,1.954670821527585e-20,True,True
+correlation_significance.csv,spearman_p,operational_score | pref_balanced,4.676525042272553e-23,3.0806608715970448e-22,True,2.4645286972776356e-20,True,True
+correlation_significance.csv,kendall_p,ESG_composite | operational_score,1.1271958091848522e-22,7.333730758523668e-22,True,5.940321914404171e-20,True,True
+correlation_significance.csv,pearson_p,S_score | pref_financial_first,5.782360632877288e-22,3.716224455519915e-21,True,3.0473040535263306e-19,True,True
+correlation_significance.csv,kendall_p,operational_score | pref_balanced,6.926988236978998e-22,4.398220242033653e-21,True,3.650522800887932e-19,True,True
+correlation_significance.csv,pearson_p,E_score | financial_score,1.5551933834081472e-21,9.642198977130513e-21,True,8.195869130560936e-19,True,True
+esg_financial_regression.csv,p_value,financial_score | E_score,1.5551933834080535e-21,9.642198977130513e-21,True,8.195869130560443e-19,True,True
+correlation_significance.csv,kendall_p,S_score | pref_financial_first,2.9193772488576484e-21,1.788967221102303e-20,True,1.5385118101479806e-18,True,True
+correlation_significance.csv,spearman_p,E_score | financial_score,7.511799997277768e-21,4.5502512627188316e-20,True,3.9587185985653835e-18,True,True
+correlation_significance.csv,kendall_p,E_score | financial_score,2.726868268496599e-20,1.633022247156486e-19,True,1.4370595774977077e-17,True,True
+correlation_significance.csv,pearson_p,pref_financial_first | risk_adjusted_score,3.846227296312418e-20,2.277485151861398e-19,True,2.0269617851566443e-17,True,True
+correlation_significance.csv,spearman_p,S_score | financial_score,4.3327567249964073e-20,2.537069771192341e-19,True,2.2833627940731065e-17,True,True
+quintile_q5_vs_q1.csv,ttest_p,operational_score,1.3864953801047984e-19,8.029484234233283e-19,True,7.306830653152287e-17,True,True
+correlation_significance.csv,kendall_p,S_score | financial_score,2.560152667721852e-19,1.4665222346624087e-18,True,1.3492004558894159e-16,True,True
+correlation_significance.csv,pearson_p,operational_score | pref_financial_first,2.112972362688662e-18,1.1973510055235751e-17,True,1.113536435136925e-15,True,True
+esg_financial_regression.csv,p_value,financial_score | S_score,2.1629524267416332e-18,1.199869398834669e-17,True,1.1398759288928407e-15,True,True
+correlation_significance.csv,pearson_p,S_score | financial_score,2.162952426741813e-18,1.199869398834669e-17,True,1.1398759288929355e-15,True,True
+correlation_significance.csv,pearson_p,E_score | pref_financial_first,3.272178555308936e-17,1.796289686091468e-16,True,1.7244380986478092e-14,True,True
+correlation_significance.csv,spearman_p,E_score | pref_financial_first,4.091195414092058e-17,2.222742250748984e-16,True,2.1560599832265144e-14,True,True
+correlation_significance.csv,spearman_p,pref_financial_first | risk_adjusted_score,6.6287838709538e-17,3.564662346931278e-16,True,3.493369099992653e-14,True,True
+correlation_significance.csv,spearman_p,operational_score | pref_financial_first,9.596074618348188e-17,5.108213458454035e-16,True,5.057131323869495e-14,True,True
+correlation_significance.csv,pearson_p,pref_financial_first | stability_score,1.407603129363135e-16,7.418068491743722e-16,True,7.418068491743721e-14,True,True
+correlation_significance.csv,kendall_p,operational_score | pref_financial_first,2.31907471631107e-16,1.2100518569266672e-15,True,1.2221523754959339e-13,True,True
+correlation_significance.csv,kendall_p,E_score | pref_financial_first,2.50465627823516e-16,1.2940724104214993e-15,True,1.3199538586299294e-13,True,True
+correlation_significance.csv,pearson_p,risk_adjusted_score | value_score,4.491062200512134e-16,2.2978541550193154e-15,True,2.366789779669895e-13,True,True
+correlation_significance.csv,kendall_p,pref_financial_first | risk_adjusted_score,6.796444746269417e-16,3.4439676743115215e-15,True,3.5817263812839825e-13,True,True
+sector_anova.csv,anova_p,market_score | Large,9.174409356020512e-16,4.604679743450294e-15,True,4.834913730622809e-13,True,True
+esg_financial_regression.csv,p_value,operating_margins | ESG_composite,9.67490911753637e-16,4.810072740511006e-15,True,5.098677104941666e-13,True,True
+correlation_significance.csv,pearson_p,E_score | operational_score,5.372416572617435e-15,2.6460406857657832e-14,True,2.831263533769388e-12,True,True
+correlation_significance.csv,spearman_p,pref_financial_first | stability_score,8.196855226988705e-15,3.999761763539859e-14,True,4.319742704623048e-12,True,True
+correlation_significance.csv,kendall_p,pref_financial_first | stability_score,1.0670244204928526e-14,5.1589162348599386e-14,True,5.623218695997333e-12,True,True
+correlation_significance.csv,spearman_p,E_score | operational_score,2.380777934135293e-14,1.1406090648084538e-13,True,1.2546699712892994e-11,True,True
+correlation_significance.csv,spearman_p,risk_adjusted_score | value_score,3.5877972039979736e-14,1.7033956094657044e-13,True,1.890769126506932e-11,True,True
+sector_anova.csv,anova_p,G_score | Large,3.9783370237229496e-14,1.8719496531267807e-13,True,2.0965836115019946e-11,True,True
+correlation_significance.csv,kendall_p,risk_adjusted_score | value_score,6.732268922925788e-14,3.1397395773291066e-13,True,3.5479057223818907e-11,True,True
+country_differences.csv,ttest_p,operational_score | Large | large,9.360492585966405e-14,4.327175081407277e-13,True,4.9329795928042955e-11,True,True
+correlation_significance.csv,kendall_p,E_score | operational_score,9.640348095788693e-14,4.4177943012875136e-13,True,5.080463446480641e-11,True,True
+correlation_significance.csv,pearson_p,pref_balanced | stability_score,4.787547545843609e-13,2.156442356119301e-12,True,2.523037556659582e-10,True,True
+factor_contributions.csv,p_value,stability_score,4.787547545843411e-13,2.156442356119301e-12,True,2.523037556659478e-10,True,True
+correlation_significance.csv,spearman_p,E_score | S_score,5.504597902357357e-13,2.437750499615401e-12,True,2.900923094542327e-10,True,True
+pillar_correlations.csv,spearman_p,E_score | S_score,5.504597902357357e-13,2.437750499615401e-12,True,2.900923094542327e-10,True,True
+country_differences.csv,mannwhitney_p,operational_score | Large | large,5.647282033195395e-13,2.480098026244978e-12,True,2.9761176314939733e-10,True,True
+factor_contributions.csv,p_value,risk_adjusted_score,9.196120448853697e-13,3.972422521758933e-12,True,4.846355476545899e-10,True,True
+correlation_significance.csv,pearson_p,pref_balanced | risk_adjusted_score,9.196120448853562e-13,3.972422521758933e-12,True,4.846355476545827e-10,True,True
+sector_anova.csv,welch_anova_p,market_score | Large,9.42242737406206e-13,4.037088801732281e-12,True,4.965619226130706e-10,True,True
+correlation_significance.csv,pearson_p,financial_score | stability_score,1.264967527722361e-12,5.376111992820035e-12,True,6.666378871096843e-10,True,True
+correlation_significance.csv,kendall_p,E_score | S_score,2.135986322660456e-12,9.005318336336484e-12,True,1.1256647920420604e-09,True,True
+sector_anova.csv,welch_anova_p,G_score | Large,2.2819452238626445e-12,9.54432645218741e-12,True,1.2025851329756136e-09,True,True
+pillar_correlations.csv,pearson_p,E_score | S_score,2.689436435505839e-12,1.1072914074309196e-11,True,1.4173330015115773e-09,True,True
+correlation_significance.csv,pearson_p,E_score | S_score,2.689436435505839e-12,1.1072914074309196e-11,True,1.4173330015115773e-09,True,True
+correlation_significance.csv,spearman_p,pref_balanced | stability_score,2.8350617412020158e-12,1.1581996415608235e-11,True,1.4940775376134622e-09,True,True
+correlation_significance.csv,kendall_p,financial_score | stability_score,3.639682610681998e-12,1.4670039509767617e-11,True,1.9181127358294127e-09,True,True
+size_group_anova.csv,anova_p,operational_score,3.6466322121054226e-12,1.4670039509767617e-11,True,1.921775175779558e-09,True,True
+sector_anova.csv,anova_p,S_score | Large,3.800885672528191e-12,1.517474810168452e-11,True,2.0030667494223566e-09,True,True
+correlation_significance.csv,spearman_p,financial_score | stability_score,4.196055002336082e-12,1.6626473580685076e-11,True,2.211320986231115e-09,True,True
+quintile_q5_vs_q1.csv,ttest_p,net_margin,4.932481678805591e-12,1.9398640632317513e-11,True,2.5994178447305467e-09,True,True
+correlation_significance.csv,kendall_p,pref_balanced | stability_score,7.34222201529051e-12,2.8661859274504437e-11,True,3.869351002058099e-09,True,True
+correlation_significance.csv,pearson_p,pref_financial_first | growth_score,7.823818132943868e-12,3.031729526515749e-11,True,4.123152156061418e-09,True,True
+sector_anova.csv,kruskal_p,G_score | Large,1.0082483316879014e-11,3.878444312405285e-11,True,5.313468707995241e-09,True,True
+binary_variable_analysis.csv,pb_p_ESG_composite,carbon_reduction_target,1.0289330267623823e-11,3.92933119640417e-11,True,5.422477051037755e-09,True,True
+size_group_anova.csv,anova_p,pref_financial_first,1.992285123263264e-11,7.553483884602447e-11,True,1.0499342599597402e-08,True,True
+correlation_significance.csv,pearson_p,S_score | market_score,2.5203245256398528e-11,9.487221607230018e-11,True,1.3282110250122025e-08,True,True
+correlation_significance.csv,pearson_p,ESG_composite | G_score,3.052595211287113e-11,1.1409345222328427e-10,True,1.6087176763483083e-08,True,True
+sector_anova.csv,kruskal_p,market_score | Large,3.840948772897049e-11,1.4254788755751722e-10,True,2.0241800033167447e-08,True,True
+quintile_q5_vs_q1.csv,ttest_p,roa,8.865350311635483e-11,3.2671605693929366e-10,True,4.6720396142318997e-08,True,True
+correlation_significance.csv,spearman_p,pref_financial_first | growth_score,1.9079804714028357e-10,6.982678530758989e-10,True,1.0055057084292944e-07,True,True
+correlation_significance.csv,kendall_p,S_score | market_score,3.4033631129928613e-10,1.2369464555498193e-09,True,1.793572360547238e-07,True,True
+correlation_significance.csv,spearman_p,S_score | market_score,3.619859130604751e-10,1.3066203848141806e-09,True,1.9076657618287036e-07,True,True
+correlation_significance.csv,spearman_p,pref_balanced | risk_adjusted_score,3.9793945321043086e-10,1.426626475114946e-09,True,2.0971409184189705e-07,True,True
+correlation_significance.csv,kendall_p,pref_financial_first | growth_score,4.6332275723839854e-10,1.6498046828691624e-09,True,2.44171093064636e-07,True,True
+country_differences.csv,ttest_p,value_score | Large | medium,5.887262494680693e-10,2.082273378991091e-09,True,3.1025873346967255e-07,True,True
+correlation_significance.csv,kendall_p,pref_balanced | risk_adjusted_score,9.28751044458813e-10,3.2630120028652967e-09,True,4.894518004297945e-07,True,True
+size_group_anova.csv,anova_p,pref_balanced,1.095267977952536e-09,3.8225577773575266e-09,True,5.772062243809865e-07,True,True
+country_differences.csv,mannwhitney_p,value_score | Large | medium,1.9209000194811633e-09,6.659962567543243e-09,True,1.012314310266573e-06,True,True
+correlation_significance.csv,spearman_p,ESG_composite | G_score,1.9750205208287828e-09,6.802848460632473e-09,True,1.0408358144767685e-06,True,True
+correlation_significance.csv,kendall_p,ESG_composite | G_score,2.9679327516650957e-09,1.01564971436851e-08,True,1.5641005601275055e-06,True,True
+correlation_significance.csv,pearson_p,financial_score | operational_score,6.592556692767819e-09,2.2414692755410585e-08,True,3.4742773770886406e-06,True,True
+binary_variable_analysis.csv,pb_p_pref_balanced,carbon_reduction_target,7.673913962077432e-09,2.5924055500094915e-08,True,4.044152658014807e-06,True,True
+esg_financial_regression.csv,p_value,roa | E_score,8.933284084018546e-09,2.998624657501767e-08,True,4.707840712277774e-06,True,True
+multiple_regression.csv,f_pvalue,roa | debt_to_equity,9.548687573365633e-09,3.125564193269372e-08,True,5.032158351163688e-06,True,True
+multiple_regression.csv,f_pvalue,roa | beta,9.548687573365633e-09,3.125564193269372e-08,True,5.032158351163688e-06,True,True
+multiple_regression.csv,f_pvalue,roa | market_cap,9.548687573365633e-09,3.125564193269372e-08,True,5.032158351163688e-06,True,True
+multiple_regression.csv,f_pvalue,roa | ESG_composite,9.548687573365633e-09,3.125564193269372e-08,True,5.032158351163688e-06,True,True
+country_differences.csv,ttest_p,risk_adjusted_score | Medium | medium,1.081324513804534e-08,3.5176420912036385e-08,True,5.698580187749894e-06,True,True
+sector_score_interaction.csv,pearson_p,Healthcare | ESG_composite | financial_score,1.107427235589146e-08,3.5804549273342324e-08,True,5.8361415315548e-06,True,True
+country_differences.csv,mannwhitney_p,risk_adjusted_score | Medium | medium,1.1273558708092538e-08,3.622661853149248e-08,True,5.941165439164768e-06,True,True
+multiple_regression.csv,p_value,roa | ESG_composite,1.4142088437117024e-08,4.5168973371882854e-08,True,7.452880606360671e-06,True,True
+correlation_significance.csv,pearson_p,market_score | pref_financial_first,2.0511990602957266e-08,6.511939185396674e-08,True,1.0809819047758479e-05,True,True
+correlation_significance.csv,spearman_p,financial_score | operational_score,2.9347405125157934e-08,9.261127246082773e-08,True,1.546608250095823e-05,True,True
+country_differences.csv,ttest_p,S_score | Medium | medium,2.9753127917914344e-08,9.333272864726701e-08,True,1.567989841274086e-05,True,True
+size_group_anova.csv,anova_p,S_score,3.119549768636691e-08,9.727826793322699e-08,True,1.644002728071536e-05,True,True
+correlation_significance.csv,pearson_p,pref_balanced | growth_score,3.623673025949221e-08,1.1167694062428302e-07,True,1.9096756846752396e-05,True,True
+factor_contributions.csv,p_value,growth_score,3.6236730259489386e-08,1.1167694062428302e-07,True,1.9096756846750905e-05,True,True
+correlation_significance.csv,spearman_p,market_score | operational_score,3.997259184894128e-08,1.2247416223483755e-07,True,2.1065555904392054e-05,True,True
+correlation_significance.csv,kendall_p,financial_score | operational_score,4.2438380652493264e-08,1.2927761042695925e-07,True,2.236502660386395e-05,True,True
+esg_financial_regression.csv,p_value,roa | ESG_composite,4.744429311216285e-08,1.4369622109258517e-07,True,2.500314247010982e-05,True,True
+correlation_significance.csv,kendall_p,market_score | operational_score,5.586064634944929e-08,1.6822034643519872e-07,True,2.9438560626159776e-05,True,True
+correlation_significance.csv,pearson_p,market_score | operational_score,6.195252133554487e-08,1.8550556104450082e-07,True,3.2648978743832145e-05,True,True
+quintile_q5_vs_q1.csv,ttest_p,roe,6.39069335151875e-08,1.9027657605934358e-07,True,3.367895396250381e-05,True,True
+correlation_significance.csv,pearson_p,G_score | pref_esg_first,6.69999476047123e-08,1.983650134139516e-07,True,3.530897238768338e-05,True,True
+sector_anova.csv,kruskal_p,S_score | Large,8.195559618062293e-08,2.41288263615577e-07,True,4.319059918718829e-05,True,True
+factor_contributions.csv,p_value,market_score,9.544797553535059e-08,2.7790653650347936e-07,True,5.030108310712976e-05,True,True
+correlation_significance.csv,pearson_p,market_score | pref_balanced,9.544797553534974e-08,2.7790653650347936e-07,True,5.030108310712931e-05,True,True
+correlation_significance.csv,spearman_p,market_score | pref_financial_first,1.185208798795099e-07,3.4318958075000946e-07,True,6.246050369650171e-05,True,True
+country_differences.csv,mannwhitney_p,S_score | Medium | medium,1.2270845726024834e-07,3.5337353538880263e-07,True,6.466735697615088e-05,True,True
+correlation_significance.csv,kendall_p,market_score | pref_financial_first,2.0782177657367485e-07,5.952286752952535e-07,True,0.00010952207625432665,True,True
+correlation_significance.csv,spearman_p,G_score | pref_esg_first,2.1650560657427361e-07,6.167484035926606e-07,True,0.00011409845466464219,True,True
+esg_financial_regression.csv,p_value,net_margin | ESG_composite,3.2959118450195615e-07,9.338416894222091e-07,True,0.0001736945542325309,True,True
+country_differences.csv,mannwhitney_p,market_score | Medium | medium,3.537384391009576e-07,9.968992374663349e-07,True,0.00018642015740620466,True,True
+correlation_significance.csv,kendall_p,G_score | pref_esg_first,3.675059588633261e-07,1.0301895761753875e-06,True,0.00019367564032097284,True,True
+correlation_significance.csv,pearson_p,risk_adjusted_score | growth_score,3.911954954801685e-07,1.0907937889843852e-06,True,0.0002061600261180488,True,True
+correlation_significance.csv,spearman_p,pref_balanced | growth_score,4.226823265699735e-07,1.1723872952756632e-06,True,0.00022275358610237604,True,True
+sector_anova.csv,welch_anova_p,S_score | Large,4.606020725453509e-07,1.2708758755570678e-06,True,0.00024273729223139994,True,True
+ordinal_variable_analysis.csv,spearman_p_G_score,board_size,4.688434079031726e-07,1.286877478984229e-06,True,0.00024708047596497197,True,True
+correlation_significance.csv,kendall_p,pref_balanced | growth_score,6.033923193466574e-07,1.6476049341745517e-06,True,0.00031798775229568846,True,True
+correlation_significance.csv,spearman_p,market_score | pref_balanced,7.151147153097329e-07,1.942605437980563e-06,True,0.00037686545496822926,True,True
+correlation_significance.csv,kendall_p,market_score | pref_balanced,7.237975343173814e-07,1.9550415356303695e-06,True,0.00038144130058525997,True,True
+sector_score_interaction.csv,pearson_p,Healthcare | ESG_composite | roa,7.271122219801753e-07,1.9550415356303695e-06,True,0.0003831881409835524,True,True
+normality_tests.csv,shapiro_p,S_score,8.023485520425311e-07,2.1463841975960093e-06,True,0.0004228376869264139,True,True
+country_differences.csv,ttest_p,market_score | Medium | medium,8.365950058439014e-07,2.2266947882814952e-06,True,0.00044088556807973605,True,True
+quintile_q5_vs_q1.csv,ttest_p,market_score,8.459534622433037e-07,2.2402888170965884e-06,True,0.00044581747460222107,True,True
+ordinal_variable_analysis.csv,spearman_p_ESG_composite,esg_risk_rating,1.0774568667282176e-06,2.8390988438288533e-06,True,0.0005678197687657707,True,True
+correlation_significance.csv,kendall_p,value_score | growth_score,1.4657039131333724e-06,3.842915234931778e-06,True,0.0007724259622212873,True,True
+normality_tests.csv,shapiro_p,E_score,1.948599219758762e-06,5.083721726796374e-06,True,0.0010269117888128676,True,True
+correlation_significance.csv,spearman_p,value_score | growth_score,2.068354010080381e-06,5.369569277400793e-06,True,0.001090022563312361,True,True
+sector_score_interaction.csv,pearson_p,Technology | ESG_composite | financial_score,3.4864541096493764e-06,9.006673116594223e-06,True,0.0018373613157852214,True,True
+binary_variable_analysis.csv,pb_p_ESG_composite,human_rights_policy,4.2069520599276895e-06,1.0814945051618988e-05,True,0.0022170637355818923,True,True
+correlation_significance.csv,spearman_p,risk_adjusted_score | growth_score,4.493935441683156e-06,1.149662125129623e-05,True,0.002368303977767023,True,True
+correlation_significance.csv,kendall_p,risk_adjusted_score | growth_score,5.433110434465506e-06,1.3832121734122327e-05,True,0.0028632491989633215,True,True
+correlation_significance.csv,pearson_p,value_score | growth_score,8.1121870741561e-06,2.0553473981155114e-05,True,0.004275122588080264,True,True
+correlation_significance.csv,pearson_p,market_score | risk_adjusted_score,8.613244138860623e-06,2.1718562972150947e-05,True,0.004539179661179548,True,True
+correlation_significance.csv,pearson_p,market_score | pref_esg_first,9.135918172855272e-06,2.2926804176641562e-05,True,0.004814628877094728,True,True
+multiple_regression.csv,p_value,financial_score | market_cap,9.522471979572792e-06,2.378361484945432e-05,True,0.005018342733234861,True,True
+ordinal_variable_analysis.csv,kruskal_p_sector,esg_risk_rating,1.0319326429112206e-05,2.5652287868594963e-05,True,0.005438285028142133,True,True
+correlation_significance.csv,pearson_p,pref_esg_first | stability_score,1.744206783873024e-05,4.315478756343115e-05,True,0.009191969751010836,True,True
+size_group_anova.csv,anova_p,pref_esg_first,1.852760413652854e-05,4.562638962593711e-05,True,0.009764047379950541,True,True
+correlation_significance.csv,spearman_p,market_score | pref_esg_first,2.2693249411706184e-05,5.562484855799609e-05,True,0.01195934243996916,True,True
+correlation_significance.csv,kendall_p,market_score | pref_esg_first,2.358351207080545e-05,5.7539402135715155e-05,True,0.012428510861314473,True,True
+sector_score_interaction.csv,pearson_p,Consumer Cyclical | ESG_composite | roa,2.467018871093592e-05,5.991331544084438e-05,True,0.013001189450663229,True,True
+correlation_significance.csv,spearman_p,pref_esg_first | stability_score,3.1069456180389826e-05,7.510827250947449e-05,True,0.016373603407065437,True,True
+correlation_significance.csv,kendall_p,pref_esg_first | stability_score,3.374879579067766e-05,8.121285562414213e-05,True,0.017785615381687127,True,True
+correlation_significance.csv,kendall_p,market_score | risk_adjusted_score,3.831470114916133e-05,9.178112502549099e-05,True,0.02019184750560802,True,True
+correlation_significance.csv,spearman_p,market_score | risk_adjusted_score,4.021757831902999e-05,9.590345599153306e-05,True,0.021194663774128805,True,True
+binary_variable_analysis.csv,pb_p_pref_balanced,human_rights_policy,4.09712664664302e-05,9.72606190441834e-05,True,0.021591857427808715,True,True
+binary_variable_analysis.csv,pb_p_financial_score,carbon_reduction_target,6.25141522700193e-05,0.0001477352387726465,True,0.03294495824630017,True,True
+sector_score_interaction.csv,pearson_p,Consumer Cyclical | ESG_composite | financial_score,8.189237479387617e-05,0.00019266643534094973,True,0.04315728151637274,True,True
+esg_financial_regression.csv,p_value,roa | S_score,8.69026267498392e-05,0.0002035452635429567,True,0.04579768429716526,True,True
+size_group_anova.csv,anova_p,financial_score,0.00010477297368,0.00024431573951044246,True,0.055215357129359995,False,True
+normality_tests.csv,jarque_bera_p,S_score,0.0001081134134188,0.00025099457652734625,True,0.0569757688717076,False,True
+normality_tests.csv,shapiro_p,pref_esg_first,0.0001256812684005,0.0002905001247678224,True,0.0662340284470635,False,True
+correlation_significance.csv,kendall_p,G_score | pref_balanced,0.0001574316339066,0.0003622990003003415,True,0.0829664710687782,False,True
+correlation_significance.csv,spearman_p,G_score | pref_balanced,0.0002026554207636,0.0004643452467061617,True,0.1067994067424172,False,True
+sector_score_interaction.csv,pearson_p,Technology | ESG_composite | roa,0.000218292685181,0.0004980097190060043,True,0.115040245090387,False,True
+sector_score_interaction.csv,pearson_p,Energy | ESG_composite | financial_score,0.0002807339889356,0.000637701776590781,True,0.1479468121690612,False,True
+correlation_significance.csv,pearson_p,financial_score | market_score,0.0003064067955399,0.0006930316791825206,True,0.16147638124952732,False,True
+correlation_significance.csv,pearson_p,risk_adjusted_score | stability_score,0.0003575043062196,0.0008051485870843128,True,0.1884047693777292,False,True
+correlation_significance.csv,pearson_p,G_score | pref_balanced,0.0004376597644986,0.0009814753016628179,True,0.2306466958907622,False,True
+correlation_significance.csv,pearson_p,ESG_composite | market_score,0.000459830881952,0.0010268257406301016,True,0.242330874788704,False,True
+multiple_regression.csv,p_value,roa | debt_to_equity,0.000486715444298,0.001082274426772346,True,0.256499039145046,False,True
+sector_score_interaction.csv,pearson_p,Industrials | ESG_composite | financial_score,0.0006355706858666,0.0014073350901331856,True,0.3349457514516982,False,True
+normality_tests.csv,shapiro_p,value_score,0.0006885915063321,0.0015183586771423292,True,0.3628877238370167,False,True
+sector_anova.csv,anova_p,ESG_composite | Medium,0.0009574540603569,0.0021024095408670265,True,0.5045782898080863,False,True
+correlation_significance.csv,kendall_p,financial_score | market_score,0.0009965807184447,0.0021792449735284517,True,0.5251980386203569,False,True
+correlation_significance.csv,spearman_p,financial_score | market_score,0.0010114759461449,0.0022026769571006706,True,0.5330478236183623,False,True
+correlation_significance.csv,pearson_p,value_score | stability_score,0.0010373553789809,0.0022497377972137216,True,0.5466862847229343,False,True
+correlation_significance.csv,kendall_p,ESG_composite | market_score,0.0010608927622256,0.0022913544495610297,True,0.5590904856928912,False,True
+correlation_significance.csv,pearson_p,pref_financial_first | value_score,0.001097363232396,0.0023604507080518043,True,0.578310423472692,False,True
+correlation_significance.csv,spearman_p,ESG_composite | market_score,0.0011578119863095,0.0024803533202646605,True,0.6101669167851065,False,True
+normality_tests.csv,shapiro_p,operational_score,0.001171204377897,0.002492294380903025,True,0.6172247071517191,False,True
+normality_tests.csv,ks_p,S_score,0.0011728444145426,0.002492294380903025,True,0.6180890064639503,False,True
+normality_tests.csv,jarque_bera_p,E_score,0.0011903909644175,0.0025194218403535042,True,0.6273360382480225,False,True
+correlation_significance.csv,kendall_p,value_score | stability_score,0.0014782187905974,0.0031160852105793194,True,0.7790213026448297,False,True
+correlation_significance.csv,spearman_p,value_score | stability_score,0.0015912453540811,0.0033409812812778476,True,0.8385863016007397,False,True
+sector_anova.csv,welch_anova_p,ESG_composite | Medium,0.0016946640960849,0.003543999915225168,True,0.8930879786367423,False,True
+sector_score_interaction.csv,pearson_p,Consumer Defensive | ESG_composite | financial_score,0.001755627321643,0.0036569786502207943,True,0.925215598505861,False,True
+correlation_significance.csv,spearman_p,pref_financial_first | value_score,0.0024568762105915,0.005097534499928034,True,1.0,False,True
+normality_tests.csv,shapiro_p,growth_score,0.0024915088433772,0.00514911827631288,True,1.0,False,True
+correlation_significance.csv,kendall_p,pref_financial_first | value_score,0.002600149949914,0.005352652435955773,True,1.0,False,True
+sector_anova.csv,kruskal_p,ESG_composite | Medium,0.0034934559163945,0.0071636236106610955,True,1.0,False,True
+correlation_significance.csv,pearson_p,pref_balanced | value_score,0.003616949709725,0.007359584930598745,True,1.0,False,True
+factor_contributions.csv,p_value,value_score,0.003616949709725,0.007359584930598745,True,1.0,False,True
+sector_score_interaction.csv,pearson_p,Real Estate | ESG_composite | financial_score,0.0040325195496453,0.008173606933319512,True,1.0,False,True
+correlation_significance.csv,pearson_p,financial_score | value_score,0.0042555496511527,0.008592623241982655,True,1.0,False,True
+correlation_significance.csv,spearman_p,risk_adjusted_score | stability_score,0.0046700297733278,0.009393533170014316,True,1.0,False,True
+normality_tests.csv,jarque_bera_p,pref_esg_first,0.0047487885050225,0.00951563324010212,True,1.0,False,True
+sector_anova.csv,anova_p,pref_esg_first | Medium,0.0047995961150426,0.009581011941770644,True,1.0,False,True
+correlation_significance.csv,kendall_p,risk_adjusted_score | stability_score,0.0048706689542918,0.009686198260044448,True,1.0,False,True
+sector_anova.csv,kruskal_p,pref_esg_first | Medium,0.0063551288065812,0.012590800304768016,True,1.0,False,True
+correlation_significance.csv,pearson_p,financial_score | risk_adjusted_score,0.0064883476703245,0.012758803068138102,True,1.0,False,True
+correlation_significance.csv,spearman_p,pref_balanced | value_score,0.0064879864238185,0.012758803068138102,True,1.0,False,True
+correlation_significance.csv,kendall_p,pref_balanced | value_score,0.0066118795892835,0.012953384920269163,True,1.0,False,True
+binary_variable_analysis.csv,pb_p_financial_score,human_rights_policy,0.0069725350927969,0.013609355532977652,True,1.0,False,True
+normality_tests.csv,jarque_bera_p,value_score,0.0072306729903355,0.014061124228438407,True,1.0,False,True
+correlation_significance.csv,pearson_p,pref_esg_first | risk_adjusted_score,0.0074894415610409,0.014510793024516744,True,1.0,False,True
+multiple_regression.csv,f_pvalue,roe | ESG_composite,0.0076824370202184,0.014669001121938759,True,1.0,False,True
+multiple_regression.csv,f_pvalue,roe | debt_to_equity,0.0076824370202184,0.014669001121938759,True,1.0,False,True
+multiple_regression.csv,f_pvalue,roe | beta,0.0076824370202184,0.014669001121938759,True,1.0,False,True
+multiple_regression.csv,f_pvalue,roe | market_cap,0.0076824370202184,0.014669001121938759,True,1.0,False,True
+multiple_regression.csv,p_value,financial_score | beta,0.0080419475916639,0.015244986981319698,True,1.0,False,True
+correlation_significance.csv,spearman_p,financial_score | value_score,0.0080164204514614,0.015244986981319698,True,1.0,False,True
+ordinal_variable_analysis.csv,spearman_p_ESG_composite,board_size,0.0081571092407344,0.01540787301027609,True,1.0,False,True
+normality_tests.csv,shapiro_p,ESG_composite,0.0084306662902235,0.01586771833909923,True,1.0,False,True
+sector_score_interaction.csv,pearson_p,Communication Services | ESG_composite | financial_score,0.0090115481350821,0.016900661449068564,True,1.0,False,True
+sector_anova.csv,welch_anova_p,pref_esg_first | Medium,0.0092280131284626,0.01724525857694961,True,1.0,False,True
+correlation_significance.csv,kendall_p,G_score | market_score,0.009363925764532,0.017437416529711536,True,1.0,False,True
+correlation_significance.csv,kendall_p,financial_score | value_score,0.0098947241385917,0.018360984581119105,True,1.0,False,True
+correlation_significance.csv,spearman_p,G_score | market_score,0.0099362653511785,0.01837337487744235,True,1.0,False,True
+sector_score_interaction.csv,pearson_p,Communication Services | ESG_composite | roa,0.0103301841560855,0.01903498968621349,True,1.0,False,True
+normality_tests.csv,shapiro_p,financial_score,0.0106044812127947,0.019472340066699675,True,1.0,False,True
+normality_tests.csv,jarque_bera_p,operational_score,0.0108734728566721,0.019896945123146517,True,1.0,False,True
+sector_score_interaction.csv,pearson_p,Real Estate | financial_score | market_score,0.0135013484952276,0.024620106079532685,True,1.0,False,True
+normality_tests.csv,jarque_bera_p,growth_score,0.0145736421187984,0.02648382550554054,True,1.0,False,True
+esg_financial_regression.csv,p_value,roe | ESG_composite,0.0152703949405536,0.027654632761758585,True,1.0,False,True
+correlation_significance.csv,spearman_p,S_score | value_score,0.0156250971127417,0.02820008965210574,True,1.0,False,True
+normality_tests.csv,ks_p,risk_adjusted_score,0.0158926160345054,0.02858501245796705,True,1.0,False,True
+multiple_regression.csv,p_value,financial_score | debt_to_equity,0.0166804542664629,0.02989999795382976,True,1.0,False,True
+size_group_anova.csv,anova_p,ESG_composite,0.0170107794838773,0.030388748433909613,True,1.0,False,True
+correlation_significance.csv,spearman_p,operational_score | value_score,0.0198154371354641,0.03527951138645129,True,1.0,False,True
+correlation_significance.csv,kendall_p,S_score | stability_score,0.0200975472734187,0.03566130442118402,True,1.0,False,True
+multiple_regression.csv,p_value,roe | ESG_composite,0.0203825578990284,0.035974439017723896,True,1.0,False,True
+sector_anova.csv,anova_p,financial_score | Medium,0.0204105450973424,0.035974439017723896,True,1.0,False,True
+multiple_regression.csv,p_value,roe | market_cap,0.0208683814643529,0.03665879010571327,True,1.0,False,True
+ordinal_variable_analysis.csv,spearman_p_pref_balanced,board_size,0.0227200933809992,0.03977903392620126,True,1.0,False,True
+correlation_significance.csv,kendall_p,S_score | value_score,0.0229454042299917,0.04001072435327712,True,1.0,False,True
+sector_anova.csv,kruskal_p,pref_balanced | Medium,0.0230042684611821,0.04001072435327712,True,1.0,False,True
+normality_tests.csv,shapiro_p,G_score,0.0234749019145965,0.04069497799010643,True,1.0,False,True
+normality_tests.csv,ks_p,E_score,0.023954459378079,0.04130818828928534,True,1.0,False,True
+correlation_significance.csv,spearman_p,financial_score | risk_adjusted_score,0.0239853996518431,0.04130818828928534,True,1.0,False,True
+normality_tests.csv,jarque_bera_p,financial_score,0.0258847665284454,0.04443411062049096,True,1.0,False,True
+correlation_significance.csv,spearman_p,S_score | stability_score,0.0260857027726285,0.044633653770049415,True,1.0,False,True
+ordinal_variable_analysis.csv,spearman_p_pref_balanced,esg_risk_rating,0.0269691043603496,0.045995851125903695,True,1.0,False,True
+binary_variable_analysis.csv,chi2_p_sector,carbon_reduction_target,0.0288029385874501,0.04896499559866517,True,1.0,False,True
+correlation_significance.csv,kendall_p,operational_score | value_score,0.0290006821133605,0.04914263496379738,True,1.0,False,True
+correlation_significance.csv,kendall_p,G_score | pref_financial_first,0.0292509936277543,0.04940792833918755,True,1.0,False,True
+normality_tests.csv,ks_p,G_score,0.029846139113645,0.050252125600290465,False,1.0,False,True
+sector_anova.csv,kruskal_p,financial_score | Medium,0.0306959751971116,0.05151840423209495,False,1.0,False,True
+correlation_significance.csv,pearson_p,market_score | stability_score,0.0310517730928326,0.051950109269596124,False,1.0,False,True
+correlation_significance.csv,spearman_p,G_score | pref_financial_first,0.031441350437749,0.05243541671105608,False,1.0,False,True
+correlation_significance.csv,pearson_p,operational_score | value_score,0.0319080494679069,0.05304587403655185,False,1.0,False,True
+sector_anova.csv,anova_p,pref_balanced | Medium,0.0329075469787745,0.054535463074887304,False,1.0,False,True
+correlation_significance.csv,pearson_p,S_score | value_score,0.033085492417556,0.05465847806912856,False,1.0,False,True
+correlation_significance.csv,kendall_p,financial_score | risk_adjusted_score,0.033460236987879,0.05510482778941323,False,1.0,False,True
+normality_tests.csv,ks_p,pref_esg_first,0.0344288609269248,0.05652339473049647,False,1.0,False,True
+correlation_significance.csv,spearman_p,pref_esg_first | risk_adjusted_score,0.035567162840755,0.05821085346918598,False,1.0,False,True
+sector_score_interaction.csv,pearson_p,Financial Services | ESG_composite | financial_score,0.0358416088090875,0.058478414372721714,False,1.0,False,True
+correlation_significance.csv,pearson_p,G_score | market_score,0.0359936939186121,0.05854529844169315,False,1.0,False,True
+esg_financial_regression.csv,p_value,revenue_growth | ESG_composite,0.037172498370679,0.06027663581953179,False,1.0,False,True
+quintile_q5_vs_q1.csv,ttest_p,dividend_yield,0.0392247679753506,0.06321545175232345,False,1.0,False,True
+correlation_significance.csv,kendall_p,pref_esg_first | risk_adjusted_score,0.0391983978328889,0.06321545175232345,False,1.0,False,True
+sector_anova.csv,welch_anova_p,pref_balanced | Medium,0.0396126222473262,0.06364589001323447,False,1.0,False,True
+correlation_significance.csv,pearson_p,G_score | pref_financial_first,0.0431816611777186,0.06916940863421794,False,1.0,False,True
+correlation_significance.csv,kendall_p,S_score | G_score,0.0475459973406219,0.07592951696517497,False,1.0,False,True
+sector_score_interaction.csv,pearson_p,Industrials | ESG_composite | roa,0.0492594303682841,0.07842815650781185,False,1.0,False,True
+correlation_significance.csv,spearman_p,S_score | G_score,0.0524806755223626,0.08305500300385914,False,1.0,False,False
+pillar_correlations.csv,spearman_p,S_score | G_score,0.0524806755223626,0.08305500300385914,False,1.0,False,False
+correlation_significance.csv,pearson_p,S_score | G_score,0.0539746867624671,0.08465672596375047,False,1.0,False,False
+normality_tests.csv,jarque_bera_p,G_score,0.0538975954491835,0.08465672596375047,False,1.0,False,False
+pillar_correlations.csv,pearson_p,S_score | G_score,0.0539746867624671,0.08465672596375047,False,1.0,False,False
+normality_tests.csv,jarque_bera_p,ESG_composite,0.0556995319502843,0.08710282889554843,False,1.0,False,False
+normality_tests.csv,ks_p,value_score,0.0562432026708165,0.08769280416426123,False,1.0,False,False
+correlation_significance.csv,pearson_p,S_score | stability_score,0.0573685111016052,0.08918349660928006,False,1.0,False,False
+correlation_significance.csv,kendall_p,ESG_composite | stability_score,0.0597815210682188,0.09266135765573914,False,1.0,False,False
+correlation_significance.csv,kendall_p,G_score | operational_score,0.0624039362291895,0.09622449243382479,False,1.0,False,False
+correlation_significance.csv,spearman_p,ESG_composite | stability_score,0.0624454960386491,0.09622449243382479,False,1.0,False,False
+size_group_anova.csv,anova_p,G_score,0.0631227437470555,0.09698450715655466,False,1.0,False,False
+correlation_significance.csv,spearman_p,G_score | operational_score,0.0637910332147339,0.09772637937257199,False,1.0,False,False
+wilcoxon_pairwise.csv,wilcoxon_p,ESG_composite | operational_score | small,0.0675679338560038,0.10317136461595942,False,1.0,False,False
+sector_anova.csv,welch_anova_p,financial_score | Medium,0.067736797262091,0.10317136461595942,False,1.0,False,False
+esg_financial_regression.csv,p_value,current_ratio | ESG_composite,0.0694687472802602,0.10550440869365166,False,1.0,False,False
+correlation_significance.csv,pearson_p,operational_score | stability_score,0.0703887915139028,0.10598540893664793,False,1.0,False,False
+normality_tests.csv,jarque_bera_p,risk_adjusted_score,0.0703137728314618,0.10598540893664793,False,1.0,False,False
+sector_anova.csv,kruskal_p,pref_financial_first | Medium,0.0703559233693865,0.10598540893664793,False,1.0,False,False
+sector_anova.csv,welch_anova_p,pref_financial_first | Medium,0.0780465275903337,0.11718096877523038,False,1.0,False,False
+normality_tests.csv,shapiro_p,risk_adjusted_score,0.0787318497896194,0.11787410465661768,False,1.0,False,False
+correlation_significance.csv,kendall_p,market_score | stability_score,0.0809108114177113,0.12079319438281545,False,1.0,False,False
+normality_tests.csv,ks_p,ESG_composite,0.0817802406252806,0.121746290422381,False,1.0,False,False
+correlation_significance.csv,spearman_p,market_score | stability_score,0.0850887810011274,0.12631489461294126,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Energy | ESG_composite | roa,0.0906734411752838,0.13422725702071506,False,1.0,False,False
+sector_anova.csv,anova_p,pref_financial_first | Medium,0.0937134491399266,0.13833890111132024,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Financial Services | ESG_composite | roa,0.0942419059654676,0.13873040347430565,False,1.0,False,False
+binary_variable_analysis.csv,chi2_p_sector,human_rights_policy,0.0960677272733086,0.1410242124597037,False,1.0,False,False
+wilcoxon_pairwise.csv,wilcoxon_p,ESG_composite | market_score | small,0.0989142992914226,0.14479954368494366,False,1.0,False,False
+esg_financial_regression.csv,p_value,roa | G_score,0.10294732760465,0.15028598794363032,False,1.0,False,False
+ordinal_variable_analysis.csv,spearman_p_financial_score,board_size,0.1080581417794693,0.15731116220381305,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Basic Materials | ESG_composite | financial_score,0.1088612885642165,0.15804379910011596,False,1.0,False,False
+esg_financial_regression.csv,p_value,financial_score | G_score,0.1174493353427577,0.16957753349488824,False,1.0,False,False
+correlation_significance.csv,pearson_p,G_score | financial_score,0.1174493353427594,0.16957753349488824,False,1.0,False,False
+correlation_significance.csv,pearson_p,ESG_composite | stability_score,0.1216760048115883,0.17520014900466405,False,1.0,False,False
+country_differences.csv,ttest_p,pref_esg_first | Small | negligible,0.1230715804732762,0.17672676542075355,False,1.0,False,False
+country_differences.csv,ttest_p,ESG_composite | Small | negligible,0.1261841357654431,0.18070391181627316,False,1.0,False,False
+normality_tests.csv,ks_p,operational_score,0.1282346993126213,0.18270999444862385,False,1.0,False,False
+country_differences.csv,mannwhitney_p,pref_esg_first | Small | negligible,0.1282783642238915,0.18270999444862385,False,1.0,False,False
+country_differences.csv,mannwhitney_p,ESG_composite | Small | negligible,0.1329548106751959,0.18886033753592518,False,1.0,False,False
+correlation_significance.csv,pearson_p,G_score | operational_score,0.1364705283718153,0.19325290720906035,False,1.0,False,False
+correlation_significance.csv,spearman_p,operational_score | stability_score,0.1367805206622002,0.19325290720906035,False,1.0,False,False
+correlation_significance.csv,kendall_p,operational_score | stability_score,0.1389770931993265,0.19583135859905096,False,1.0,False,False
+multiple_regression.csv,p_value,roe | beta,0.1418859767884906,0.19939709271342546,False,1.0,False,False
+heteroscedasticity.csv,bp_p,financial_score,0.1467822130577874,0.20572932521663287,False,1.0,False,False
+heteroscedasticity.csv,f_p,financial_score,0.1478763729840456,0.20671312616072157,False,1.0,False,False
+correlation_significance.csv,pearson_p,pref_esg_first | growth_score,0.1514284012291582,0.21111843240149836,False,1.0,False,False
+correlation_significance.csv,kendall_p,operational_score | risk_adjusted_score,0.1521025891248884,0.21149885084120365,False,1.0,False,False
+heteroscedasticity.csv,bp_p,roa,0.1552942346411185,0.2153685833049196,False,1.0,False,False
+heteroscedasticity.csv,f_p,roa,0.156446042361694,0.21639649429032215,False,1.0,False,False
+correlation_significance.csv,kendall_p,E_score | stability_score,0.1596002454450603,0.22018149044383972,False,1.0,False,False
+correlation_significance.csv,pearson_p,E_score | stability_score,0.162151149109789,0.22311659420589766,False,1.0,False,False
+correlation_significance.csv,spearman_p,E_score | stability_score,0.1650845269123489,0.22656131688231218,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Consumer Cyclical | financial_score | market_score,0.1677674188098446,0.2296452719812678,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Industrials | financial_score | market_score,0.1752770639203069,0.23930314167357963,False,1.0,False,False
+correlation_significance.csv,spearman_p,operational_score | risk_adjusted_score,0.18157799601527,0.24726512635671133,False,1.0,False,False
+multiple_regression.csv,p_value,roe | debt_to_equity,0.1841758824631396,0.25015641767544994,False,1.0,False,False
+friedman_test.csv,p_value,Friedman,0.1904303575229475,0.25798662831514996,False,1.0,False,False
+correlation_significance.csv,pearson_p,operational_score | growth_score,0.1934587232922988,0.2614173004488243,False,1.0,False,False
+normality_tests.csv,jarque_bera_p,stability_score,0.1959927319178192,0.26416411693271286,False,1.0,False,False
+normality_tests.csv,ks_p,pref_balanced,0.2124620979604523,0.28563144292132236,False,1.0,False,False
+correlation_significance.csv,spearman_p,pref_esg_first | growth_score,0.2189395027863738,0.2935906309628982,False,1.0,False,False
+correlation_significance.csv,kendall_p,pref_esg_first | growth_score,0.2340215575707678,0.31301868233450414,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Energy | financial_score | market_score,0.2429590957517708,0.3241504897751474,False,1.0,False,False
+country_differences.csv,ttest_p,growth_score | Small | negligible,0.2521300304892581,0.33553668198949244,False,1.0,False,False
+correlation_significance.csv,kendall_p,operational_score | growth_score,0.2557502388854433,0.3394971684952862,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Utilities | financial_score | market_score,0.2605380232915731,0.34498376450919355,False,1.0,False,False
+correlation_significance.csv,spearman_p,operational_score | growth_score,0.2647620517361417,0.34882400316236667,False,1.0,False,False
+correlation_significance.csv,pearson_p,market_score | value_score,0.2646199951393307,0.34882400316236667,False,1.0,False,False
+normality_tests.csv,jarque_bera_p,market_score,0.2675537658270674,0.3498780014661651,False,1.0,False,False
+wilcoxon_pairwise.csv,wilcoxon_p,financial_score | operational_score | negligible,0.2673880476187533,0.3498780014661651,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Consumer Defensive | ESG_composite | roa,0.2670920629807035,0.3498780014661651,False,1.0,False,False
+country_differences.csv,mannwhitney_p,stability_score | Small | negligible,0.2691643431530008,0.351112893172355,False,1.0,False,False
+country_differences.csv,mannwhitney_p,growth_score | Small | negligible,0.2735313340150778,0.355928427224558,False,1.0,False,False
+correlation_significance.csv,spearman_p,G_score | financial_score,0.2776348837848315,0.36037828510986747,False,1.0,False,False
+country_differences.csv,ttest_p,stability_score | Small | negligible,0.2929614688990866,0.3793383147661391,False,1.0,False,False
+normality_tests.csv,ks_p,financial_score,0.2942993708399899,0.380136687334987,False,1.0,False,False
+correlation_significance.csv,kendall_p,G_score | financial_score,0.2988759253461948,0.38510418742651503,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Healthcare | financial_score | market_score,0.3034114298685793,0.3899946915627836,False,1.0,False,False
+correlation_significance.csv,pearson_p,E_score | value_score,0.3043253681688413,0.3902176861921639,False,1.0,False,False
+correlation_significance.csv,spearman_p,market_score | growth_score,0.3106983582655545,0.3974224145775418,False,1.0,False,False
+correlation_significance.csv,kendall_p,market_score | growth_score,0.3116705144000254,0.3977006321763036,False,1.0,False,False
+normality_tests.csv,ks_p,growth_score,0.3206036393100147,0.40811139593327955,False,1.0,False,False
+normality_tests.csv,jarque_bera_p,pref_balanced,0.3237171085746152,0.4110817258284873,False,1.0,False,False
+size_group_anova.csv,anova_p,E_score,0.3294051257733233,0.41729928192918603,False,1.0,False,False
+wilcoxon_pairwise.csv,wilcoxon_p,financial_score | market_score | negligible,0.3460278298708922,0.43730615429726666,False,1.0,False,False
+correlation_significance.csv,pearson_p,market_score | growth_score,0.353340779894507,0.44547988278565837,False,1.0,False,False
+normality_tests.csv,shapiro_p,stability_score,0.3618419170379638,0.45510904601194974,False,1.0,False,False
+correlation_significance.csv,pearson_p,E_score | market_score,0.378588336163322,0.47278685582481206,False,1.0,False,False
+correlation_significance.csv,spearman_p,E_score | value_score,0.3779726962944264,0.47278685582481206,False,1.0,False,False
+correlation_significance.csv,kendall_p,G_score | value_score,0.3772987970018207,0.47278685582481206,False,1.0,False,False
+correlation_significance.csv,spearman_p,ESG_composite | value_score,0.3836868831121535,0.4780212468087586,False,1.0,False,False
+correlation_significance.csv,kendall_p,E_score | value_score,0.3958790218834194,0.49204774653906136,False,1.0,False,False
+sector_anova.csv,anova_p,operational_score | Small,0.3988436336993049,0.4944360093996628,False,1.0,False,False
+correlation_significance.csv,kendall_p,ESG_composite | value_score,0.3996769260042815,0.4944360093996628,False,1.0,False,False
+correlation_significance.csv,pearson_p,E_score | growth_score,0.4061704868097811,0.5012923806762403,False,1.0,False,False
+correlation_significance.csv,spearman_p,G_score | value_score,0.4165145678484183,0.5128578907853187,False,1.0,False,False
+correlation_significance.csv,pearson_p,ESG_composite | growth_score,0.4215697691410063,0.5178724203666907,False,1.0,False,False
+correlation_significance.csv,pearson_p,ESG_composite | value_score,0.4387687699319585,0.536499168803114,False,1.0,False,False
+normality_tests.csv,shapiro_p,pref_balanced,0.4385286867618561,0.536499168803114,False,1.0,False,False
+correlation_significance.csv,pearson_p,G_score | value_score,0.4414771414980417,0.5385612351145092,False,1.0,False,False
+correlation_significance.csv,kendall_p,E_score | growth_score,0.4516234269813705,0.5496663880350628,False,1.0,False,False
+correlation_significance.csv,pearson_p,operational_score | risk_adjusted_score,0.456111709263615,0.5538499326772468,False,1.0,False,False
+correlation_significance.csv,spearman_p,E_score | growth_score,0.4592998980626385,0.5564391868483,False,1.0,False,False
+sector_anova.csv,welch_anova_p,operational_score | Small,0.4700929319954083,0.5682086586274775,False,1.0,False,False
+normality_tests.csv,shapiro_p,market_score,0.4778080582618713,0.5762124638535611,False,1.0,False,False
+correlation_significance.csv,pearson_p,growth_score | stability_score,0.4913718125391269,0.5912167698815521,False,1.0,False,False
+correlation_significance.csv,kendall_p,market_score | value_score,0.4959911390010864,0.5954153308737415,False,1.0,False,False
+correlation_significance.csv,kendall_p,ESG_composite | growth_score,0.5072150490699162,0.6075052974087405,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Utilities | ESG_composite | financial_score,0.5102848184048034,0.609796143535899,False,1.0,False,False
+correlation_significance.csv,spearman_p,market_score | value_score,0.5129022529212155,0.6115373015599107,False,1.0,False,False
+correlation_significance.csv,spearman_p,ESG_composite | growth_score,0.5168627985037407,0.6134835468726832,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Technology | financial_score | market_score,0.516127480952743,0.6134835468726832,False,1.0,False,False
+sector_anova.csv,kruskal_p,operational_score | Small,0.5349853581982658,0.6321463761670091,False,1.0,False,False
+country_differences.csv,mannwhitney_p,E_score | Small | negligible,0.534876879536581,0.6321463761670091,False,1.0,False,False
+correlation_significance.csv,pearson_p,G_score | stability_score,0.5639168756734667,0.6648415961519395,False,1.0,False,False
+correlation_significance.csv,kendall_p,E_score | market_score,0.5912194877470263,0.6954747099167028,False,1.0,False,False
+quintile_q5_vs_q1.csv,ttest_p,current_ratio,0.5934228926246641,0.6965119474681469,False,1.0,False,False
+correlation_significance.csv,kendall_p,S_score | risk_adjusted_score,0.6398646972631776,0.7488498285937681,False,1.0,False,False
+country_differences.csv,ttest_p,G_score | Small | negligible,0.6408563049255966,0.7488498285937681,False,1.0,False,False
+country_differences.csv,ttest_p,E_score | Small | negligible,0.643001968606516,0.7496947731319336,False,1.0,False,False
+correlation_significance.csv,spearman_p,S_score | risk_adjusted_score,0.6479140139969055,0.7526237384234533,False,1.0,False,False
+country_differences.csv,mannwhitney_p,pref_balanced | Small | negligible,0.648370355302178,0.7526237384234533,False,1.0,False,False
+correlation_significance.csv,spearman_p,E_score | market_score,0.6498804670289715,0.752718694778611,False,1.0,False,False
+correlation_significance.csv,kendall_p,financial_score | growth_score,0.6525248364160691,0.7541240982264659,False,1.0,False,False
+normality_tests.csv,jarque_bera_p,pref_financial_first,0.6546682436011483,0.7549456550936655,False,1.0,False,False
+correlation_significance.csv,pearson_p,G_score | risk_adjusted_score,0.6746290389325851,0.771410210524725,False,1.0,False,False
+multiple_regression.csv,p_value,roa | beta,0.672527042164462,0.771410210524725,False,1.0,False,False
+heteroscedasticity.csv,f_p,roe,0.6762647386383738,0.771410210524725,False,1.0,False,False
+heteroscedasticity.csv,bp_p,roe,0.6748868435346234,0.771410210524725,False,1.0,False,False
+correlation_significance.csv,spearman_p,financial_score | growth_score,0.672303320035281,0.771410210524725,False,1.0,False,False
+correlation_significance.csv,pearson_p,pref_esg_first | value_score,0.6812449504893069,0.775412719023466,False,1.0,False,False
+correlation_significance.csv,spearman_p,growth_score | stability_score,0.6945696051828869,0.7888753920934943,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Basic Materials | ESG_composite | roa,0.7053631068237998,0.7994115210669731,False,1.0,False,False
+correlation_significance.csv,pearson_p,S_score | growth_score,0.7069781323974129,0.7995224802005078,False,1.0,False,False
+wilcoxon_pairwise.csv,wilcoxon_p,market_score | operational_score | negligible,0.7084972105847782,0.7995246894607669,False,1.0,False,False
+correlation_significance.csv,kendall_p,G_score | stability_score,0.7122129982598768,0.8002905119039555,False,1.0,False,False
+correlation_significance.csv,spearman_p,G_score | stability_score,0.7114518166546555,0.8002905119039555,False,1.0,False,False
+normality_tests.csv,ks_p,market_score,0.7154033717736615,0.8021650572866375,False,1.0,False,False
+normality_tests.csv,shapiro_p,pref_financial_first,0.7281769514083862,0.8147542534866656,False,1.0,False,False
+normality_tests.csv,ks_p,pref_financial_first,0.7304168337863204,0.8155289648419297,False,1.0,False,False
+country_differences.csv,ttest_p,financial_score | Small | negligible,0.73993430106566,0.8244088301513802,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Utilities | ESG_composite | roa,0.7475410813097535,0.825814773582244,False,1.0,False,False
+correlation_significance.csv,pearson_p,E_score | G_score,0.7487950550760211,0.825814773582244,False,1.0,False,False
+country_differences.csv,ttest_p,pref_balanced | Small | negligible,0.7490312367596065,0.825814773582244,False,1.0,False,False
+pillar_correlations.csv,pearson_p,E_score | G_score,0.7487950550760211,0.825814773582244,False,1.0,False,False
+correlation_significance.csv,kendall_p,growth_score | stability_score,0.746865724304947,0.825814773582244,False,1.0,False,False
+country_differences.csv,mannwhitney_p,financial_score | Small | negligible,0.7528558529448788,0.8282986106512549,False,1.0,False,False
+correlation_significance.csv,spearman_p,G_score | growth_score,0.7561281743313323,0.8301657247346086,False,1.0,False,False
+correlation_significance.csv,kendall_p,G_score | growth_score,0.7706059593729542,0.8443021633878313,False,1.0,False,False
+correlation_significance.csv,kendall_p,ESG_composite | risk_adjusted_score,0.7768355959622344,0.8493617408134804,False,1.0,False,False
+wilcoxon_pairwise.csv,wilcoxon_p,ESG_composite | financial_score | negligible,0.7849530478810074,0.8564601578329004,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Communication Services | financial_score | market_score,0.7924719337441176,0.8628774981056817,False,1.0,False,False
+correlation_significance.csv,pearson_p,S_score | risk_adjusted_score,0.8112622966971179,0.881515938885322,False,1.0,False,False
+correlation_significance.csv,spearman_p,G_score | risk_adjusted_score,0.8180459374213908,0.8870580432532365,False,1.0,False,False
+quintile_q5_vs_q1.csv,ttest_p,revenue_growth,0.8213248320715686,0.8887847772109172,False,1.0,False,False
+correlation_significance.csv,spearman_p,ESG_composite | risk_adjusted_score,0.8314228916667021,0.8960324415303723,False,1.0,False,False
+correlation_significance.csv,kendall_p,G_score | risk_adjusted_score,0.8313870711634865,0.8960324415303723,False,1.0,False,False
+country_differences.csv,mannwhitney_p,G_score | Small | negligible,0.8352535968108931,0.8983237663660013,False,1.0,False,False
+correlation_significance.csv,pearson_p,E_score | risk_adjusted_score,0.8490052318385379,0.9112540879407526,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Basic Materials | financial_score | market_score,0.8580807689616436,0.9191231000869639,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Consumer Defensive | financial_score | market_score,0.8674705615624456,0.923549466552341,False,1.0,False,False
+multiple_regression.csv,p_value,roa | market_cap,0.8642541668085413,0.923549466552341,False,1.0,False,False
+correlation_significance.csv,kendall_p,pref_esg_first | value_score,0.8659173250711691,0.923549466552341,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Real Estate | ESG_composite | roa,0.8763320698563635,0.9306341059542851,False,1.0,False,False
+correlation_significance.csv,kendall_p,E_score | risk_adjusted_score,0.8781973989828598,0.9306341059542851,False,1.0,False,False
+correlation_significance.csv,spearman_p,pref_esg_first | value_score,0.8794227414900075,0.9306341059542851,False,1.0,False,False
+country_differences.csv,ttest_p,pref_financial_first | Small | negligible,0.8897508877263963,0.939676789242106,False,1.0,False,False
+correlation_significance.csv,spearman_p,E_score | G_score,0.8966466057516234,0.9415634452198938,False,1.0,False,False
+ordinal_variable_analysis.csv,spearman_p_financial_score,esg_risk_rating,0.8968972476288172,0.9415634452198938,False,1.0,False,False
+pillar_correlations.csv,spearman_p,E_score | G_score,0.8966466057516234,0.9415634452198938,False,1.0,False,False
+normality_tests.csv,ks_p,stability_score,0.9069895995510072,0.9502654452552303,False,1.0,False,False
+correlation_significance.csv,pearson_p,G_score | growth_score,0.9139592149236916,0.95301552647382,False,1.0,False,False
+country_differences.csv,mannwhitney_p,pref_financial_first | Small | negligible,0.9141997882100158,0.95301552647382,False,1.0,False,False
+correlation_significance.csv,spearman_p,E_score | risk_adjusted_score,0.915039575703516,0.95301552647382,False,1.0,False,False
+sector_score_interaction.csv,pearson_p,Financial Services | financial_score | market_score,0.9258816500067346,0.9624055809734697,False,1.0,False,False
+sector_anova.csv,welch_anova_p,growth_score | Small,0.9379559603197714,0.9726937178849367,False,1.0,False,False
+sector_anova.csv,anova_p,growth_score | Small,0.9394707825492083,0.9726937178849367,False,1.0,False,False
+sector_anova.csv,kruskal_p,risk_adjusted_score | Small,0.9439318762775378,0.9753962721534557,False,1.0,False,False
+sector_anova.csv,kruskal_p,growth_score | Small,0.9473274684766436,0.9769893852978302,False,1.0,False,False
+correlation_significance.csv,pearson_p,ESG_composite | risk_adjusted_score,0.9543397284126838,0.9822989001435241,False,1.0,False,False
+correlation_significance.csv,kendall_p,E_score | G_score,0.9610591446912956,0.9863930200053362,False,1.0,False,False
+sector_anova.csv,welch_anova_p,risk_adjusted_score | Small,0.962060744369531,0.9863930200053362,False,1.0,False,False
+correlation_significance.csv,pearson_p,financial_score | growth_score,0.964084970155919,0.9865490859653774,False,1.0,False,False
+sector_anova.csv,welch_anova_p,E_score | Small,0.9710708256584316,0.99177194791084,False,1.0,False,False
+sector_anova.csv,anova_p,E_score | Small,0.9760339667672694,0.9949127668981643,False,1.0,False,False
+sector_anova.csv,anova_p,risk_adjusted_score | Small,0.9785537035346882,0.99555560185865,False,1.0,False,False
+sector_anova.csv,kruskal_p,E_score | Small,0.9815258986365512,0.996655392257153,False,1.0,False,False
+sector_anova.csv,kruskal_p,value_score | Small,0.9999668028030024,0.9999668028030024,False,1.0,False,False
+sector_anova.csv,anova_p,value_score | Small,0.9999648347547192,0.9999668028030024,False,1.0,False,False
+correlation_significance.csv,kendall_p,S_score | growth_score,0.9924254929432684,0.9999668028030024,False,1.0,False,False
+correlation_significance.csv,spearman_p,S_score | growth_score,0.9973822010842264,0.9999668028030024,False,1.0,False,False
+sector_anova.csv,kruskal_p,stability_score | Small,0.989763235177935,0.9999668028030024,False,1.0,False,False
+sector_anova.csv,welch_anova_p,stability_score | Small,0.992677011607839,0.9999668028030024,False,1.0,False,False
+sector_anova.csv,anova_p,stability_score | Small,0.9918104127561602,0.9999668028030024,False,1.0,False,False
+sector_anova.csv,welch_anova_p,value_score | Small,0.9999466057389312,0.9999668028030024,False,1.0,False,False

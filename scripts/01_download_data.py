@@ -1846,9 +1846,9 @@ def create_hybrid_esg(tickers, yahoo_esg_df, sec_gov_df, sector_map,
     sec_gov_df : pd.DataFrame     Output of expand_sec_governance()
     sector_map : dict              ticker -> sector string
     financials_df : pd.DataFrame   Yahoo financials (for proxy derivation)
-    random_state : int, default RANDOM_SEED
-        Seed for the NumPy PRNG used in Tier 4/5 noise injection.
-        Ensures reproducible ESG scores across runs.
+    random_state : int, optional
+        Retained for API compatibility; the construction is deterministic
+        (no noise is injected at any tier).
 
     Returns
     -------
@@ -1858,9 +1858,6 @@ def create_hybrid_esg(tickers, yahoo_esg_df, sec_gov_df, sector_map,
     """
     import logging
     log = logging.getLogger(__name__)
-
-    # Set random seed for reproducibility of Tier 4/5 noise injection
-    rng = np.random.default_rng(random_state if random_state is not None else RANDOM_SEED)
 
     print("\n" + "=" * 70)
     print("STEP 1E: CREATING HYBRID ESG DATA (real + proxy + imputed)")
@@ -2064,8 +2061,13 @@ def create_hybrid_esg(tickers, yahoo_esg_df, sec_gov_df, sector_map,
             for ykey, our_col in YAHOO_TO_ESG_MAP.items():
                 if our_col is None:
                     continue
-                    # Don't overwrite real_epa/real_sec data (higher priority)
-                    if prov_df.loc[i, our_col] in ("real_epa", "real_sec"):
+                # Precedence note: the ISS governance QualityScores exposed by
+                # Yahoo (audit/board/compensation/shareholder-rights/overall
+                # risk) measure governance directly, whereas the SEC tier maps
+                # financial-disclosure items (dividends, buybacks, SBC) onto
+                # governance columns.  ISS scores therefore take precedence
+                # over SEC-derived values; only EPA data is never overwritten.
+                if prov_df.loc[i, our_col] == "real_epa":
                     continue
                 val = yrow.get(ykey, np.nan)
                 if pd.notna(val) and val != 0:
@@ -2131,14 +2133,17 @@ def create_hybrid_esg(tickers, yahoo_esg_df, sec_gov_df, sector_map,
     # 3c. Public ESG commitment data                        (TIER 3c)
     #     Real data from public ESG initiative registries
     # ------------------------------------------------------------------
+    # Registry memberships are binary facts, so they populate only the two
+    # binary policy indicators, encoded exactly as 0/1 (no score, no noise).
+    # Membership in SBTi / RE100 is a commitment, not a measurement of
+    # Scope-1 emissions or renewable share, so it no longer overwrites those
+    # continuous columns.  Absence from the author-curated lists is encoded
+    # as 0 ("not listed"), which is the information the lists carry.
     PUBLIC_ESG_MAP = {
-        # Public commitment -> ESG indicator column
-        "cdp_reporter": "carbon_reduction_target",      # CDP reporters have climate targets
-        "sbti_participant": "scope1_emissions",          # SBTi = verified emissions targets
-        "re100_member": "renewable_energy_pct",          # RE100 = renewable energy commitment
-        "ungc_signatory": "human_rights_policy",         # UNGC = human rights principles
+        "carbon_reduction_target": ["cdp_reporter", "sbti_participant", "re100_member"],
+        "human_rights_policy": ["ungc_signatory"],
     }
-    
+
     public_esg_count = 0
     if public_esg_df is not None and not public_esg_df.empty:
         pub_indexed = public_esg_df.set_index("ticker") if "ticker" in public_esg_df.columns else public_esg_df
@@ -2146,24 +2151,19 @@ def create_hybrid_esg(tickers, yahoo_esg_df, sec_gov_df, sector_map,
             if t not in pub_indexed.index:
                 continue
             prow = pub_indexed.loc[t]
-            
-            for pub_col, esg_col in PUBLIC_ESG_MAP.items():
+            for esg_col, pub_cols in PUBLIC_ESG_MAP.items():
                 if esg_col not in esg_indicator_cols:
                     continue
-                # Don't overwrite higher-priority real data
                 if prov_df.loc[i, esg_col] in ("real_epa", "real_sec", "real_yahoo"):
                     continue
-                
-                val = prow.get(pub_col, 0)
-                if pd.notna(val) and float(val) > 0:
-                    # Binary commitment -> score: participants score 75-90 range
-                    # Non-participants get no score (stays as proxy/imputed)
-                    commitment_score = 80.0 + rng.normal(0, 5)  # 75-85 range
-                    commitment_score = max(65, min(95, commitment_score))
-                    esg_df.loc[i, esg_col] = commitment_score
-                    prov_df.loc[i, esg_col] = "real_public_registry"
-                    public_esg_count += 1
-    
+                listed = any(
+                    pd.notna(prow.get(c, np.nan)) and float(prow.get(c, 0)) > 0
+                    for c in pub_cols
+                )
+                esg_df.loc[i, esg_col] = 1.0 if listed else 0.0
+                prov_df.loc[i, esg_col] = "real_public_registry"
+                public_esg_count += 1
+
     print(f"  [Tier 3c] Public ESG:    {public_esg_count} real data points from public registries")
 
     # ------------------------------------------------------------------
@@ -2179,7 +2179,9 @@ def create_hybrid_esg(tickers, yahoo_esg_df, sec_gov_df, sector_map,
         "emissions_intensity_proxy": "scope1_emissions",
         "employee_productivity_proxy": "employee_satisfaction",
         "workforce_investment_proxy": "gender_diversity_pct",
-        "financial_transparency_proxy": "anti_corruption_policy",
+        # financial_transparency_proxy is no longer mapped onto the binary
+        # anti_corruption_policy column: a 40-70 score clipped to {0,1}
+        # became a constant 1.0 and carried no information.
         # --- 7 new proxies (expanded coverage) ---
         "capital_efficiency_proxy": "energy_efficiency",
         "debt_discipline_proxy": "shareholder_rights_score",
@@ -2243,12 +2245,11 @@ def create_hybrid_esg(tickers, yahoo_esg_df, sec_gov_df, sector_map,
         for idx in esg_df.index[missing_mask]:
             sec = sector_series[idx]
             if sec in sector_medians.index and pd.notna(sector_medians[sec]):
-                # Reduced noise (±4%) to preserve signal while avoiding ties
-                # values that would collapse MAD-based normalization to zero
-                # and create artificial clustering.
-                median_val = sector_medians[sec]
-                noise = rng.normal(1.0, 0.04)
-                esg_df.loc[idx, col] = median_val * noise
+                # Exact median, no noise: random perturbation would inject
+                # cross-sectional variation that robust z-scoring then
+                # stretches into spurious signal.  Ties are handled by the
+                # MAD -> std fallback in robust_zscore.
+                esg_df.loc[idx, col] = sector_medians[sec]
                 prov_df.loc[idx, col] = "sector_imputed"
                 sector_imputed_count += 1
 
@@ -2272,11 +2273,7 @@ def create_hybrid_esg(tickers, yahoo_esg_df, sec_gov_df, sector_map,
 
         missing_mask = prov_df[col] == "missing"
         for idx in esg_df.index[missing_mask]:
-            # Reduced noise (±4%) to preserve signal while avoiding ties
-            # values that would collapse MAD-based normalization to zero
-            # and create artificial clustering.
-            noise = rng.normal(1.0, 0.04)
-            esg_df.loc[idx, col] = global_median * noise
+            esg_df.loc[idx, col] = global_median
             prov_df.loc[idx, col] = "cross_sector_imputed"
             cross_sector_count += 1
 
@@ -2606,6 +2603,18 @@ def main():
         epa_tri_df=epa_tri_df,
     )
 
+    combined = assemble_combined(fin_df, mkt_df, rd_df, esg_df, prov_df, worldbank_df)
+    _save_and_summarize_combined(combined)
+
+
+def assemble_combined(fin_df, mkt_df, rd_df, esg_df, prov_df, worldbank_df=None):
+    """Merge financial, market, R&D and hybrid-ESG frames into combined_raw.
+
+    Shared by the online download path and the offline rebuild so that both
+    produce identical schemas.
+    """
+    if worldbank_df is None:
+        worldbank_df = pd.DataFrame(columns=["country_iso2", "country"])
     # 3b. Compute ESG data quality score (0-100)
     try:
         quality_df = compute_esg_data_quality(prov_df)
@@ -2616,7 +2625,12 @@ def main():
     # Compute per-company dominant provenance for the combined dataset
     esg_indicator_cols = [c for c in prov_df.columns if c != "ticker"]
     def _dominant_source(row):
-        """Return the most common non-missing provenance, or 'missing'."""
+        """Return the highest-priority provenance tier present for the firm.
+
+        Note: this is a priority label (first tier found in the order below),
+        not the most frequent tier; it defines the source groups used for
+        pillar harmonization in compute_pillar_scores().
+        """
         vals = row[esg_indicator_cols]
         counts = vals.value_counts()
         for src in ["real_epa", "real_sec", "real_yahoo", "financial_proxy",
@@ -2699,6 +2713,10 @@ def main():
     # combined["free_float_pct"] = np.random.uniform(30, 98, len(combined))
     # combined["bid_ask_spread"] = np.random.exponential(0.05, len(combined)).clip(0.001, 0.5)
 
+    return combined
+
+
+def _save_and_summarize_combined(combined):
     outpath = PROJECT_ROOT / "data" / "raw" / "combined_raw.csv"
     combined.to_csv(outpath, index=False, encoding="utf-8")
     print(f"\n  [OK] Combined raw data: {len(combined)} companies, {len(combined.columns)} columns")
@@ -2723,5 +2741,43 @@ def main():
     print(f"\n[DONE] Data download complete. Next: python scripts/02_clean_data.py")
 
 
+def rebuild_offline():
+    """Rebuild hybrid ESG + combined_raw from the committed raw downloads.
+
+    Uses only files under data/raw/ (no network), so market data and
+    fundamentals stay frozen at the original snapshot date while the ESG
+    construction logic can be corrected and re-applied reproducibly.
+    """
+    raw = PROJECT_ROOT / "data" / "raw"
+    print("=" * 70)
+    print("MULTI-FACTOR INDEX: OFFLINE REBUILD FROM data/raw (no network)")
+    print("=" * 70)
+    fin_df = pd.read_csv(raw / "yahoo_financials.csv")
+    mkt_df = pd.read_csv(raw / "market_data.csv")
+    rd_df = pd.read_csv(raw / "sec_rd_data.csv")
+    yahoo_esg_df = pd.read_csv(raw / "yahoo_esg.csv")
+    sec_gov_df = pd.read_csv(raw / "sec_governance.csv")
+    tickers = fin_df["ticker"].tolist()
+    sector_map = {
+        r["ticker"]: r["sector"] for _, r in fin_df.iterrows() if pd.notna(r.get("sector"))
+    }
+    # Registry lists are defined in code; rebuilding keeps the CSV in sync.
+    public_esg_df = build_public_esg_commitments(tickers, sector_map)
+    esg_df, prov_df = create_hybrid_esg(
+        tickers,
+        yahoo_esg_df=yahoo_esg_df,
+        sec_gov_df=sec_gov_df,
+        sector_map=sector_map,
+        financials_df=fin_df,
+        public_esg_df=public_esg_df,
+        epa_tri_df=None,
+    )
+    combined = assemble_combined(fin_df, mkt_df, rd_df, esg_df, prov_df)
+    _save_and_summarize_combined(combined)
+
+
 if __name__ == "__main__":
-    main()
+    if "--offline-rebuild" in sys.argv:
+        rebuild_offline()
+    else:
+        main()

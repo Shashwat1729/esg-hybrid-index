@@ -30,10 +30,10 @@ be interpreted as reflecting the proxy construction methodology.
 1. DATASET OVERVIEW
 ========================================================================
 
-  Total companies: 276
-  Total variables: 202
-    US: 186 companies (67.4%)
-    India: 90 companies (32.6%)
+  Total companies: 269
+  Total variables: 201
+    US: 181 companies (67.3%)
+    India: 88 companies (32.7%)
   Sectors: 11
     Healthcare: 40
     Consumer Cyclical: 38
@@ -49,11 +49,11 @@ be interpreted as reflecting the proxy construction methodology.
   Key Score Statistics:
   Score                         Mean      Std      Min      Max
   ---------------------------------------------------------
-  ESG_composite                48.39     9.51    33.14    66.73
-  financial_score              48.74     9.68    33.17    66.56
-  market_score                 48.62     9.66    34.28    66.86
-  operational_score            47.23    13.62    19.00    81.01
-  pref_balanced                47.15    16.02    11.36    85.36
+  ESG_composite                48.28     9.31    28.48    72.21
+  financial_score              47.96    14.02    16.26    78.93
+  market_score                 47.20     7.41    28.51    73.11
+  operational_score            47.18    13.72    19.61    80.84
+  pref_balanced                46.79    15.34     9.20    85.08
 
 
 ========================================================================
@@ -61,9 +61,9 @@ be interpreted as reflecting the proxy construction methodology.
 ========================================================================
 
   Variables tested: 14
-  Normal (Shapiro-Wilk, p>0.05): 3/14
-  Normal (Jarque-Bera, p>0.05):  3/14
-  Normal (K-S, p>0.05):          5/14
+  Normal (Shapiro-Wilk, p>0.05): 5/14
+  Normal (Jarque-Bera, p>0.05):  7/14
+  Normal (K-S, p>0.05):          9/14
 
   Implication: Most scores are non-normally distributed, supporting use of non-parametric tests.
 
@@ -73,21 +73,21 @@ be interpreted as reflecting the proxy construction methodology.
 ========================================================================
 
   Total pairwise tests: 91
-  Significant Pearson (p<0.05):  66 (72.5%)
-  Significant Spearman (p<0.05): 67 (73.6%)
+  Significant Pearson (p<0.05):  62 (68.1%)
+  Significant Spearman (p<0.05): 62 (68.1%)
   [Note: ESG indicators include proxy-derived values; see provenance note above]
 
   Strongest positive correlations:
-    pref_balanced <-> pref_financial_first: r=0.972 (p=0.0000)
-    ESG_composite <-> pref_esg_first: r=0.965 (p=0.0000)
-    pref_balanced <-> pref_esg_first: r=0.926 (p=0.0000)
-    financial_score <-> pref_balanced: r=0.825 (p=0.0000)
-    pref_esg_first <-> pref_financial_first: r=0.817 (p=0.0000)
+    pref_balanced <-> pref_financial_first: r=0.963 (p=0.0000)
+    ESG_composite <-> pref_esg_first: r=0.949 (p=0.0000)
+    pref_balanced <-> pref_esg_first: r=0.908 (p=0.0000)
+    ESG_composite <-> E_score: r=0.819 (p=0.0000)
+    financial_score <-> pref_financial_first: r=0.798 (p=0.0000)
 
   Strongest negative correlations:
-    E_score <-> financial_score: r=-0.671 (p=0.0000)
-    E_score <-> pref_balanced: r=-0.612 (p=0.0000)
-    E_score <-> pref_esg_first: r=-0.585 (p=0.0000)
+    risk_adjusted_score <-> value_score: r=-0.468 (p=0.0000)
+    value_score <-> growth_score: r=-0.268 (p=0.0000)
+    value_score <-> stability_score: r=-0.199 (p=0.0010)
 
 
 ========================================================================
@@ -102,37 +102,37 @@ be interpreted as reflecting the proxy construction methodology.
   should be interpreted as reflecting this data composition.
 
   Regressions run: 13
-  Significant (p<0.05): 12/13
+  Significant (p<0.05): 10/13
   NOTE: Significance reflects synthetic calibration, not empirical discovery.
 
-    ESG_composite -> roa: R2=0.1670, slope=0.0019, p=0.0000 *
-    ESG_composite -> roe: R2=0.0581, slope=0.0052, p=0.0001 *
-    ESG_composite -> net_margin: R2=0.1750, slope=0.6561, p=0.0000 *
-    ESG_composite -> financial_score: R2=0.5444, slope=0.7510, p=0.0000 *
-    ESG_composite -> revenue_growth: R2=0.0272, slope=-0.0040, p=0.0061 *
-    ESG_composite -> operating_margins: R2=0.3563, slope=0.0083, p=0.0000 *
-    ESG_composite -> current_ratio: R2=0.0006, slope=-0.0027, p=0.6837  
-    E_score -> roa: R2=0.0916, slope=-0.0138, p=0.0000 *
-    E_score -> financial_score: R2=0.4500, slope=-6.5688, p=0.0000 *
-    S_score -> roa: R2=0.0511, slope=0.0178, p=0.0002 *
-    S_score -> financial_score: R2=0.2519, slope=8.4992, p=0.0000 *
-    G_score -> roa: R2=0.0187, slope=0.0115, p=0.0231 *
-    G_score -> financial_score: R2=0.0204, slope=2.5664, p=0.0177 *
+    ESG_composite -> roa: R2=0.1059, slope=0.0016, p=0.0000 *
+    ESG_composite -> roe: R2=0.0218, slope=0.0033, p=0.0153 *
+    ESG_composite -> net_margin: R2=0.0932, slope=0.4984, p=0.0000 *
+    ESG_composite -> financial_score: R2=0.3250, slope=0.8583, p=0.0000 *
+    ESG_composite -> revenue_growth: R2=0.0162, slope=-0.0032, p=0.0372 *
+    ESG_composite -> operating_margins: R2=0.2149, slope=0.0066, p=0.0000 *
+    ESG_composite -> current_ratio: R2=0.0123, slope=-0.0126, p=0.0695  
+    E_score -> roa: R2=0.1167, slope=0.0165, p=0.0000 *
+    E_score -> financial_score: R2=0.2888, slope=7.9525, p=0.0000 *
+    S_score -> roa: R2=0.0562, slope=0.0212, p=0.0001 *
+    S_score -> financial_score: R2=0.2496, slope=13.6782, p=0.0000 *
+    G_score -> roa: R2=0.0099, slope=0.0100, p=0.1029  
+    G_score -> financial_score: R2=0.0092, slope=2.9578, p=0.1174  
 
   Multiple Regression (with controls):
   [Synthetic data caveat applies -- ESG coefficients reflect construction, not causation]
-    ESG_composite -> roa: coef=0.0191, p=0.0000, R2_adj=0.1997 *
-    market_cap -> roa: coef=-0.0022, p=0.3810, R2_adj=0.1997  
-    debt_to_equity -> roa: coef=-0.0093, p=0.0002, R2_adj=0.1997 *
-    beta -> roa: coef=0.0020, p=0.4451, R2_adj=0.1997  
-    ESG_composite -> roe: coef=0.0453, p=0.0003, R2_adj=0.0646 *
-    market_cap -> roe: coef=0.0246, p=0.0492, R2_adj=0.0646 *
-    debt_to_equity -> roe: coef=-0.0170, p=0.1633, R2_adj=0.0646  
-    beta -> roe: coef=-0.0109, p=0.3880, R2_adj=0.0646  
-    ESG_composite -> financial_score: coef=7.1553, p=0.0000, R2_adj=0.5497 *
-    market_cap -> financial_score: coef=0.6022, p=0.1429, R2_adj=0.5497  
-    debt_to_equity -> financial_score: coef=-0.8108, p=0.0428, R2_adj=0.5497 *
-    beta -> financial_score: coef=0.4339, p=0.2978, R2_adj=0.5497  
+    ESG_composite -> roa: coef=0.0152, p=0.0000, R2_adj=0.1375 *
+    market_cap -> roa: coef=-0.0005, p=0.8643, R2_adj=0.1375  
+    debt_to_equity -> roa: coef=-0.0093, p=0.0005, R2_adj=0.1375 *
+    beta -> roa: coef=-0.0011, p=0.6725, R2_adj=0.1375  
+    ESG_composite -> roe: coef=0.0292, p=0.0204, R2_adj=0.0367 *
+    market_cap -> roe: coef=0.0301, p=0.0209, R2_adj=0.0367 *
+    debt_to_equity -> roe: coef=-0.0169, p=0.1842, R2_adj=0.0367  
+    beta -> roe: coef=-0.0192, p=0.1419, R2_adj=0.0367  
+    ESG_composite -> financial_score: coef=7.8263, p=0.0000, R2_adj=0.3823 *
+    market_cap -> financial_score: coef=3.1594, p=0.0000, R2_adj=0.3823 *
+    debt_to_equity -> financial_score: coef=-1.6489, p=0.0167, R2_adj=0.3823 *
+    beta -> financial_score: coef=-1.8817, p=0.0080, R2_adj=0.3823 *
 
 
 ========================================================================
@@ -140,38 +140,38 @@ be interpreted as reflecting the proxy construction methodology.
 ========================================================================
 
   ANOVA tests: 14
-  Significant (p<0.05): 2/14
-    ESG_composite: F=1.66, p=0.0917, eta2=0.060 (Medium)  
-    E_score: F=0.32, p=0.9762, eta2=0.012 (Small)  
-    S_score: F=10.76, p=0.0000, eta2=0.294 (Large) *
-    G_score: F=4.13, p=0.0000, eta2=0.138 (Medium) *
-    financial_score: F=0.91, p=0.5253, eta2=0.034 (Small)  
-    market_score: F=0.36, p=0.9624, eta2=0.014 (Small)  
-    operational_score: F=1.06, p=0.3959, eta2=0.039 (Small)  
-    pref_balanced: F=1.44, p=0.1613, eta2=0.053 (Small)  
-    pref_esg_first: F=1.72, p=0.0757, eta2=0.063 (Medium)  
-    pref_financial_first: F=1.17, p=0.3137, eta2=0.043 (Small)  
-    risk_adjusted_score: F=0.27, p=0.9872, eta2=0.010 (Small)  
-    value_score: F=0.13, p=0.9994, eta2=0.005 (Small)  
-    growth_score: F=0.41, p=0.9392, eta2=0.016 (Small)  
+  Significant (p<0.05): 7/14
+    ESG_composite: F=3.10, p=0.0010, eta2=0.107 (Medium) *
+    E_score: F=0.32, p=0.9760, eta2=0.012 (Small)  
+    S_score: F=8.62, p=0.0000, eta2=0.250 (Large) *
+    G_score: F=9.97, p=0.0000, eta2=0.279 (Large) *
+    financial_score: F=2.16, p=0.0204, eta2=0.077 (Medium) *
+    market_score: F=11.12, p=0.0000, eta2=0.301 (Large) *
+    operational_score: F=1.05, p=0.3988, eta2=0.039 (Small)  
+    pref_balanced: F=2.01, p=0.0329, eta2=0.072 (Medium) *
+    pref_esg_first: F=2.62, p=0.0048, eta2=0.092 (Medium) *
+    pref_financial_first: F=1.65, p=0.0937, eta2=0.060 (Medium)  
+    risk_adjusted_score: F=0.31, p=0.9786, eta2=0.012 (Small)  
+    value_score: F=0.07, p=1.0000, eta2=0.003 (Small)  
+    growth_score: F=0.41, p=0.9395, eta2=0.016 (Small)  
     stability_score: F=0.24, p=0.9918, eta2=0.009 (Small)  
 
   Country difference tests: 14
   Significant (t-test, p<0.05): 5/14
-    ESG_composite: Cohen's d=-0.119 (Small), p=0.3562  
-    E_score: Cohen's d=0.320 (Small), p=0.0146 *
-    S_score: Cohen's d=0.725 (Medium), p=0.0000 *
-    G_score: Cohen's d=0.003 (Small), p=0.9843  
-    financial_score: Cohen's d=-0.053 (Small), p=0.6787  
-    market_score: Cohen's d=0.774 (Medium), p=0.0000 *
-    operational_score: Cohen's d=0.952 (Large), p=0.0000 *
-    pref_balanced: Cohen's d=0.082 (Small), p=0.5229  
-    pref_esg_first: Cohen's d=0.012 (Small), p=0.9238  
-    pref_financial_first: Cohen's d=0.180 (Small), p=0.1631  
-    risk_adjusted_score: Cohen's d=0.000 (Small), p=0.9997  
-    value_score: Cohen's d=0.714 (Medium), p=0.0000 *
-    growth_score: Cohen's d=-0.148 (Small), p=0.2509  
-    stability_score: Cohen's d=-0.136 (Small), p=0.2912  
+    ESG_composite: Cohen's d=0.199 (Small), p=0.1262  
+    E_score: Cohen's d=-0.060 (Small), p=0.6430  
+    S_score: Cohen's d=0.742 (Medium), p=0.0000 *
+    G_score: Cohen's d=-0.061 (Small), p=0.6409  
+    financial_score: Cohen's d=-0.043 (Small), p=0.7399  
+    market_score: Cohen's d=0.656 (Medium), p=0.0000 *
+    operational_score: Cohen's d=1.022 (Large), p=0.0000 *
+    pref_balanced: Cohen's d=0.042 (Small), p=0.7490  
+    pref_esg_first: Cohen's d=0.201 (Small), p=0.1231  
+    pref_financial_first: Cohen's d=-0.018 (Small), p=0.8898  
+    risk_adjusted_score: Cohen's d=-0.767 (Medium), p=0.0000 *
+    value_score: Cohen's d=0.835 (Large), p=0.0000 *
+    growth_score: Cohen's d=-0.149 (Small), p=0.2521  
+    stability_score: Cohen's d=-0.137 (Small), p=0.2930  
 
 
 ========================================================================
@@ -179,18 +179,18 @@ be interpreted as reflecting the proxy construction methodology.
 ========================================================================
 
   Variables tested: 10
-  Significant differences: 7/10
+  Significant differences: 8/10
   [Note: ESG indicators include proxy-derived values; see provenance note above]
-    roa: Q5=0.082, Q1=0.016, diff=0.066, d=1.412 *
-    roe: Q5=0.221, Q1=-0.042, diff=0.262, d=1.151 *
-    net_margin: Q5=20.449, Q1=-2.015, diff=22.463, d=1.438 *
-    ESG_composite: Q5=58.952, Q1=38.162, diff=20.791, d=4.990 *
-    financial_score: Q5=60.430, Q1=38.671, diff=21.759, d=4.820 *
-    market_score: Q5=53.044, Q1=43.175, diff=9.869, d=1.086 *
-    operational_score: Q5=57.773, Q1=36.901, diff=20.872, d=1.783 *
-    revenue_growth: Q5=0.129, Q1=0.113, diff=0.016, d=0.100  
-    current_ratio: Q5=2.305, Q1=2.084, diff=0.221, d=0.190  
-    dividend_yield: Q5=1.684, Q1=1.438, diff=0.246, d=0.198  
+    roa: Q5=0.082, Q1=0.018, diff=0.064, d=1.387 *
+    roe: Q5=0.218, Q1=-0.018, diff=0.236, d=1.120 *
+    net_margin: Q5=20.316, Q1=-1.354, diff=21.670, d=1.498 *
+    ESG_composite: Q5=58.168, Q1=38.876, diff=19.292, d=3.141 *
+    financial_score: Q5=63.293, Q1=34.060, diff=29.233, d=3.136 *
+    market_score: Q5=50.584, Q1=43.071, diff=7.513, d=1.007 *
+    operational_score: Q5=58.509, Q1=35.263, diff=23.246, d=2.147 *
+    revenue_growth: Q5=0.131, Q1=0.123, diff=0.008, d=0.044  
+    current_ratio: Q5=2.289, Q1=2.168, diff=0.121, d=0.103  
+    dividend_yield: Q5=1.786, Q1=1.319, diff=0.467, d=0.402 *
 
 
 ========================================================================
@@ -201,14 +201,14 @@ be interpreted as reflecting the proxy construction methodology.
   [Note: ESG indicators include proxy-derived values; see provenance note above]
   Factor                               R2    Slope    p-value
   --------------------------------------------------------
-  financial_score                  0.6802   1.3644     0.0000 *
-  ESG_composite                    0.6441   1.3514     0.0000 *
-  operational_score                0.3062   0.6508     0.0000 *
-  stability_score                  0.1946   0.4639     0.0000 *
-  risk_adjusted_score              0.1882   0.7132     0.0000 *
-  growth_score                     0.1272   0.3769     0.0000 *
-  market_score                     0.1139   0.5595     0.0000 *
-  value_score                      0.0842  -0.4606     0.0000 *
+  financial_score                  0.6116   0.8558     0.0000 *
+  ESG_composite                    0.5666   1.2401     0.0000 *
+  operational_score                0.3282   0.6406     0.0000 *
+  stability_score                  0.1782   0.4218     0.0000 *
+  risk_adjusted_score              0.1742   0.6730     0.0000 *
+  growth_score                     0.1076   0.3294     0.0000 *
+  market_score                     0.1013   0.6589     0.0000 *
+  value_score                      0.0313  -0.1717     0.0036 *
 
 
 ========================================================================
@@ -217,16 +217,16 @@ be interpreted as reflecting the proxy construction methodology.
 
   Factor                              VIF        Level
   --------------------------------------------------
-  ESG_composite                      2.61          Low
-  financial_score                    3.26          Low
-  market_score                       1.98          Low
-  operational_score                  1.67          Low
-  risk_adjusted_score                2.18          Low
-  growth_score                       1.23          Low
-  value_score                        1.86          Low
-  stability_score                    1.23          Low
-  similarity_rank                    1.37          Low
-  sector_position                    2.20          Low
+  ESG_composite                      4.44          Low
+  financial_score                    2.15          Low
+  market_score                       1.38          Low
+  operational_score                  1.98          Low
+  risk_adjusted_score                1.56          Low
+  growth_score                       1.19          Low
+  value_score                        1.42          Low
+  stability_score                    1.31          Low
+  similarity_rank                    2.55          Low
+  sector_position                    2.16          Low
 
   All VIF values below 5 - no serious multicollinearity detected.
 
@@ -236,62 +236,62 @@ be interpreted as reflecting the proxy construction methodology.
 ========================================================================
 
   Rank stability (100 weight perturbations, +/-20%):
-    Stable companies (std < 3): 32.2%
-    Average rank std:  4.57
-    Average rank range: 21.8
+    Stable companies (std < 3): 25.3%
+    Average rank std:  4.85
+    Average rank range: 23.2
 
   Grid search (ESG x Financial weights):
     Best ESG weight: 0.3
-    Best Financial weight: 0.2
-    Best CS-IR: 0.2427
+    Best Financial weight: 0.35
+    Best CS-IR: 0.1666
     Total combinations tested: 99
 
   Profile comparison:
-    esg_first vs balanced: Kendall tau=0.751, Top-10 overlap=8
-    esg_first vs financial_first: Kendall tau=0.593, Top-10 overlap=7
-    balanced vs financial_first: Kendall tau=0.833, Top-10 overlap=9
+    esg_first vs balanced: Kendall tau=0.734, Top-10 overlap=8
+    esg_first vs financial_first: Kendall tau=0.567, Top-10 overlap=7
+    balanced vs financial_first: Kendall tau=0.820, Top-10 overlap=7
 
 
 ========================================================================
 10. BENCHMARK COMPARISON
 ========================================================================
 
-  Our Multi-Factor (Top 20):
-    N companies: 20
-    Avg ESG:       60.1
-    Avg Financial: 61.5
+  Our Multi-Factor (Top 19):
+    N companies: 19
+    Avg ESG:       61.5
+    Avg Financial: 67.4
     N sectors:     10
-  ESG-Only (Top 20):
-    N companies: 20
-    Avg ESG:       64.6
-    Avg Financial: 59.4
-    N sectors:     9
-  Financial-Only (Top 20):
-    N companies: 20
-    Avg ESG:       61.3
-    Avg Financial: 64.7
-    N sectors:     10
-  Growth-Only (Top 20):
-    N companies: 20
-    Avg ESG:       47.3
-    Avg Financial: 47.7
+  ESG-Only (Top 19):
+    N companies: 19
+    Avg ESG:       67.3
+    Avg Financial: 59.7
+    N sectors:     8
+  Financial-Only (Top 19):
+    N companies: 19
+    Avg ESG:       57.8
+    Avg Financial: 72.8
+    N sectors:     8
+  Growth-Only (Top 19):
+    N companies: 19
+    Avg ESG:       47.6
+    Avg Financial: 44.9
     N sectors:     11
   Full Universe:
-    N companies: 276
-    Avg ESG:       48.4
-    Avg Financial: 48.7
+    N companies: 269
+    Avg ESG:       48.3
+    Avg Financial: 48.0
     N sectors:     11
 
   Simulated portfolio returns (avg_price_momentum_1m):
-    our_balanced_top20: -4.01%
-    our_balanced_top30: -3.95%
-    our_esg_first_top20: -4.47%
-    our_fin_first_top20: -3.13%
-    esg_only_top20: -4.65%
-    financial_only_top20: -5.99%
-    risk_adj_only_top20: 0.53%
-    growth_only_top20: -7.08%
-    full_universe: -4.47%
+    our_balanced_top19: -3.84%
+    our_balanced_top30: -3.64%
+    our_esg_first_top19: -2.27%
+    our_fin_first_top19: -4.06%
+    esg_only_top19: -0.52%
+    financial_only_top19: -4.15%
+    risk_adj_only_top19: -4.16%
+    growth_only_top19: -7.26%
+    full_universe: -4.46%
 
 
 ========================================================================
@@ -299,59 +299,59 @@ be interpreted as reflecting the proxy construction methodology.
 ========================================================================
 
   PCA - Explained Variance:
-    PC1: eigenvalue=2.557, var=31.8%, cum=31.8%
-    PC2: eigenvalue=1.681, var=20.9%, cum=52.8%
-    PC3: eigenvalue=1.174, var=14.6%, cum=67.4%
-    PC4: eigenvalue=0.948, var=11.8%, cum=79.2%
-    PC5: eigenvalue=0.703, var=8.8%, cum=88.0%
-    PC6: eigenvalue=0.466, var=5.8%, cum=93.8%
-    PC7: eigenvalue=0.289, var=3.6%, cum=97.4%
-    PC8: eigenvalue=0.211, var=2.6%, cum=100.0%
+    PC1: eigenvalue=2.364, var=29.4%, cum=29.4%
+    PC2: eigenvalue=1.794, var=22.3%, cum=51.8%
+    PC3: eigenvalue=1.052, var=13.1%, cum=64.9%
+    PC4: eigenvalue=0.866, var=10.8%, cum=75.7%
+    PC5: eigenvalue=0.728, var=9.1%, cum=84.7%
+    PC6: eigenvalue=0.490, var=6.1%, cum=90.8%
+    PC7: eigenvalue=0.447, var=5.6%, cum=96.4%
+    PC8: eigenvalue=0.289, var=3.6%, cum=100.0%
     Components to retain (Kaiser): 3
 
   Hierarchical Clustering:
-    Optimal clusters: 3
-    Silhouette score: 0.261
+    Optimal clusters: 5
+    Silhouette score: 0.192
 
   Bootstrap CI (500 iterations):
-    Stable companies: 20.3%
-    Average CI width: 241.9 positions
+    Stable companies: 12.6%
+    Average CI width: 42.8 positions
 
   Factor Ablation:
-    Remove growth_score: Kendall tau=0.777, mean rank shift=22.3
-    Remove ESG_composite: Kendall tau=0.804, mean rank shift=19.6
-    Remove financial_score: Kendall tau=0.848, mean rank shift=15.3
-    Remove risk_adjusted_score: Kendall tau=0.849, mean rank shift=15.5
-    Remove stability_score: Kendall tau=0.885, mean rank shift=11.4
-    Remove operational_score: Kendall tau=0.925, mean rank shift=7.6
-    Remove sector_position: Kendall tau=0.943, mean rank shift=5.9
-    Remove market_score: Kendall tau=0.956, mean rank shift=4.7
-    Remove value_score: Kendall tau=0.959, mean rank shift=4.5
+    Remove growth_score: Kendall tau=0.779, mean rank shift=21.5
+    Remove financial_score: Kendall tau=0.781, mean rank shift=21.9
+    Remove ESG_composite: Kendall tau=0.817, mean rank shift=17.4
+    Remove risk_adjusted_score: Kendall tau=0.865, mean rank shift=13.1
+    Remove stability_score: Kendall tau=0.881, mean rank shift=11.8
+    Remove operational_score: Kendall tau=0.928, mean rank shift=7.3
+    Remove value_score: Kendall tau=0.936, mean rank shift=6.5
+    Remove sector_position: Kendall tau=0.944, mean rank shift=5.7
+    Remove market_score: Kendall tau=0.965, mean rank shift=3.6
     Remove similarity_rank: Kendall tau=1.000, mean rank shift=0.0
 
   Factor Tilt Sensitivity:
-    Best CS-IR (original): return=43.35, risk=32.40, CS-IR=1.338
-    Min Risk (original): return=7.89, risk=16.21, CS-IR=0.487
-    Max Return (original): return=45.61, risk=34.98, CS-IR=1.304
-    Best CS-IR (ex_market): return=2.53, risk=22.29, CS-IR=0.113
-    Min Risk (ex_market): return=-2.10, risk=18.37, CS-IR=-0.114
-    Max Return (ex_market): return=2.53, risk=22.29, CS-IR=0.113
+    Best CS-IR (original): return=14.99, risk=20.87, CS-IR=0.718
+    Min Risk (original): return=3.97, risk=15.22, CS-IR=0.261
+    Max Return (original): return=19.06, risk=29.13, CS-IR=0.655
+    Best CS-IR (ex_market): return=9.74, risk=26.51, CS-IR=0.367
+    Min Risk (ex_market): return=-2.94, risk=18.20, CS-IR=-0.161
+    Max Return (ex_market): return=9.74, risk=26.51, CS-IR=0.367
 
   Cross-Validation (110-fold):
-    Avg train CS-IR: 0.862
-    Avg test CS-IR:  -0.122
-    Overfit ratio:    -0.47
+    Avg train CS-IR: 0.765
+    Avg test CS-IR:  -0.131
+    Overfit ratio:    -1.81
 
   Score Inequality (Gini):
-    ESG_composite: Gini=0.359 (Moderate)
-    financial_score: Gini=0.358 (Moderate)
-    market_score: Gini=0.387 (Moderate)
-    operational_score: Gini=0.276 (Moderate)
-    risk_adjusted_score: Gini=0.357 (Moderate)
-    value_score: Gini=0.329 (Moderate)
-    growth_score: Gini=0.254 (Moderate)
-    stability_score: Gini=0.223 (Moderate)
-    pref_balanced: Gini=0.255 (Moderate)
+    ESG_composite: Gini=0.266 (Moderate)
+    financial_score: Gini=0.253 (Moderate)
+    market_score: Gini=0.223 (Moderate)
+    operational_score: Gini=0.285 (Moderate)
+    risk_adjusted_score: Gini=0.165 (Moderate)
+    value_score: Gini=0.275 (Moderate)
+    growth_score: Gini=0.258 (Moderate)
+    stability_score: Gini=0.226 (Moderate)
+    pref_balanced: Gini=0.232 (Moderate)
 
 
 ========================================================================
@@ -360,11 +360,11 @@ be interpreted as reflecting the proxy construction methodology.
 
   Strategy                    
   ----------------------------
-  Our_MultiF_Top20            
-  Our_ESGFirst_Top20          
-  ESG_Only_Top20              
-  Financial_Only_Top20        
-  Growth_Only_Top20           
+  Our_MultiF_Top19            
+  Our_ESGFirst_Top19          
+  ESG_Only_Top19              
+  Financial_Only_Top19        
+  Growth_Only_Top19           
   Full_Universe               
 
   Multi-factor beats universe: 0/0 horizons
@@ -376,11 +376,11 @@ be interpreted as reflecting the proxy construction methodology.
 
   Strategy                      ExcessMom   Beta   Excess       IR
   ----------------------------------------------------------------
-  Our_MultiF_Top20                 +10.65   0.82   +10.65   +0.585
-  Our_ESGFirst_Top20                +2.57   0.73    +2.57   +0.127
-  ESG_Only_Top20                    -1.64   0.59    -1.64   -0.084
-  Financial_Only_Top20              -5.89   0.91    -5.89   -0.260
-  Growth_Only_Top20                 +7.54   0.68    +7.54   +0.246
+  Our_MultiF_Top19                  +3.82   0.91    +3.82   +0.190
+  Our_ESGFirst_Top19                +8.81   0.94    +8.81   +0.334
+  ESG_Only_Top19                    +1.42   0.90    +1.42   +0.056
+  Financial_Only_Top19              +0.17   0.95    +0.17   +0.009
+  Growth_Only_Top19                 +5.33   0.67    +5.33   +0.178
 
 
 ========================================================================
@@ -389,16 +389,16 @@ be interpreted as reflecting the proxy construction methodology.
 
 
   BULL Market:
-    our_balanced        : return=+14.86%, excess= -4.25%, CS-IR=+0.850
-    esg_only            : return=+18.06%, excess= -1.05%, CS-IR=+0.983
-    financial_only      : return=+15.92%, excess= -3.19%, CS-IR=+0.934
-    growth_only         : return=+20.43%, excess= +1.32%, CS-IR=+1.152
+    our_balanced        : return=+12.56%, excess= -7.06%, CS-IR=+0.945
+    esg_only            : return=+19.35%, excess= -0.27%, CS-IR=+1.024
+    financial_only      : return=+11.53%, excess= -8.10%, CS-IR=+0.730
+    growth_only         : return=+21.15%, excess= +1.52%, CS-IR=+1.180
 
   BEAR Market:
-    our_balanced        : return=-15.82%, excess= +7.27%, CS-IR=-1.342
-    esg_only            : return=-17.90%, excess= +5.19%, CS-IR=-1.363
-    financial_only      : return=-18.60%, excess= +4.49%, CS-IR=-1.555
-    growth_only         : return=-26.33%, excess= -3.24%, CS-IR=-1.563
+    our_balanced        : return=-16.73%, excess= +6.91%, CS-IR=-1.458
+    esg_only            : return=-21.84%, excess= +1.80%, CS-IR=-1.597
+    financial_only      : return=-17.67%, excess= +5.97%, CS-IR=-1.534
+    growth_only         : return=-26.65%, excess= -3.00%, CS-IR=-1.544
 
 
 ========================================================================
@@ -408,45 +408,45 @@ be interpreted as reflecting the proxy construction methodology.
   Factor                        Q1     Q3     Q5   Spread   Mono
   ---------------------------------------------------------
   [Note: ESG indicators include proxy-derived values; see provenance note above]
-  market_score               -30.1   -3.0  +32.6   +62.72    Yes
-  risk_adjusted_score        -23.1   -2.0  +17.8   +40.90    Yes
-  pref_balanced              -13.3   +5.1   +3.6   +16.93 Partial
-  growth_score                -5.8   -1.9   +5.0   +10.77    Yes
-  stability_score             -2.3   -2.8   +5.3    +7.54 Partial
-  operational_score           -2.2   -5.3   -0.5    +1.72     No
-  ESG_composite               +1.1   -3.5   -1.2    -2.31     No
-  financial_score             +3.7   -5.1   -1.3    -5.02     No
-  value_score                 +2.6   -4.5   -8.7   -11.30     No
+  market_score               -22.8   +2.0  +12.1   +34.95    Yes
+  risk_adjusted_score        -11.5   -1.6   +9.2   +20.69    Yes
+  pref_balanced               -8.9   +3.0   +4.1   +12.97    Yes
+  growth_score                -5.8   -0.9   +5.4   +11.21 Partial
+  stability_score             -3.5   -4.1   +5.2    +8.69 Partial
+  operational_score           -1.8   -6.3   -0.5    +1.37 Partial
+  financial_score             -1.8   -2.8   -2.0    -0.24     No
+  ESG_composite               +5.1   -1.4   -3.4    -8.53     No
+  value_score                 -0.8   -1.4  -10.6    -9.80     No
 
   Monotonic factors: 3/9
-  Best predictor: market_score (Q5-Q1 spread = +62.72%)
+  Best predictor: market_score (Q5-Q1 spread = +34.95%)
 
 
 ========================================================================
 16. DATA QUALITY & VARIABLE CLASSIFICATION
 ========================================================================
 
-  Variable type classification (81 variables):
+  Variable type classification (80 variables):
     count               : 20
     bounded_pct         : 17
     continuous          : 15
     ratio               : 13
     rate                : 11
-    binary              : 3
     ordinal             : 2
+    binary              : 2
 
   Advanced Outlier Detection (IQR + MAD + Z-score consensus):
-    Variables with outliers: 60/76
-    Total outlier observations flagged: 1299
+    Variables with outliers: 59/76
+    Total outlier observations flagged: 1271
     Most affected variables:
       total_debt                    : 56 outliers (17.8%)
       net_income                    : 55 outliers (17.5%)
-      total_revenue                 : 55 outliers (17.6%)
+      total_revenue                 : 54 outliers (17.3%)
       market_cap                    : 54 outliers (17.2%)
       total_cash                    : 48 outliers (15.3%)
 
   Data Quality:
-    Avg missing before cleaning: 18.7%
+    Avg missing before cleaning: 19.7%
     Avg missing after cleaning:  0.0%
 
 
@@ -454,21 +454,20 @@ be interpreted as reflecting the proxy construction methodology.
 17. BINARY & ORDINAL VARIABLE ANALYSIS
 ========================================================================
 
-  Binary variables tested: 3
-    Significant associations with ESG_composite: 0/3
-    Significant associations with financial_score: 0/3
-    Significant associations with pref_balanced: 0/3
+  Binary variables tested: 2
+    Significant associations with ESG_composite: 2/2
+    Significant associations with financial_score: 2/2
+    Significant associations with pref_balanced: 2/2
 
-    anti_corruption_policy        : prop=1.00, ESG r=nan , Fin r=nan , Pref r=nan 
-    carbon_reduction_target       : prop=1.00, ESG r=nan , Fin r=nan , Pref r=nan 
-    human_rights_policy           : prop=1.00, ESG r=nan , Fin r=nan , Pref r=nan 
+    human_rights_policy           : prop=0.10, ESG r=0.276*, Fin r=0.164*, Pref r=0.247*
+    carbon_reduction_target       : prop=0.19, ESG r=0.399*, Fin r=0.242*, Pref r=0.343*
 
   Phi Coefficients (binary-binary associations):
-    carbon_reduction_target x human_rights_policy: phi=0.111, p=0.0751  
+    human_rights_policy x carbon_reduction_target: phi=0.636, p=0.0000 *
 
   Ordinal variables tested: 2
-    board_size: median=63, KW-H(sector)=175.444 (p=0.0000)*, Spearman(pref)=0.067 (p=0.2706)
-    esg_risk_rating: median=59, KW-H(sector)=39.514 (p=0.0000)*, Spearman(pref)=0.145 (p=0.0158)
+    esg_risk_rating: median=60, KW-H(sector)=41.219 (p=0.0000)*, Spearman(pref)=0.135 (p=0.0270)
+    board_size: median=65, KW-H(sector)=257.160 (p=0.0000)*, Spearman(pref)=0.139 (p=0.0227)
 
 
 ========================================================================
@@ -476,19 +475,19 @@ be interpreted as reflecting the proxy construction methodology.
 ========================================================================
 
   Friedman test (across score categories):
-    Chi-squared: 8.365
-    p-value:     0.0390
-    Result: Significant differences in score distributions across categories.
+    Chi-squared: 4.758
+    p-value:     0.1904
+    Result: No significant differences detected.
 
   Wilcoxon signed-rank pairwise comparisons:
     Total pairs tested: 6
-    Significant (p<0.05): 1/6
-    ESG_composite vs financial_score: W=17475.0, p=0.2172  
-    ESG_composite vs market_score: W=18602.0, p=0.7002  
-    ESG_composite vs operational_score: W=17207.0, p=0.1510  
-    financial_score vs market_score: W=17990.0, p=0.3975  
-    financial_score vs operational_score: W=16402.0, p=0.0411 *
-    market_score vs operational_score: W=17282.0, p=0.1677  
+    Significant (p<0.05): 0/6
+    ESG_composite vs financial_score: W=17809.0, p=0.7850  
+    ESG_composite vs market_score: W=16050.0, p=0.0989  
+    ESG_composite vs operational_score: W=15823.0, p=0.0676  
+    financial_score vs market_score: W=16954.0, p=0.3460  
+    financial_score vs operational_score: W=16741.0, p=0.2674  
+    market_score vs operational_score: W=17680.0, p=0.7085  
 
 
 ========================================================================
@@ -497,25 +496,25 @@ ESG FACTOR VALUE CONTRIBUTION
 
   ESG Premium Analysis (High-ESG vs Low-ESG within same financial tier):
 
-    Financial Tier: Low, Horizon: 1m, ESG Premium: 175.59%
-    Financial Tier: Low, Horizon: 3m, ESG Premium: -259.28%
-    Financial Tier: Low, Horizon: 6m, ESG Premium: -766.76%
-    Financial Tier: Mid, Horizon: 1m, ESG Premium: 292.80%
-    Financial Tier: Mid, Horizon: 3m, ESG Premium: 436.57%
-    Financial Tier: Mid, Horizon: 6m, ESG Premium: 610.88%
-    Financial Tier: High, Horizon: 1m, ESG Premium: -40.96%
-    Financial Tier: High, Horizon: 3m, ESG Premium: 92.07%
-    Financial Tier: High, Horizon: 6m, ESG Premium: -415.92%
+    Financial Tier: Low, Horizon: 1m, ESG Premium: -376.33%
+    Financial Tier: Low, Horizon: 3m, ESG Premium: -698.23%
+    Financial Tier: Low, Horizon: 6m, ESG Premium: -1441.63%
+    Financial Tier: Mid, Horizon: 1m, ESG Premium: -45.46%
+    Financial Tier: Mid, Horizon: 3m, ESG Premium: -529.84%
+    Financial Tier: Mid, Horizon: 6m, ESG Premium: -580.99%
+    Financial Tier: High, Horizon: 1m, ESG Premium: -74.14%
+    Financial Tier: High, Horizon: 3m, ESG Premium: 96.31%
+    Financial Tier: High, Horizon: 6m, ESG Premium: -35.91%
 
   Factor Return Attribution:
 
-    ESG_composite: IC=0.068 (p=0.2632), Q5-Q1 spread=-230.52%
-    financial_score: IC=0.103 (p=0.0869), Q5-Q1 spread=-502.08%
-    operational_score: IC=0.053 (p=0.3759), Q5-Q1 spread=172.15%
-    risk_adjusted_score: IC=0.587 (p=0.0000), Q5-Q1 spread=4090.13%
-    growth_score: IC=0.178 (p=0.0030), Q5-Q1 spread=1076.68%
-    value_score: IC=-0.086 (p=0.1524), Q5-Q1 spread=-1129.76%
-    stability_score: IC=0.135 (p=0.0255), Q5-Q1 spread=753.53%
+    ESG_composite: IC=0.009 (p=0.8827), Q5-Q1 spread=-852.51%
+    financial_score: IC=0.079 (p=0.1940), Q5-Q1 spread=-24.30%
+    operational_score: IC=0.063 (p=0.3061), Q5-Q1 spread=137.08%
+    risk_adjusted_score: IC=0.372 (p=0.0000), Q5-Q1 spread=2069.27%
+    growth_score: IC=0.179 (p=0.0033), Q5-Q1 spread=1120.71%
+    value_score: IC=-0.072 (p=0.2380), Q5-Q1 spread=-979.58%
+    stability_score: IC=0.138 (p=0.0242), Q5-Q1 spread=868.86%
 
   ESG Incremental R² Beyond Sector Effects:
 
@@ -557,22 +556,17 @@ LIMITATIONS: SYNTHETIC ESG DATA
 19. RESULTS SUMMARY
 ========================================================================
 
-  Sample: 276 companies, 11 sectors (US + India).
-  Balanced top-20: 1m return -4.01% (CS-IR -0.710)
-  Multi-factor index outperforms universe across all measured horizons.
-  ESG integration provides documented bear-market downside protection.
-    vs full universe -4.47% (CS-IR -0.499).
-    Beats all single-factor alternatives: ESG-only (-4.65%), financial-only (-5.99%), growth-only (-7.08%).
+  Sample: 269 companies, 11 sectors (US + India).
   Outperforms universe across 0/0 horizons tested.
-  Excess avg momentum = +0.00%, Beta = 0.82, IR = 0.585.
-  Score-weighted CS-IR (0.475) > random baselines (-0.051).
-  Rank stability: 32.2% stable under +/-20% perturbation (avg std 4.57).
-  Cross-validation: train CS-IR 0.862, test CS-IR -0.122.
-  Rolling rebalance: beats benchmark 100% of periods (avg excess +7.38%).
-  Dominant factor: financial_score (R2 = 0.680).
-  Max VIF = 3.26 (no serious multicollinearity).
-  Bear-market excess return: +7.27%.
-  Best monotonic predictor: market_score (Q5-Q1 spread = +62.72%).
+  Excess avg momentum = +0.00%, Beta = 0.91, IR = 0.190.
+  Score-weighted CS-IR (0.094) > random baselines (-0.069).
+  Rank stability: 25.3% stable under +/-20% perturbation (avg std 4.85).
+  Cross-validation: train CS-IR 0.765, test CS-IR -0.131.
+  Rolling rebalance: beats benchmark 100% of periods (avg excess +5.32%).
+  Dominant factor: financial_score (R2 = 0.612).
+  Max VIF = 4.44 (no serious multicollinearity).
+  Bear-market excess return: +6.91%.
+  Best monotonic predictor: market_score (Q5-Q1 spread = +34.95%).
 
   KEY CONCLUSIONS:
   ─────────────────
@@ -597,33 +591,33 @@ LIMITATIONS: SYNTHETIC ESG DATA
   Top 20 by Balanced Preference Score:
   #    Ticker       Sector                    Country    Pref    ESG    Fin
   -----------------------------------------------------------------------
-  1    INCY         Healthcare                US         85.4   59.1   62.8
-  2    CTRA         Energy                    US         84.2   64.3   64.4
-  3    DECK         Consumer Cyclical         US         83.0   65.9   66.5
-  4    NAVINFLUOR.NS Basic Materials           India      82.1   60.1   62.9
-  5    STAG         Real Estate               US         80.6   63.2   62.7
-  6    GGG          Industrials               US         80.0   64.5   66.6
-  7    MUTHOOTFIN.NS Financial Services        India      79.9   66.7   63.3
-  8    STLD         Basic Materials           US         77.3   52.5   55.0
-  9    ATO          Utilities                 US         77.3   57.5   65.4
-  10   GRMN         Technology                US         76.7   60.0   61.6
-  11   NNN          Real Estate               US         76.6   66.7   66.5
-  12   RS           Basic Materials           US         74.0   54.3   52.2
-  13   TORNTPHARM.NS Healthcare                India      73.1   64.0   59.3
-  14   WTS          Industrials               US         72.4   55.0   58.7
-  15   IBKR         Financial Services        US         72.3   58.2   58.8
-  16   SCHAEFFLER.NS Consumer Cyclical         India      72.2   55.3   60.5
-  17   MTCH         Communication Services    US         72.2   60.1   59.7
-  18   PIDILITIND.NS Basic Materials           India      72.1   59.1   62.3
-  19   GMED         Healthcare                US         72.1   57.7   59.4
-  20   EWBC         Financial Services        US         72.1   58.7   61.9
+  1    CTRA         Energy                    US         85.1   61.5   73.7
+  2    INCY         Healthcare                US         84.9   56.1   70.9
+  3    GGG          Industrials               US         81.2   64.6   72.0
+  4    DECK         Consumer Cyclical         US         79.9   65.9   73.8
+  5    STLD         Basic Materials           US         79.8   59.7   48.5
+  6    NAVINFLUOR.NS Basic Materials           India      79.4   62.3   62.1
+  7    STAG         Real Estate               US         78.4   66.4   69.0
+  8    NNN          Real Estate               US         76.0   72.2   77.9
+  9    EWBC         Financial Services        US         74.7   64.5   75.0
+  10   PIDILITIND.NS Basic Materials           India      74.2   58.7   64.0
+  11   MUTHOOTFIN.NS Financial Services        India      73.1   53.8   71.5
+  12   MTCH         Communication Services    US         71.3   66.5   64.5
+  13   CDNS         Technology                US         71.3   57.2   69.9
+  14   IBKR         Financial Services        US         71.2   51.7   69.4
+  15   ITT          Industrials               US         71.1   64.2   63.0
+  16   VEEV         Healthcare                US         71.1   60.1   69.6
+  17   RPM          Basic Materials           US         70.6   70.1   54.7
+  18   INVH         Real Estate               US         70.5   64.7   61.6
+  19   ATO          Utilities                 US         70.4   48.1   69.3
+  20   ILMN         Healthcare                US         69.5   56.8   64.0
 
 
 ========================================================================
 21. FIGURES GENERATED
 ========================================================================
 
-  Total figures: 58
+  Total figures: 59
 
   - benchmark_bootstrap_stability.png
   - benchmark_esg_premium.png
@@ -670,6 +664,7 @@ LIMITATIONS: SYNTHETIC ESG DATA
   - fig36_largecap_comparison.png
   - fig37_factor_contribution.png
   - fig_ic_heatmap.png
+  - fig_oos_ic.png
   - fig_proxy_calibration.png
   - fig_quintile_returns.png
   - fig_temporal_rolling_performance.png
@@ -689,17 +684,17 @@ LIMITATIONS: SYNTHETIC ESG DATA
 22. TABLES GENERATED
 ========================================================================
 
-  Total tables: 176
+  Total tables: 195
 
-  - advanced_bootstrap_ci.csv                          (  49.4 KB)
+  - advanced_bootstrap_ci.csv                          (  37.4 KB)
   - advanced_cluster_metrics.csv                       (   0.2 KB)
-  - advanced_cluster_profiles.csv                      (   0.7 KB)
-  - advanced_cluster_sectors.csv                       (   0.8 KB)
-  - advanced_cv_weights.csv                            (  25.6 KB)
+  - advanced_cluster_profiles.csv                      (   1.0 KB)
+  - advanced_cluster_sectors.csv                       (   1.1 KB)
+  - advanced_cv_weights.csv                            (  25.5 KB)
   - advanced_efficient_frontier.csv                    ( 132.5 KB)
   - advanced_factor_ablation.csv                       (   0.8 KB)
   - advanced_factor_monotonicity.csv                   (   1.8 KB)
-  - advanced_factor_tilt_sensitivity.csv               ( 268.9 KB)
+  - advanced_factor_tilt_sensitivity.csv               ( 268.2 KB)
   - advanced_gini_inequality.csv                       (   0.9 KB)
   - advanced_kmeans_elbow.csv                          (   0.3 KB)
   - advanced_optimal_portfolios.csv                    (   1.0 KB)
@@ -707,20 +702,20 @@ LIMITATIONS: SYNTHETIC ESG DATA
   - advanced_pca_variance.csv                          (   0.5 KB)
   - advanced_rank_reversals.csv                        (   1.8 KB)
   - advanced_regime_analysis.csv                       (   1.5 KB)
-  - advanced_rolling_rebalance.csv                     (   7.5 KB)
-  - benchmark_alpha_beta.csv                           (   1.4 KB)
+  - advanced_rolling_rebalance.csv                     (   7.7 KB)
+  - benchmark_alpha_beta.csv                           (   1.5 KB)
   - benchmark_bootstrap_results.csv                    (  17.9 KB)
-  - benchmark_esg_quintile_performance.csv             (   0.8 KB)
+  - benchmark_esg_quintile_performance.csv             (   0.7 KB)
   - benchmark_ex_market_performance.csv                (   3.9 KB)
   - benchmark_factor_contribution.csv                  (   1.0 KB)
   - benchmark_factor_validity.csv                      (   1.1 KB)
   - benchmark_factor_validity_clean.csv                (   1.1 KB)
-  - benchmark_multi_horizon.csv                        (   2.2 KB)
+  - benchmark_multi_horizon.csv                        (   2.5 KB)
   - benchmark_portfolio_comparison.csv                 (   1.9 KB)
-  - benchmark_portfolio_performance.csv                (   4.1 KB)
+  - benchmark_portfolio_performance.csv                (   4.4 KB)
   - benchmark_provider_correlations.csv                (   0.3 KB)
   - benchmark_ranking_overlap.csv                      (   0.4 KB)
-  - benchmark_sector_by_country.csv                    (   4.9 KB)
+  - benchmark_sector_by_country.csv                    (   5.0 KB)
   - benchmark_sector_composition.csv                   (   1.2 KB)
   - benchmark_sector_esg_comparison.csv                (   1.9 KB)
   - benchmark_sector_summary.csv                       (   0.6 KB)
@@ -729,8 +724,14 @@ LIMITATIONS: SYNTHETIC ESG DATA
   - benchmark_us_vs_india.csv                          (   2.0 KB)
   - benchmark_weighting_methods.csv                    (   0.6 KB)
   - binary_phi_coefficients.csv                        (   0.1 KB)
-  - binary_variable_analysis.csv                       (   0.4 KB)
-  - bootstrap_enhanced_stability.csv                   (  33.7 KB)
+  - binary_variable_analysis.csv                       (   0.7 KB)
+  - bootstrap_enhanced_stability.csv                   (  37.4 KB)
+  - bootstrap_rank_uncertainty_summary.csv             (   0.4 KB)
+  - bottom19_balanced.csv                              (   3.6 KB)
+  - bottom19_esg.csv                                   (   3.7 KB)
+  - bottom19_financial.csv                             (   3.7 KB)
+  - bottom19_growth.csv                                (   3.7 KB)
+  - bottom19_value.csv                                 (   3.8 KB)
   - bottom20_balanced.csv                              (   3.9 KB)
   - bottom20_esg.csv                                   (   3.9 KB)
   - bottom20_financial.csv                             (   3.8 KB)
@@ -739,21 +740,21 @@ LIMITATIONS: SYNTHETIC ESG DATA
   - capacity_analysis.csv                              (   2.0 KB)
   - capacity_aum_feasibility.csv                       (   0.5 KB)
   - circularity_comparison.csv                         (   0.7 KB)
-  - company_rankings.csv                               (  93.8 KB)
+  - company_rankings.csv                               (  95.9 KB)
   - correlation_pearson.csv                            (  10.6 KB)
   - correlation_significance.csv                       (  22.0 KB)
-  - correlation_spearman.csv                           (  10.6 KB)
+  - correlation_spearman.csv                           (  10.5 KB)
   - country_differences.csv                            (   4.4 KB)
   - cross_sectional_regression.csv                     (   1.5 KB)
-  - cross_validation_comprehensive.csv                 (  47.9 KB)
-  - cross_validation_comprehensive_quasi_temporal_size_stratified.csv (  48.7 KB)
+  - cross_validation_comprehensive.csv                 (  48.3 KB)
+  - cross_validation_comprehensive_quasi_temporal_size_stratified.csv (  49.2 KB)
   - currency_conversion_validation.csv                 (   0.2 KB)
-  - data_quality_after.csv                             (  14.7 KB)
-  - data_quality_before.csv                            (  16.5 KB)
+  - data_quality_after.csv                             (  15.0 KB)
+  - data_quality_before.csv                            (  16.4 KB)
   - decile_analysis.csv                                (   3.7 KB)
   - descriptive_statistics.csv                         (   3.2 KB)
   - economic_consistency.csv                           (   1.2 KB)
-  - esg_data_provenance.csv                            ( 125.2 KB)
+  - esg_data_provenance.csv                            ( 125.7 KB)
   - esg_financial_regression.csv                       (   1.9 KB)
   - esg_incremental_value.csv                          (   0.6 KB)
   - esg_premium_analysis.csv                           (   0.5 KB)
@@ -784,11 +785,19 @@ LIMITATIONS: SYNTHETIC ESG DATA
   - heteroscedasticity.csv                             (   0.3 KB)
   - indicator_factor_mapping.csv                       (   1.9 KB)
   - indicator_overlap_sensitivity.csv                  (   1.1 KB)
-  - leave_one_sector_out_cv.csv                        (  40.0 KB)
+  - leave_one_sector_out_cv.csv                        (  39.9 KB)
   - monotonicity_tests.csv                             (   0.4 KB)
   - multiple_regression.csv                            (   2.5 KB)
-  - multiple_testing_correction.csv                    (  69.0 KB)
-  - normality_tests.csv                                (   2.3 KB)
+  - multiple_testing_correction.csv                    (  69.6 KB)
+  - normality_tests.csv                                (   2.2 KB)
+  - oos_esg_risk_filter.csv                            (   3.1 KB)
+  - oos_firm_outcomes.csv                              (  37.3 KB)
+  - oos_information_coefficients.csv                   (  17.1 KB)
+  - oos_metadata.csv                                   (   0.4 KB)
+  - oos_portfolio_excess.csv                           (   2.4 KB)
+  - oos_primary_hypotheses.csv                         (   0.5 KB)
+  - oos_regression.csv                                 (   2.2 KB)
+  - oos_survivorship_bounds.csv                        (   0.3 KB)
   - ordinal_variable_analysis.csv                      (   0.7 KB)
   - outlier_report.csv                                 (   5.5 KB)
   - pca_effective_dimensionality.csv                   (   0.3 KB)
@@ -798,13 +807,13 @@ LIMITATIONS: SYNTHETIC ESG DATA
   - pillar_correlations.csv                            (   0.3 KB)
   - power_analysis.csv                                 (   2.0 KB)
   - predictive_validation_bootstrap.csv                (   0.4 KB)
-  - predictive_validation_ic.csv                       (   7.9 KB)
+  - predictive_validation_ic.csv                       (   8.2 KB)
   - predictive_validation_ic_bootstrap_ci.csv          (   3.7 KB)
-  - predictive_validation_ic_power.csv                 (   3.8 KB)
-  - predictive_validation_kruskal.csv                  (   3.2 KB)
-  - predictive_validation_quintiles.csv                (  18.8 KB)
-  - predictive_validation_spreads.csv                  (   4.1 KB)
-  - predictive_validation_summary.csv                  (   9.1 KB)
+  - predictive_validation_ic_power.csv                 (   3.9 KB)
+  - predictive_validation_kruskal.csv                  (   3.4 KB)
+  - predictive_validation_quintiles.csv                (  21.7 KB)
+  - predictive_validation_spreads.csv                  (   4.2 KB)
+  - predictive_validation_summary.csv                  (   9.8 KB)
   - profile_cluster_distribution.csv                   (   0.1 KB)
   - profile_grid_search_optimisation.csv               (   1.7 KB)
   - profile_literature_mapping.csv                     (   1.2 KB)
@@ -824,7 +833,7 @@ LIMITATIONS: SYNTHETIC ESG DATA
   - proxy_sector_validation.csv                        (   0.9 KB)
   - quintile_analysis.csv                              (   2.6 KB)
   - quintile_q5_vs_q1.csv                              (   1.4 KB)
-  - rank_stability.csv                                 (  13.1 KB)
+  - rank_stability.csv                                 (  12.8 KB)
   - robustness_highcap_degradation.csv                 (  47.8 KB)
   - robustness_highcap_profile_consistency.csv         (   2.2 KB)
   - robustness_highcap_profile_cross_corr.csv          (   0.1 KB)
@@ -837,7 +846,7 @@ LIMITATIONS: SYNTHETIC ESG DATA
   - sector_cv_score_comparison.csv                     ( 160.2 KB)
   - sector_cv_summary.csv                              (   0.6 KB)
   - sector_economics.csv                               (   0.9 KB)
-  - sector_means.csv                                   (   7.0 KB)
+  - sector_means.csv                                   (   7.1 KB)
   - sector_score_interaction.csv                       (   2.9 KB)
   - sector_score_summary.csv                           (   4.6 KB)
   - size_group_anova.csv                               (   0.6 KB)
@@ -851,6 +860,11 @@ LIMITATIONS: SYNTHETIC ESG DATA
   - temporal_rolling_portfolio.csv                     (   0.7 KB)
   - timesplit_evaluation_synthetic.csv                 (   0.2 KB)
   - timesplit_evaluation_synthetic_summary.csv         (   0.2 KB)
+  - top19_balanced.csv                                 (   3.7 KB)
+  - top19_esg.csv                                      (   3.6 KB)
+  - top19_financial.csv                                (   3.7 KB)
+  - top19_growth.csv                                   (   3.8 KB)
+  - top19_value.csv                                    (   3.7 KB)
   - top20_balanced.csv                                 (   3.9 KB)
   - top20_esg.csv                                      (   3.9 KB)
   - top20_financial.csv                                (   3.8 KB)
@@ -860,10 +874,10 @@ LIMITATIONS: SYNTHETIC ESG DATA
   - turnover_analysis.csv                              (   0.7 KB)
   - variable_type_classification.csv                   (   8.1 KB)
   - vif_multicollinearity.csv                          (   0.3 KB)
-  - walk_forward_sector_validation.csv                 (  36.2 KB)
+  - walk_forward_sector_validation.csv                 (  36.1 KB)
   - weight_factor_return_corr.csv                      (   0.4 KB)
   - weight_grid_search.csv                             (  11.5 KB)
-  - weight_interdependence_matrix.csv                  (   6.2 KB)
+  - weight_interdependence_matrix.csv                  (   6.3 KB)
   - weight_profile_comparison.csv                      (   0.3 KB)
   - weight_sensitivity_single.csv                      (   4.5 KB)
-  - wilcoxon_pairwise.csv                              (   0.8 KB)
+  - wilcoxon_pairwise.csv                              (   0.7 KB)

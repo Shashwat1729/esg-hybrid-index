@@ -8,7 +8,7 @@ value_score,1.0,0.0,1.0,1.0,1.0,0.0,500
 growth_score,1.0,0.0,1.0,1.0,1.0,0.0,500
 stability_score,1.0,0.0,1.0,1.0,1.0,0.0,500
 similarity_rank,1.0,0.0,1.0,1.0,1.0,0.0,500
-sector_position,,,,,1.0,0.0,500
+sector_position,1.0,0.0,1.0,1.0,1.0,0.0,500
 pref_balanced,1.0,0.0,1.0,1.0,1.0,0.0,500
 pref_balanced_with_market,1.0,0.0,1.0,1.0,1.0,0.0,500
 pref_esg_first,1.0,0.0,1.0,1.0,1.0,0.0,500

@@ -1,82 +1,81 @@
 variable,type,n_unique,min,max,treatment
-200d_avg,count,309,3.1861922590361447,886.3304928000005,Log1p transform if skewed; then z-score
-50d_avg,count,309,2.3429973253012046,973.7663220000005,Log1p transform if skewed; then z-score
-52_week_high,count,308,3.894433734939759,1056.3706000000004,Log1p transform if skewed; then z-score
-52_week_low,count,309,1.7318987951807228,476.60070000000013,Log1p transform if skewed; then z-score
-amihud_illiquidity,ratio,301,3.3709024030300643e-06,0.000991797086888838,Robust winsorize (2.5/97.5 MAD-based); then z-score
-anti_corruption_policy,binary,1,1.0,1.0,Keep as 0/1; proportion-encoded for group scores
-avg_daily_return,continuous,309,-0.2099715808241932,0.25440402844925825,Winsorize at 1/99; then z-score
-avg_daily_volume,count,309,30818.81182258064,52966232.33864546,Log1p transform if skewed; then z-score
-avg_daily_volume_30d,count,309,26057.695,48834466.966666676,Log1p transform if skewed; then z-score
-avg_daily_volume_90d,count,309,26640.293333333335,46609040.400000006,Log1p transform if skewed; then z-score
-beta,continuous,287,-0.19774,2.0946000000000002,Winsorize at 1/99; then z-score
-board_diversity_pct,bounded_pct,230,2.857142857142857,96.875,"Bounded [0,100]; min-max scale within natural bounds"
-board_independence_pct,bounded_pct,90,0.0,90.0,"Bounded [0,100]; min-max scale within natural bounds"
-board_size,ordinal,51,32.0,92.0,"Rank-transform then percentile-scale to [0, 100]"
-carbon_reduction_target,binary,1,1.0,1.0,Keep as 0/1; proportion-encoded for group scores
-cash_flow_to_debt,ratio,225,-0.0586627255992777,12.125590063430915,Robust winsorize (2.5/97.5 MAD-based); then z-score
-community_investment_pct,bounded_pct,247,2.127659574468085,98.0,"Bounded [0,100]; min-max scale within natural bounds"
-current_ratio,ratio,205,0.5159,5.95814999999999,Robust winsorize (2.5/97.5 MAD-based); then z-score
-data_privacy_score,bounded_pct,12,24.743704281819088,80.0,"Bounded [0,100]; min-max scale within natural bounds"
-debt_to_ebitda,ratio,275,-16.31077890121734,10.110675872502972,Robust winsorize (2.5/97.5 MAD-based); then z-score
-debt_to_equity,ratio,285,1.1622750000000002,588.2596750000002,Robust winsorize (2.5/97.5 MAD-based); then z-score
+200d_avg,count,308,2.844508524255136,886.3304928000005,Log1p transform if skewed; then z-score
+50d_avg,count,308,2.0917368828654404,973.7663220000005,Log1p transform if skewed; then z-score
+52_week_high,count,307,3.476798967408842,1056.3706000000004,Log1p transform if skewed; then z-score
+52_week_low,count,308,1.5461718834032485,476.60070000000013,Log1p transform if skewed; then z-score
+amihud_illiquidity,ratio,300,3.3709024030300643e-06,0.000991797086888838,Robust winsorize (2.5/97.5 MAD-based); then z-score
+avg_daily_return,continuous,308,-0.2099715808241932,0.25440402844925825,Winsorize at 1/99; then z-score
+avg_daily_volume,count,308,30818.81182258064,52966232.33864546,Log1p transform if skewed; then z-score
+avg_daily_volume_30d,count,308,26057.695,48834466.966666676,Log1p transform if skewed; then z-score
+avg_daily_volume_90d,count,308,26640.293333333335,46609040.400000006,Log1p transform if skewed; then z-score
+beta,continuous,286,-0.19774,2.0946000000000002,Winsorize at 1/99; then z-score
+board_diversity_pct,bounded_pct,239,18.57845591260955,79.54165359385776,"Bounded [0,100]; min-max scale within natural bounds"
+board_independence_pct,bounded_pct,13,0.0,90.0,"Bounded [0,100]; min-max scale within natural bounds"
+board_size,ordinal,4,40.0,75.0,"Rank-transform then percentile-scale to [0, 100]"
+carbon_reduction_target,binary,2,0.0,1.0,Keep as 0/1; proportion-encoded for group scores
+cash_flow_to_debt,ratio,224,-0.0586627255992777,12.125590063430915,Robust winsorize (2.5/97.5 MAD-based); then z-score
+community_investment_pct,bounded_pct,291,24.52218962826607,74.4799849002561,"Bounded [0,100]; min-max scale within natural bounds"
+current_ratio,ratio,204,0.5159,5.95814999999999,Robust winsorize (2.5/97.5 MAD-based); then z-score
+data_privacy_score,bounded_pct,5,30.0,80.0,"Bounded [0,100]; min-max scale within natural bounds"
+debt_to_ebitda,ratio,274,-16.31077890121734,10.110675872502972,Robust winsorize (2.5/97.5 MAD-based); then z-score
+debt_to_equity,ratio,284,1.1622750000000002,588.2596750000002,Robust winsorize (2.5/97.5 MAD-based); then z-score
 dividend_yield,rate,167,0.0905,7.270799999999988,Winsorize at 1/99; then z-score
-earnings_growth,rate,231,-0.8836,8.893199999999984,Winsorize at 1/99; then z-score
-earnings_quarterly_growth,rate,232,-0.89023,8.523859999999997,Winsorize at 1/99; then z-score
-ebitda,count,285,-914549616.0,146308715806.71997,Log1p transform if skewed; then z-score
-employee_satisfaction,bounded_pct,198,2.272727272727273,98.0,"Bounded [0,100]; min-max scale within natural bounds"
-employees,count,285,241.6,389911.99999999994,Log1p transform if skewed; then z-score
-enterprise_to_ebitda,ratio,275,-94.4455,60.639199999999946,Robust winsorize (2.5/97.5 MAD-based); then z-score
-enterprise_to_revenue,ratio,296,0.559,15.355,Robust winsorize (2.5/97.5 MAD-based); then z-score
-esg_controversy_score,bounded_pct,34,27.5,90.0,"Bounded [0,100]; min-max scale within natural bounds"
-esg_risk_rating,ordinal,42,0.0,90.0,"Rank-transform then percentile-scale to [0, 100]"
-ethics_compliance_score,bounded_pct,77,0.0,94.17072993814146,"Bounded [0,100]; min-max scale within natural bounds"
-exec_comp_esg_linked,bounded_pct,74,0.0,100.0,"Bounded [0,100]; min-max scale within natural bounds"
-fcf_margin,rate,211,-43.69865726800156,43.43565867011251,Winsorize at 1/99; then z-score
-forward_pe,ratio,301,-1.0128824839999988,57.555233225000016,Robust winsorize (2.5/97.5 MAD-based); then z-score
+earnings_growth,rate,230,-0.8836,8.893199999999984,Winsorize at 1/99; then z-score
+earnings_quarterly_growth,rate,231,-0.89023,8.523859999999997,Winsorize at 1/99; then z-score
+ebitda,count,284,-914549616.0,146308715806.71997,Log1p transform if skewed; then z-score
+employee_satisfaction,bounded_pct,257,24.56020501585529,74.44494266632898,"Bounded [0,100]; min-max scale within natural bounds"
+employees,count,284,241.6,389911.99999999994,Log1p transform if skewed; then z-score
+enterprise_to_ebitda,ratio,274,-94.4455,60.639199999999946,Robust winsorize (2.5/97.5 MAD-based); then z-score
+enterprise_to_revenue,ratio,295,0.559,15.355,Robust winsorize (2.5/97.5 MAD-based); then z-score
+esg_controversy_score,bounded_pct,26,27.5,90.0,"Bounded [0,100]; min-max scale within natural bounds"
+esg_risk_rating,ordinal,11,0.0,90.0,"Rank-transform then percentile-scale to [0, 100]"
+ethics_compliance_score,bounded_pct,12,0.0,90.0,"Bounded [0,100]; min-max scale within natural bounds"
+exec_comp_esg_linked,bounded_pct,13,0.0,90.0,"Bounded [0,100]; min-max scale within natural bounds"
+fcf_margin,rate,210,-43.69865726800156,43.43565867011251,Winsorize at 1/99; then z-score
+forward_pe,ratio,300,-1.0128824839999988,57.555233225000016,Robust winsorize (2.5/97.5 MAD-based); then z-score
 free_cashflow,count,212,-4348478955.52,51929878691.83979,Log1p transform if skewed; then z-score
-gender_diversity_pct,bounded_pct,260,2.127659574468085,98.0,"Bounded [0,100]; min-max scale within natural bounds"
-gross_margin,rate,297,1.9617180211689442,100.0,Winsorize at 1/99; then z-score
-gross_margins,bounded_pct,299,0.0,1.0,"Bounded [0,100]; min-max scale within natural bounds"
-gross_profit,count,309,19417512.242891572,202750324899.83987,Log1p transform if skewed; then z-score
-human_rights_policy,binary,1,1.0,1.0,Keep as 0/1; proportion-encoded for group scores
-market_cap,count,309,519565220.21012044,2707597678346.242,Log1p transform if skewed; then z-score
-market_share,rate,307,0.01367921056912494,42.46516836256219,Winsorize at 1/99; then z-score
-max_drawdown_1y,continuous,309,-70.30162104427026,-8.443981662752906,Winsorize at 1/99; then z-score
-net_income,count,309,-1304228651.52,112563088424.96017,Log1p transform if skewed; then z-score
-net_margin,rate,307,-58.244960873838494,48.507530159193905,Winsorize at 1/99; then z-score
-operating_cashflow,count,231,-18678519787.52,138341821562.88004,Log1p transform if skewed; then z-score
-operating_margin,rate,283,-30.448654492029558,69.68639160900432,Winsorize at 1/99; then z-score
-operating_margins,bounded_pct,289,0.0,0.811,"Bounded [0,100]; min-max scale within natural bounds"
-payout_ratio,ratio,214,0.0,1.7294825825000038,Robust winsorize (2.5/97.5 MAD-based); then z-score
-pct_from_52w_high,continuous,309,-64.66541496383309,-0.3857332041674491,Winsorize at 1/99; then z-score
-price,count,309,1.9296746987951807,926.1498000000004,Log1p transform if skewed; then z-score
-price_momentum_12m,continuous,309,-56.513908578084525,173.62632196893574,Winsorize at 1/99; then z-score
-price_momentum_1m,continuous,309,-27.830508180162212,23.10667616797378,Winsorize at 1/99; then z-score
-price_momentum_3m,continuous,309,-41.234109886671,60.1468184804888,Winsorize at 1/99; then z-score
-price_momentum_6m,continuous,309,-54.99627278870142,102.82064825567291,Winsorize at 1/99; then z-score
-price_to_book,ratio,301,-0.9948549107227489,31.549033950000002,Robust winsorize (2.5/97.5 MAD-based); then z-score
-price_to_sales,ratio,299,0.49297273599999997,12.902124324999992,Robust winsorize (2.5/97.5 MAD-based); then z-score
-price_volatility,continuous,309,16.291086820054275,72.71077264765017,Winsorize at 1/99; then z-score
-price_volatility_30d,continuous,309,4.69119578224633,85.91876559488796,Winsorize at 1/99; then z-score
-profit_margins,bounded_pct,274,0.0,0.63762003,"Bounded [0,100]; min-max scale within natural bounds"
-quick_ratio,ratio,203,0.15910000000000002,4.600999999999992,Robust winsorize (2.5/97.5 MAD-based); then z-score
-renewable_energy_pct,bounded_pct,235,2.2222222222222223,98.0,"Bounded [0,100]; min-max scale within natural bounds"
-return_kurtosis,continuous,309,0.8198114262675625,57.906905515054156,Winsorize at 1/99; then z-score
-return_skewness,continuous,309,-3.449688002543397,3.071666749175387,Winsorize at 1/99; then z-score
-revenue_growth,rate,220,-0.1439,1.3302999999999976,Winsorize at 1/99; then z-score
-revenue_per_employee,count,301,33169.72214564646,8120901.431471038,Log1p transform if skewed; then z-score
-roa,rate,234,-0.12031449999999999,0.21440319999999996,Winsorize at 1/99; then z-score
-roe,rate,228,-0.82361503,1.4308475250000001,Winsorize at 1/99; then z-score
-safety_training_hours,continuous,209,7.1688311688311686,95.05928853754942,Winsorize at 1/99; then z-score
-scope1_emissions,count,296,19.483636363636364,87.15921330658507,Log1p transform if skewed; then z-score
-shareholder_rights_score,bounded_pct,70,0.0,98.0,"Bounded [0,100]; min-max scale within natural bounds"
-sharpe_ratio_1y,continuous,309,-1.9901534612048781,2.429454161429486,Winsorize at 1/99; then z-score
-sortino_ratio_1y,continuous,309,-2.881866181667193,4.0241803933493605,Winsorize at 1/99; then z-score
-supply_chain_audit_pct,bounded_pct,248,2.127659574468085,98.0,"Bounded [0,100]; min-max scale within natural bounds"
-tax_transparency_score,bounded_pct,197,7.2119996,100.0,"Bounded [0,100]; min-max scale within natural bounds"
-total_cash,count,309,3687640.481927711,582249422520.3193,Log1p transform if skewed; then z-score
-total_debt,count,308,2573156.626506024,504321006960.6403,Log1p transform if skewed; then z-score
-total_revenue,count,307,187138479.6838554,432011094589.4396,Log1p transform if skewed; then z-score
-trailing_pe,ratio,267,10.22557575,90.11539274999997,Robust winsorize (2.5/97.5 MAD-based); then z-score
-waste_recycling_pct,bounded_pct,252,2.2222222222222223,98.0,"Bounded [0,100]; min-max scale within natural bounds"
+gender_diversity_pct,bounded_pct,307,24.52515057206664,74.47713992031196,"Bounded [0,100]; min-max scale within natural bounds"
+gross_margin,rate,296,1.9617180211689442,100.0,Winsorize at 1/99; then z-score
+gross_margins,bounded_pct,298,0.0,1.0,"Bounded [0,100]; min-max scale within natural bounds"
+gross_profit,count,308,18484912.175540503,202750324899.83987,Log1p transform if skewed; then z-score
+human_rights_policy,binary,2,0.0,1.0,Keep as 0/1; proportion-encoded for group scores
+market_cap,count,308,463847620.4952135,2707597678346.242,Log1p transform if skewed; then z-score
+market_share,rate,306,0.017472538140899378,50.09724925738396,Winsorize at 1/99; then z-score
+max_drawdown_1y,continuous,308,-70.30162104427026,-8.443981662752906,Winsorize at 1/99; then z-score
+net_income,count,308,-1304228651.52,112563088424.96017,Log1p transform if skewed; then z-score
+net_margin,rate,306,-58.244960873838494,48.507530159193905,Winsorize at 1/99; then z-score
+operating_cashflow,count,230,-18678519787.52,138341821562.88004,Log1p transform if skewed; then z-score
+operating_margin,rate,282,-30.448654492029558,69.68639160900432,Winsorize at 1/99; then z-score
+operating_margins,bounded_pct,288,0.0,0.811,"Bounded [0,100]; min-max scale within natural bounds"
+payout_ratio,ratio,213,0.0,1.7294825825000038,Robust winsorize (2.5/97.5 MAD-based); then z-score
+pct_from_52w_high,continuous,308,-64.66541496383309,-0.3857332041674491,Winsorize at 1/99; then z-score
+price,count,308,1.7227385178014412,926.1498000000004,Log1p transform if skewed; then z-score
+price_momentum_12m,continuous,308,-56.513908578084525,173.62632196893574,Winsorize at 1/99; then z-score
+price_momentum_1m,continuous,308,-27.830508180162212,23.106676167973784,Winsorize at 1/99; then z-score
+price_momentum_3m,continuous,308,-41.234109886671,60.1468184804888,Winsorize at 1/99; then z-score
+price_momentum_6m,continuous,308,-54.99627278870142,102.82064825567291,Winsorize at 1/99; then z-score
+price_to_book,ratio,300,-0.9948549107227489,31.549033950000002,Robust winsorize (2.5/97.5 MAD-based); then z-score
+price_to_sales,ratio,298,0.49297273599999997,12.902124324999992,Robust winsorize (2.5/97.5 MAD-based); then z-score
+price_volatility,continuous,308,16.291086820054275,72.71077264765017,Winsorize at 1/99; then z-score
+price_volatility_30d,continuous,308,4.69119578224633,85.91876559488796,Winsorize at 1/99; then z-score
+profit_margins,bounded_pct,273,0.0,0.63762003,"Bounded [0,100]; min-max scale within natural bounds"
+quick_ratio,ratio,202,0.15910000000000002,4.600999999999992,Robust winsorize (2.5/97.5 MAD-based); then z-score
+renewable_energy_pct,bounded_pct,274,24.548261790179488,74.4559013189904,"Bounded [0,100]; min-max scale within natural bounds"
+return_kurtosis,continuous,308,0.8198114262675625,57.906905515054156,Winsorize at 1/99; then z-score
+return_skewness,continuous,308,-3.449688002543397,3.071666749175387,Winsorize at 1/99; then z-score
+revenue_growth,rate,219,-0.1439,1.3302999999999976,Winsorize at 1/99; then z-score
+revenue_per_employee,count,300,29612.637819604777,8120901.431471038,Log1p transform if skewed; then z-score
+roa,rate,233,-0.12031449999999999,0.21440319999999996,Winsorize at 1/99; then z-score
+roe,rate,227,-0.82361503,1.4308475250000001,Winsorize at 1/99; then z-score
+safety_training_hours,continuous,224,16.8612873131691,79.09387918396206,Winsorize at 1/99; then z-score
+scope1_emissions,count,293,22.019140137709588,78.84961466656266,Log1p transform if skewed; then z-score
+shareholder_rights_score,bounded_pct,70,0.0,90.0,"Bounded [0,100]; min-max scale within natural bounds"
+sharpe_ratio_1y,continuous,308,-1.9901534612048781,2.429454161429486,Winsorize at 1/99; then z-score
+sortino_ratio_1y,continuous,308,-2.881866181667193,4.0241803933493605,Winsorize at 1/99; then z-score
+supply_chain_audit_pct,bounded_pct,301,24.52515057206664,74.47713992031194,"Bounded [0,100]; min-max scale within natural bounds"
+tax_transparency_score,bounded_pct,192,7.2119996,100.0,"Bounded [0,100]; min-max scale within natural bounds"
+total_cash,count,308,3357117.2894482096,582249422520.3193,Log1p transform if skewed; then z-score
+total_debt,count,307,2297214.1551037966,504321006960.6403,Log1p transform if skewed; then z-score
+total_revenue,count,306,167069956.04775733,432011094589.4396,Log1p transform if skewed; then z-score
+trailing_pe,ratio,266,10.22557575,90.11539274999997,Robust winsorize (2.5/97.5 MAD-based); then z-score
+waste_recycling_pct,bounded_pct,294,24.022859580436087,74.96742824777874,"Bounded [0,100]; min-max scale within natural bounds"

@@ -1,4 +1,3 @@
-variable,n,proportion_yes,proportion_no,pb_r_ESG_composite,pb_p_ESG_composite,pb_sig_ESG_composite,pb_r_financial_score,pb_p_financial_score,pb_sig_financial_score,pb_r_pref_balanced,pb_p_pref_balanced,pb_sig_pref_balanced
-anti_corruption_policy,276,1.0,0.0,,,False,,,False,,,False
-carbon_reduction_target,276,1.0,0.0,,,False,,,False,,,False
-human_rights_policy,276,1.0,0.0,,,False,,,False,,,False
+variable,n,proportion_yes,proportion_no,pb_r_ESG_composite,pb_p_ESG_composite,pb_sig_ESG_composite,pb_r_financial_score,pb_p_financial_score,pb_sig_financial_score,pb_r_pref_balanced,pb_p_pref_balanced,pb_sig_pref_balanced,chi2_sector,chi2_p_sector,chi2_sig_sector
+human_rights_policy,269,0.09665427509293681,0.9033457249070632,0.276326841053095,4.2069520599276895e-06,True,0.1641562897271229,0.006972535092796987,True,0.24735383051499832,4.09712664664302e-05,True,16.126509888205792,0.09606772727330869,False
+carbon_reduction_target,269,0.18587360594795538,0.8141263940520447,0.3992349383774789,1.0289330267623825e-11,True,0.24157449036544829,6.25141522700193e-05,True,0.34299403522500677,7.673913962077432e-09,True,20.047893284364804,0.02880293858745016,True

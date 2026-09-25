@@ -100,3 +100,18 @@ class TestLoadIndexedData:
             csv_path.write_text("ticker\nA\n", encoding="utf-8")
             result = load_indexed_data(project_root=Path(td))
             assert isinstance(result, pd.DataFrame)
+
+
+class TestPortfolioTopN:
+    """Dynamic top-N rule: max(10, min(50, ceil(0.07 N)))."""
+
+    def test_documented_values(self):
+        from src.utils import get_portfolio_top_n
+        assert get_portfolio_top_n(276) == 20
+        assert get_portfolio_top_n(100) == 10
+        assert get_portfolio_top_n(500) == 35
+        assert get_portfolio_top_n(1000) == 50
+
+    def test_never_exceeds_universe(self):
+        from src.utils import get_portfolio_top_n
+        assert get_portfolio_top_n(5) == 5

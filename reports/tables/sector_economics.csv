@@ -1,12 +1,12 @@
 sector,n_companies,avg_trailing_pe,expected_pe_range,pe_in_expected_range,avg_debt_to_equity,avg_price_to_book,avg_dividend_yield,avg_ESG_composite,de_sector_ordering_plausible
-Industrials,37,43.75,"[15, 50]",True,75.34,7.23,0.96,46.79,True
-Consumer Defensive,21,39.04,"[15, 45]",True,48.42,6.55,2.58,48.56,True
-Healthcare,40,38.66,"[15, 45]",True,45.63,6.08,0.63,47.7,True
-Technology,35,32.61,"[20, 50]",True,55.24,7.84,1.32,44.45,True
-Communication Services,8,31.82,"[12, 35]",True,231.39,12.5,1.82,45.98,True
-Consumer Cyclical,38,31.76,"[12, 40]",True,90.47,6.24,1.13,48.49,True
-Basic Materials,22,29.63,"[10, 35]",True,87.25,4.5,1.43,51.53,True
-Energy,13,26.67,"[8, 30]",True,83.18,2.7,2.48,52.43,True
-Real Estate,16,26.46,"[15, 45]",True,109.91,3.11,3.68,52.27,True
-Utilities,11,22.33,"[12, 30]",True,197.19,4.49,3.2,51.76,True
-Financial Services,28,19.59,"[8, 25]",True,190.04,2.07,2.29,48.36,True
+Industrials,37,43.75,"[15, 50]",True,75.34,7.23,0.96,46.09,True
+Consumer Defensive,21,39.04,"[15, 45]",True,48.42,6.55,2.58,50.04,True
+Healthcare,40,38.66,"[15, 45]",True,45.63,6.08,0.63,46.87,True
+Technology,35,32.61,"[20, 50]",True,55.24,7.84,1.32,42.67,True
+Communication Services,8,31.82,"[12, 35]",True,231.39,12.5,1.82,49.79,True
+Consumer Cyclical,38,31.76,"[12, 40]",True,90.47,6.24,1.13,48.73,True
+Basic Materials,22,29.63,"[10, 35]",True,87.25,4.5,1.43,51.31,True
+Energy,13,26.67,"[8, 30]",True,83.18,2.7,2.48,52.61,True
+Real Estate,16,26.46,"[15, 45]",True,109.91,3.11,3.68,52.82,True
+Utilities,11,22.33,"[12, 30]",True,197.19,4.49,3.2,53.08,True
+Financial Services,28,19.59,"[8, 25]",True,190.04,2.07,2.29,48.93,True

@@ -1,7 +1,7 @@
 factor,economic_checks,verdict
-financial_score,Top5 avg ROA=0.139 vs Bot5=-0.064 -> OK,PASS
+financial_score,Top5 avg ROA=0.071 vs Bot5=-0.047 -> OK,PASS
 ESG_composite,,PASS
 growth_score,Top5 avg rev_growth=0.712 vs Bot5=-0.023 -> OK,PASS
-value_score,Top5 avg PE=19.1 vs Bot5=55.1 -> OK,PASS
+value_score,Top5 avg PE=16.2 vs Bot5=71.4 -> OK,PASS
 stability_score,Top5 avg vol=25.3 vs Bot5=58.8 -> OK,PASS
 risk_adjusted_score,,PASS

@@ -213,8 +213,8 @@ def convert_inr_to_usd(df, exchange_rate=83.0):
 
     Args:
         df: DataFrame with 'ticker' column (and optionally 'country')
-        exchange_rate: INR per USD (default 83.0, approximate RBI reference
-                       rate as of March 2024)
+        exchange_rate: INR per USD on the data snapshot date (the pipeline
+                       passes universe.exchange_rates.INR_USD from config)
 
     Returns:
         DataFrame with INR values converted to USD for Indian companies
@@ -268,7 +268,7 @@ def convert_inr_to_usd(df, exchange_rate=83.0):
     indian_tickers = df.loc[india_mask, "ticker"].tolist()
     logger.info(
         f"INR->USD conversion: {n_indian} Indian companies, "
-        f"rate = 1 USD = {exchange_rate} INR (March 2024 RBI reference)"
+        f"rate = 1 USD = {exchange_rate} INR"
     )
     logger.info(f"  Monetary columns converted ({len(converted_cols)}): {converted_cols}")
     logger.info(f"  Indian tickers: {indian_tickers[:10]}{'...' if len(indian_tickers) > 10 else ''}")
@@ -760,6 +760,17 @@ def main():
     df = df.dropna(subset=["ticker"]).drop_duplicates(subset=["ticker"])
     print(f"  Unique companies: {len(df)}")
 
+    # Investability filter: a firm must have a traded price on the snapshot
+    # date.  Tickers without any market-data row had already been delisted,
+    # acquired or renamed before the snapshot (e.g. ANSS, CHX, ZI) and would
+    # otherwise enter the ranking with fully imputed market factors.
+    not_trading = []
+    if "price_latest" in df.columns:
+        not_trading = df.loc[df["price_latest"].isna(), "ticker"].tolist()
+        if not_trading:
+            df = df[df["price_latest"].notna()].copy()
+            print(f"  Dropped {len(not_trading)} tickers not trading at the snapshot: {not_trading}")
+
     # Ensure numeric types for all known numeric columns
     for col in ALL_NUMERIC:
         if col in df.columns:
@@ -767,35 +778,25 @@ def main():
 
     # --- Currency Conversion (before any normalization) ---
     # Convert INR-denominated absolute values to USD so magnitudes are comparable
-    # Exchange rate: try live INR=X via yfinance (real), fallback to
-    # config/index_config.yaml -> universe.exchange_rates.INR_USD (83.0 proxy).
-    # This eliminates the fixed-rate proxy when internet is available while
-    # remaining fully reproducible offline via the fallback.  Sensitivity:
-    # ±5% rate change affects Indian company market_cap by ±5% but financial
-    # RATIOS (ROA, ROE, D/E, margins) are unaffected since both numerator and
-    # denominator scale proportionally.
+    # Exchange rate: the point-in-time INR/USD close on the data snapshot
+    # date, read from config/index_config.yaml -> universe.exchange_rates.
+    # A live rate is deliberately NOT used: converting snapshot-date
+    # fundamentals at a run-date rate would make results depend on when the
+    # pipeline is executed.  Financial RATIOS (ROA, ROE, D/E, margins) are
+    # currency-neutral and unaffected by this choice.
     index_cfg, _ = load_configs()
-    EXCHANGE_RATE_FALLBACK = index_cfg.get("universe", {}).get("exchange_rates", {}).get("INR_USD", 83.0)
-    EXCHANGE_RATE_USED = EXCHANGE_RATE_FALLBACK
-    EXCHANGE_RATE_SOURCE = "config_fallback (proxy, 83.0 March 2024 RBI)"
-    try:
-        import yfinance as yf
-        fx = yf.Ticker("INR=X")
-        hist = fx.history(period="5d")
-        if not hist.empty and "Close" in hist.columns:
-            live_rate = float(hist["Close"].dropna().iloc[-1])
-            # Sanity: INR/USD should be 70-95 in 2024-2026
-            if 70 <= live_rate <= 95:
-                EXCHANGE_RATE_USED = round(live_rate, 2)
-                EXCHANGE_RATE_SOURCE = f"yfinance INR=X live ({EXCHANGE_RATE_USED}, {hist.index[-1].date()})"
-                print(f"  FX live rate: INR/USD = {EXCHANGE_RATE_USED} (vs fallback {EXCHANGE_RATE_FALLBACK})")
-            else:
-                print(f"  FX live rate {live_rate:.2f} outside 70-95 sanity band — using fallback {EXCHANGE_RATE_FALLBACK}")
-        else:
-            print(f"  FX live fetch returned empty — using fallback {EXCHANGE_RATE_FALLBACK}")
-    except Exception as e:
-        print(f"  FX live fetch failed ({e}) — using fallback {EXCHANGE_RATE_FALLBACK} (proxy)")
+    fx_cfg = index_cfg.get("universe", {}).get("exchange_rates", {})
+    EXCHANGE_RATE_USED = float(fx_cfg.get("INR_USD", 83.0))
+    EXCHANGE_RATE_DATE = str(fx_cfg.get("INR_USD_date", "unspecified"))
+    EXCHANGE_RATE_SOURCE = str(fx_cfg.get("INR_USD_source", "config"))
+    print(f"  FX: INR/USD = {EXCHANGE_RATE_USED} ({EXCHANGE_RATE_SOURCE}, {EXCHANGE_RATE_DATE})")
     df = convert_inr_to_usd(df, exchange_rate=EXCHANGE_RATE_USED)
+    # market_share must be recomputed after conversion: upstream it was formed
+    # from mixed INR/USD revenues within each sector.
+    if {"total_revenue", "sector"} <= set(df.columns):
+        df["market_share"] = (
+            df["total_revenue"] / df.groupby("sector")["total_revenue"].transform("sum") * 100
+        )
 
     # Remove columns with very low coverage
     df = remove_low_coverage_columns(df, min_pct=0.20)
@@ -892,9 +893,8 @@ def main():
     metadata = {
         "exchange_rate_used": EXCHANGE_RATE_USED,
         "exchange_rate_source": EXCHANGE_RATE_SOURCE,
-        "exchange_rate_is_proxy": "config_fallback" in EXCHANGE_RATE_SOURCE,
-        "exchange_rate_date": "March 2024 RBI reference rate" if "config_fallback" in EXCHANGE_RATE_SOURCE else EXCHANGE_RATE_SOURCE,
-        "exchange_rate_note": "INR per USD, used to convert Indian company monetary values; live rate preferred, fallback 83.0 is proxy",
+        "exchange_rate_date": EXCHANGE_RATE_DATE,
+        "exchange_rate_note": "INR per USD on the data snapshot date, used to convert Indian company monetary values",
         "monetary_columns_converted": [
             "market_cap", "total_revenue", "ebitda", "net_income",
             "gross_profit", "total_debt", "total_cash", "total_assets",
@@ -904,6 +904,7 @@ def main():
         ],
         "n_indian_companies_converted": len(indian_tickers),
         "indian_tickers_converted": indian_tickers,
+        "dropped_not_trading_at_snapshot": not_trading,
         "n_companies": len(df),
         "n_columns": len(df.columns),
     }

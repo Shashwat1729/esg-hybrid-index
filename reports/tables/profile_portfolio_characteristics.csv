@@ -1,4 +1,4 @@
 profile,n_companies,avg_esg_score,median_esg_score,avg_e_score,avg_s_score,avg_g_score,avg_financial_score,avg_market_score,avg_operational_score,avg_risk_adjusted,avg_growth_score,cross_sectional_ir,avg_return,return_std,n_sectors,top_sector,top_sector_pct,sector_hhi,n_countries,country_US_pct,country_India_pct
-ESG-First,20,62.08,62.93,-1.05,0.69,-0.18,61.58,53.57,60.11,53.61,64.25,0.11,1.73,15.77,11,Healthcare,20.0,0.115,2,80.0,20.0
-Balanced,20,60.06,59.1,-1.01,0.63,-0.24,60.96,56.29,61.39,58.93,66.62,0.242,2.78,11.48,9,Basic Materials,20.0,0.135,2,75.0,25.0
-Financial-First,20,59.56,58.9,-0.89,0.67,-0.17,60.77,57.76,62.88,58.45,65.99,0.403,4.47,11.09,9,Basic Materials,20.0,0.14,2,85.0,15.0
+ESG-First,19,65.51,65.94,1.06,0.87,0.07,65.91,54.17,64.17,51.53,58.71,0.438,9.38,21.41,9,Energy,21.1,0.1357,2,94.7,5.3
+Balanced,19,61.06,62.26,1.02,0.77,-0.2,67.98,53.17,64.05,53.71,62.72,0.023,0.29,12.35,10,Financial Services,21.1,0.1302,2,89.5,10.5
+Financial-First,19,58.91,60.08,0.94,0.72,-0.29,69.02,53.22,64.51,53.16,63.74,0.021,0.25,12.03,10,Financial Services,21.1,0.1302,2,89.5,10.5
