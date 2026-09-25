@@ -97,9 +97,13 @@ class TestFactorDirections:
         assert "beta" in inv
 
     def test_esg_lower_is_better_set(self):
-        assert "scope1_emissions" in ESG_LOWER_IS_BETTER
         assert "injury_rate" in ESG_LOWER_IS_BETTER
-        assert "esg_risk_rating" in ESG_LOWER_IS_BETTER
+        assert "scope2_emissions" in ESG_LOWER_IS_BETTER
+        # Stored as higher-is-better scores (EPA/proxy percentile, inverted ISS
+        # overall risk); flipping them again rewarded emitters and high-risk
+        # firms (audit fix 2026-09).
+        assert "scope1_emissions" not in ESG_LOWER_IS_BETTER
+        assert "esg_risk_rating" not in ESG_LOWER_IS_BETTER
         # pay_gap_ratio is intentionally NOT lower_is_better (encoding near 1.0 = good)
         assert "pay_gap_ratio" not in ESG_LOWER_IS_BETTER
 
@@ -140,7 +144,9 @@ class TestNoLeakage:
         assert "pref_balanced_with_market" in df.columns
         # They should be correlated but not identical
         r = df["pref_balanced"].corr(df["pref_balanced_with_market"])
-        assert 0.85 < r < 0.99, f"pref clean vs contaminated r={r:.3f} unexpected"
+        assert r > 0.85, f"pref clean vs contaminated r={r:.3f} unexpected"
+        # Not identical: the market weight must actually have been removed.
+        assert (df["pref_balanced"] - df["pref_balanced_with_market"]).abs().max() > 0.5
 
     def test_market_score_excluded_from_default_weights(self):
         """Regression: DEFAULT_WEIGHTS must not contain market_score with positive weight."""
@@ -161,8 +167,14 @@ class TestDataIntegrity:
         assert len(all_df) - len(mid) == 45
 
     def test_mid_cap_count(self):
+        # 276 listed mid-caps minus 7 tickers that were no longer trading at
+        # the 2026-04-02 snapshot (dropped by the investability filter).
         mid = load_indexed_data(PROJECT_ROOT, include_benchmarks=False)
-        assert len(mid) == 276
+        assert len(mid) == 269
+
+    def test_every_firm_traded_at_snapshot(self):
+        df = load_indexed_data(PROJECT_ROOT, include_benchmarks=True)
+        assert df["price_latest"].notna().all()
 
     def test_score_ranges_0_100(self):
         df = load_indexed_data(PROJECT_ROOT)
@@ -195,9 +207,16 @@ class TestDataIntegrity:
         import json
         with open(PROJECT_ROOT / "data" / "processed" / "cleaning_metadata.json") as f:
             meta = json.load(f)
-        assert meta["exchange_rate_used"] == 83.0
-        assert meta["n_companies"] == 321
-        assert len(meta["indian_tickers_converted"]) == 90
+        import yaml
+        with open(PROJECT_ROOT / "config" / "index_config.yaml") as f:
+            fx = yaml.safe_load(f)["universe"]["exchange_rates"]
+        # Must be the point-in-time snapshot-date rate from config, never a
+        # run-date live rate.
+        assert meta["exchange_rate_used"] == pytest.approx(fx["INR_USD"])
+        assert meta["exchange_rate_date"] == fx["INR_USD_date"]
+        assert meta["n_companies"] == 314
+        assert len(meta["dropped_not_trading_at_snapshot"]) == 7
+        assert len(meta["indian_tickers_converted"]) == 88
 
 
 # =====================================================================

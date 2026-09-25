@@ -1,9 +1,9 @@
 score,jt_statistic,z_statistic,p_value,monotonic
-financial_score,15446.0,1.349,0.177408,False
-ESG_composite,15307.0,1.156,0.247561,False
+financial_score,15391.5,1.273,0.202908,False
+ESG_composite,14757.0,0.395,0.693091,False
 growth_score,15531.0,1.466,0.142516,False
-value_score,13494.0,-1.354,0.175635,False
+value_score,13870.5,-0.833,0.404874,False
 stability_score,15499.5,1.423,0.154775,False
-risk_adjusted_score,20139.5,7.848,0.0,True
-E_score,13149.5,-1.831,0.067044,False
-S_score,16704.5,3.092,0.001991,True
+risk_adjusted_score,17740.0,4.525,6e-06,True
+E_score,13284.0,-1.645,0.099944,False
+S_score,16287.0,2.513,0.011958,True

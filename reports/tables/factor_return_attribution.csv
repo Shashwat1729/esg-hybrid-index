@@ -1,9 +1,9 @@
 # Cross-sectional momentum proxy, not time-series returns
 factor,ic_spearman,ic_pvalue,top_quintile_momentum_proxy,bottom_quintile_momentum_proxy,quintile_spread,n_companies
-ESG_composite,0.0676,0.2632,-1.2044,1.1007,-2.3052,276
-financial_score,0.1032,0.0869,-1.2902,3.7306,-5.0208,276
-operational_score,0.0535,0.3759,-0.4694,-2.1909,1.7215,276
-risk_adjusted_score,0.5867,0.0,17.803,-23.0983,40.9013,276
-growth_score,0.1778,0.003,4.9703,-5.7966,10.7668,276
-value_score,-0.0864,0.1524,-8.7153,2.5824,-11.2976,276
-stability_score,0.1345,0.0255,5.2789,-2.2563,7.5353,276
+ESG_composite,0.009,0.8827,-3.4477,5.0774,-8.5251,269
+financial_score,0.0794,0.194,-2.0385,-1.7956,-0.243,269
+operational_score,0.0626,0.3061,-0.4758,-1.8466,1.3708,269
+risk_adjusted_score,0.3725,0.0,9.1666,-11.5261,20.6927,269
+growth_score,0.1786,0.0033,5.4496,-5.7574,11.2071,269
+value_score,-0.0722,0.238,-10.6004,-0.8046,-9.7958,269
+stability_score,0.1375,0.0242,5.2197,-3.4689,8.6886,269

@@ -173,7 +173,10 @@ ZERO_CALIBRATION_PROXIES: set[str] = {
 # ---------------------------------------------------------------------------
 ESG_LOWER_IS_BETTER: set[str] = {
     # Environmental – emission / resource-use metrics
-    "scope1_emissions",
+    # NOTE: scope1_emissions is deliberately NOT listed.  In the hybrid ESG
+    # construction every tier that populates it (EPA TRI release percentile,
+    # emissions_intensity_proxy) stores a *score* where higher = cleaner, so
+    # flipping it would reward emitters.  (Audit fix 2026-09: it was flipped.)
     "scope2_emissions",
     "scope3_emissions",
     "emissions_intensity",
@@ -189,7 +192,10 @@ ESG_LOWER_IS_BETTER: set[str] = {
     # NOTE: esg_controversy_score is NOT lower-is-better in our encoding.
     # Our synthetic data: better base_quality → higher controversy_score
     # (= fewer controversies).  Higher score = better.
-    "esg_risk_rating",          # lower risk rating = better (100 - bq*50)
+    # NOTE: esg_risk_rating is deliberately NOT listed.  It holds the ISS
+    # overallRisk score already inverted to (10 - risk) / 10 * 100 in
+    # create_hybrid_esg(), i.e. higher = lower governance risk.  Flipping it
+    # again rewarded high-risk firms.  (Audit fix 2026-09.)
     "ceo_pay_ratio",            # lower CEO-to-median pay ratio = better
 }
 

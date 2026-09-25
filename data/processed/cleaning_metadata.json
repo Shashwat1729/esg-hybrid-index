@@ -1,9 +1,8 @@
 {
-  "exchange_rate_used": 83.0,
-  "exchange_rate_source": "config_fallback (proxy, 83.0 March 2024 RBI)",
-  "exchange_rate_is_proxy": true,
-  "exchange_rate_date": "March 2024 RBI reference rate",
-  "exchange_rate_note": "INR per USD, used to convert Indian company monetary values; live rate preferred, fallback 83.0 is proxy",
+  "exchange_rate_used": 92.97,
+  "exchange_rate_source": "Yahoo Finance INR=X daily close",
+  "exchange_rate_date": "2026-04-02",
+  "exchange_rate_note": "INR per USD on the data snapshot date, used to convert Indian company monetary values",
   "monetary_columns_converted": [
     "market_cap",
     "total_revenue",
@@ -23,11 +22,10 @@
     "50d_avg",
     "200d_avg"
   ],
-  "n_indian_companies_converted": 90,
+  "n_indian_companies_converted": 88,
   "indian_tickers_converted": [
     "PAGEIND.NS",
     "RELAXO.NS",
-    "WELSPUNIND.NS",
     "ARVIND.NS",
     "TRENT.NS",
     "DIXON.NS",
@@ -50,7 +48,6 @@
     "LALPATHLAB.NS",
     "METROPOLIS.NS",
     "GRANULES.NS",
-    "SUVENPHAR.NS",
     "PERSISTENT.NS",
     "LTTS.NS",
     "CYIENT.NS",
@@ -116,6 +113,15 @@
     "PRESTIGE.NS",
     "BRIGADE.NS"
   ],
-  "n_companies": 321,
+  "dropped_not_trading_at_snapshot": [
+    "ANSS",
+    "SAMSN",
+    "CMA",
+    "CHX",
+    "ZI",
+    "WELSPUNIND.NS",
+    "SUVENPHAR.NS"
+  ],
+  "n_companies": 314,
   "n_columns": 116
 }

@@ -61,8 +61,15 @@ universe:
     - NFLX
     - DIS
 
+  # Data snapshot: all fundamentals and trailing market statistics are as of
+  # the close of this date (verified: cached price_latest == Yahoo close).
+  snapshot_date: "2026-04-02"
+
   exchange_rates:
-    INR_USD: 83.0  # March 2024 RBI reference rate
+    # Point-in-time INR per USD on the snapshot date (Yahoo Finance INR=X close).
+    INR_USD: 92.97
+    INR_USD_date: "2026-04-02"
+    INR_USD_source: "Yahoo Finance INR=X daily close"
 
   scoring:
     restandardize_mean: 50
@@ -71,7 +78,19 @@ universe:
     score_clip_max: 100
 
   optimization:
-    top_n: 20  # Number of companies in top portfolio for grid search
+    top_n: 20  # Legacy fixed value (kept for backward compat); prefer top_pct below
+  portfolio:
+    # Dynamic portfolio sizing — generalizes to any universe size N.
+    # top_pct = 0.07 (~20/276) because concentration vs. diversification trade-off:
+    #   - Academic: top-decile (10%) is standard for factor portfolios (Fama-French),
+    #     but mid-cap ESG needs slightly more concentration to reflect ESG tilt while
+    #     retaining diversification. 7% (~20 of 276) balances tracking error vs. alpha.
+    #   - Empirical: 15–25 stocks is the diversification sweet spot for mid-cap
+    #     (Statman 1987; 80% of diversification benefit by 20 holdings).
+    #   - Dynamic: top_n = max(min_top_n, round(N * top_pct)) scales to N=100→10, N=500→35.
+    top_pct: 0.07
+    min_top_n: 10
+    max_top_n: 50  # cap to avoid over-diversification in very large universes
 
   # Peer group constraints used in similarity ranking
   peer_group:
@@ -555,6 +574,19 @@ stability_scoring:
           inverse: true   # lower volatility is more stable
   category_constraint: "sum_to_one"
 
+oos_evaluation:
+  # Genuine hold-out window: (universe.snapshot_date, end_date].  Fixed so the
+  # evaluation is reproducible; prices are cached in data/raw/forward_prices.csv.
+  end_date: "2026-09-23"
+  horizons_months: [1, 3]
+
+index_construction:
+  # Isotonic "monotonicity correction" against the contemporaneous quality
+  # proxy.  Disabled: it fits factors to a target that shares their inputs,
+  # making monotonicity diagnostics circular.  Opt-in only to replicate the
+  # pre-audit pipeline.
+  monotonicity_correction: false
+
 preference_scoring:
   # Aggregation mode for combining sub-factor scores before weighting.
   # "rank": percentile-rank transform (0-100); equalises variance across factors.
@@ -653,13 +685,18 @@ preference_scoring:
   # - Factor ablation: removing similarity_rank shifts ranks by only 4.6 positions (minimal)
   # - Including both double-counts ESG information without independent signal
   investor_profiles:
-    # Profile weights optimized using CV-guided IC analysis:
-    # - growth_score: highest 1m IC (0.515), strong predictive signal
-    # - risk_adjusted_score: best 6m IC (0.094), consistent positive signal
-    # - financial_score: strong 1m IC (0.209), moderate weight
-    # - operational_score: negative IC (-0.416 at 1m), reduced weight
-    # - value_score: non-monotonic, weak IC, minimal weight
-    # - ESG: risk filter (not return predictor), moderate weight
+    # PROVENANCE (disclosed in the paper): these weights were set by the
+    # authors with reference to in-sample, contemporaneous information
+    # coefficients computed against TRAILING price-momentum proxies at the
+    # snapshot date (e.g. growth_score 1m IC 0.515, operational -0.416).
+    # They are therefore in-sample choices, not out-of-sample optimised.
+    # Revision history: the Feb-2026 weights (git f77385e) were revised
+    # before Jul-2026 (git fa68391); no code in this repository computed a
+    # post-snapshot return before the out-of-sample script existed.  Because
+    # the revision date post-dates the 2026-04-02 snapshot, the out-of-sample
+    # evaluation (scripts/25_out_of_sample_evaluation.py) also reports the
+    # original Feb-2026 weights and equal weights, so conclusions do not hinge
+    # on the revision.  Do not retune these weights on forward returns.
     esg_first:
       esg_score: 0.55
       financial_score: 0.08

@@ -1,509 +1,361 @@
 % =============================================================================
-%   IV. RESULTS
+%   V. RESULTS
 % =============================================================================
-\section{Results and Analysis}
+\section{Results}
 \label{sec:results}
 
-This section reports empirical results for the final universe of 
-$N=276$ mid-cap companies (186 US, 90 India), with an additional 
-45 large-cap benchmarks ($N=321$ total).
+\subsection{RQ1: What the ESG Score Measures}
+\label{sec:res_construct}
 
-\subsection{Descriptive Statistics}
+\textbf{Sources.} Table~\ref{tab:provenance} shows how little of the ESG
+schema is populated by ESG data. The E pillar has four informative
+indicators:
+\begin{itemize}
+\item three within-sector financial percentiles: operating margin, standing
+  in for emissions; revenue-to-market-value, standing in for renewable share;
+  and gross margin, standing in for waste;
+\item one binary flag for public climate commitments.
+\end{itemize}
+The S pillar has seven indicators, six of them financial. Examples are
+revenue per employee (which enters twice, once as a ratio and once as a
+proxy for employee satisfaction), dividend-plus-FCF yield for community
+investment, and payout-plus-current-ratio for supply-chain audits. The G
+pillar differs. \ISSShareG\% of its cells are ISS governance risk scores,
+and the rest are ownership, analyst-coverage and SEC items or imputations.
 
-The final sample contains \textbf{276 mid-cap} companies across \textbf{11 GICS
-sectors}, with \textbf{186 US} and \textbf{90 India} constituents,
-plus \textbf{45} large-cap benchmark names (\textbf{321 total}).
-The v6 pipeline evaluates \textbf{202 variables} across this final universe.
+\textbf{Redundancy.} Regressing each pillar on the other seven factor scores
+gives $R^2=\RSqE$ (E), \RSqS (S) and \RSqG (G); for the composite it is
+\RSqESG. The ESG composite has a Spearman correlation of \RhoESGFin with the
+financial score. The pillars are nearly unrelated to each other: E--S
+$\rho=\RhoES$, E--G $\rho=\RhoEG$, S--G $\rho=\RhoSG$. Hence ``ESG'' here is
+two different objects:
+\begin{itemize}
+\item E and S: financial quality measured within sector;
+\item G: largely independent third-party governance information.
+\end{itemize}
+Conventional diagnostics do not reveal this. The maximum VIF among factor
+scores is only \VIFMax (\VIFMaxFactor), and the first three principal
+components explain \PCAFirstThree\% of factor variance, which looks like a
+well-conditioned, multidimensional factor set. The redundancy sits
+\emph{inside} the ESG block, where the financial proxies duplicate
+information already present in the financial factors.
 
-\begin{table}[t]
-\centering
-\caption{Descriptive summary statistics for the final universe (276 mid-cap; 321 total including 45 large-cap benchmarks).}
-\label{tab:results_descriptive}
-\small
-\begin{tabular}{@{}lr@{}}
-\toprule
-\textbf{Statistic} & \textbf{Value} \\
-\midrule
-Mid-cap universe size & \textbf{276} \\
-Total universe size (incl. benchmarks) & \textbf{321} \\
-Large-cap benchmarks & \textbf{45} \\
-GICS sectors & \textbf{11} \\
-Variables & \textbf{202} \\
-US companies (mid-cap) & \textbf{186} \\
-India companies & \textbf{90} \\
-\bottomrule
-\end{tabular}
-\end{table}
+\textbf{Profiles.} The three investor profiles are highly concordant. The
+balanced composite has Spearman correlations of \RhoProfEB with the
+ESG-first and \RhoProfBF with the financial-first composite. The top-\TopN
+lists share \OverlapEB and \OverlapBF names, respectively. Changing the ESG
+weight from \WFinFirstESG\% to \WESGFirstESG\% therefore changes the ranking
+far less than the labels suggest.
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{fig01_score_distributions}
-\caption{Cross-sectional score distributions for the nine factor scores across 276 mid-cap companies.}
-\label{fig:results_score_distributions}
-\end{figure}
+\subsection{RQ2: In-Sample Validation Overstates Quality}
+\label{sec:res_insample}
 
-\subsection{Factor Independence and Multicollinearity}
+Table~\ref{tab:insample} reports the pipeline's former validation evidence
+next to the OOS outcome. The balanced composite's in-sample correlation with
+the trailing six-month return is \InSampleICBalSixM. This is not evidence of
+prediction: the ``returns'' end on the snapshot date, and the composite
+contains risk-adjusted and stability scores built from the same price
+history. The correlation with the contemporaneous quality proxy is
+\InSampleICBalQuality. It is inflated further by shared inputs, since the
+proxy is built from ROA, ROE, margins and growth, which also feed the
+financial, growth and operational factors. Out of sample, all three profiles
+have negative point ICs, and every confidence interval contains zero.
 
-Collinearity diagnostics are favorable. All VIF values are low, with
-maximum \textbf{VIF $=3.26$} for \texttt{financial\_score}. Factor-level
-diagnostics remain comfortably within the low-VIF regime: ESG
-(\textbf{2.61}), market (\textbf{1.98}), operational (\textbf{1.67}),
-risk-adjusted (\textbf{2.18}), value (\textbf{1.86}), growth
-(\textbf{1.23}), and stability (\textbf{1.23}).
-Indicator overlap across factors is \textbf{0\%}, supporting factor
-independence at the feature level. The ESG--financial association
-(\texttt{ESG\_composite} $\leftrightarrow$ \texttt{financial\_score})
-is \textbf{$R^2=0.544$}, but this should be interpreted as a
-\textbf{proxy-construction artifact} rather than independent empirical
-discovery.
-
-\begin{table}[t]
-\centering
-\caption{Multicollinearity diagnostics across factor scores.}
-\label{tab:results_vif}
-\small
-\begin{tabular}{@{}lcc@{}}
-\toprule
-\textbf{Factor} & \textbf{VIF} & \textbf{Classification} \\
-\midrule
-Financial & \textbf{3.26} & \textbf{Low} \\
-ESG & \textbf{2.61} & \textbf{Low} \\
-Risk-adjusted & \textbf{2.18} & \textbf{Low} \\
-Market & \textbf{1.98} & \textbf{Low} \\
-Value & \textbf{1.86} & \textbf{Low} \\
-Operational & \textbf{1.67} & \textbf{Low} \\
-Growth & \textbf{1.23} & \textbf{Low} \\
-Stability & \textbf{1.23} & \textbf{Low} \\
-Sector Position & \textbf{2.20} & \textbf{Low} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{fig03_correlation_heatmap}
-\caption{Pairwise Pearson correlation heatmap among factor scores.}
-\label{fig:results_correlation_heatmap}
-\end{figure}
-
-\subsection{Information Coefficient and Factor Validity}
-
-Financial and statistical validity checks are strongly supportive:
-\textbf{8/8} financial-ratio sanity checks pass, \textbf{10/10} economic-consistency
-checks pass, and \textbf{11/11} sectors lie in expected P/E ranges.
-For ESG--financial relationships, the composite association is
-\textbf{$R^2=0.544$}; at the pillar level, \texttt{E\_score}
-shows a negative association with \texttt{financial\_score}
-(\textbf{$r=-0.671$}), while \texttt{S\_score}
-remains the strongest positive pillar linkage
-(\textbf{$r=0.758$}). However, as ESG pillars are partially
-constructed from financial proxies, these associations primarily reflect the
-proxy-construction methodology rather than independent empirical discovery.
-Jonckheere--Terpstra trend tests confirm monotonic ordering for
-\texttt{risk\_adjusted\_score} (\textbf{$p<0.001$})
-and \texttt{S\_score} (\textbf{$p=0.036$}).
+Table~\ref{tab:prepost} isolates three further artefacts.
+\begin{enumerate}
+\item The isotonic monotonicity correction was fitted to the quality proxy.
+  With it, \MonoPre of \MonoTotal factors were ``monotonic'' in that proxy;
+  without it, \MonoPost are.
+\item The former ``Bayesian bootstrap'' multiplied each firm's score by
+  i.i.d.\ Exponential(1) noise. The resulting rank intervals had a median
+  width of \PreCIWidthMedian positions out of \PreNFirmsBoot. The paper
+  nonetheless reported perfect rank stability (Kendall $\tau=1$) from a
+  separate calculation.
+\item The corrected composite shares only \OverlapPrePost of its top-\TopN
+  names with the pre-audit version, although the Spearman correlation of the
+  two is \RhoPrePostBal. The direction errors changed the E pillar most
+  (pre--post $\rho=\RhoPrePostE$).
+\end{enumerate}
+None of these artefacts changed the OOS conclusion: the pre-audit composite
+also has no predictive power (IC $=\ICPreAuditFull$). They changed only the
+\emph{evidence} that was offered for the composite.
 
 \begin{table}[t]
 \centering
-\caption{Financial and ESG validity summary.}
-\label{tab:results_ic_validity}
-\small
-\setlength{\tabcolsep}{3pt}
-\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash}p{2.5cm}c>{\raggedright\arraybackslash}X@{}}
-\toprule
-\textbf{Validation item} & \textbf{Value} & \textbf{Interpretation} \\
-\midrule
-Financial-ratio sanity checks & \textbf{8/8} & \textbf{PASS} \\
-Economic consistency checks & \textbf{10/10} & \textbf{PASS} \\
-Sectors in expected P/E ranges & \textbf{11/11} & \textbf{PASS} \\
-ESG$\leftrightarrow$financial association & \textbf{$R^2=0.544$} & Proxy-construction artifact \\
-E\_score $\leftrightarrow$ financial\_score & \textbf{$r=-0.671$} & Negative pillar association \\
-S\_score $\leftrightarrow$ financial\_score & \textbf{$r=0.758$} & Strongest positive pillar linkage \\
-\midrule
-J--T: risk\_adjusted\_score & \textbf{$p<0.001$} & \textbf{Monotonic} \\
-J--T: S\_score & \textbf{$p=0.036$} & \textbf{Monotonic} \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{fig_ic_heatmap}
-\caption{Information coefficient across factors and investment horizons. With $N=276$, the minimum detectable $|\mathrm{IC}|\approx0.168$ at 80\% power ($\alpha=0.05$); ICs below this are underpowered and do not imply null effects (see \texttt{predictive\_validation\_ic\_power.csv}).}
-\label{fig:results_ic_heatmap}
-\end{figure}
-
-\subsection{Portfolio Performance}
-
-Using trailing 1-month momentum as a cross-sectional momentum proxy\footnote{All return figures represent cross-sectional momentum proxy differentials, not realized investment returns (M4 caveat).},
-the balanced top-20 portfolio posts \textbf{$-4.01\%$} momentum proxy with
-\textbf{CS-IR $=-0.710$}. 
-
-We note that multiple IR-like metrics are reported throughout this paper, each measuring a different aspect: (i) the score-weighted CS-IR (0.475) measures alignment between composite scores and cross-sectional quality proxies; (ii) the excess-momentum CS-IR ($-0.710$ overall, $+0.585$ in bear markets) measures portfolio momentum dispersion relative to the universe; and (iii) the annualized traditional IR (0.089) benchmarks against commercial index norms. These metrics are complementary, not interchangeable.
-
-Across profile and baseline strategies,
-momentum-proxy outcomes are: financial-first \textbf{$-3.13\%$}/\textbf{$-0.589$},
-ESG-first \textbf{$-4.47\%$}, ESG-only \textbf{$-4.65\%$},
-financial-only \textbf{$-5.99\%$}, growth-only \textbf{$-7.08\%$}, and
-risk-adjusted-only \textbf{+0.53\%} with \textbf{IR $=+0.588$}.
-On excess-momentum attribution, \texttt{Our\_MultiF} records
-\textbf{+10.65 pp} with \textbf{$\beta=0.82$} and \textbf{bear-market excess-momentum IR $=+0.585$},
-while growth-only delivers \textbf{+7.54 pp} with \textbf{IR $=+0.246$}.
-Financial-first posts \textbf{IR $=+0.251$}. For comparison, excluding \texttt{market\_score} entirely (0\% weight) yields excess momentum of +1.20 pp, confirming that portfolio quality extends beyond momentum capture. Capacity checks \textbf{PASS}
-at \$\textbf{25M}--\$\textbf{500M}, quarterly turnover is
-\textbf{25.4\%}, and transaction costs span \textbf{24--94~bps} across that
-deployable range. The balanced top-20 constituents are \textbf{INCY, CTRA,
-DECK, NAVINFLUOR.NS, STAG, GGG, MUTHOOTFIN.NS, STLD, ATO, GRMN, NNN, RS,
-TORNTPHARM.NS, WTS, IBKR, SCHAEFFLER.NS, MTCH, PIDILITIND.NS, GMED, EWBC}.
-
-\begin{table}[t]
-\centering
-\caption{Cross-sectional momentum-proxy summary and excess-momentum decomposition by strategy.}
-\label{tab:results_portfolio_performance}
-\small
-\setlength{\tabcolsep}{3pt}
-\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash}p{2.3cm}ccc@{}}
-\toprule
-\textbf{Strategy} & \textbf{Excess Mom.} & \textbf{$\beta$} & \textbf{IR} \\
-\midrule
-Our\_MultiF (Balanced Top-20) & \textbf{+10.65 pp} & \textbf{0.82} & \textbf{+0.585 (bear-market)} \\
-Growth-Only Top-20 & +7.54 pp & --- & +0.246 \\
-Financial-First Top-20 & --- & --- & +0.251 \\
-Risk-Adjusted-Only Top-20 & --- & --- & +0.588 \\
-\midrule
-Balanced momentum proxy / CS-IR & \textbf{$-4.01\%$} & --- & \textbf{$-0.710$} \\
-Financial-first momentum proxy / CS-IR & \textbf{$-3.13\%$} & --- & \textbf{$-0.589$} \\
-ESG-first momentum proxy & \textbf{$-4.47\%$} & --- & --- \\
-ESG-only momentum proxy & \textbf{$-4.65\%$} & --- & --- \\
-Financial-only momentum proxy & \textbf{$-5.99\%$} & --- & --- \\
-Growth-only momentum proxy & \textbf{$-7.08\%$} & --- & --- \\
-Risk-adjusted-only momentum proxy / IR & \textbf{+0.53\%} & --- & \textbf{+0.588} \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{fig18_portfolio_performance}
-\caption{Cumulative cross-sectional momentum-proxy performance by strategy.}
-\label{fig:results_portfolio_figure}
-\end{figure}
-
-\subsection{Market Regime Analysis}
-
-Performance is asymmetric across regimes. In bear markets, the balanced
-strategy delivers \textbf{+7.27\%} excess momentum proxy with
-\textbf{bear-market excess-momentum IR $=+0.585$} and \textbf{CS-IR $=-1.342$}; ESG-only delivers \textbf{+5.19\%},
-financial-only delivers \textbf{+4.49\%}, and growth-only posts
-\textbf{$-3.24\%$}. All return figures represent cross-sectional momentum
-proxy differentials, not realized investment returns (M4 caveat).
-
-The divergence between positive excess momentum (+7.27 pp) and negative CS-IR ($-1.342$) reflects a fundamental measurement distinction: excess momentum captures the portfolio's mean trailing return advantage, while CS-IR penalizes for cross-sectional dispersion within the selected portfolio. A portfolio can select companies with above-average momentum (positive excess) while exhibiting high internal score dispersion (negative CS-IR). This finding underscores the importance of reporting multiple complementary metrics rather than relying on any single measure.
-
-\textbf{Metric Definitions.} Cross-sectional information ratio (CS-IR) is defined as the portfolio's mean cross-sectional score minus the universe mean, divided by cross-sectional standard deviation. Excess momentum is the portfolio's mean trailing momentum minus the universe mean. CS-IR can be negative even when excess momentum is positive when portfolio scores cluster near the universe mean relative to cross-sectional dispersion.
-
-\begin{table}[t]
-\centering
-\caption{Bear-market excess performance by strategy.}
-\label{tab:results_regime}
-\small
-\begin{tabular}{@{}lr@{}}
-\toprule
-\textbf{Strategy} & \textbf{Bear-Market Excess} \\
-\midrule
-Balanced excess momentum proxy (bear market) & \textbf{+7.27\% (CS-IR $=-1.342$)} \\
-ESG-only excess momentum proxy (bear market) & \textbf{+5.19\%} \\
-Financial-only excess momentum proxy (bear market) & \textbf{+4.49\%} \\
-Growth-only excess momentum proxy (bear market) & \textbf{-3.24\%} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{PCA and Dimensionality}
-
-PCA retains \textbf{3 components} under the Kaiser criterion,
-with \textbf{67.4\%} cumulative explained variance
-(PC1 \textbf{31.8\%}, PC2 \textbf{20.9\%}, PC3 \textbf{14.6\%}).
-Clustering identifies \textbf{3 clusters} with
-\textbf{silhouette $=0.261$}, indicating modest but non-trivial
-segmentation.
-
-\begin{table}[t]
-\centering
-\caption{PCA dimensionality and clustering diagnostics for the factor space.}
-\label{tab:results_pca_dimensionality}
-\small
-\begin{tabular}{@{}lr@{}}
-\toprule
-\textbf{Diagnostic} & \textbf{Value} \\
-\midrule
-Retained components (Kaiser) & \textbf{3} \\
-PC1 explained variance & \textbf{31.8\%} \\
-PC2 explained variance & \textbf{20.9\%} \\
-PC3 explained variance & \textbf{14.6\%} \\
-Cumulative explained variance & \textbf{67.4\%} \\
-Hierarchical clusters & \textbf{3} \\
-Silhouette score & \textbf{0.261} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{fig21_pca_biplot}
-\caption{PCA biplot of the nine-factor space (first two principal components). Sector\_position is excluded from PCA as it is a derived within-sector percentile rather than an independent cross-sectional signal.}
-\label{fig:results_pca_biplot}
-\end{figure}
-
-\subsection{Bootstrap and Rank Stability}
-
-Under \textbf{500} bootstrap iterations, rank uncertainty remains high.
-Bootstrap consensus preserves the original ordering with
-\textbf{Kendall $\tau=1.000$}, but for top-ranked companies the rank standard
-deviation is approximately \textbf{77} and bootstrap confidence-interval widths
-range from \textbf{247} to \textbf{255} rank positions. This remains a genuine
-limitation of the current ranking pipeline.
-
-\begin{table}[t]
-\centering
-\caption{Bootstrap-based rank stability summary for company rankings.}
-\label{tab:results_bootstrap}
-\small
-\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash}p{2.8cm}>{\raggedleft\arraybackslash}X@{}}
-\toprule
-\textbf{Metric} & \textbf{Value} \\
-\midrule
-Bootstrap iterations & \textbf{500} \\
-Kendall $\tau$ (bootstrap consensus) & \textbf{1.000} \\
-Top-company rank std & \textbf{$\sim 77$} \\
-Top-ranked CI width range & \textbf{247--255 positions} \\
-Interpretation & \textbf{High rank uncertainty (limitation)} \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{fig24_bootstrap_ci}
-\caption{Bootstrap 95\% confidence intervals for top-ranked company positions ($B=500$).}
-\label{fig:results_bootstrap_ci}
-\end{figure}
-
-\subsection{High-Cap Generalization}
-
-A critical test of any mid-cap-derived methodology is whether it transfers to
-large-cap universes without systematic bias or factor degradation. We evaluate
-the v6 pipeline on \textbf{45 S\&P 500 companies} using identical factor
-construction and scoring methodology.
-
-\textbf{Verdict: FULLY\_GENERALIZES.} All \textbf{9/9} deployed factors pass
-the z-score stability test ($|z| < 2.5$), indicating no systematic drift in
-factor behavior between market-cap segments. Only \textbf{0.2\%} of
-factor-benchmark pairs show any degradation, confirming robust transferability.
-
-Agreement strength is very high: \textbf{Kendall $W = 0.933$} indicates near-perfect
-concordance across raters (factors). Rank stability is exceptional, with
-\textbf{Spearman $\rho = 0.9993$} between mid-cap-derived and large-cap-applied
-rankings. The Friedman test confirms no systematic bias across factors
-(\textbf{$\chi^2 = 1.38$, $p = 0.50$}).
-
-Score distributions align with economic expectations: large-cap ESG mean
-$= 59.9$ versus mid-cap $48.4$, consistent with the well-documented pattern
-that larger firms have more mature ESG programs and disclosure practices.
-Similarly, large-cap risk-adjusted mean $= 57.2$ versus mid-cap $48.8$,
-reflecting the lower idiosyncratic risk of established firms. Notable
-individual scores include AAPL (ESG $= 64.7$), MSFT (ESG $= 66.6$),
-GOOGL (ESG $= 66.9$), and NVDA (growth $= 77.0$).
-
-\begin{table}[t]
-\centering
-\caption{High-cap generalization diagnostics: 45 S\&P 500 benchmark companies scored using mid-cap-derived methodology.}
-\label{tab:results_highcap_generalization}
-\small
-\setlength{\tabcolsep}{3pt}
-\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash}p{3.2cm}c>{\raggedright\arraybackslash}X@{}}
-\toprule
-\textbf{Metric} & \textbf{Value} & \textbf{Interpretation} \\
-\midrule
-Benchmarks tested & \textbf{45} & S\&P 500 constituents \\
-Generalization verdict & \textbf{FULLY\_GENERALIZES} & All factors transfer \\
-Factors passing z-test & \textbf{9/9} & $|z| < 2.5$ threshold \\
-Agreement strength & \textbf{Kendall $W = 0.933$} & Very strong concordance \\
-Rank stability & \textbf{Spearman $\rho = 0.9993$} & Near-perfect correlation \\
-Factor-pair degradation & \textbf{0.2\%} & Minimal drift \\
-Friedman test & \textbf{$\chi^2 = 1.38$, $p = 0.50$} & No systematic bias \\
-\midrule
-Large-cap ESG mean & \textbf{59.9} & vs mid-cap 48.4 (expected) \\
-Large-cap risk-adj mean & \textbf{57.2} & vs mid-cap 48.8 (expected) \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\subsection{Factor Ablation Study}
-
-Leave-one-factor-out ablation identifies \texttt{growth\_score} as the most
-influential individual factor, with ranking retention of
-\textbf{Kendall $\tau=0.777$}. For the balanced composite itself, explanatory
-contributions are highest for \texttt{financial\_score}
-(\textbf{$R^2=0.680$}), \texttt{ESG\_composite}
-(\textbf{$R^2=0.644$}) (balanced-score contribution; see Appendix~I for dominance diagnostic), and \texttt{operational}
-(\textbf{$R^2=0.306$}).
-
-\begin{table}[t]
-\centering
-\caption{Factor ablation and monotonicity summary (advanced analysis).}
-\label{tab:results_factor_ablation_study}
-\small
+\caption{In-sample ``validation'' versus out-of-sample outcome. In-sample
+columns are rank correlations of the composite with trailing six-month returns
+and with a contemporaneous quality proxy on the snapshot cross-section.}
+\label{tab:insample}
 \scriptsize
 \setlength{\tabcolsep}{3pt}
-\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash}p{3.2cm}cc>{\raggedright\arraybackslash}X@{}}
-\toprule
-\textbf{Metric} & \textbf{Statistic} & \textbf{Value} & \textbf{Interpretation} \\
-\midrule
-Most influential ablated factor & Kendall $\tau$ & 0.777 & \texttt{growth\_score} is the strongest single-factor driver of balanced ranking retention \\
-Balanced-score contribution: financial\_score & $R^2$ & 0.680 & Largest explanatory contribution to the balanced composite \\
-Balanced-score contribution: ESG\_composite & $R^2$ & 0.644 & Second-largest explanatory contribution \\
-Balanced-score contribution: operational & $R^2$ & 0.306 & Third-largest explanatory contribution \\
-\bottomrule
-\end{tabularx}
-\normalsize
+\resizebox{\columnwidth}{!}{\input{generated/tab_insample_vs_oos}}
 \end{table}
+
+\begin{table}[t]
+\centering
+\caption{Diagnostics before and after the audit corrections of
+Section~\ref{sec:audit}. Pre-audit rank intervals come from the former
+``Bayesian bootstrap''; post-audit intervals from Section~\ref{sec:rank_design}.}
+\label{tab:prepost}
+\scriptsize
+\input{generated/tab_pre_post}
+\end{table}
+
+\subsection{RQ3: Out-of-Sample Evidence}
+\label{sec:res_oos}
+
+Over the window, the S\&P~500 returned \IdxRetUS\% and the NIFTY~50
+\IdxRetIndia\%. The equal-weighted mid-cap universes returned \UnivRetUS\%
+(US) and \UnivRetIndia\% (India). Table~\ref{tab:primary} reports the three
+primary hypotheses.
+
+\begin{table}[t]
+\centering
+\caption{Primary hypotheses (one-sided tests, Holm-adjusted across H1--H3;
+$N=\NOOS$ firms with a full-window return).}
+\label{tab:primary}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{\input{generated/tab_oos_primary}}
+\end{table}
+
+\textbf{H1 and H3 (returns): not supported.} The balanced composite's IC with
+the country-neutral full-window return is \HOneEst (95\% CI
+$[\HOneLo,\HOneHi]$). Its top-\TopN portfolio beat the universe by
+\HThreeEst percentage points (pp), with CI $[\HThreeLo,\HThreeHi]$. Both
+estimates are robust to the \NExited M\&A exits: under the survivorship
+bounds, the IC lies in $[\BoundICLow,\BoundICHigh]$ and the excess in
+$[\BoundExLow,\BoundExHigh]$~pp. The top-ranked firm (CTRA) was among the
+exits.
+
+\textbf{H2 (risk): supported.} Controlling for trailing volatility, higher
+ESG predicts lower realised volatility: partial $\rho=\HTwoEst$, 95\% CI
+$[\HTwoLo,\HTwoHi]$, Holm $p=\HTwoHolm$. The effect is economically modest.
+Trailing volatility alone has a rank correlation of \RhoVolPersist with
+realised volatility, so most of the raw ESG--volatility association
+($\rho=\RhoESGVolRaw$) is past volatility carried forward.
+
+\textbf{Secondary evidence.} Figure~\ref{fig:oos_ic} and
+Table~\ref{tab:oos_ic} give ICs for all factors and composites. No composite
+has a positive IC at any horizon. The only Holm-significant full-window IC is
+negative, for the S pillar (\ICSFull). At one month, the financial and market
+scores have significantly \emph{negative} ICs, consistent with short-term
+reversal. Table~\ref{tab:oos_risk} decomposes the risk effect:
+\begin{itemize}
+\item In rank regressions with trailing volatility, trailing beta, size, and
+  sector and country fixed effects, the composite (\RegVolESG, $p=\RegVolPESG$)
+  and the S pillar (\RegVolS, $p=\RegVolPS$) predict lower realised
+  volatility.
+\item The G pillar has a pooled partial correlation of \PartBetaG with
+  realised \emph{beta} but none with volatility (\RegVolG, $p=\RegVolPG$).
+  The beta association is a pooling effect: it disappears once sector and
+  country fixed effects are added (Table~\ref{tab:ext_controls}).
+\item The E pillar predicts neither.
+\item The part of ESG that is orthogonal to the other factors predicts
+  neither at the 5\% level.
+\end{itemize}
+The forward risk signal is therefore carried mostly by the financial-proxy S
+pillar. Section~\ref{sec:res_mechanism} asks what that signal is.
+
+\textbf{The cost of the tilt.} Table~\ref{tab:oos_port} shows what the risk
+tilt cost in a rising market. The top-\TopN ESG-only portfolio's excess return
+over the universe was \ExESGFull~pp (CI $[\ExESGFullLo,\ExESGFullHi]$). Adjusting for
+trailing beta leaves \ExESGBA~pp. Sector-and-country neutralisation reduces
+the gap to \ExESGSN~pp (CI $[\ExESGSNLo,\ExESGSNHi]$): roughly half of the
+shortfall is a sector bet. The portfolio overweights utilities and energy and
+underweights technology, which was the best-performing sector.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{fig25_factor_ablation}
-\caption{Kendall $\tau$ degradation under sequential factor ablation.}
-\label{fig:results_factor_ablation}
+\includegraphics[width=0.95\columnwidth]{fig_oos_ic}
+\caption{Out-of-sample rank ICs over (\SnapshotDate,\,\OOSEndDate] with 95\%
+bootstrap intervals. Blue: composites; green: ESG measures; grey: financial
+factors (*market score carries zero weight). Two-sided 80\%-power detection
+threshold: $|\rho|\ge\MDEOOS$.}
+\label{fig:oos_ic}
 \end{figure}
-
-\subsection{Factor Monotonicity}
-
-Against a forward quality proxy, \textbf{7/8} factors are monotonic.
-Against the J--T return-proxy validation, \textbf{2/9} factors are significant:
-\texttt{risk\_adjusted\_score} (\textbf{$p<0.001$}) and \texttt{S\_score}
-(\textbf{$p=0.036$}). The strongest quintile spread is delivered by
-\texttt{market\_score}, with \textbf{Q5--Q1 $=+62.72\%$}. Different validation
-targets still yield different monotonicity counts, but we report
-\textbf{7/8} against the forward quality proxy as the primary headline.
-\texttt{value\_score} anti-monotonicity (Q5--Q1 $-62\%$) reflects the
-2020--2024 growth-led regime; split-sample by \texttt{price\_momentum\_6m}
-terciles shows value IC is positive in value-regime windows and negative in
-growth-regime windows \cite{asness2017}, justifying the deployed inverted
-value signal as regime-conditional rather than purely tuned.
 
 \begin{table}[t]
 \centering
-\caption{Factor monotonicity summary across validation targets.}
-\label{tab:results_monotonicity}
-\small
-\begin{tabular}{@{}ll@{}}
-\toprule
-\textbf{Validation target} & \textbf{Result} \\
-\midrule
-Forward quality proxy (primary) & \textbf{7/8 monotonic} \\
-J--T return-proxy validation & \textbf{2/9 significant} \\
-Best quintile spread & \textbf{market\_score Q5--Q1 $=+62.72\%$} \\
-\midrule
-Primary headline & \textbf{7/8 monotonic against forward quality proxy} \\
-\bottomrule
-\end{tabular}
+\caption{Out-of-sample rank ICs with country-neutral returns. Bold: Holm
+$p<0.05$ within horizon.}
+\label{tab:oos_ic}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\input{generated/tab_oos_ic}
 \end{table}
+
+\begin{table}[t]
+\centering
+\caption{Top-\TopN portfolio excess return over the equal-weighted universe
+(pp, country-neutral). $\beta$-adj.: market-model adjustment with trailing
+beta; Sect.-neut.: sector-and-country-neutral full-window returns.}
+\label{tab:oos_port}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\resizebox{\columnwidth}{!}{\input{generated/tab_oos_portfolio}}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{ESG and realised risk. Partial $\rho$ controls for the trailing value
+of the same risk measure; bold: Holm $p<0.05$ across the 15 secondary tests.
+Regression: rank of realised volatility on ESG rank with trailing volatility,
+beta, size, and sector and country effects (HC3).}
+\label{tab:oos_risk}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\resizebox{\columnwidth}{!}{\input{generated/tab_oos_risk}}
+\end{table}
+
+\subsection{RQ4: Where the Risk Signal Comes From}
+\label{sec:res_mechanism}
+
+H2 is the only positive result, so we test it hardest.
+Tables~\ref{tab:ext_controls} and~\ref{tab:ext_robust} report the evidence,
+which gives a three-part answer.
+
+\textbf{It survives known risk factors.} With full controls (trailing
+volatility and beta, size, quality, leverage, liquidity, momentum, value, and
+sector and country effects), the ESG coefficient is \HFourEst (95\% CI
+$[\HFourLo,\HFourHi]$, one-sided $p=\HFourP$; H4). Two further checks agree.
+\begin{itemize}
+\item \emph{Double sort.} Within trailing-volatility terciles, high-ESG
+  firms had \DSAvg~pp lower realised volatility than low-ESG firms (CI
+  $[\DSLo,\DSHi]$). The gap grows from \DSLowTerc~pp in the calmest tercile
+  to \DSHighTerc~pp in the most volatile.
+\item \emph{Robustness.} The effect holds without the \NPinned takeover-pinned
+  firms, with winsorised volatility, without utilities and real estate, and
+  has the same sign in both countries (US \HTwoUS, India \HTwoIndia).
+\end{itemize}
+The ESG--beta association does not survive: it falls from \BetaTrailESG
+($p=\BetaTrailESGP$) with the trailing control to \BetaFullESG
+($p=\BetaFullESGP$) with full controls. No ESG measure predicts drawdowns.
+
+\textbf{It is not in the measured ESG data.} The signal sits in the S pillar
+(\HFourS, $p=\HFourSP$), whose inputs are almost all financial proxies. The
+G pillar (\HFourG) carries none of it. Splitting each firm's cells by source
+makes this sharper:
+\begin{itemize}
+\item \emph{Measured cells} (ISS, SEC, registry) have partial
+  $\rho=\PartMeas$ with realised volatility (CI $[\PartMeasLo,\PartMeasHi]$),
+  and are nearly independent of the financial factors ($R^2=\RSqMeas$).
+\item \emph{Proxy cells} are largely financial ($R^2=\RSqProxy$) and have
+  partial $\rho=\PartProxy$ (CI $[\PartProxyLo,\PartProxyHi]$).
+\item \emph{Imputed cells} have a strong raw association (\PartImp), which
+  is a sector effect: it vanishes once sector fixed effects are included
+  (Table~\ref{tab:ext_controls}).
+\end{itemize}
+The two non-imputed sub-scores are almost unrelated ($\rho=\RhoMeasProxy$).
+Adding measured-cell ESG to the out-of-fold volatility forecast changes $R^2$
+by \CVDeltaMeas.
+
+\textbf{It is small, and partly stale volatility.} Adding the composite to a
+cross-validated volatility forecast raises out-of-fold $R^2$ from \CVBaseRSq
+to \CVESGRSq, an improvement in \CVShareImproved\% of repeats but only
+\CVDeltaESG in size. Recent volatility erodes it further. Given pre-snapshot
+volatility, ESG's partial correlation with second-half volatility is
+\RecTrail. Given first-half realised volatility it is \RecFirst (CI
+$[\RecFirstLo,\RecFirstHi]$, $p=\RecFirstP$), and given both it is \RecBoth.
+The monthly partial correlations are negative in \MonNegPartial of
+\NMonths months, but each is small (\MonPartMin to \MonPartMax). ESG
+therefore behaves like a slow-moving summary of a firm's risk profile. It
+adds a little beyond long-horizon trailing volatility and little beyond
+recent volatility.
+
+\begin{table}[t]
+\centering
+\caption{Rank-regression coefficients of each ESG measure for realised risk.
+``Trailing'': control for the pre-snapshot value of the same risk measure;
+``full'': all controls of Section~\ref{sec:ext_design}, with sector and
+country fixed effects (HC3). Drawdown is signed, so a positive value means a
+shallower drawdown. Bold: $p<0.05$ (two-sided, unadjusted). $N=\NOOS$.}
+\label{tab:ext_controls}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{\input{generated/tab_ext_controls}}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Robustness of the ESG--volatility result. Upper panel: H2 and H4 on
+subsamples. Lower panel: partial Spearman correlation of ESG with realised
+volatility after \SplitDate, given earlier volatility.}
+\label{tab:ext_robust}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\resizebox{\columnwidth}{!}{\input{generated/tab_ext_robust}}
+\end{table}
+
+\subsection{Robustness of the Return Null}
+\label{sec:res_null}
+
+The failure of H1 is not a consequence of the chosen weights
+(Figure~\ref{fig:ext_weights}).
+\begin{itemize}
+\item \emph{Random weights.} Across \WDraws weight vectors drawn uniformly
+  from the simplex, the OOS IC has median \WICMedian (2.5--97.5\% range
+  $[\WICLo,\WICHi]$) and is positive in only \WSharePos\% of draws. Around
+  the deployed weights ($\kappa=\BootKappa$), it is positive in
+  \WKapSharePos\% of draws.
+\item \emph{ESG weight.} More ESG weight lowers the IC (rank correlation
+  \WCorrESGIC across draws). The IC moves from \SweepICZero with no ESG to
+  \SweepICOne with ESG only.
+\item \emph{Low volatility without ESG.} The top-\TopN portfolio has lower
+  realised volatility than the universe in \WShareLowVol\% of draws, whatever
+  the ESG weight (rank correlation \WCorrESGVol). With no ESG weight, its
+  volatility is already \SweepVolZero~pp below the universe. The
+  composite's low-risk profile comes from its risk-adjusted and stability
+  factors, not from ESG.
+\item \emph{Over time.} Monthly ICs of the balanced composite are negative
+  in \MonNegICBal of \NMonths months (range \MonICMin to \MonICMax).
+\item \emph{Costs.} Round-trip costs for the top-\TopN portfolio are
+  \CostRT~pp, which leaves a net excess of \NetExBase~pp (\NetExStress~pp at
+  three times the costs). The sign of H3 is thus unaffected, and it remains
+  insignificant.
+\end{itemize}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{fig_ext_weights}
+\caption{Weight uncertainty and the ESG weight. (a) OOS IC of the composite
+under \WDraws weight vectors drawn uniformly from the simplex; dashed line:
+deployed weights. (b) OOS IC as the ESG weight rises from 0 to 1, with the
+other weights in their deployed proportions (95\% bootstrap band). (c) The
+top-\TopN portfolio's excess return and realised volatility relative to the
+universe on the same sweep. Dotted line: deployed ESG weight.}
+\label{fig:ext_weights}
+\end{figure*}
+
+\subsection{Rank Uncertainty}
+\label{sec:res_rank}
+
+Figure~\ref{fig:rank_ci} and Table~\ref{tab:top} report rank intervals for
+the balanced profile. For the top-\TopN names, the median 95\% interval spans
+\CIWidthTop ranks (maximum \CIWidthTopMax). Weight uncertainty dominates:
+alone it gives \CIWidthTopWeights ranks, against \CIWidthTopSampling for
+universe resampling. \NPTopHalf of the \TopN current constituents remain in
+the top-\TopN in at least half of the draws, and the expected overlap between
+the published and a perturbed portfolio is \ExpOverlap names. Rankings near
+the top are therefore reasonably determined \emph{given} the construction;
+the OOS results show that the construction itself does not predict returns.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{fig_quintile_returns}
-\caption{Quintile-sorted cross-sectional momentum-proxy dispersion by factor (all return figures are momentum proxy differentials, not realized returns).}
-\label{fig:results_quintile_returns}
+\includegraphics[width=0.9\columnwidth]{fig_rank_ci}
+\caption{Balanced-profile ranks with 95\% intervals combining universe
+resampling and Dirichlet ($\kappa=\BootKappa$) weight perturbation
+($B=\BootN$). *NSE-listed.}
+\label{fig:rank_ci}
 \end{figure}
 
-\subsection{Cross-Validation and Overfitting}
-
-Cross-validation remains supportive on the v6 pipeline. The sector-stratified
-train/test ratio is \textbf{0.499}, the quasi-temporal ratio is
-\textbf{0.509}, the walk-forward ratio is \textbf{0.978}, and
-leave-one-sector-out validation yields mean test IC = 0.200. Across the 165 walk-forward splits, out-of-sample IC ranges from 0.12 to 0.38 (mean = 0.24, std = 0.07), with no split producing negative IC.
-
-Fama-MacBeth cross-sectional regressions with sector fixed effects confirm that \texttt{financial\_score} ($\beta = 0.42$, $p < 0.001$) and \texttt{risk\_adjusted\_score} ($\beta = 0.31$, $p < 0.01$) are the strongest predictors of composite rank, while \texttt{ESG\_composite} is positively associated but not statistically significant at conventional levels ($\beta = 0.08$, $p = 0.23$).
-
 \begin{table}[t]
 \centering
-\caption{Cross-validation diagnostics for in-sample overfitting assessment.}
-\label{tab:results_cv_overfitting}
-\small
-\begin{tabular}{@{}lr@{}}
-\toprule
-\textbf{Metric} & \textbf{Value} \\
-\midrule
-Train/Test ratio & \textbf{0.499} \\
-Quasi-temporal ratio & \textbf{0.509} \\
-Walk-forward ratio & \textbf{0.978} \\
-Leave-one-sector-out & \textbf{IC = 0.200} \\
-Interpretation & \textbf{Generalization checks remain supportive} \\
-\bottomrule
-\end{tabular}
+\caption{Top-\TopN balanced portfolio: 95\% rank interval, probability of
+remaining in the top-\TopN, and realised full-window return ($^\dagger$NSE;
+``exit'': acquired during the window).}
+\label{tab:top}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\resizebox{\columnwidth}{!}{\input{generated/tab_top_ranks}}
 \end{table}
-
-\subsection{ESG Risk Filter}
-
-Across five risk metrics, ESG shows mixed but partially favorable behavior:
-price volatility \textbf{($\rho=-0.357$, $p<0.001$; 95\% CI: $[-0.45, -0.26]$)} and market beta
-\textbf{($\rho=-0.146$, $p=0.015$; 95\% CI: $[-0.26, -0.03]$)} indicate that high-ESG firms have lower
-risk exposure. High-ESG firms also show shallower max drawdowns
-(Q5 \textbf{$-27.77\%$} vs Q1 \textbf{$-38.26\%$}, a
-\textbf{10.49 pp} benefit), but they exhibit worse Sharpe
-(Q5 \textbf{0.145} vs Q1 \textbf{0.458}) and worse skewness
-(Q5 \textbf{$-0.096$} vs Q1 \textbf{0.352}), which must be disclosed
-explicitly.
-
-\begin{table}[t]
-\centering
-\caption{ESG risk-filter metrics (all five dimensions).}
-\label{tab:results_esg_risk_filter}
-\small
-\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}X@{}}
-\toprule
-\textbf{Risk metric} & \textbf{Statistic} & \textbf{Value} & \textbf{Interpretation} \\
-\midrule
-Price volatility & \textbf{Spearman $\rho$} & \textbf{$-0.357$; $p<0.001$; 95\% CI: $[-0.45, -0.26]$} & Significant ESG benefit (high-ESG lower volatility) \\
-Market beta & \textbf{Spearman $\rho$} & \textbf{$-0.146$; $p=0.015$; 95\% CI: $[-0.26, -0.03]$} & Significant ESG benefit (high-ESG lower beta) \\
-Max drawdown & \textbf{Q5 vs Q1} & \textbf{$-27.77\%$ vs $-38.26\%$} & High-ESG drawdown is less severe by \textbf{10.49 pp} \\
-Sharpe ratio & \textbf{Q5 vs Q1} & \textbf{0.145 vs 0.458} & High-ESG has worse Sharpe and this must be disclosed \\
-Return skewness & \textbf{Q5 vs Q1} & \textbf{$-0.096$ vs 0.352} & High-ESG has worse skewness \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\subsection{Weight Sensitivity}
-
-Under $\pm20\%$ weight perturbations, the qualitative ranking conclusions
-remain stable in the v6 pipeline.
-
-\subsection{Rolling Rebalance}
-
-Rolling validation is favorable: the balanced strategy beats the benchmark
-in \textbf{100\% of 12 quarterly rolling periods (each covering 63 trading days)}, with average excess momentum proxy of
-\textbf{+7.38\%}. All return figures represent cross-sectional momentum proxy
-differentials, not realized investment returns (M4 caveat).
-
-\begin{table}[t]
-\centering
-\caption{Rolling rebalance summary of out-of-sample benchmark proxy comparison (momentum-proxy-based).}
-\label{tab:results_rolling_rebalance}
-\small
-\begin{tabular}{@{}lr@{}}
-\toprule
-\textbf{Metric} & \textbf{Value} \\
-\midrule
-Rolling periods evaluated & \textbf{12 quarterly periods (63 days each)} \\
-Periods beating benchmark & \textbf{100\%} \\
-Average excess momentum proxy & \textbf{+7.38\%} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{fig_temporal_rolling_performance}
-\caption{Temporal stability: rolling 63-day window performance (12 quarters). ICs are estimated in rolling windows; decay quantifies stability of factor-return association over time. When online, \texttt{21\_temporal\_stability} replaces momentum proxies with realized forward returns ($T\!\rightarrow\!T+h$) and labels source as \texttt{real\_yfinance\_forward} vs \texttt{proxy}.}
-\label{fig:results_temporal_rolling}
-\end{figure}

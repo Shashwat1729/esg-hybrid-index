@@ -1,0 +1,2 @@
+snapshot_date,end_date,n_universe,n_with_full_return,n_stopped_early,top_n,trading_days_us,trading_days_india,universe_mean_return_us_pct,universe_mean_return_india_pct,index_return_us_pct,index_return_india_pct,esg_r2_on_other_factors,esg_raw_spearman_with_oos_vol,trailing_vs_oos_vol_spearman,min_detectable_rho_80pct_power
+2026-04-02,2026-09-23,269,260,0,19,118,122,15.84216013648863,18.929120816934315,17.065057806900484,3.2302996266179385,0.5107335270594788,-0.30299492368457887,0.8157627651568056,0.17300049241641902

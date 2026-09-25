@@ -1,8 +1,8 @@
-dependent_variable,n,r2_sector_only,r2_sector_plus_esg,incremental_r2,esg_coefficient,f_statistic,p_value,significant_at_005
-financial_score,258,0.1392,0.1425,0.0034,-0.009,0.9671,0.326364,False
-risk_adjusted_score,258,0.3144,0.3168,0.0024,-0.0537,0.8617,0.354174,False
-stability_score,258,0.3762,0.3762,0.0001,-0.0096,0.0305,0.861507,False
-roa,258,0.1961,0.1969,0.0008,0.0001,0.2546,0.614321,False
-roe,258,0.1936,0.1941,0.0005,0.0005,0.1592,0.690238,False
-price_volatility,258,0.3617,0.3678,0.0061,0.095,2.3818,0.124038,False
-sharpe_ratio_1y,258,0.3242,0.3255,0.0013,-0.0031,0.4836,0.487436,False
+dependent_variable,n,r2_sector_only,r2_sector_plus_esg,incremental_r2,esg_coefficient,f_statistic,p_value,significant_at_005,p_value_fdr,significant_fdr_005
+financial_score,269,0.0774,0.3797,0.3023,0.876,125.2261,0.0,True,0.0,True
+risk_adjusted_score,269,0.0118,0.0124,0.0006,-0.0257,0.1467,0.701989,False,0.701989,False
+stability_score,269,0.0092,0.0203,0.011,0.1832,2.8908,0.090298,False,0.105348,False
+roa,269,0.1862,0.3167,0.1305,0.0019,49.0842,0.0,True,0.0,True
+roe,269,0.0865,0.1208,0.0343,0.0044,10.0329,0.001723,True,0.003015,True
+price_volatility,269,0.1943,0.2365,0.0422,-0.2688,14.2088,0.000203,True,0.000474,True
+sharpe_ratio_1y,269,0.2065,0.2254,0.0189,-0.0146,6.2602,0.01297,True,0.018158,True

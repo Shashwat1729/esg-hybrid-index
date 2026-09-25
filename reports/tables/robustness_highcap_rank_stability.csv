@@ -1,7 +1,7 @@
 metric,value
-mean_spearman_rho,0.9993
+mean_spearman_rho,0.9992
 std_spearman_rho,0.0001
-min_spearman_rho,0.999
-max_spearman_rho,0.9995
-mean_top20_overlap,19.6
+min_spearman_rho,0.9989
+max_spearman_rho,0.9994
+mean_top20_overlap,18.0
 n_simulations,200.0

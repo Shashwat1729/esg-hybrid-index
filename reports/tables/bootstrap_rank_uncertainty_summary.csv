@@ -1,0 +1,2 @@
+n_bootstrap,dirichlet_concentration,top_n,reconstruction_spearman,median_ci_width_all,median_ci_width_top_n,max_ci_width_top_n,median_ci_width_sampling_top_n,median_ci_width_weights_top_n,mean_p_top_n_of_top_n,n_top_n_with_p_ge_0_5,expected_top_n_overlap
+1000,100.0,19,0.9990723271918605,42.025000000000006,15.0,28.0,3.0,13.0,0.8578421052631579,18,16.493000000000002

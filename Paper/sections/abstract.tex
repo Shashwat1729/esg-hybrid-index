@@ -2,27 +2,38 @@
 %   ABSTRACT
 % =============================================================================
 \begin{abstract}
-Mid-cap investors increasingly demand ESG-aware allocation tools, yet
-practical index methods remain constrained by sparse and inconsistent
-non-financial disclosure outside large-cap universes. This study develops a
-transparent, capacity-constrained 9-factor ESG-integrated composite index for 276 mid-cap firms
-across US and Indian markets using hybrid ESG inputs that combine real Yahoo
-Finance governance risk scores and SEC EDGAR governance disclosures with
-proxy-derived environmental and social indicators (each proxy with economic citation; Appendix H). The balanced multi-factor
-specification is a risk-aware ranking — not a return-prediction — system: it
-ranks higher than single-factor alternatives on cross-sectional
-quality proxies and demonstrates superior cross-sectional quality in stressed
-market decompositions and rolling-rebalance comparisons. Formal power analysis
-shows with $N=276$ the minimum detectable rank correlation is $|\rho|\approx0.168$ at 80\% power; we therefore pre-declare quality-proxy information coefficients (ICs) as primary and treat $1$-month return-proxy ICs as exploratory. ESG integration
-functions as a risk filter within the broader multi-factor system,
-with higher ESG associated with lower volatility ($\rho=-0.36$, $p<0.001$) and beta ($\rho=-0.15$, $p=0.015$) rather than a
-standalone alpha effect. Robustness checks indicate that the ranking framework
-remains stable under cross-validation at the portfolio level (individual rank confidence intervals remain wide, spanning 247--255 positions, indicating that rank stability applies to aggregate portfolio characteristics rather than individual company positions), and high-cap generalization testing on 45 S\&P 500 companies confirms full transferability (Kendall $W = 0.933$, 9/9 factors pass z-score test, Spearman $\rho = 0.9993$). Monotonicity evidence shows 7 of 8 factors exhibit monotonic quintile returns against the forward quality proxy, while 2 of 9 achieve statistical significance against the trailing return proxy (Jonckheere-Terpstra test, $p < 0.05$). All
-performance metrics reflect cross-sectional factor quality, not realized
-portfolio returns.
+Open research pipelines increasingly build ESG scores for mid-cap firms from
+public data. We ask what such scores measure and how they should be
+validated. We build a reproducible nine-factor ESG--financial index for
+\NMid US and Indian mid-caps with cell-level provenance, and audit it.
+
+\emph{Construct validity is weak.} Only \NIndUsed of \NIndDeclared ESG
+indicators carry information. Most E and S cells are financial proxies, and
+the other factors explain $R^2=\RSqE$ and \RSqS of those pillars.
+
+\emph{In-sample validation misleads.} Trailing-return ``ICs'', a
+contemporaneous ``forward'' proxy and a misapplied bootstrap made the index
+look strong.
+
+\emph{Out of sample, the index does not predict returns.} In a hold-out
+window (\SnapshotDate to \OOSEndDate, $N=\NOOS$) with hypotheses fixed in
+advance, the composite's IC is \HOneEst (95\% CI $[\HOneLo,\HOneHi]$). The IC
+is negative under \WShareNeg\% of random weightings.
+
+\emph{ESG predicts lower volatility, but not as ESG.} Higher ESG predicts
+lower volatility beyond trailing volatility (partial $\rho=\HTwoEst$, Holm
+$p=\HTwoHolm$), even with nine risk controls and sector effects. The signal
+comes from financial-proxy cells, not measured ESG data (partial
+$\rho=\PartMeas$). It adds only \CVDeltaESG to out-of-fold $R^2$ and weakens
+given recent volatility. Meanwhile, an ESG-only top-\TopN portfolio trailed
+the universe by \ExESGFullAbs percentage points.
+
+Public-data ESG thus acts as a slow-moving low-risk tilt, not as ESG
+information or alpha. We pre-register a confirmatory second window, and one
+command regenerates every number in the paper.
 \end{abstract}
 
 \begin{IEEEkeywords}
-ESG integration, multi-factor model, mid-cap equities, composite index,
-sustainability investing
+ESG measurement, construct validity, composite indicators, out-of-sample
+validation, pre-registration, mid-cap equities, reproducibility
 \end{IEEEkeywords}

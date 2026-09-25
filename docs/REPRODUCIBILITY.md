@@ -129,19 +129,33 @@ No `.env` file is committed (gitignored). No other secrets.
 # After run_all.py --skip-download, diff generated tables vs paper claims:
 python tests/run_time_split_tests.py   # cross-sectional validation smoke test
 # Spot-check key numbers:
-# - reports/tables/factor_vif.csv          → max VIF ≈ 2.80
+# - reports/tables/vif_multicollinearity.csv → max VIF ≈ 2.04
 # - reports/tables/benchmark_summary.csv    → check header "# Cross-sectional momentum proxy"
 # - reports/tables/predictive_validation_ic.csv → IC values; confirm market_score clean vs raw
-# - data/processed/cleaning_metadata.json   → INR/USD = 83.0
+# - data/processed/cleaning_metadata.json   → INR/USD = 92.97 (2026-04-02)
+# - reports/tables/oos_primary_hypotheses.csv → H1 IC ≈ -0.094, H2 partial rho ≈ -0.163
 ```
 
 See `docs/PAPER_CODE_RECONCILIATION.md` for line-by-line paper ↔ code ↔ output mapping.
+
+## 10b. Pre-registered Window 2
+
+```bash
+python scripts/28_preregistration.py verify            # hashes of frozen scores + code
+python scripts/28_preregistration.py evaluate --dry-run  # same code on 2026-07-01 → 2026-09-23
+python scripts/28_preregistration.py evaluate          # allowed from 2027-04-03
+```
+
+Hashes are computed with CRLF normalised to LF, so a Windows or POSIX
+checkout of the committed files verifies identically. Any content change to
+a registered file makes `verify` and `evaluate` fail.
 
 ## 11. What Cannot Be Reproduced Exactly
 
 - **Historical survivorship-free universe:** current constituent lists; no delisted-firm recovery without survivorship-free database (CRSP/Compustat). Disclosed as limitation.  
 - **Live Yahoo prices:** will drift if re-downloaded later; use committed `data/raw/` for exact replication.  
-- **FX path:** fixed rate 83.0 vs realized ±5–8% annual variation; sensitivity noted in `24_geographic_robustness.py`.
+- **FX path:** snapshot-date rate 92.97; realised INR/USD moves during the OOS window are not modelled (returns are in local currency and country-neutralised).
+- **Post-snapshot prices:** cached in `data/raw/forward_prices.csv`; `python scripts/25_out_of_sample_evaluation.py --refresh` re-downloads them.
 
 ## 12. CI / Headless
 

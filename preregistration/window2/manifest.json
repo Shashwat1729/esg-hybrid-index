@@ -1,0 +1,20 @@
+{
+  "frozen_on": "2026-09-25",
+  "git_head_at_freeze": "97a2b43239936fde5dd592987f6fc2e929d46b18",
+  "code_uncommitted_at_freeze": true,
+  "snapshot_date": "2026-04-02",
+  "anchor": "2026-09-28",
+  "end": "2027-03-31",
+  "top_n": 19,
+  "n_boot": 5000,
+  "seed": 42,
+  "alpha": 0.05,
+  "n_firms": 269,
+  "sha256": {
+    "preregistration/window2/frozen_scores.csv": "c00ebc22269d22c2917ac220f689389ac9ebd858d46428bdd99904f3904bba07",
+    "scripts/25_out_of_sample_evaluation.py": "7455d173c2764938f1aff61d23529151048a60cf1ebe6ff55077e8c6462786fa",
+    "scripts/28_preregistration.py": "d8ed6236bbbe0a0257d774c743c3dd97fdfe2418316cf102b8c98b4e46b12f1b",
+    "src/constants.py": "8339bee13a172dd1acca8c84c6c8bea0f20fef3f72e8bb38769b94837d51f787",
+    "src/utils.py": "82d0037bf83302fdb0baba8766ce37f268ec0ddc08130dad08a71e8883d46959"
+  }
+}

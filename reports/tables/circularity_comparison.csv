@@ -1,13 +1,13 @@
 horizon,score_variant,ic_with_market,p_with_market,ic_ex_market,p_ex_market,ic_inflation,note
-1m,pref_balanced,0.1337,0.0263,,,,missing data
-1m,pref_esg_first,0.0757,0.2099,,,,missing data
-1m,pref_financial_first,0.1724,0.0041,,,,missing data
-3m,pref_balanced,0.2547,0.0,,,,missing data
-3m,pref_esg_first,0.1484,0.0136,,,,missing data
-3m,pref_financial_first,0.3082,0.0,,,,missing data
-6m,pref_balanced,0.3018,0.0,,,,missing data
-6m,pref_esg_first,0.1624,0.0068,,,,missing data
-6m,pref_financial_first,0.3702,0.0,,,,missing data
-quality,pref_balanced,0.5376,0.0,,,,missing data
-quality,pref_esg_first,0.316,0.0,,,,missing data
-quality,pref_financial_first,0.6292,0.0,,,,missing data
+1m,pref_balanced,0.1012,0.0976,,,,missing data
+1m,pref_esg_first,0.0396,0.5174,,,,missing data
+1m,pref_financial_first,0.1438,0.0183,,,,missing data
+3m,pref_balanced,0.1861,0.0022,,,,missing data
+3m,pref_esg_first,0.0954,0.1185,,,,missing data
+3m,pref_financial_first,0.2337,0.0001,,,,missing data
+6m,pref_balanced,0.2266,0.0002,,,,missing data
+6m,pref_esg_first,0.0935,0.126,,,,missing data
+6m,pref_financial_first,0.2885,0.0,,,,missing data
+quality,pref_balanced,0.5026,0.0,,,,missing data
+quality,pref_esg_first,0.272,0.0,,,,missing data
+quality,pref_financial_first,0.5798,0.0,,,,missing data

@@ -11,24 +11,24 @@ Can a transparent, multi-factor ESG-integrated index built from public data outp
 
 | Segment | N | Source |
 |---------|---|--------|
-| US mid-cap | 186 | S&P MidCap 400 / Russell Midcap constituents (Yahoo Finance) |
-| India mid-cap | 90 | NIFTY Midcap 150 constituents (`.NS` suffix, NSE) |
-| **Mid-cap analytical universe** | **276** | Passes ≥60% indicator coverage |
+| US mid-cap | 181 | S&P MidCap 400 / Russell Midcap constituents (Yahoo Finance) |
+| India mid-cap | 88 | NIFTY Midcap 150 constituents (`.NS` suffix, NSE) |
+| **Mid-cap analytical universe** | **269** | Traded on the 2026-04-02 snapshot date (7 candidates removed) |
 | Large-cap benchmarks | 45 | S&P 500 names (AAPL, MSFT, GOOGL, …) — robustness only, excluded by `load_indexed_data()` default |
-| **Total raw universe** | **321** | |
+| **Total raw universe** | **321** | 314 scored after the investability filter |
 
-Period: single cross-sectional snapshot as of March 2025 (753 trading days S&P 500, 739 NIFTY 50 for benchmark price history). No multi-year panel — all "returns" are trailing momentum proxies, not forward realized P&L (see §9).
+Period: single cross-sectional snapshot at the close of 2026-04-02 (`universe.snapshot_date`). Genuine out-of-sample evaluation over (2026-04-02, 2026-09-23] in `scripts/25_out_of_sample_evaluation.py`; in-sample "returns" in older tables are trailing momentum and are not predictive evidence (see `docs/RESEARCH_AUDIT.md`).
 
 ## 3. Data Sources
 
 | Family | Fields | Coverage |
 |--------|--------|----------|
-| **Yahoo Finance** (`yfinance`) | Financial statements, market history, governance risk (`auditRisk`, `boardRisk`, `compensationRisk`, `shareholderRightsRisk`, `overallRisk`) | 321 tickers queried; governance risk populated for 213/276 |
-| **SEC EDGAR XBRL** | R&D expenditure, share-based comp, repurchases, dividends, segments, employee count, goodwill, debt, tax rate | ~102/276 US firms with CIK match |
-| **Hybrid ESG pipeline** | 32 ESG indicators (11 E, 11 S, 10 G) — see §4 | 6-tier hierarchy per `company × indicator` cell |
+| **Yahoo Finance** (`yfinance`) | Financial statements, market history, governance risk (`auditRisk`, `boardRisk`, `compensationRisk`, `shareholderRightsRisk`, `overallRisk`) | 321 tickers queried; ISS governance risk populated for 209/269 mid-caps |
+| **SEC EDGAR XBRL** | R&D expenditure, share-based comp, repurchases, dividends, segments, employee count, goodwill, debt, tax rate | SEC-sourced cells: 3% of G-pillar cells (mid-caps) |
+| **Hybrid ESG pipeline** | 34 declared ESG indicators (11 E, 11 S, 12 G); 21 carry information — see §4 and Paper Table I | 6-tier hierarchy per `company × indicator` cell |
 | **Benchmark indices** | Daily OHLCV: S&P 500, S&P MidCap 400, Russell 2000, NIFTY 50 | 739–755 trading days |
 
-Indian monetary fields converted to USD at **INR/USD = 83.0** (March 2024 RBI reference; §2 of `02_clean_data.py`). Stored in `data/processed/cleaning_metadata.json`.
+Indian monetary fields converted to USD at **INR/USD = 92.97**, the Yahoo `INR=X` close on the 2026-04-02 snapshot date (`config/index_config.yaml`; §2 of `02_clean_data.py`). Stored in `data/processed/cleaning_metadata.json`.
 
 ## 4. Hybrid ESG Construction (6-Tier Provenance)
 
@@ -159,12 +159,12 @@ Paper §IV footnotes and §VI Limitations disclose this; benchmark tables flagge
 
 | Check | Script | Key output |
 |-------|--------|------------|
-| Descriptive + normality + correlations + VIF + ANOVA | `04_statistical_tests.py` | 25+ tables; max VIF 2.80 |
+| Descriptive + normality + correlations + VIF + ANOVA | `04_statistical_tests.py` | 25+ tables; max VIF 2.04 |
 | Weight grid search (99 combos) + perturbation stability | `05_weight_sensitivity.py` | ≥0.99 Spearman at ±20% |
 | Multi-horizon + alpha/beta + regime + weighting methods + **clean IC** | `06_benchmark_comparison.py` | `benchmark_factor_validity_clean.csv` |
-| Cross-sectional IC / quintiles / bootstrap (B=500) / CV | `07b_cross_sectional_validation.py` | `predictive_validation_*.csv` |
-| PCA / clustering / bootstrap CI / factor ablation | `08_advanced_analysis.py` | `advanced_*.csv` |
-| High-cap transfer (45 names) | `15_robustness_highcap.py` | Kendall W=0.933 |
+| In-sample IC / quintiles / CV (descriptive only — trailing targets) | `07b_cross_sectional_validation.py` | `predictive_validation_*.csv` |
+| PCA / clustering / rank uncertainty (universe resampling + Dirichlet weights, B=1000) | `08_advanced_analysis.py` | `advanced_*.csv`, `bootstrap_rank_uncertainty_summary.csv` |
+| Large-cap reference comparison (45 names; not a generalisation test) | `15_robustness_highcap.py` | — |
 | Turnover / capacity / walk-forward | `16_financial_validation.py` | Pass $25M–$500M |
 | Proxy provenance + held-out | `17_proxy_validation.py` | Per-indicator `n_real` |
 | Leave-one-sector-out | `18_sector_cv.py` | — |
@@ -173,12 +173,16 @@ Paper §IV footnotes and §VI Limitations disclose this; benchmark tables flagge
 | Incremental ESG R² | `22_esg_incremental_value.py` | — |
 | PCA weight audit | `23_pca_weight_validation.py` | — |
 | US/India normalization bias | `24_geographic_robustness.py` | — |
+| **Genuine out-of-sample test (H1–H3, Holm)** | `25_out_of_sample_evaluation.py` | `oos_*.csv` |
+| Mechanism & robustness: factor controls (H4), provenance split, CV vol forecast, double sort, recent-vol control, weight draws, costs, monthly | `27_paper1_extensions.py` | `ext_*.csv`, `fig_ext_weights` |
+| Pre-registered window 2 (freeze / verify / evaluate) | `28_preregistration.py` | `preregistration/window2/` |
+| Paper numbers, tables, figures | `26_paper_artifacts.py` | `Paper/generated/` |
 
 Multiple-testing: Bonferroni per panel (IC tests), Benjamini–Hochberg where noted; 95% CIs via Fisher z or bootstrap (B=500, seed 42).
 
 ## 11. Known Limitations
 
-See `docs/RESEARCH_AUDIT.md` §3 and Paper §VI. In brief: hybrid ESG (6 firms proxy-only), single-period cross-section, no survivorship-free panel, zero-variance binaries, fixed FX, partial monotonicity, bootstrap rank CIs wide (247–255 positions).
+See `docs/RESEARCH_AUDIT.md` §5 and Paper §VII. In brief: one six-month OOS window (MDE ≈ 0.17); E and S pillars are financial proxies; ISS governance data dependence; candidate list not point-in-time; results gross of costs.
 
 ## 12. Reproducing
 

@@ -2,7 +2,7 @@
 
 <p align="center">
   <strong>Transparent · Reproducible · Auditable</strong><br/>
-  9-factor ESG-integrated composite for <strong>276</strong> mid-cap equities (186 US + 90 India) + 45 S&P 500 benchmarks
+  9-factor ESG-integrated composite for <strong>269</strong> mid-cap equities (181 US + 88 India) + 45 large-cap reference firms · snapshot 2026-04-02 · genuine out-of-sample test
 </p>
 
 <p align="center">
@@ -13,15 +13,15 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python"/>
-  <img src="https://img.shields.io/badge/tests-308_passed-brightgreen?style=flat-square" alt="Tests"/>
-  <img src="https://img.shields.io/badge/pipeline-19%2F19-success?style=flat-square" alt="Pipeline"/>
-  <img src="https://img.shields.io/badge/coverage-276_mid--cap-blue?style=flat-square" alt="Coverage"/>
+  <img src="https://img.shields.io/badge/tests-325_passed-brightgreen?style=flat-square" alt="Tests"/>
+  <img src="https://img.shields.io/badge/pipeline-27%2F27-success?style=flat-square" alt="Pipeline"/>
+  <img src="https://img.shields.io/badge/coverage-269_mid--cap-blue?style=flat-square" alt="Coverage"/>
   <img src="https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square" alt="License"/>
   <img src="https://img.shields.io/badge/data-Yahoo_%2B_SEC_EDGAR-orange?style=flat-square" alt="Data"/>
 </p>
 
 <p align="center">
-  <em>All “return” figures are <strong>cross-sectional trailing momentum proxies</strong> (1m/3m/6m at a point in time), not realized forward P&L — see caveat ↓</em>
+  <em>Out of sample (2026-04-02 → 2026-09-23) the composite does <strong>not</strong> predict returns; ESG <strong>does</strong> predict lower future volatility — see results ↓</em>
 </p>
 
 ---
@@ -34,9 +34,9 @@ Mid-cap ESG investing is bottlenecked by **sparse disclosure, provider disagreem
 |---|---|
 | **Live demo** you can verify, not a mock | Gradio app reads `data/processed/indexed_data.csv` + `reports/tables/*.csv` — zero hardcoded numbers |
 | **Provenance per cell** | 6-tier ESG pipeline (`real_yahoo` → `real_sec` → `financial_proxy` → `sector_median` → `global_median` → `NaN`) tracked in `esg_data_provenance.csv` |
-| **Leakage-guarded** | `market_score` (contains momentum) excluded from deployed weights; validation uses `market_score_ex_momentum`, `VIF max 3.26 LOW`, `0%` factor overlap |
-| **Honest results** | Cross-sectional ranking with ESG as **risk filter** (vol ρ=−0.36, beta ρ=−0.15), not alpha — disclosed with Bonnferroni/BH, bootstrap CIs 247–255 wide |
-| **19/19 reproducible** | `run_all.py --skip-download` → bit-identical outputs (seed 42), 308 tests, LaTeX paper + thesis compiled from same outputs |
+| **Leakage-guarded** | Scores frozen at the 2026-04-02 close; firms not trading that day removed; `market_score` carries zero weight |
+| **Honest results** | Pre-declared out-of-sample test (Holm-corrected): no return predictability, ESG predicts lower future volatility; audit log in `docs/RESEARCH_AUDIT.md` |
+| **Paper generated from code** | `scripts/26_paper_artifacts.py` writes every number/table/figure the paper cites (`Paper/generated/`); 325 tests; pre-registered window 2 in `preregistration/` |
 
 ---
 
@@ -54,9 +54,9 @@ Mid-cap ESG investing is bottlenecked by **sparse disclosure, provider disagreem
 - **Investment Screener** — filter by ESG/financial/volatility/sector, ranked by `pref_*`
 - **Portfolio Builder** — equal-weighted aggregate vs universe radar + sector pie
 - **Index Methodology** — live weight sliders (auto-renormalized) → re-ranking
-- **About & Methodology** — pipeline, provenance, caveats, dataset stamp `N=321 (276+45) · INR/USD=83.0`, disclaimer
+- **About & Methodology** — pipeline, provenance, caveats, dataset stamp `N=314 · INR/USD=92.97 · snapshot 2026-04-02`, disclaimer
 
-> **Not financial advice.** Past cross-sectional patterns ≠ future returns. See `docs/RESEARCH_AUDIT.md` §5 + Paper §VI.
+> **Not financial advice.** The composite did not predict returns out of sample. See `docs/RESEARCH_AUDIT.md` + Paper §VII.
 
 <p align="center">
   <img src="reports/figures/fig20_summary_dashboard.png" alt="Summary dashboard" width="85%"/>
@@ -100,25 +100,6 @@ export PYTHONUTF8=1
 python scripts/run_all.py
 ```
 
-### Option C — Docker
-
-```bash
-docker build -t esg-hybrid-index .
-docker run -p 7860:7860 esg-hybrid-index   # demo
-# or pipeline
-docker run --rm -v $(pwd)/reports:/app/reports esg-hybrid-index python scripts/run_all.py --skip-download
-```
-
-<details><summary><strong>Make shortcuts</strong></summary>
-
-```bash
-make setup      # venv + pip install
-make pipeline   # run_all --skip-download
-make test       # pytest
-make demo       # app.py
-make paper      # compile Paper + Thesis_report
-```
-</details>
 
 ---
 
@@ -138,7 +119,7 @@ make paper      # compile Paper + Thesis_report
 | 8 | **Stability** | leverage / liquidity / vol | `stability_scoring` |
 | 9 | **Sector Position** | within-sector percentile | — |
 
-`similarity_rank` (10th, r=0.70 with ESG) excluded. Overlap after dedup **0%**, `VIF max 3.26` LOW, `50 + 10·z` → `[0,100]` single re-standardization, `70/30` sector blend + isotonic monotonicity.
+`similarity_rank` (10th, r=0.70 with ESG) excluded. Overlap after dedup **0%**, `VIF max 2.04`, `50 + 10·z` → `[0,100]` single re-standardization. The isotonic "monotonicity correction" is disabled (it was fitted to the validation target; see `docs/RESEARCH_AUDIT.md`).
 
 ### Investor profiles (sum to 1.0)
 
@@ -154,7 +135,7 @@ make paper      # compile Paper + Thesis_report
 | Stability | 0.06 | 0.08 | 0.07 |
 | Sector Pos. | 0.07 | 0.08 | 0.05 |
 
-From `config/index_config.yaml` (`DEFAULT_WEIGHTS` = ex-market clean; `_with_market` kept for audit). Aggregation: percentile-rank → weighted sum.
+Raw weights from `config/index_config.yaml`. In deployment the market weight is set to 0 and the rest renormalised (e.g. Balanced ESG = 23.2 %; Paper Table II). Aggregation: percentile rank over the 314 scored firms → weighted sum.
 
 ### Architecture
 
@@ -232,30 +213,28 @@ Change → `python scripts/03_build_index.py` → outputs, figures, tables, pape
 
 ## 📊 Results — honest headline
 
-> **Defensible cross-sectional quality ranking with ESG as a risk filter**, not realized alpha.
+> **A transparent, reproducible ranking whose ESG component behaves as a low-risk tilt, not an alpha signal.**
+> All values below are regenerated into `Paper/generated/numbers.tex` by `scripts/26_paper_artifacts.py`.
 
 | Finding | Value | Source |
 |---|---:|---|
-| Universe | **276** mid-cap (186 US + 90 India) + 45 benchmarks = 321, **202** vars, **11** sectors | `indexed_data.csv` |
-| Coverage | **6-tier** provenance: `real_yahoo 213` / `real_sec 102` / `financial_proxy 6` per firm | `esg_data_provenance.csv` |
-| Max VIF | **3.26 LOW** (financial) | `factor_vif.csv` |
-| 0% overlap | deduped 0% shared indicators | `indicator_factor_mapping.csv` |
-| ESG↔financial | **R² 0.544** — *proxy-construction artifact*, not discovery | `correlation_pearson.csv` (r 0.738) |
-| High-cap transfer | **Kendall W 0.933, ρ 0.9993, 9/9 pass |z|<2.5, p 0.50, 0.2% degr.** | `15_robustness_highcap.py` |
-| Bootstrap | **τ 1.000** but CI **247–255 wide** (portfolio-level only) | `07b` B=500 |
-| Monotonicity | **7/8 vs forward quality**; **2/9 vs JT return proxy** | `predictive_validation_summary.csv` |
-| Capacity | **PASS $25M–$500M**, fail $1B+ | `16_financial_validation.py` |
-| ESG risk filter | **vol ρ −0.36 p<0.001, beta ρ −0.15 p=0.015**, drawdown **−27.8% vs −38.3% 10.5pp** but worse Sharpe | `04` |
-| PCA | **3 comps 67.4% (31.8/20.9/14.6)**, silhouette 0.261 (3 clusters) | `advanced_pca_variance.csv` |
-| Weight stability | **≥0.99 Spearman at ±20%** | `05` |
+| Universe | **269** mid-caps (181 US + 88 India) + 45 large-cap reference firms; 7 non-trading firms removed | `indexed_data.csv`, `cleaning_metadata.json` |
+| ESG informativeness | **21 of 34** declared indicators carry cross-sectional information | `esg_data_provenance.csv` |
+| What ESG measures | E, S pillars ≈ financial proxies (R² on other factors **0.42 / 0.51**); G mostly ISS + ownership data (R² **0.03**) | Paper §V-A |
+| In-sample "evidence" | IC 0.23 vs trailing 6m returns, 0.50 vs contemporaneous quality proxy — **not predictive** | `circularity_comparison.csv` |
+| **H1** composite IC (OOS, country-neutral) | **−0.094**, 95% CI [−0.22, 0.04] — not supported | `oos_primary_hypotheses.csv` |
+| **H2** ESG → lower realised vol given trailing vol | partial ρ **−0.163**, Holm p **0.013** — supported | `oos_primary_hypotheses.csv` |
+| **H3** top-19 vs universe | **+1.9 pp**, CI ≈ [−11, 11] — not supported | `oos_portfolio_excess.csv` |
+| ESG-only top-19 | **−19.9 pp** vs universe (−8.4 pp sector-neutral) in a rising market | `oos_portfolio_excess.csv` |
+| Rank uncertainty | median 95% CI **15 ranks** for the top-19 | `bootstrap_rank_uncertainty_summary.csv` |
+| Max VIF | **2.04** | `vif_multicollinearity.csv` |
+| **H4** ESG → lower vol with 9 risk controls + sector/country FE | coef **−0.106** [−0.19, −0.02] | `ext_risk_controls.csv` |
+| Where the risk signal lives | measured ESG cells **+0.03** (none); S pillar / proxy cells carry it | `ext_provenance_split.csv` |
+| Is it stale volatility? | given 1st-half realised vol: **−0.066** (n.s.); out-of-fold R² gain **0.006** | `ext_recent_vol_control.csv`, `ext_vol_forecast_cv.csv` |
+| Return null vs weights | IC negative under **96.7%** of 2,000 random weightings | `ext_weight_uncertainty.csv` |
+| Pre-registered window 2 | (2026-09-28, 2027-03-31], H1–H4 hashed | `preregistration/window2/` |
 
-Benchmark “excess momentum’’ e.g. **+10.65 pp (β 0.82, bear IR +0.585), bear +7.27 pp, balanced −4.01% CS-IR −0.710** = *cross-sectional momentum-proxy differential*, not P&L. Every `benchmark_*` CSV prefixed `# Cross-sectional momentum proxy, not time-series returns` + Paper §IV footnote + §VI Limitations.
-
----
-
-## ⚠️ Key Caveat — Momentum Proxies (M4)
-
-> **Trailing `price_momentum_1m/3m/6m` at a point in time.** Selected mean − universe mean; `mean/std` = cross-sectional IR. No forward returns, no timestamped rebalancing, no P&L.
+Power: with N≈260, only |ρ| ≥ 0.17 is detectable at 80% power; one six-month window. See Paper §VII.
 
 ---
 
@@ -263,7 +242,7 @@ Benchmark “excess momentum’’ e.g. **+10.65 pp (β 0.82, bear IR +0.585), b
 
 ```bash
 # tests
-pytest -q                      # 308 passed
+pytest -q                      # 325 passed
 pytest tests/test_research_correctness.py -v   # leakage/overlap/direction guards (36)
 pytest -m "not slow"           # skip 500-iter bootstrap
 pytest -m integration          # full pipeline integration
@@ -297,12 +276,9 @@ cd hf-space && git add . && git commit -m "deploy" && git push   # auto-builds ~
 
 `demo/README.md` Space card, `demo/requirements.txt` minimal (`pandas,numpy,gradio,plotly,pyyaml`). No secrets.
 
-### Docker / Local
+### Local
 
 ```bash
-docker build -t esg-hybrid-index .
-docker run -p 7860:7860 esg-hybrid-index
-# or
 python app.py --server-name 0.0.0.0 --server-port 7860
 ```
 
@@ -342,11 +318,11 @@ Yahoo Finance (`yfinance`), SEC EDGAR XBRL, SASB Materiality Map, Fama-French / 
 }
 ```
 
-**MIT** © 2026 Shashwat Bajpai — see [`LICENSE`](LICENSE). Data via Yahoo/SEC fair-access; Indian monetary fields converted at **INR/USD 83.0** (Mar 2024 RBI) stored in `data/processed/cleaning_metadata.json`.
+**MIT** © 2026 Shashwat Bajpai — see [`LICENSE`](LICENSE). Data via Yahoo/SEC fair-access; Indian monetary fields converted at the snapshot-date close **INR/USD 92.97** (2026-04-02), stored in `data/processed/cleaning_metadata.json`.
 
 ---
 
 <p align="center">
-  <em>Academic research demonstration — not financial advice. Past cross-sectional patterns do not predict future performance.</em><br/>
+  <em>Academic research demonstration — not financial advice.</em><br/>
   <sub>Built with ❤️ for reproducible finance research · PRs welcome</sub>
 </p>

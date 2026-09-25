@@ -1,91 +1,53 @@
 % =============================================================================
-%   VII. CONCLUSION AND FUTURE WORK
+%   VIII. CONCLUSION
 % =============================================================================
-\section{Conclusion and Future Work}
+\section{Conclusion}
 \label{sec:conclusion}
 
-This paper develops and evaluates a transparent, open-source, 9-factor,
-202-variable ESG-integrated ranking framework for 276 mid-cap companies across
-US and Indian markets. The resulting multi-factor index ranks higher than
-single-factor alternatives on cross-sectional quality proxies in stressed
-conditions and provides consistent ranking quality across rolling-rebalance
-periods. Rolling rebalance tests indicate consistent cross-sectional
-superiority relative to the benchmark proxy, with average excess momentum proxy of
-$+7.38\%$. Performance remains economically meaningful in bear-market
-conditions, with $+7.27$ percentage points of excess performance, bear-market excess-momentum information
-ratio $=0.585$, and portfolio beta $=0.82$.
-
-The core empirical finding is that ESG contributes mainly as a risk filter
-within a broader multi-factor system, not as a standalone alpha source. Higher
-ESG is associated with lower volatility ($\rho=-0.357$, $p<0.001$) and lower
-beta ($\rho=-0.146$, $p=0.015$), but not with superior Sharpe outcomes:
-high-ESG Q5 Sharpe is $0.145$ versus $0.458$ for low-ESG Q1. Factor ablation
-shows that \texttt{growth\_score} is the most influential individual component
-($\tau = 0.777$ when removed), while low multicollinearity (maximum VIF
-$=2.80$) supports interpretability and indicates that the composite is not
-driven by redundant signals.
-
-The main methodological contribution is the rigor of the validation process.
-Overfitting controls remain within acceptable bounds (CV ratio $=0.499$;
-walk-forward ratio $=0.978$), capacity analysis indicates practical
-investability from roughly \$25M to \$500M AUM with failure beyond \$1$B+, and
-high-cap generalization testing demonstrates full transferability to large-cap
-universes: 45 S\&P 500 companies scored using identical methodology yield
-Kendall $W = 0.933$ (very strong agreement), 9/9 factors pass the z-score
-stability test ($|z| < 2.5$), rank stability reaches Spearman $\rho = 0.9993$,
-and only 0.2\% of factor-benchmark pairs show degradation. The Friedman test
-confirms no systematic bias ($\chi^2 = 1.38$, $p = 0.50$), while score
-distributions align with economic expectations (large-cap ESG mean $= 59.9$
-versus mid-cap $48.4$). Unsupervised structure diagnostics remain stable
-(three PCA components explain $67.4\%$ of variance; clustering silhouette
-$=0.261$). At the same time, bootstrap confidence intervals remain wide
-(roughly 247--255 positions), and only $32.2\%$ of names remain stable under
-$\pm 20\%$ weight perturbations. Taken together, these results validate the
-framework as a ranking methodology with integrated ESG risk controls, while
-still requiring continued validation under fully live, time-indexed execution.
-
-Cross-sectional market proxies remain informative but bounded in
-interpretation: the observed cross-sectional superiority reflects proxy-based
-ranking behavior rather than realized live-trading returns (M4 caveat).
-
-\subsection*{Key contributions and implications}
-
-The contributions of this study are four-fold. First, it presents a
-transparent 9-factor, 202-variable ESG framework specifically designed for
-mid-cap stocks. Second, it implements a hybrid ESG data pipeline with explicit
-provenance tracking across Yahoo, SEC, and proxy-derived indicators. Third, it
-introduces a rigorous validation suite spanning cross-validation, bootstrap
-analysis, walk-forward tests, ablation studies, capacity analysis, and
-external generalization checks, while also showing meaningful profile
-differentiation between \texttt{esg\_first} and \texttt{fin\_first}
-(Kendall $\tau=0.593$; top-10 overlap $=7/10$). Fourth, it demonstrates that
-ESG integration contributes primarily through risk filtering rather than alpha
-generation. The final balanced-profile top-ranked company is INCY
-(Healthcare; Pref $=85.4$, ESG $=59.1$, Financial $=62.8$).
-
-\subsection*{Future Work}
-
-Several extensions could strengthen and generalise these findings:
+We built a transparent nine-factor ESG--financial index for \NMid US and
+Indian mid-caps and audited it end to end. The audit answers four questions.
 \begin{enumerate}
-  \item \textbf{Commercial ESG data integration.} Incorporate provider-grade
-  datasets (e.g., Refinitiv and MSCI) to strengthen convergent and
-  discriminant validity of the hybrid ESG pipeline.
-  \item \textbf{Time-series implementation testing.} Extend from
-  cross-sectional evaluation to event-dated, time-series backtesting with
-  actual rebalance dates and realized execution assumptions.
-  \item \textbf{Geographic expansion.} Test transferability in European and
-  Asia-Pacific mid-cap universes to evaluate robustness across regulatory and
-  disclosure regimes.
-  \item \textbf{Dynamic regime-aware weighting.} Develop market-regime
-  adaptive factor weighting to improve responsiveness while preserving
-  transparency and overfitting discipline.
+\item \emph{What does public-data ESG measure?} Its E and S pillars are
+  mostly financial quality measured within sector (other factors explain
+  \RSqE and \RSqS of their variance). Only the governance pillar carries
+  largely independent information.
+\item \emph{Is common in-sample evidence informative?} No. Trailing-return
+  ``ICs'', a contemporaneous ``forward'' proxy, a correction fitted to that
+  proxy and a misapplied bootstrap together made a composite with no
+  demonstrable predictive power look strong.
+\item \emph{What happens out of sample?} The composite does not predict
+  returns (IC $=\HOneEst$), and its top-\TopN portfolio does not beat the
+  universe. Higher ESG does predict lower future volatility beyond trailing
+  volatility (partial $\rho=\HTwoEst$, Holm $p=\HTwoHolm$). In a rising
+  market this risk tilt was costly: an ESG-only top-\TopN screen had an excess
+  return of \ExESGFull~pp.
+\item \emph{Is that risk signal ESG?} Only in name. It survives nine known risk
+  characteristics and sector effects (\HFourEst), but it comes from
+  financial-proxy cells (measured cells: \PartMeas), adds \CVDeltaESG to an
+  out-of-fold volatility forecast, and falls to \RecFirst given recent
+  realised volatility.
 \end{enumerate}
 
-% =============================================================================
-%   ACKNOWLEDGMENT
-% =============================================================================
-% \section*{Acknowledgment}
+The contribution is as much methodological as empirical. Transparency is
+necessary but not sufficient for validity. Provenance per cell, redundancy
+per pillar, a dated construction and an out-of-sample test with fixed
+hypotheses are cheap to implement and should accompany any ESG index built
+from public data.
 
-% The authors thank Algo8.ai for providing the research environment and
-% infrastructure for this project, and BITS Pilani, Hyderabad Campus for
-% institutional support.
+\textbf{Future work.} Future work should:
+\begin{itemize}
+\item evaluate the pre-registered window (\PreregAnchor to \PreregEnd), which
+  will confirm or refute H2 and H4 against recent-volatility controls;
+\item repeat the snapshot--hold-out cycle quarterly, to accumulate power;
+\item replace financial proxies with measured E and S data (EPA TRI, BRSR
+  filings for Indian firms, and text-mined sustainability reports
+  \cite{luccioni_2020});
+\item test whether the ESG--volatility association persists across market
+  regimes, and whether measured E and S data share it.
+\end{itemize}
+
+\textbf{Reproducibility.} The code, configuration, cached raw data and
+frozen pre-audit outputs are in the project repository. Running
+\texttt{python scripts/run\_all.py --skip-download} rebuilds every table,
+figure and number in this paper from the \SnapshotDate snapshot and the cached
+post-snapshot prices; \texttt{--refresh} re-downloads them.

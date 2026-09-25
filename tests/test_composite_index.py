@@ -234,7 +234,7 @@ class TestIndicatorDirectionFlip:
     def _make_directional_df(self):
         """DataFrame with one 'lower is better' and one 'higher is better' col."""
         return pd.DataFrame({
-            "scope1_emissions": [100.0, 50.0, 10.0],  # lower is better
+            "scope2_emissions": [100.0, 50.0, 10.0],  # lower is better
             "renewable_energy_pct": [10.0, 50.0, 100.0],  # higher is better
         })
 
@@ -242,10 +242,10 @@ class TestIndicatorDirectionFlip:
         """Z-score: lower-is-better column is negated after normalization."""
         df = self._make_directional_df()
         result = normalize_indicators(
-            df, ["scope1_emissions", "renewable_energy_pct"], method="zscore",
+            df, ["scope2_emissions", "renewable_energy_pct"], method="zscore",
         )
         # Company with lowest emissions (10) should have the *highest* norm score
-        assert result["scope1_emissions_norm"].iloc[2] > result["scope1_emissions_norm"].iloc[0]
+        assert result["scope2_emissions_norm"].iloc[2] > result["scope2_emissions_norm"].iloc[0]
         # Higher-is-better column should NOT be flipped
         assert result["renewable_energy_pct_norm"].iloc[2] > result["renewable_energy_pct_norm"].iloc[0]
 
@@ -253,9 +253,9 @@ class TestIndicatorDirectionFlip:
         """Min-max: lower-is-better column becomes 1 - x, staying in [0, 1]."""
         df = self._make_directional_df()
         result = normalize_indicators(
-            df, ["scope1_emissions"], method="minmax",
+            df, ["scope2_emissions"], method="minmax",
         )
-        vals = result["scope1_emissions_norm"]
+        vals = result["scope2_emissions_norm"]
         # Lowest raw value (10) → highest norm (near 1.0)
         assert vals.iloc[2] > vals.iloc[0]
         assert vals.min() >= -0.01
@@ -265,9 +265,9 @@ class TestIndicatorDirectionFlip:
         """Percentile: lower-is-better becomes 100 - x, staying in [0, 100]."""
         df = self._make_directional_df()
         result = normalize_indicators(
-            df, ["scope1_emissions"], method="percentile",
+            df, ["scope2_emissions"], method="percentile",
         )
-        vals = result["scope1_emissions_norm"]
+        vals = result["scope2_emissions_norm"]
         assert vals.iloc[2] > vals.iloc[0]
         assert vals.min() >= 0
         assert vals.max() <= 100
@@ -276,18 +276,18 @@ class TestIndicatorDirectionFlip:
         """Robust z-score: lower-is-better column is negated."""
         df = self._make_directional_df()
         result = normalize_indicators(
-            df, ["scope1_emissions"], method="robust_zscore",
+            df, ["scope2_emissions"], method="robust_zscore",
         )
-        assert result["scope1_emissions_norm"].iloc[2] > result["scope1_emissions_norm"].iloc[0]
+        assert result["scope2_emissions_norm"].iloc[2] > result["scope2_emissions_norm"].iloc[0]
 
     def test_explicit_empty_set_disables_flip(self):
         """Passing lower_is_better=set() skips all flipping."""
         df = self._make_directional_df()
         result = normalize_indicators(
-            df, ["scope1_emissions"], method="zscore", lower_is_better=set(),
+            df, ["scope2_emissions"], method="zscore", lower_is_better=set(),
         )
         # Without flip, highest raw value gets highest z-score
-        assert result["scope1_emissions_norm"].iloc[0] > result["scope1_emissions_norm"].iloc[2]
+        assert result["scope2_emissions_norm"].iloc[0] > result["scope2_emissions_norm"].iloc[2]
 
     def test_custom_lower_is_better_set(self):
         """A custom lower_is_better set overrides the default."""
@@ -315,3 +315,21 @@ class TestIndicatorDirectionFlip:
             no_flip["renewable_energy_pct_norm"],
             with_flip["renewable_energy_pct_norm"],
         )
+
+    def test_score_encoded_indicators_are_not_flipped(self):
+        """scope1_emissions and esg_risk_rating are stored as higher = better.
+
+        Regression test for the audit finding that both were negated a second
+        time, which rewarded emitters and high-governance-risk firms.
+        """
+        df = pd.DataFrame({
+            "scope1_emissions": [10.0, 50.0, 90.0],   # proxy score, higher = cleaner
+            "esg_risk_rating": [10.0, 50.0, 90.0],    # (10 - ISS risk) * 10, higher = safer
+        })
+        result = normalize_indicators(
+            df, ["scope1_emissions", "esg_risk_rating"], method="robust_zscore",
+        )
+        for col in ["scope1_emissions_norm", "esg_risk_rating_norm"]:
+            assert result[col].iloc[2] > result[col].iloc[0]
+
+

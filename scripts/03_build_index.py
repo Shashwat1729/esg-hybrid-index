@@ -580,7 +580,14 @@ def build_config_driven_score(
 
 
 def _select_return_proxy(df):
-    """Create composite quality proxy for monotonicity correction.
+    """Create composite quality proxy for monotonicity diagnostics.
+
+    NOTE ON NAMING: despite the historical column name
+    ``forward_quality_proxy``, every input is observed at the snapshot date
+    (contemporaneous accounting ratios and trailing Sharpe).  It is NOT a
+    forward-looking outcome and must not be presented as out-of-sample
+    evidence; genuine forward returns are evaluated in
+    scripts/25_out_of_sample_evaluation.py.
 
     CIRCULARITY FIX (Issue C1): Instead of using price_momentum_6m (which
     overlaps with market_score), we construct a forward quality proxy from
@@ -1803,7 +1810,18 @@ def main():
         "risk_adjusted_score", "value_score", "growth_score", "stability_score",
     ]
     indicator_map = _build_indicator_map(index_cfg, df)
-    if return_proxy_col is not None:
+    # The isotonic "monotonicity correction" is OFF by default.  It fits each
+    # factor to forward_quality_proxy (a contemporaneous ROA/ROE/growth/Sharpe
+    # composite that shares inputs with the financial, growth and
+    # risk-adjusted factors) and then replaces the factor with 60-90% of the
+    # fitted rank.  That makes every factor partly a function of the target it
+    # is later validated against, so monotonicity "results" become true by
+    # construction.  It is kept only as an opt-in for replication of the
+    # pre-audit pipeline.  (Audit fix 2026-09.)
+    apply_mono = bool(
+        index_cfg.get("index_construction", {}).get("monotonicity_correction", False)
+    )
+    if return_proxy_col is not None and apply_mono:
         print(f"\n7c. Applying monotonicity correction using return proxy: {return_proxy_col}...")
         df = _apply_monotonicity_correction(
             df,
@@ -1816,7 +1834,8 @@ def main():
             score_clip_max,
         )
     else:
-        print("\n7c. Skipping monotonicity correction: no return proxy column found")
+        print("\n7c. Monotonicity correction disabled (diagnostic only; see "
+              "index_construction.monotonicity_correction in config)")
 
     # Save monotonicity diagnostics
     mono_out = PROJECT_ROOT / "reports" / "tables" / "factor_monotonicity_diagnostic.csv"

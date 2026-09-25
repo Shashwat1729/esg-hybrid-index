@@ -4,143 +4,64 @@
 \section{Related Work}
 \label{sec:related}
 
-This section is organized by thematic streams that most directly shape the
-methodological choices of this paper.
+\subsection{ESG Rating Divergence and Measurement}
 
-\subsection{ESG Rating Divergence and Data Quality}
+Commercial ESG ratings disagree substantially. Berg, K\"{o}lbel and Rigobon
+\cite{berg_2022} attribute the divergence mainly to measurement and scope
+differences rather than weighting. Chatterji et al.\ \cite{chatterji_2016}
+document low convergence, and disagreement itself carries return and risk
+implications \cite{gibson_2021, avramov_2022}. Christensen, Serafeim and
+Sikochi \cite{christensen_2022} show that more disclosure can \emph{increase}
+disagreement, and Kotsantonis and Serafeim \cite{kotsantonis_2019} catalogue
+data problems such as inconsistent peer sets, imputation and scale. This
+literature treats ESG ratings as noisy, model-dependent measurements. We apply
+the same lens to a public-data ESG score, where every modelling choice is
+visible and can be audited cell by cell.
 
-A central result in the ESG literature is that commercial ratings disagree
-substantially. Berg, K\"{o}lbel, and Rigobon \cite{berg_2022} show average
-pairwise correlations near $r\approx0.54$ across major providers, with
-divergence driven by scope, measurement, and weighting differences. Related
-evidence finds weak convergence in firm-level assessments
-\cite{chatterji_2016}, non-trivial portfolio consequences when provider choice
-changes \cite{dimson_2020}, and return implications of disagreement itself
-\cite{gibson_2021, avramov_2022}. Taken together, this strand frames ESG
-ratings as informative but noisy, model-dependent signals rather than a single
-``ground truth.''
+\subsection{ESG, Returns and Risk}
 
-Our approach differs at the data-construction level. Instead of treating
-proprietary provider scores as primary inputs, we construct transparent,
-indicator-level ESG proxies from public sources and track indicator provenance
-throughout the pipeline. This does not eliminate measurement error, but it
-makes assumptions auditable and allows sensitivity analysis to be performed on
-the underlying inputs rather than only on black-box aggregate ratings.
+Meta-analytic evidence reports predominantly non-negative ESG--performance
+associations \cite{friede_2015, eccles_2014}. Materiality matters: industry-material
+issues drive the effect \cite{khan_2016}. Equilibrium models imply that
+investor tastes for sustainability can \emph{lower} the expected returns of
+green assets while making them hedges \cite{pastor_2021, pedersen_2021}, and
+carbon exposure is priced \cite{bolton_2021}. On the risk side, CSR is associated with lower
+systematic risk \cite{albuquerque_2019}, and high-trust firms fared better in
+the 2008--2009 crisis \cite{lins_2017}. Our OOS evidence is consistent with a
+risk channel and not with a return premium over a six-month horizon.
 
-\subsection{ESG and Financial Performance}
+\subsection{Public-Data and Proxy ESG}
 
-The ESG--performance literature reports mixed but generally non-negative
-associations. The large meta-analysis of more than 2{,}200 studies by Friede,
-Busch, and Bassen \cite{friede_2015} reports predominantly non-negative links.
-Long-horizon evidence documents better outcomes among high-sustainability
-firms \cite{eccles_2014}, and crisis-period evidence suggests an insurance-like
-role for social capital \cite{lins_2017}. At the same time, economically
-material issue selection is critical: Khan, Serafeim, and Yoon
-\cite{khan_2016} show stronger effects for industry-material ESG issues than
-for broad undifferentiated ESG baskets. Equilibrium models also imply that
-``doing well'' and ``doing good'' need not map one-to-one in expected returns
-\cite{pastor_2021}, while exclusion-based preferences can create pricing wedges
-in controversial industries \cite{hong_2009}.
+Where direct disclosure is sparse, researchers infer ESG-relevant behaviour
+from observables. Examples include environmental performance and firm value
+\cite{konar2001does}, eco-efficiency \cite{derwall2005ecoefficiency,
+guenster2011ecoefficiency}, employee satisfaction \cite{edmans_2011},
+entrenchment indices \cite{bebchuk2009what}, machine-learned ESG scores
+\cite{damato_2022} and text-mined sustainability reports
+\cite{luccioni_2020}. Each proxy has a rationale, but aggregating many proxies
+built from the \emph{same} financial statements risks producing an ESG score
+that is a relabelled financial-quality score. We quantify this risk directly
+(Section~\ref{sec:res_construct}).
 
-Our contribution in this stream is empirical design, not a claim that ESG is
-universally return-enhancing. We explicitly test ESG--financial relationships
-with proxy-based ESG data, report materiality-aware specifications, and make
-construction circularity explicit as a first-order identification concern. In
-other words, we evaluate whether ESG signals add incremental information under
-transparent measurement assumptions.
+\subsection{Multi-Factor Models and Composite Indicators}
 
-\subsection{Multi-Factor Asset Pricing Models}
+Factor models explain the cross-section of returns with a small number of
+characteristics \cite{fama_french_1993, carhart_1997, fama_french_2015,
+asness_2013, jegadeesh_titman_1993}. Commercial ESG indices tilt or exclude
+constituents on ESG ratings under tracking-error constraints \cite{giese_2019,
+alighanbari_2022, msci_esg}. Our index is a multi-criteria \emph{ranking}
+rather than a pricing model. Its construction follows the OECD handbook for
+composite indicators \cite{oecd_2008}: normalisation, weighting, aggregation
+and sensitivity analysis.
 
-Classical factor models provide the baseline architecture for decomposing
-returns: Fama--French three factors \cite{fama_french_1993}, Carhart momentum
-\cite{carhart_1997}, the CAPM foundation \cite{sharpe_1964}, and the five-factor extension \cite{fama_french_2015},
-with broad evidence for value and momentum effects across markets
-\cite{asness_2013, jegadeesh_titman_1993}. This literature is primarily about
-explaining cross-sectional expected returns with parsimonious tradable or
-quasi-tradable factors.
+\subsection{Validation, Multiple Testing and Overfitting}
 
-Our framework builds on this intuition but has a different target. Rather than
-estimating a pure pricing model, we use a composite scoring architecture that
-combines ESG, financial, operational, market, and stability dimensions for
-decision support. Thus, factor logic is retained, but the objective shifts from
-asset-pricing parsimony to transparent multi-criteria ranking under explicit
-investor preferences.
-
-\subsection{ESG Index Construction}
-
-Commercial ESG index methodologies typically rely on proprietary issuer
-assessments, sector-relative normalization, and exclusion/tilt rules calibrated
-to tracking-error constraints. Academic and practitioner work formalizes this
-trade-off between ESG objectives and portfolio efficiency
-\cite{giese_2019, pedersen_2021, drei_2019, alighanbari_2022, amenc_2020, msci_esg, sp_global, sustainalytics}.
-The practical implication is that index outcomes depend not only on ESG
-preferences but also on opaque data engineering and vendor-specific scoring
-logic.
-
-Our design diverges along three dimensions. First, inputs are reproducible from
-public data with explicit transformation rules. Second, ESG pillar construction
-uses SASB-style materiality weighting at the sector level. Third, we provide
-three pre-specified investor profiles (ESG-first, balanced, financial-first),
-so preference heterogeneity is modeled directly rather than embedded implicitly
-in a single benchmark methodology.
-
-\subsection{Composite Indicator Methodology}
-
-Methodologically, this study is grounded in composite-indicator best practice.
-The OECD handbook emphasizes transparent normalization, explicit weighting, and
-robustness testing \cite{oecd_2008}, while multivariate analysis guidance
-supports diagnostic checks for latent structure and redundancy \cite{hair_2019}.
-In ESG contexts, these choices are consequential because indicator units,
-distributions, and missingness patterns differ widely across pillars.
-
-Our difference is implementation discipline: we follow OECD-style steps
-explicitly, document each transformation, and validate weighting structure with
-PCA-based diagnostics rather than treating chosen weights as purely normative.
-This strengthens interpretability and clarifies where results are driven by
-data versus by analyst preference.
-
-\subsection{ESG Proxies and Alternative Data}
-
-An adjacent literature shows that financially observable variables and
-alternative data can recover aspects of ESG-relevant behavior. Examples include
-environmental-performance valuation links \cite{konar2001does}, governance
-quality proxies from entrenchment structures \cite{bebchuk2009what}, employee
-satisfaction as an intangible signal \cite{edmans_2011}, machine-learning-based
-ESG score prediction \cite{damato_2022}, and text/NLP extraction of
-sustainability information \cite{sokolov_2021}. This stream is especially
-important where direct disclosure is sparse or non-comparable.
-
-Our contribution is to systematize this idea into a six-tier proxy pipeline
-with per-indicator provenance tracking and explicit fallback rules. Compared
-with one-off proxy studies, this provides an end-to-end framework that is
-auditable, extensible, and suitable for reproducible index construction at
-scale.
-
-\subsection{Synthesis and Positioning}
-
-Across these six streams, the literature motivates both the promise of ESG
-integration and the limits of current practice: rating divergence, mixed
-performance evidence, and opacity in index construction. This paper positions
-itself as a transparent middle path---retaining multi-factor discipline while
-making ESG measurement assumptions explicit, testable, and reproducible.
-
-\begin{table*}[t]
-\centering
-\caption{Methodology Comparison: Our Multi-Factor Index vs.\ Established ESG Benchmarks}
-\label{tab:method_comparison}
-\small
-\begin{tabular}{@{}llllll@{}}
-\toprule
-\textbf{Dimension} & \textbf{Our Index} & \textbf{S\&P 500 ESG} & \textbf{MSCI Leaders} & \textbf{FTSE4Good} & \textbf{DJSI} \\
-\midrule
-Universe size         & 276               & ${\sim}$375            & ${\sim}$750            & ${\sim}$1{,}700     & ${\sim}$300 \\
-Scored factors        & 9                 & 1 (ESG)                & 1 (ESG)                & 1 (ESG)             & 1 (ESG) \\
-Financial integration & Yes (5 factors)   & No                     & Limited                & No                  & No \\
-Weighting scheme      & Config-driven     & Industry-group         & Sector-neutral         & Threshold           & Best-in-class \\
-Normalisation         & Type-aware        & Proprietary            & Proprietary            & Score threshold      & Proprietary \\
-Investor profiles     & 3                 & 1                      & 1                      & 1                   & 1 \\
-Transparency          & Open-source       & Partial                & Partial                & Partial             & Partial \\
-Rebalancing           & On-demand         & Quarterly              & Quarterly              & Semi-annual          & Annual \\
-\bottomrule
-\end{tabular}
-\end{table*}
+Hundreds of published factors fail to replicate once multiple testing is
+taken into account \cite{harvey_2016}. Backtests that choose among many
+configurations overfit with high probability \cite{bailey_2017}. The remedy
+proposed across empirical sciences is to fix the hypotheses and the analysis
+plan before outcomes are observed \cite{nosek_2018}. We adopt this remedy at
+small scale: a single hold-out window, three hypotheses and a
+family-wise error correction \cite{holm_1979}. We also show concretely how
+three in-sample designs common in index research produce favourable evidence
+irrespective of predictive validity.

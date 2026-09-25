@@ -1,12 +1,12 @@
 sector,msci_sector_name,n_companies,our_esg_mean,our_esg_median,our_esg_std,msci_benchmark,difference,abs_difference,within_1sd
-Technology,Technology,35,44.45,41.45,8.83,65,-20.55,20.55,False
-Financial Services,Financials,28,48.36,46.54,9.05,50,-1.64,1.64,True
-Communication Services,Communication Services,8,45.98,45.36,10.25,53,-7.02,7.02,True
-Healthcare,Healthcare,40,47.7,47.67,9.19,55,-7.3,7.3,True
-Industrials,Industrials,37,46.79,45.35,9.61,48,-1.21,1.21,True
-Consumer Cyclical,Consumer Discretionary,38,48.49,49.64,9.67,52,-3.51,3.51,True
-Energy,Energy,13,52.43,58.26,10.44,35,17.43,17.43,False
-Basic Materials,Materials,22,51.53,52.92,8.81,42,9.53,9.53,False
-Consumer Defensive,Consumer Staples,21,48.56,45.24,10.64,60,-11.44,11.44,False
-Utilities,Utilities,11,51.76,50.08,10.17,45,6.76,6.76,True
-Real Estate,Real Estate,16,52.27,52.98,9.78,47,5.27,5.27,True
+Technology,Technology,35,42.67,41.05,6.93,65,-22.33,22.33,False
+Financial Services,Financials,28,48.93,49.49,5.56,50,-1.07,1.07,True
+Communication Services,Communication Services,8,49.79,47.84,7.62,53,-3.21,3.21,True
+Healthcare,Healthcare,40,46.87,46.79,7.51,55,-8.13,8.13,False
+Industrials,Industrials,37,46.09,45.12,9.65,48,-1.91,1.91,True
+Consumer Cyclical,Consumer Discretionary,38,48.73,47.28,8.2,52,-3.27,3.27,True
+Energy,Energy,13,52.61,53.0,12.88,35,17.61,17.61,False
+Basic Materials,Materials,22,51.31,51.15,11.42,42,9.31,9.31,True
+Consumer Defensive,Consumer Staples,21,50.04,50.18,8.68,60,-9.96,9.96,False
+Utilities,Utilities,11,53.08,50.45,12.29,45,8.08,8.08,True
+Real Estate,Real Estate,16,52.82,50.96,11.79,47,5.82,5.82,True

@@ -3,506 +3,109 @@
 % =============================================================================
 % Note: \appendices is called in Thesis.tex before \input{sections/appendix}
 
-% =============================================================================
-%   Appendix A: Variable Definitions
-% =============================================================================
-\section{Variable Definitions}
-\label{app:variables}
+\section{ESG Indicators as Actually Constructed}
+\label{app:indicators}
 
-Table~\ref{tab:variable_definitions} provides the complete variable dictionary
-used to construct the ESG, financial, and market factors in the multi-factor
-index.
+Table~\ref{tab:indicators} lists every ESG indicator that carries
+cross-sectional variation in the mid-cap universe, together with the source
+that actually fills it. ``Sector pct.'' means the within-sector percentile of
+the stated ratio, clipped to $[2,98]$. When a source is missing, a cell falls
+through to the next tier of Section~\ref{sec:esg}. The other
+\NIndUnused declared indicators have no source for any mid-cap
+firm and are excluded from scoring. They are: Scope~2 and~3 emissions,
+emissions intensity, energy efficiency, water intensity, environmental fines,
+R\&D intensity (E innovation), employee turnover, women in management, pay
+gap, injury rate, CEO pay ratio and the anti-corruption policy flag.
 
-{\footnotesize
-\begin{longtable}{@{}p{2.6cm}p{1.8cm}p{1.1cm}p{3.2cm}p{3.7cm}p{2.1cm}@{}}
-\caption{Comprehensive Variable Definitions for the Multi-Factor ESG Index.}
-\label{tab:variable_definitions} \\
-\toprule
-\textbf{Variable} & \textbf{Category} & \textbf{Pillar} & \textbf{Definition} & \textbf{Academic Basis} & \textbf{Source} \\
-\midrule
-\endfirsthead
-\multicolumn{6}{c}{\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
-\toprule
-\textbf{Variable} & \textbf{Category} & \textbf{Pillar} & \textbf{Definition} & \textbf{Academic Basis} & \textbf{Source} \\
-\midrule
-\endhead
-\midrule
-\multicolumn{6}{r}{\textit{Continued on next page}} \\
-\endfoot
-\bottomrule
-\endlastfoot
-
-\multicolumn{6}{l}{\textit{ESG Composite -- Environmental Pillar (E)}} \\
-\midrule
-scope1\_emissions & Carbon emissions & E & Direct GHG emissions (Scope 1). & Carbon risk proxy (Bolton \& Kacperczyk, 2021). & Yahoo ESG Hub / proxy \\
-scope2\_emissions & Carbon emissions & E & Indirect energy-related GHG emissions (Scope 2). & Energy transition risk channel. & Yahoo ESG Hub / proxy \\
-scope3\_emissions & Carbon emissions & E & Value-chain GHG emissions (Scope 3). & Full carbon footprint exposure. & Yahoo ESG Hub / proxy \\
-emissions\_intensity & Carbon efficiency & E & Emissions per unit of revenue. & Carbon efficiency (Busch \& Lewandowski, 2018). & Author-constructed proxy \\
-renewable\_energy\_pct & Energy transition & E & Share of renewable energy in total energy use. & Climate commitment signal. & Author-constructed proxy \\
-energy\_efficiency & Operational efficiency & E & Energy use per unit of revenue. & Operational eco-efficiency channel. & Author-constructed proxy \\
-water\_usage\_intensity & Resource efficiency & E & Water use per unit of revenue. & Natural capital risk exposure. & Author-constructed proxy \\
-waste\_recycling\_pct & Waste management & E & Percentage of waste diverted from landfill. & Circular economy alignment. & Author-constructed proxy \\
-carbon\_reduction\_target & Climate governance & E & Binary indicator for carbon reduction target disclosure. & Climate ambition (Dietz et al., 2016). & SEC EDGAR / proxy \\
-environmental\_fines & Regulatory risk & E & Environmental penalties and sanctions. & Environmental compliance risk. & SEC EDGAR / proxy \\
-r\_d\_intensity & Innovation & E & R\&D expenditure scaled by revenue. & Green innovation and productivity (Porter \& van der Linde, 1995; Hall et al., 2005). & SEC EDGAR / Yahoo Finance \\
-
-\midrule
-\multicolumn{6}{l}{\textit{ESG Composite -- Social Pillar (S)}} \\
-\midrule
-employee\_turnover & Human capital & S & Annual employee attrition rate. & Retention and human capital value \cite{edmans_2011}. & Author-constructed proxy \\
-employee\_satisfaction & Human capital & S & Employee satisfaction score. & Workplace quality and morale channel. & Author-constructed proxy \\
-supply\_chain\_audit\_pct & Supply chain & S & Share of suppliers covered by social/environmental audits. & Supply chain responsibility mechanism. & SEC EDGAR / proxy \\
-gender\_diversity\_pct & Diversity & S & Female representation on the board (\%). & Diversity premium \cite{adams2009women}. & SEC EDGAR / Yahoo ESG Hub \\
-women\_management\_pct & Diversity & S & Female share in management roles. & Gender equality and decision quality. & SEC EDGAR / proxy \\
-pay\_gap\_ratio & Compensation fairness & S & Gender pay gap ratio. & Fair compensation and inclusion. & Author-constructed proxy \\
-injury\_rate & Occupational safety & S & Workplace injuries per employee/work-hours. & Safety culture (OSHA-style proxy). & SEC EDGAR / proxy \\
-safety\_training\_hours & Occupational safety & S & Safety training hours per employee. & Prevention-oriented safety investment. & SEC EDGAR / proxy \\
-community\_investment\_pct & Stakeholder engagement & S & Community spending scaled by revenue. & Social license to operate. & SEC EDGAR / proxy \\
-human\_rights\_policy & Human rights governance & S & Binary indicator for formal human rights policy. & Corporate due diligence (Ruggie, 2011). & SEC EDGAR / proxy \\
-revenue\_per\_employee & Productivity & S & Revenue generated per employee. & Human capital efficiency (Becker, 1964; \cite{edmans_2011}). & SEC EDGAR / Yahoo Finance \\
-
-\midrule
-\multicolumn{6}{l}{\textit{ESG Composite -- Governance Pillar (G)}} \\
-\midrule
-board\_independence\_pct & Board structure & G & Share of independent directors on board. & Monitoring and agency control \cite{bebchuk2009what}. & Yahoo ESG Hub / SEC EDGAR \\
-board\_diversity\_pct & Board structure & G & Board diversity index/share. & Cognitive diversity in governance. & SEC EDGAR / proxy \\
-board\_size & Board structure & G & Number of directors on the board. & Board effectiveness trade-off (Yermack, 1996). & SEC EDGAR \\
-exec\_comp\_esg\_linked & Incentives & G & Binary indicator for ESG-linked executive compensation. & Incentive alignment with ESG objectives. & SEC EDGAR / proxy \\
-ceo\_pay\_ratio & Compensation governance & G & CEO-to-median employee pay ratio. & Pay fairness and agency concerns (Bebchuk \& Fried, 2004). & SEC EDGAR / Yahoo Finance \\
-shareholder\_rights\_score & Shareholder governance & G & Index of shareholder rights protections. & Governance quality (Gompers et al., 2003). & Yahoo ESG Hub / proxy \\
-ethics\_compliance\_score & Ethics controls & G & Corporate ethics/compliance program rating. & Internal control and conduct quality. & Yahoo ESG Hub / proxy \\
-anti\_corruption\_policy & Anti-corruption controls & G & Binary indicator for anti-corruption policy. & Corruption risk mitigation. & SEC EDGAR / proxy \\
-data\_privacy\_score & Digital governance & G & Data privacy and protection practice rating. & Digital governance and trust channel. & Yahoo ESG Hub / proxy \\
-tax\_transparency\_score & Fiscal governance & G & Tax transparency and reporting quality score. & Fiscal responsibility signal. & SEC EDGAR / proxy \\
-esg\_controversy\_score & Reputational risk & G & Severity score of ESG controversies. & Reputational shock channel (Kr"uger, 2015). & Yahoo ESG Hub \\
-esg\_risk\_rating & Composite ESG risk & G & Overall ESG risk rating. & Composite ESG risk exposure. & Yahoo ESG Hub \\
-
-\midrule
-\multicolumn{6}{l}{\textit{Financial Factor}} \\
-\midrule
-revenue\_growth & Growth & -- & Year-over-year revenue growth rate. & Top-line growth quality. & Yahoo Finance \\
-operating\_margin & Profitability & -- & EBIT divided by revenue. & Profitability factor (Novy-Marx, 2013). & Yahoo Finance \\
-roe & Profitability & -- & Return on equity. & Shareholder value creation. & Yahoo Finance \\
-debt\_to\_equity & Leverage & -- & Total debt divided by total equity. & Leverage risk premium (Bhandari, 1988). & Yahoo Finance \\
-current\_ratio & Liquidity & -- & Current assets divided by current liabilities. & Short-run solvency/liquidity screen. & Yahoo Finance \\
-free\_cash\_flow & Cash generation & -- & Free cash flow after operating and capital expenses. & Internal financing strength. & Yahoo Finance \\
-earnings\_yield & Valuation & -- & Earnings-to-price (E/P) ratio. & Value/valuation factor (Basu, 1977). & Yahoo Finance \\
-
-\midrule
-\multicolumn{6}{l}{\textit{Market Factor (forward-looking bias documented in paper)}} \\
-\midrule
-price\_momentum\_1m & Momentum & -- & 1-month price momentum. & Momentum factor \cite{jegadeesh_titman_1993}. & Yahoo Finance \\
-price\_momentum\_3m & Momentum & -- & 3-month price momentum. & Momentum factor \cite{jegadeesh_titman_1993}. & Yahoo Finance \\
-price\_momentum\_6m & Momentum & -- & 6-month price momentum. & Momentum factor \cite{jegadeesh_titman_1993}. & Yahoo Finance \\
-price\_momentum\_12m & Momentum & -- & 12-month price momentum. & Momentum factor \cite{jegadeesh_titman_1993}. & Yahoo Finance \\
-beta & Systematic risk & -- & Equity beta relative to market benchmark. & CAPM market risk loading \cite{sharpe_1964}. & Yahoo Finance \\
-amihud\_illiquidity & Liquidity & -- & Price impact per unit traded value (Amihud ratio). & Illiquidity premium \cite{amihud_2002}. & Yahoo Finance \\
-market\_cap & Size & -- & Market capitalization of equity. & Size factor \cite{fama_french_1993}. & Yahoo Finance \\
-\end{longtable}
-}
-
-\noindent\textit{Coverage and imputation note.} Consistent with the paper's data
-provenance audit, coverage was lowest for environmental and social disclosures
-(particularly Scope 3 emissions, water and waste metrics, safety training,
-human rights policy, anti-corruption policy, and tax transparency). Missing
-values for these indicators were handled using the documented sector-median and
-cross-sector fallback imputation pipeline after real-source retrieval and
-proxy construction.
-
-% =============================================================================
-%   Appendix B: SASB Materiality Weight Matrix
-% =============================================================================
-\section{SASB Materiality Weight Matrix}
-\label{app:sasb}
-
-\begin{table*}[htbp]
+\begin{table*}[t]
 \centering
-\caption{Sector-level E/S/G materiality weights used for pillar aggregation
-(weights sum to 1.00 by sector).}
-\label{tab:sasb_materiality}
-\small
-\begin{tabular}{@{}lcccp{6.0cm}@{}}
+\caption{Source of each informative ESG indicator (mid-cap universe).}
+\label{tab:indicators}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}llX@{}}
 \toprule
-\textbf{Sector} & \textbf{E} & \textbf{S} & \textbf{G} & \textbf{Rationale (brief)} \\
+Pillar & Indicator (column) & Actual construction \\
 \midrule
-Technology & 0.20 & 0.45 & 0.35 & Intangible-asset firms with elevated data/privacy, labor, and governance dependence. \\
-Healthcare & 0.25 & 0.40 & 0.35 & Product safety, access, and clinical governance jointly drive material risk. \\
-Industrials & 0.40 & 0.30 & 0.30 & Emissions and safety are material alongside execution/governance controls. \\
-Consumer Cyclical & 0.25 & 0.40 & 0.35 & Brand and labor exposure increase social salience; governance remains central. \\
-Financial Services & 0.15 & 0.35 & 0.50 & Governance dominates via risk controls, fiduciary duty, and conduct oversight. \\
-Basic Materials & 0.50 & 0.25 & 0.25 & Resource and emissions intensity makes environmental factors first-order. \\
-Consumer Defensive & 0.30 & 0.35 & 0.35 & Product stewardship, labor, and governance are jointly material. \\
-Real Estate & 0.40 & 0.25 & 0.35 & Asset-level environmental intensity plus governance of leverage/tenancy risk. \\
-Energy & 0.55 & 0.20 & 0.25 & Carbon, transition, and physical risk dominate sector externalities. \\
-Utilities & 0.50 & 0.20 & 0.30 & Regulated emissions and infrastructure resilience prioritize E factors. \\
-Communication Services & 0.20 & 0.45 & 0.35 & Content/data governance and workforce issues dominate materiality profile. \\
-Default & 0.25 & 0.35 & 0.40 & Fallback weights used where sector-specific SASB mapping is unavailable. \\
-\bottomrule
-\end{tabular}
-\end{table*}
-
-% =============================================================================
-%   Appendix C: Top-20 Companies
-% =============================================================================
-\section{Top-20 Companies}
-\label{app:companies}
-
-\begin{table*}[htbp]
-\centering
-\caption{Balanced-profile top-20 companies from pipeline output.}
-\label{tab:top_bottom_companies}
-\small
-\begin{tabular}{@{}rrrrr@{}}
-\toprule
-\textbf{Rank} & \textbf{Ticker} & \textbf{Balanced Score} & \textbf{ESG Score} & \textbf{Financial Score} \\
+E & \texttt{scope1\_emissions} & Sector pct.\ of operating margin (higher margin $\Rightarrow$ assumed lower emissions intensity) \cite{konar2001does} \\
+E & \texttt{renewable\_energy\_pct} & Sector pct.\ of revenue / market capitalisation \\
+E & \texttt{waste\_recycling\_pct} & Sector pct.\ of gross margin \cite{guenster2011ecoefficiency} \\
+E & \texttt{carbon\_reduction\_target} & 1 if listed as CDP reporter, SBTi participant or RE100 member, else 0 \\
 \midrule
-1 & INCY & 85.4 & 59.1 & 62.8 \\
-2 & CTRA & 84.2 & 64.3 & 64.4 \\
-3 & DECK & 83.0 & 65.9 & 66.5 \\
-4 & NAVINFLUOR.NS & 82.1 & 60.1 & 62.9 \\
-5 & STAG & 80.6 & 63.2 & 62.7 \\
-6 & GGG & 80.0 & 64.5 & 66.6 \\
-7 & MUTHOOTFIN.NS & 79.9 & 66.7 & 63.3 \\
-8 & STLD & 77.3 & 52.5 & 55.0 \\
-9 & ATO & 77.3 & 57.5 & 65.4 \\
-10 & GRMN & 76.7 & 60.0 & 61.6 \\
-11 & NNN & 76.6 & 66.7 & 66.5 \\
-12 & RS & 74.0 & 54.3 & 52.2 \\
-13 & TORNTPHARM.NS & 73.1 & 64.0 & 59.3 \\
-14 & WTS & 72.4 & 55.0 & 58.7 \\
-15 & IBKR & 72.3 & 58.2 & 58.8 \\
-16 & SCHAEFFLER.NS & 72.2 & 55.3 & 60.5 \\
-17 & MTCH & 72.2 & 60.1 & 59.7 \\
-18 & PIDILITIND.NS & 72.1 & 59.1 & 62.3 \\
-19 & GMED & 72.1 & 57.7 & 59.4 \\
-20 & EWBC & 72.1 & 58.7 & 61.9 \\
-\bottomrule
-\end{tabular}
-\end{table*}
-
-% =============================================================================
-%   Appendix D: Robustness Results
-% =============================================================================
-\section{Robustness Results}
-\label{app:robustness}
-
-\begin{table*}[htbp]
-\centering
-\caption{Bootstrap stability summary for top-10 companies ($B=500$ iterations).}
-\label{tab:robust_bootstrap}
-\small
-\begin{tabular}{@{}rll@{}}
-\toprule
-\textbf{consensus\_rank} & \textbf{ticker} & \textbf{ci\_width} \\
+S & \texttt{gender\_diversity\_pct} & Sector pct.\ of R\&D / revenue (operating-margin fallback) \\
+S & \texttt{safety\_training\_hours} & Mean of sector pct.\ of log employees and of operating margin \\
+S & \texttt{employee\_satisfaction} & Sector pct.\ of revenue per employee \cite{edmans_2011} \\
+S & \texttt{revenue\_per\_employee} & Revenue per employee (direct ratio; duplicates the previous row's input) \\
+S & \texttt{community\_investment\_pct} & Sector pct.\ of dividend yield + FCF / revenue \\
+S & \texttt{supply\_chain\_audit\_pct} & Sector pct.\ of payout ratio + current ratio \cite{krause2009supply} \\
+S & \texttt{human\_rights\_policy} & 1 if UN Global Compact signatory, else 0 \\
 \midrule
-1 & INCY & 247--255 \\
-2 & CTRA & 247--255 \\
-3 & DECK & 247--255 \\
-4 & NAVINFLUOR.NS & 247--255 \\
-5 & STAG & 247--255 \\
-6 & GGG & 247--255 \\
-7 & MUTHOOTFIN.NS & 247--255 \\
-8 & STLD & 247--255 \\
-9 & ATO & 247--255 \\
-10 & GRMN & 247--255 \\
-\bottomrule
-\end{tabular}
-
-\noindent\textit{Note.} CI width uniformity reflects the flat scoring gradient inherent in percentile-rank aggregation.
-\end{table*}
-
-\begin{table}[htbp]
-\centering
-\caption{Aggregate robustness diagnostics.}
-\label{tab:robust_summary}
-\small
-\begin{tabular}{@{}p{2.7cm}p{2.2cm}p{2.4cm}@{}}
-\toprule
-\textbf{Check} & \textbf{Metric} & \textbf{Result} \\
-\midrule
-Subsampling stability & Kendall's $\tau$ & 1.0 \\
-Subsampling overlap & Top-20 overlap & 100\% \\
-Bootstrap strict stability & strict\_stable & 0 \\
-Bootstrap moderate stability & moderate\_stable & 0 \\
-Sector cross-validation & Spearman $\rho$ (all factors) & 1.0 \\
-High-cap transferability & Spearman $\rho$ & 0.9994 \\
-High-cap overlap & Top-20 overlap & 19.4/20 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-% =============================================================================
-%   Appendix E: PCA Loading Matrix
-% =============================================================================
-\section{PCA Loading Matrix}
-\label{app:pca}
-
-\begin{table*}[htbp]
-\centering
-\caption{PCA loading matrix for 8 factor scores across 3 principal components.}
-\label{tab:pca_matrix}
-\small
-\begin{tabular}{@{}lrrr@{}}
-\toprule
-\textbf{Factor} & \textbf{PC1} & \textbf{PC2} & \textbf{PC3} \\
-\midrule
-ESG\_composite & 0.116 & $-$0.119 & 0.524 \\
-financial\_score & 0.410 & 0.400 & 0.383 \\
-market\_score & $-$0.134 & 0.562 & $-$0.102 \\
-operational\_score & 0.540 & 0.132 & 0.353 \\
-risk\_adjusted\_score & 0.325 & 0.382 & $-$0.453 \\
-value\_score & $-$0.492 & 0.073 & 0.477 \\
-growth\_score & $-$0.351 & 0.502 & 0.100 \\
-stability\_score & 0.195 & $-$0.299 & $-$0.026 \\
-\midrule
-Variance explained & 31.8\% & 20.9\% & 14.6\% \\
-Cumulative variance & 31.8\% & 52.7\% & 67.4\% \\
-\bottomrule
-\end{tabular}
-\end{table*}
-
-% =============================================================================
-%   Appendix F: Financial Validation
-% =============================================================================
-\section{Financial Validation}
-\label{app:finval}
-
-\begin{table}[htbp]
-\centering
-\caption{Financial validation summary checks.}
-\label{tab:financial_validation}
-\small
-\begin{tabular}{@{}p{2.9cm}p{1.3cm}p{3.0cm}@{}}
-\toprule
-\textbf{Check} & \textbf{Result} & \textbf{Detail} \\
-\midrule
-Out-of-sample spread persistence & PASS & Positive spread retained across validation windows. \\
-Turnover feasibility & PASS & Turnover within implementable range for mid-cap liquidity. \\
-Capacity constraint & PASS & Portfolio capacity adequate under conservative participation assumptions. \\
-Fama--MacBeth sign consistency & PASS & Expected factor signs broadly consistent across specifications. \\
-Risk-adjusted quality & PASS & Cross-sectional Sharpe proxy improvement vs universe benchmark maintained. \\
-Transaction-cost net alpha & PASS & Net alpha remains positive after baseline cost assumptions. \\
-Sector concentration & WARN & Mild concentration in Financial Services among top-ranked names. \\
-Country concentration & WARN & US-heavy composition in upper decile under balanced profile. \\
-Stress-period drawdown asymmetry & FAIL & Tail drawdown control weaker in short high-volatility windows. \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-% =============================================================================
-%   Appendix G: Country Comparison
-% =============================================================================
-\section{Country Comparison}
-\label{app:country}
-
-\begin{table*}[htbp]
-\centering
-\caption{US--India comparison for key score dimensions (from 276 mid-cap company universe).}
-\label{tab:country_comparison}
-\small
-\begin{tabular}{@{}lrrrrr@{}}
-\toprule
-\textbf{Variable} & \textbf{US Mean} & \textbf{India Mean} & \textbf{$t$-statistic} & \textbf{$p$-value} & \textbf{Cohen's $d$} \\
-\midrule
-ESG\_composite & 48.7 & 49.3 & $-$0.48 & 0.632 & $-$0.068 \\
-financial\_score & 48.2 & 48.2 & 0.04 & 0.970 & 0.005 \\
-market\_score & 48.7 & 44.2 & 4.71 & $<$0.001 & 0.649 \\
-value\_score & 52.5 & 45.7 & 5.71 & $<$0.001 & 0.710 \\
-risk\_adjusted\_score & 48.5 & 50.2 & $-$1.22 & 0.223 & $-$0.170 \\
-growth\_score & 48.7 & 52.0 & $-$2.52 & 0.012 & $-$0.333 \\
-pref\_balanced & 47.9 & 45.6 & 1.15 & 0.252 & 0.162 \\
-\bottomrule
-\end{tabular}
-\end{table*}
-
-% =============================================================================
-%   Appendix H: ESG Proxy Construction Rationale
-% =============================================================================
-\section{ESG Proxy Construction Rationale}
-\label{app:proxy_rationale}
-
-Table~\ref{tab:proxy_rationale} documents the economic rationale for each
-proxy variable used in the ESG construction layer. The mapping follows a
-hierarchical data-preference rule: \textit{real disclosed values} $\rightarrow$
-\textit{SEC-derived values} $\rightarrow$ \textit{financially grounded proxies}
-$\rightarrow$ \textit{sector-level imputation} $\rightarrow$ \textit{global
-imputation}. This hierarchy is necessary because mid-cap ESG disclosure
-coverage remains materially incomplete, especially for environmental and social
-sub-indicators; the staged approach preserves signal quality while minimizing
-missingness-driven ranking distortion.
-
-\begin{table*}[htbp]
-\centering
-\caption{ESG proxy construction rationale and supporting literature anchors.}
-\label{tab:proxy_rationale}
-\small
-\begin{tabular}{@{}p{3.5cm}p{3.0cm}p{5.0cm}p{4.1cm}@{}}
-\toprule
-\textbf{Proxy Variable} & \textbf{Target ESG Dimension} & \textbf{Rationale} & \textbf{Academic Source} \\
-\midrule
-R\&D intensity (R\&D/Revenue) & Environmental innovation capacity & Higher R\&D signals green technology investment and transition readiness. & Porter \& van der Linde (1995); Hall et al. (2005) \\
-Energy cost / Revenue & Environmental efficiency & Lower energy intensity indicates operational eco-efficiency. & Guenster et al. (2011); Derwall et al. (2005) \\
-Revenue per employee & Social: human capital productivity & Higher productivity proxies workforce quality and training investment. & Edmans (2011); Becker (1964) \\
-Employee count growth & Social: workforce investment & Workforce expansion signals labor commitment and organizational scaling capacity. & --- \\
-Board size / independence & Governance structure & Independent monitoring reduces agency costs and improves oversight quality. & Bebchuk et al. (2009); Yermack (1996) \\
-Audit/compensation risk scores & Governance quality & Governance risk fields from Yahoo Finance directly encode governance quality signals. & Yahoo Finance ESG methodology \\
-CEO pay ratio & Governance: compensation fairness & Excessive pay gaps can signal agency problems and weak compensation governance. & Bebchuk \& Fried (2004) \\
-Debt discipline (D/E ratio) & Governance: financial prudence & Conservative leverage indicates stronger governance discipline and risk control. & Bhandari (1988) \\
-SBTi/UNGC/CDP/RE100 commitments & ESG commitment signals & Binary commitment indicators are consistent with voluntary-disclosure signaling evidence. & Dye (1993); TCFD (2017) \\
-Supply chain audit coverage & Social: supply chain responsibility & Audit coverage proxies responsible sourcing and supplier governance practices. & Krause et al. (2009) \\
-Gender diversity (board/mgmt) & Social: diversity & Board and management diversity are associated with innovation and governance quality. & Adams \& Ferreira (2009); Hewlett et al. (2013) \\
-\bottomrule
-\end{tabular}
-\end{table*}
-
-% =============================================================================
-%   Appendix I: Detailed Ablation Study
-% =============================================================================
-\section{Detailed Factor Ablation Results}
-\label{app:ablation_detail}
-
-The ablation protocol removes one factor at a time from the calibrated
-nine-factor framework, re-normalizes the remaining weights to sum to one,
-re-ranks all firms, and re-evaluates performance and robustness on the full
-metric stack. This sequential-removal design isolates each factor's marginal
-contribution while preserving comparability of portfolio construction rules.
-Complementary dominance diagnostics identify \texttt{ESG\_composite} as the
-leading single contributor (\(R^2 = 0.832\); dominance diagnostic---measures
-variance explained when \texttt{ESG\_composite} is the sole predictor;
-distinct from the balanced-score contribution
-\(R\textsuperscript{2}=0.644\) in Section~IV).
-
-\begin{table*}[htbp]
-\centering
-\caption{Detailed leave-one-factor-out ablation diagnostics (relative to full model baseline).}
-\label{tab:ablation_detailed}
-\small
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.3cm}cccc>{\raggedright\arraybackslash}X@{}}
-\toprule
-\textbf{Removed Factor} & \textbf{$\Delta$ Excess (pp)} & \textbf{$\Delta$ IR} & \textbf{$\Delta$ Bear (pp)} & \textbf{$\Delta$ Stability (pp)} & \textbf{Interpretation} \\
-\midrule
-ESG Composite & $-$0.92 & $-$0.041 & $-$1.18 & $-$1.6 & ESG signal contributes materially to defensive and stability characteristics. \\
-Financial Score & $-$1.37 & $-$0.058 & $-$0.71 & $-$1.1 & Core return engine; largest degradation in risk-adjusted efficiency. \\
-Market Score & $-$0.44 & $-$0.019 & $+$0.12 & $-$0.8 & Momentum support is positive in aggregate, with limited bear-phase trade-off. \\
-Operational Score & $-$0.61 & $-$0.026 & $-$0.35 & $-$0.9 & Productivity/innovation channel supports both selection quality and consistency. \\
-Risk-Adjusted Score & $-$0.53 & $-$0.033 & $-$0.96 & $-$1.3 & Explicit risk control is most visible during stress windows. \\
-Value Score & $-$0.34 & $-$0.014 & $-$0.41 & $-$0.7 & Valuation discipline improves downside asymmetry and selection balance. \\
-Growth Score & $-$0.47 & $-$0.018 & $-$0.22 & $-$0.6 & Growth component provides incremental upside capture with modest robustness impact. \\
-Stability Score & $-$0.39 & $-$0.021 & $-$0.68 & $-$1.0 & Balance-sheet quality supports drawdown containment and rank persistence. \\
-Sector Position & $-$0.26 & $-$0.010 & $-$0.20 & $-$0.4 & Within-sector normalization improves comparability across heterogeneous industries. \\
+G & \texttt{board\_independence\_pct} & ISS board risk, $(10-r)\times10$; else SEC dividend item; else sector median \\
+G & \texttt{exec\_comp\_esg\_linked} & ISS compensation risk; else SEC share-based compensation item \\
+G & \texttt{shareholder\_rights\_score} & ISS shareholder-rights risk; else sector pct.\ of $1/(\text{D/E})$ + dividend yield \\
+G & \texttt{ethics\_compliance\_score} & ISS audit risk; else sector median \\
+G & \texttt{esg\_risk\_rating} & ISS overall governance risk; else sector median \\
+G & \texttt{tax\_transparency\_score} & SEC effective tax rate (banded); else institutional ownership (\%) \\
+G & \texttt{data\_privacy\_score} & Insider ownership, banded (peak score at 10--30\%) \\
+G & \texttt{esg\_controversy\_score} & Analyst coverage, $20+2.5\times$ count, capped at 90 \\
+G & \texttt{board\_diversity\_pct} & Sector pct.\ of log market cap and inverse beta \cite{adams2009women} \\
+G & \texttt{board\_size} & SEC operating-segment count, banded (8 firms); else sector or global median \\
 \bottomrule
 \end{tabularx}
-\normalsize
 \end{table*}
 
-% =============================================================================
-%   Appendix J: Comparison with Established ESG Indices
-% =============================================================================
-\section{Comparison with Established ESG Indices}
-\label{app:index_comparison}
+\section{SASB Materiality Weights}
+\label{app:sasb}
 
-\begin{table*}[htbp]
+\begin{table}[h]
 \centering
-\caption{Indicative comparison against established ESG index families.}
-\label{tab:index_comparison}
-\small
-\begin{tabular}{@{}p{3.1cm}p{2.1cm}p{2.1cm}p{1.8cm}p{2.1cm}p{2.0cm}@{}}
-\toprule
-\textbf{Metric} & \textbf{Our Framework} & \textbf{MSCI ESG Leaders} & \textbf{S\&P 500 ESG} & \textbf{FTSE4Good} & \textbf{DJSI World} \\
-\midrule
-Universe & 276 mid-cap & \textasciitilde750 large-cap & \textasciitilde375 large-cap & \textasciitilde1,700 mixed & \textasciitilde300 large-cap \\
-Annual excess (methodology-specific) & +1.66 pp (CS proxy) & +0.5--1.5\% (realized) & +0.2--0.8\% (realized) & +0.3--1.0\% (realized) & +0.5--1.2\% (realized) \\
-Information Ratio & 0.089 (CS) & 0.15--0.40 & 0.10--0.30 & 0.10--0.25 & 0.15--0.35 \\
-Bear-market protection & +7.27 pp & +2--3 pp & +1--2 pp & +1--2 pp & +2--3 pp \\
-Factor count & 9 integrated & 1 (ESG only) & 1 (ESG only) & 1 (ESG only) & 1 (ESG only) \\
-ESG data source & Hybrid (public) & Proprietary (MSCI) & Proprietary (S\&P) & Proprietary (FTSE Russell) & Proprietary (S\&P) \\
-Transparency & Full open-source & Partial & Partial & Partial & Partial \\
-Capacity tested & \$25M--\$500M & \$1B+ & \$1B+ & \$1B+ & \$1B+ \\
-\bottomrule
-\end{tabular}
-\end{table*}
+\caption{Sector-specific E/S/G pillar weights (\texttt{config/sasb\_materiality.yaml}),
+informed by the SASB Materiality Map \cite{sasb_2023}.}
+\label{tab:sasb}
+\footnotesize
+\input{generated/tab_sasb}
+\end{table}
 
-\noindent\textit{Comparability note.} These values are indicative rather than
-strictly point-comparable because methodologies differ across index families,
-including cross-sectional vs. time-series constructions, universe composition
-(mid-cap vs. large-cap), ESG provider inputs, and rebalancing conventions.
-Direct comparison is illustrative only; cross-sectional proxy metrics and realized return metrics are not directly comparable.
+\section{Audit Log}
+\label{app:audit}
 
-% =============================================================================
-%   Appendix K: Mid-Cap Investment Rationale
-% =============================================================================
-\section{Mid-Cap Investment Rationale}
-\label{app:midcap_rationale}
-
-In this study, mid-cap firms are defined as companies with market
-capitalization between \$2B and \$20B. This segment represents approximately
-20\% of global listed equity market capitalization and occupies a practical
-middle ground between mega-cap saturation and small-cap illiquidity. Relative
-to large-cap universes, mid-caps have historically exhibited higher growth
-optionality, with long-horizon annualized return premia commonly estimated in
-the 1--2\% range, while still preserving institutional implementability. In
-contrast to small-caps, the median mid-cap in our universe supports adequate
-trading depth, lower one-way market impact, and feasible position sizing for
-professional portfolios. The segment is also structurally important for ESG
-research design: large-cap issuers frequently exceed 95\% external ESG-rating
-coverage, whereas mid-cap coverage is materially lower (typically 40--60\%),
-creating a real disclosure gap where transparent integration methods can add
-measurable informational value. This disclosure asymmetry makes mid-caps the
-most informative test bed for evaluating whether open, reproducible ESG
-construction can improve both ranking quality and investment outcomes under
-realistic data constraints.
-
-% =============================================================================
-%   Appendix L: Cross-Validation and Overfitting Details
-% =============================================================================
-\section{Cross-Validation Methodology Details}
-\label{app:cv_details}
-
-To control overfitting, we employ a 5-fold sector-stratified cross-validation
-scheme so that each fold preserves heterogeneous industry composition. Within
-each training fold, the weight vector is optimized under L2 regularization
-($\lambda=0.25$), selected to dampen coefficient concentration without
-over-flattening economically meaningful factor contrasts. The objective also
-includes an entropy penalty term,
-$\mathcal{L}_{\text{ent}} = -\eta \sum_i w_i\log(w_i)$, to discourage
-degenerate corner solutions and retain diversified explanatory structure across
-factors. Practical allocation constraints enforce weight bounds
-$w_i \in [0.02, 0.35]$, preventing both negligible token weights and
-single-factor dominance. In addition, a walk-forward validation layer trains on
-the first 60\% of the sample and validates on the remaining 40\% to test
-temporal stability under non-stationary market conditions. Under this
-regularized protocol, the overfitting ratio improves from 3.99 (pre-control)
-to 0.499 (post-control), with a walk-forward ratio of 0.978 and
-leave-one-sector-out IC = 0.200, indicating substantially tighter in-sample to
-out-of-sample performance alignment.
-Standard 5-fold CV without deployment constraints produces market-dominant
-weights (approximately 77\% \texttt{market\_score}), which differs materially
-from the deployed weight specification used in the reported portfolio results.
-
-The CV-optimal weights concentrate 77\% on \texttt{market\_score} because
-trailing momentum exhibits the strongest proxy correlation. The deployed
-balanced profile allocates only 5\% to \texttt{market\_score}, reflecting
-three constraints: (i)~momentum concentration reduces a multi-factor model to a
-single-factor screen; (ii)~the CV objective optimizes cross-sectional
-discrimination, not forward risk-adjusted returns; (iii)~investor profiles
-balance multiple quality dimensions. This divergence confirms the deployed
-weights represent a deliberate multi-objective allocation prioritizing
-interpretability over raw discriminating power.
-
-% =============================================================================
-%   Appendix M: Capacity Analysis Details
-% =============================================================================
-\section{Strategy Capacity Analysis}
-\label{app:capacity_details}
-
-Capacity tests assume a conservative execution profile: a 10-day rebalance
-window, 3\% average-daily-volume participation cap per name, and a 15\%
-single-position ownership ceiling. Under these constraints, implementation
-feasibility is PASS across \$25M--\$500M deployment levels and FAIL at
-\$1B--\$2B deployment levels. Estimated round-trip transaction costs range from
-24 to 94 bps across the \$25M--\$500M capacity band under baseline spread and
-impact assumptions, and observed quarterly turnover is approximately 25.4\%,
-supporting operational viability for systematic rebalancing with moderate
-implementation drag.
+All corrections below were made before any post-snapshot price was
+downloaded.
+\begin{enumerate}
+\item \emph{ESG direction.} \texttt{scope1\_emissions} and
+  \texttt{esg\_risk\_rating} were removed from the lower-is-better set,
+  because both are stored as higher-is-better scores.
+\item \emph{Imputation noise.} Multiplicative $\mathcal{N}(1,0.04)$ noise in
+  sector and global median imputation was removed.
+\item \emph{Registry data.} Registry memberships are encoded as 0/1 and no
+  longer overwrite continuous emissions and renewable-share columns. A
+  mapping of a 40--70 score onto the binary anti-corruption flag, which made
+  that flag constant, was removed.
+\item \emph{Source precedence.} ISS governance scores now take precedence
+  over SEC financial items mapped onto governance columns. A syntax error in
+  this step had prevented the download script from running.
+\item \emph{Monotonicity correction.} The isotonic fit to the validation
+  proxy is disabled by default (\texttt{monotonicity\_correction: false}).
+\item \emph{Preference transforms.} The undocumented bottom-30\% quality gate
+  and the power exponent of 1.5 are disabled by default.
+\item \emph{Snapshot consistency.} FX is taken at the snapshot rate.
+  \texttt{market\_share} is recomputed after currency conversion. Firms that
+  did not trade on the snapshot date are removed.
+\item \emph{Portfolio size.} $N^\star=\lceil 0.07N\rceil$, bounded to
+  $[10,50]$, replaces a rounding rule with a special case for $N=276$.
+\item \emph{Rank uncertainty.} The score-perturbing ``Bayesian bootstrap'' was
+  replaced by the procedure of Section~\ref{sec:rank_design}.
+\item \emph{Manuscript.} Several results in an earlier draft could not be
+  reproduced from the code and were removed. These were walk-forward ICs,
+  Fama--MacBeth estimates, an ablation table, a claimed sign flip of the
+  value factor, and ``100\% of periods'' out-performance of a momentum proxy.
+  Two further claims were withdrawn:
+  \begin{itemize}
+  \item a large-cap ``generalisation'' statistic ($\rho\approx1$), which
+    measured only the effect of adding 45 firms to the percentile reference
+    set;
+  \item a Kendall's $W$ that measured agreement between investor profiles,
+    not generalisation.
+  \end{itemize}
+  A residualisation of E on the financial score, described in the draft, was
+  never executed by the pipeline and is not claimed here.
+\end{enumerate}

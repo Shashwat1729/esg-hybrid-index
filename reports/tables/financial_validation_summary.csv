@@ -4,8 +4,8 @@ Economic Consistency,10/10 relationships consistent (100.0%),PASS
 Sector Economics (P/E ranges),11/11 sectors in expected P/E range (100.0%),PASS
 Factor Economic Interpretation,6/6 factors economically sensible (100.0%),PASS
 Currency Conversion,0 flagged anomalies,PASS
-ESG Provenance Bias,"1 HIGH-bias, 0 MODERATE-bias comparisons",WARN
-Transaction Cost (round-trip),"Avg 25 bps, total $246,961 per rebalance",PASS
-Portfolio Turnover,Avg quarterly turnover 26.1% (MODERATE),WARN
+ESG Provenance Bias,"0 HIGH-bias, 2 MODERATE-bias comparisons",PASS
+Transaction Cost (round-trip),"Avg 24 bps, total $236,984 per rebalance",PASS
+Portfolio Turnover,Avg quarterly turnover 23.9% (MODERATE),WARN
 Strategy Capacity,"$25M=PASS, $50M=PASS, $100M=PASS, $250M=PASS, $500M=PASS, $1000M=FAIL, $2000M=FAIL",PASS
-OVERALL FINANCIAL VALIDATION,"7 PASS, 2 WARN, 0 FAIL",CONDITIONAL_PASS
+OVERALL FINANCIAL VALIDATION,"8 PASS, 1 WARN, 0 FAIL",CONDITIONAL_PASS
