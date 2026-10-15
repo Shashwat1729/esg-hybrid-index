@@ -32,10 +32,10 @@ the first available source in a fixed priority order, and the source is
 recorded:
 \begin{enumerate}
 \item EPA Toxics Release Inventory (US facilities).
-\item SEC XBRL filing items.
 \item ISS governance QualityScores redistributed by Yahoo Finance, namely
   audit, board, compensation, shareholder-rights and overall risk on a 1--10
   scale, stored as $(10-r)\times 10$ so that higher means better.
+\item SEC XBRL filing items.
 \item Yahoo ownership and analyst-coverage fields.
 \item Binary membership of public initiatives (CDP, SBTi, RE100, UN Global
   Compact).
@@ -68,11 +68,19 @@ variation.}
 \subsection{Factor Scores}
 \label{sec:factors}
 
-Each indicator is winsorised at the 1st/99th percentile and standardised with
-a robust $z$-score, $z=(x-\operatorname{med}(x))/(1.4826\,\mathrm{MAD}(x))$,
-clipped to $[-3,3]$ \cite{iglewicz_1993}. Lower-is-better indicators are
-sign-flipped only when they are stored as raw magnitudes.
-Section~\ref{sec:audit} shows why this qualification matters.
+During cleaning, continuous variables are winsorised at the 1st/99th
+percentile (2.5th/97.5th for valuation ratios). ESG, financial and market
+indicators are then winsorised again at the 1st/99th percentile and
+standardised with a robust $z$-score,
+$z=(x-\operatorname{med}(x))/(1.4826\,\mathrm{MAD}(x))$, clipped to $[-3,3]$
+\cite{iglewicz_1993}. For the operational, risk-adjusted, value, growth and
+stability factors, each indicator is first converted to a within-sector
+percentile; indicators that fail a Shapiro--Wilk normality test ($p<0.05$)
+receive normal scores instead of $z$-scores. The financial, operational,
+growth, value and stability scores are finally blended 70:30 with their own
+within-sector percentiles. Lower-is-better indicators are sign-flipped only
+when they are stored as raw magnitudes. Section~\ref{sec:audit} shows why
+this qualification matters.
 
 \textbf{ESG composite.} Indicators are averaged within categories (e.g.\
 emissions, energy, labour, board), categories are weighted into E, S and G,
@@ -117,8 +125,9 @@ with average ranks for ties and median fill for missing factors. The ranks
 are taken over the $N=\NScored$ scored firms, so the \NLarge large caps act
 as a fixed reference group. Table~\ref{tab:weights} lists the effective
 weights of the three profiles. The balanced profile puts \WBalESG\% on ESG.
-The equal-weight portfolio of the top $\lceil \TopPct\%\cdot N\rceil=\TopN$
-mid-caps is the index portfolio.
+The equal-weight portfolio of the top
+$\lceil \TopPct\%\cdot N_{\mathrm{mid}}\rceil=\TopN$ mid-caps
+($N_{\mathrm{mid}}=\NMid$) is the index portfolio.
 
 \emph{Weight provenance.} The profile weights were set by the authors using
 in-sample rank correlations with \emph{trailing} momentum, a practice we
@@ -211,9 +220,9 @@ computed. All are one-sided, with Holm correction across the family
 \item[\textbf{H3}] The top-\TopN balanced portfolio beats the equal-weighted
   universe.
 \end{itemize}
-Confidence intervals come from 5{,}000 firm-level bootstrap resamples; in
-H3, the portfolio is re-formed in each resample. All other analyses are
-secondary: factor ICs by horizon (Holm-corrected within horizon), portfolios
+Confidence intervals for H1--H3 come from 5{,}000 firm-level bootstrap
+resamples (1{,}000--2{,}000 for secondary analyses); in H3, the portfolio is
+re-formed in each resample. All other analyses are secondary: factor ICs by horizon (Holm-corrected within horizon), portfolios
 by profile, and ESG--risk partial correlations and rank regressions with
 sector and country fixed effects and HC3 errors.
 
@@ -283,9 +292,12 @@ For the return null we report three checks:
 
 To make the next test confirmatory, we froze the \NMid firm scores and a
 four-hypothesis analysis plan on \PreregFrozen, before the second window
-(\PreregAnchor,\,\PreregEnd] opens. The plan, the frozen scores and the evaluation
-code are hashed (SHA-256); the package is in \texttt{preregistration/window2}
-of the repository. H1--H3
+(\PreregAnchor,\,\PreregEnd] opened. The plan, the frozen scores and the
+evaluation code are hashed (SHA-256). The package
+(\texttt{preregistration/window2}) was pushed to the public project
+repository on \PreregFrozen, and that push is its timestamp. At the time of
+writing the window is still open, and no outcome in it has been computed.
+H1--H3
 carry over unchanged. H2 and H4 update their controls to what is observable
 at the anchor date, namely six months of realised volatility, beta and
 return. The evaluation script refuses to run before the window closes or if

@@ -161,9 +161,10 @@ pillar. Section~\ref{sec:res_mechanism} asks what that signal is.
 tilt cost in a rising market. The top-\TopN ESG-only portfolio's excess return
 over the universe was \ExESGFull~pp (CI $[\ExESGFullLo,\ExESGFullHi]$). Adjusting for
 trailing beta leaves \ExESGBA~pp. Sector-and-country neutralisation reduces
-the gap to \ExESGSN~pp (CI $[\ExESGSNLo,\ExESGSNHi]$): roughly half of the
-shortfall is a sector bet. The portfolio overweights utilities and energy and
-underweights technology, which was the best-performing sector.
+the gap to \ExESGSN~pp (CI $[\ExESGSNLo,\ExESGSNHi]$): more than half of the
+shortfall is a sector bet. The portfolio overweights real estate, utilities
+and energy, and holds no technology or healthcare firms, the two
+best-performing sectors of the window.
 
 \begin{figure}[t]
 \centering
@@ -254,7 +255,8 @@ makes this sharper:
   $\rho=\PartMeas$ with realised volatility (CI $[\PartMeasLo,\PartMeasHi]$),
   and are nearly independent of the financial factors ($R^2=\RSqMeas$).
 \item \emph{Proxy cells} are largely financial ($R^2=\RSqProxy$) and have
-  partial $\rho=\PartProxy$ (CI $[\PartProxyLo,\PartProxyHi]$).
+  partial $\rho=\PartProxy$ (CI $[\PartProxyLo,\PartProxyHi]$): the same sign
+  as the S pillar, but imprecise once pooled across pillars.
 \item \emph{Imputed cells} have a strong raw association (\PartImp), which
   is a sector effect: it vanishes once sector fixed effects are included
   (Table~\ref{tab:ext_controls}).

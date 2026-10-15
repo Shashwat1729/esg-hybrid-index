@@ -31,3 +31,20 @@ Qualitative statements that depend on the data (e.g. the sector composition of
 the ESG top-19 in §V-C) were checked by hand against
 `oos_firm_outcomes.csv` on 2026-09-24 and must be re-checked if the data are
 refreshed.
+
+## Pre-submission check (2026-10-15)
+
+Every remaining hand-written statement in the manuscript was checked against
+the code and data. Corrections:
+
+| Paper statement (before) | Code / data | Fix |
+|---|---|---|
+| All indicators winsorised at 1/99 and robust-z scored | Cleaning winsorises by variable type (2.5/97.5 for valuation ratios); ESG, financial and market indicators use 1/99 plus robust z; operational, risk-adjusted, value, growth and stability indicators use within-sector percentiles with a Shapiro-Wilk switch to normal scores, and five factors are blended 70:30 with their sector percentiles (`03_build_index.py`) | §III-C rewritten |
+| Source priority lists SEC above ISS | ISS QualityScores overwrite SEC items (`01_download_data.py`, tier 3) | Order swapped in §III-B |
+| Top-N = ceil(7% × N) with N = 314 scored firms | 19 = ceil(0.07 × 269 mid-caps) | Formula uses N_mid |
+| "All CIs from 5,000 resamples" | 5,000 for H1–H3; 1,000–2,000 for secondary analyses | Stated separately |
+| ESG top-19 "overweights utilities and energy, underweights technology" | Largest overweight is real estate; no technology and no healthcare holdings, the two best sectors | Corrected in §V-C and §VI-C |
+| "Roughly half of the shortfall is a sector bet" | −19.9 pp to −8.4 pp after neutralisation (58%) | "More than half" |
+| Risk signal "comes from financial-proxy cells" | Proxy-cell sub-score partial ρ −0.086, CI includes 0; S pillar significant | Attributed to the proxy-built S pillar |
+| Registration "before the window opens" | Package pushed to the public repo on 2026-09-25; window opened 2026-09-28 | Past tense; the push is named as the timestamp |
+| "adding 45 firms" (literal) | Large-cap count macro | Uses the `NLarge` macro |
