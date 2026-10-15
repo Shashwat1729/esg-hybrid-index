@@ -15,10 +15,10 @@ numbers**. `scripts/26_paper_artifacts.py` (the last step of
 | `tab_oos_ic.tex` (Table VI) | OOS ICs by factor and horizon | `oos_information_coefficients.csv` |
 | `tab_oos_portfolio.tex` (Table VII) | Top-N excess returns | `oos_portfolio_excess.csv` |
 | `tab_oos_risk.tex` (Table VIII) | ESG and realised risk | `oos_esg_risk_filter.csv`, `oos_esg_risk_regression.csv` |
-| `tab_top_ranks.tex` (Table IX) | Top-N rank intervals | `advanced_bootstrap_ci.csv`, `oos_firm_outcomes.csv` |
-| `tab_sasb.tex` (Table XI) | SASB pillar weights | `config/sasb_materiality.yaml` |
-| `tab_ext_controls.tex` | ESG vs realised risk with trailing / full controls | `ext_risk_controls.csv` (step 27) |
-| `tab_ext_robust.tex` | H2/H4 on subsamples; recent-volatility control | `ext_subsample_robustness.csv`, `ext_recent_vol_control.csv` |
+| `tab_ext_controls.tex` (Table IX) | ESG vs realised risk with trailing / full controls | `ext_risk_controls.csv` (step 27) |
+| `tab_ext_robust.tex` (Table X) | H2/H4 on subsamples; recent-volatility control | `ext_subsample_robustness.csv`, `ext_recent_vol_control.csv` |
+| `tab_top_ranks.tex` (Table XI) | Top-N rank intervals | `advanced_bootstrap_ci.csv`, `oos_firm_outcomes.csv` |
+| `tab_sasb.tex` (Table XIII) | SASB pillar weights | `config/sasb_materiality.yaml` |
 | `Figures/fig_overview.pdf` | Figure 1 (study design) | sample macros + `preregistration/window2/manifest.json` |
 | `Figures/fig_oos_ic.pdf` | Figure 2 | `oos_information_coefficients.csv` |
 | `Figures/fig_ext_mechanism.pdf` | Figure 3 (where the risk signal lives) | `ext_risk_controls.csv`, `ext_recent_vol_control.csv`, `dry_run_results.csv` |
@@ -48,3 +48,16 @@ the code and data. Corrections:
 | Risk signal "comes from financial-proxy cells" | Proxy-cell sub-score partial ρ −0.086, CI includes 0; S pillar significant | Attributed to the proxy-built S pillar |
 | Registration "before the window opens" | Package pushed to the public repo on 2026-09-25; window opened 2026-09-28 | Past tense; the push is named as the timestamp |
 | "adding 45 firms" (literal) | Large-cap count macro | Uses the `NLarge` macro |
+
+Reference check (same day, against publisher records):
+
+| Entry | Was | Corrected to |
+|---|---|---|
+| `chatterji_2016` | *Management Science* | *Strategic Management Journal* 37(8):1597–1614, doi 10.1002/smj.2407 |
+| `gibson_2021` | *Review of Finance*, 4 authors | *Financial Analysts Journal* 77(4):104–127, Gibson Brandon, Krueger and Schmidt |
+| `damato_2022` | *Annals of Operations Research* | *Computational Management Science* 19(2):347–373, doi 10.1007/s10287-021-00419-3 |
+| `alighanbari_2022` | MSCI report, not verifiable | Citation removed from §II |
+| `yfinance`, `yahoo_finance`, `sec_edgar` | Undated access notes | Version / access period stated |
+
+Also: double negative in the double-sort sentence (§V-D) reworded; Appendix B
+given body text.
