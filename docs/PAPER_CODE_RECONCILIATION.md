@@ -90,11 +90,11 @@ Full rereads were repeated until one pass needed no edits. Only wording changed;
 
 | Pass | Location | Change |
 |---|---|---|
-| 1 | §III-A | Universe sentence now reads as 321 candidates: mid-cap constituents of the three indices, plus the 45 S&P 500 reference caps |
-| 1 | §IV-D | H1–H3/H4 registration sentence split; the anchor-date controls of H2 and H4 are now stated explicitly |
-| 1 | App. C, item 8 | Portfolio-size rule written as ⌈0.07·N_mid⌉ bounded to [10, 50] |
-| 1 | §I | Spelling: "artifacts" → "artefacts" (British spelling, used throughout) |
-| 2 | Abstract, §I, §II, §III, §VII | Acronyms defined at first use: ESG, IC, SASB, ISS, CSR, TRI, MAD, FCF, VIF, PCA, HC3, BRSR |
+| 1–2 | §III-A | Universe sentence now reads as 321 candidates: mid-cap constituents of the three indices, plus the 45 S&P 500 reference caps |
+| 1–2 | §IV-D | H1–H3/H4 registration sentence split; the anchor-date controls of H2 and H4 are now stated explicitly |
+| 1–2 | App. C, item 8 | Portfolio-size rule written as ⌈0.07·N_mid⌉ bounded to [10, 50] |
+| 1–2 | §I | Spelling: "artifacts" → "artefacts" (British spelling, used throughout) |
+| 1–2 | Abstract, §I, §II, §III, §VII | Acronyms defined at first use: ESG, IC, SASB, ISS, CSR, TRI, MAD, FCF, VIF, PCA, HC3, BRSR |
 | 3 | App. B, Table XIII | Config path moved out of the small-caps caption and into the body text |
 | 3 | §VI-B | "four artefacts" → "four validation pitfalls" (Section V-B also covers the direction errors, so "four artefacts" miscounted) |
 | 4 | — | No changes |
