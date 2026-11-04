@@ -541,7 +541,7 @@ def make_figure(per_draw, sweep, w_esg_deployed, ic_deployed):
     ax.set_xlabel("OOS IC, random weights")
     ax.set_ylabel("draws")
     ax.set_title("(a)", fontsize=8, loc="left")
-    ax.legend(frameon=False, fontsize=7)
+    ax.legend(frameon=False, fontsize=7, loc="lower right", bbox_to_anchor=(1.0, 0.98), borderaxespad=0.0)
     ax = axes[1]
     ax.fill_between(sweep["w_esg"], sweep["ic_p025"], sweep["ic_p975"], color="#9bb7d4", alpha=0.5, lw=0)
     ax.plot(sweep["w_esg"], sweep["ic"], color="#1f5a96", marker="o", ms=2.5)

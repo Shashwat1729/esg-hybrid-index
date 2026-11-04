@@ -73,3 +73,13 @@ given body text.
 | Tables III, VI | OOS IC interval differs from Table V without explanation | Captions state 1,000 vs 5,000 resamples (`25_out_of_sample_evaluation.py`) |
 | §V-E | "−7.0 pp below the universe" (double negative) | "relative to the universe is already −7.0 pp" |
 | Style | Sentences opening with numerals; "high-release"; "only positive result"; "Dr." in IEEE author block | Reworded |
+
+## Second final proofread (2026-11-04)
+
+| Location | Was | Now |
+|---|---|---|
+| §V-C, survivorship bounds | "Both estimates are robust to the 9 M&A exits", although H3 = +1.9 pp while both bounds are negative | Says the *conclusions* are unchanged and explains why the excess turns negative: `portfolio_excess` drops exits and promotes the 20th firm, while the bounds keep CTRA (`25_out_of_sample_evaluation.py`) |
+| Abstract | partial ρ = −0.163 "even with 8 risk controls" (−0.163 is the trailing-volatility-only H2 estimate) | "and the effect survives 8 risk controls and sector effects" |
+| §III-A, ref. [39] | NIFTY Midcap 150 cited to the *NIFTY ESG* index methodology | Cited to the NIFTY Midcap 150 index page (URL checked 2026-11-04) |
+| §V-A | "share 14 and 14 names, respectively" | "with the balanced list" |
+| Fig. 4(a) | "deployed" legend overlapped the dashed line | Legend moved above the axes (`27_paper1_extensions.py`; no data changed) |

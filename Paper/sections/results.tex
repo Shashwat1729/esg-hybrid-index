@@ -43,7 +43,8 @@ information already present in the financial factors.
 \textbf{Profiles.} The three investor profiles are highly concordant. The
 balanced composite has Spearman correlations of \RhoProfEB with the
 ESG-first and \RhoProfBF with the financial-first composite. The top-\TopN
-lists share \OverlapEB and \OverlapBF names, respectively. Changing the ESG
+lists share \OverlapEB and \OverlapBF names with the balanced list,
+respectively. Changing the ESG
 weight from \WFinFirstESG\% to \WESGFirstESG\% therefore changes the ranking
 far less than the labels suggest.
 
@@ -123,11 +124,14 @@ $N=\NOOS$ firms with a full-window return).}
 \textbf{H1 and H3 (returns): not supported.} The balanced composite's IC with
 the country-neutral full-window return is \HOneEst (95\% CI
 $[\HOneLo,\HOneHi]$). Its top-\TopN portfolio beat the universe by
-\HThreeEst percentage points (pp), with CI $[\HThreeLo,\HThreeHi]$. Both
-estimates are robust to the \NExited M\&A exits: under the survivorship
-bounds, the IC lies in $[\BoundICLow,\BoundICHigh]$ and the excess in
-$[\BoundExLow,\BoundExHigh]$~pp. The top-ranked firm (CTRA) was among the
-exits.
+\HThreeEst percentage points (pp), with CI $[\HThreeLo,\HThreeHi]$.
+Neither conclusion depends on the \NExited M\&A exits, which have no end
+price and are dropped from these estimates. Assigning them the 5th or 95th
+percentile return puts the IC in $[\BoundICLow,\BoundICHigh]$ and the excess
+in $[\BoundExLow,\BoundExHigh]$~pp. The excess turns negative under both
+bounds because the top-ranked firm (CTRA) was among the exits: the bounds
+keep it in the portfolio, whereas the main estimate replaces it with the
+next-ranked firm.
 
 \textbf{H2 (risk): supported.} Controlling for trailing volatility, higher
 ESG predicts lower realised volatility: partial $\rho=\HTwoEst$, 95\% CI
