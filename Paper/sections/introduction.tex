@@ -5,8 +5,8 @@
 \label{sec:intro}
 
 Sustainable-investment assets reached about \$30~trillion in the markets
-covered by the most recent global review \cite{gsia_2022}. Yet the ESG ratings
-that steer this capital disagree strongly across providers: the average
+covered by the most recent global review \cite{gsia_2022}. Yet the environmental,
+social and governance (ESG) ratings that steer this capital disagree strongly across providers: the average
 pairwise correlation is about $0.54$ \cite{berg_2022, chatterji_2016}. Ratings
 are also proprietary, so their construction cannot be inspected
 \cite{kotsantonis_2019, christensen_2022}. The gap is widest for mid-caps.
@@ -32,7 +32,8 @@ of them:
 We study both questions on a concrete, fully reproducible system: a nine-factor
 ESG--financial composite index for \NMid mid-cap equities in the US and India,
 scored on a data snapshot taken at the close of \SnapshotDate. The index
-combines SASB-weighted ESG pillars \cite{khan_2016, sasb_2023} with eight
+combines ESG pillars weighted by Sustainability Accounting Standards Board
+(SASB) materiality \cite{khan_2016, sasb_2023} with eight
 financial factors and three investor profiles. It follows composite-indicator
 practice \cite{oecd_2008}: robust normalisation, explicit weights and
 provenance tracking. Every data cell carries a source label, and every number
@@ -76,12 +77,13 @@ plan and code were hashed before it opened, provides a confirmatory test.}
 \textbf{Contributions.}
 \begin{enumerate}
 \item \emph{An open, provenance-tracked index pipeline} for US and Indian
-  mid-caps. It is reproducible from public sources, and its paper artifacts are
+  mid-caps. It is reproducible from public sources, and its paper artefacts are
   generated from its outputs (Section~\ref{sec:data}).
 \item \emph{A construct-validity audit of public-data ESG.} Only \NIndUsed of
   \NIndDeclared declared indicators carry information. The E and S pillars are
   mostly re-expressed financial ratios ($R^2$ on the other factors of \RSqE and
-  \RSqS). Only governance, built from ISS scores (\NISSFirms firms) and ownership data,
+  \RSqS). Only governance, built from Institutional Shareholder Services (ISS)
+  scores (\NISSFirms firms) and ownership data,
   is close to orthogonal to them ($R^2=\RSqG$) (Section~\ref{sec:res_construct}).
 \item \emph{A quantification of in-sample validation pitfalls.} These are
   trailing-return ``returns'', a contemporaneous ``forward'' proxy, a

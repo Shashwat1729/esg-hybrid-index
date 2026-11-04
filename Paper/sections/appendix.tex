@@ -58,11 +58,12 @@ G & \texttt{board\_size} & SEC operating-segment count, banded (8 firms); else s
 
 Table~\ref{tab:sasb} gives the pillar weights used to combine the E, S and G
 scores within each sector (Section~\ref{sec:factors}). Each row sums to one.
+The weights are read from \texttt{config/sasb\_materiality.yaml}.
 
 \begin{table}[h]
 \centering
-\caption{Sector-specific E/S/G pillar weights (\texttt{config/sasb\_materiality.yaml}),
-informed by the SASB Materiality Map \cite{sasb_2023}.}
+\caption{Sector-specific E/S/G pillar weights, informed by the SASB
+Materiality Map \cite{sasb_2023}.}
 \label{tab:sasb}
 \footnotesize
 \input{generated/tab_sasb}
@@ -93,8 +94,9 @@ downloaded.
 \item \emph{Snapshot consistency.} FX is taken at the snapshot rate.
   \texttt{market\_share} is recomputed after currency conversion. Firms that
   did not trade on the snapshot date are removed.
-\item \emph{Portfolio size.} $N^\star=\lceil 0.07N\rceil$, bounded to
-  $[10,50]$, replaces a rounding rule with a special case for $N=276$.
+\item \emph{Portfolio size.} $N^\star=\lceil 0.07N_{\mathrm{mid}}\rceil$, bounded
+  to $[10,50]$, replaces an earlier rounding rule that hard-coded
+  a special case for a 276-firm universe.
 \item \emph{Rank uncertainty.} The score-perturbing ``Bayesian bootstrap'' was
   replaced by the procedure of Section~\ref{sec:rank_design}.
 \item \emph{Manuscript.} Several results in an earlier draft could not be

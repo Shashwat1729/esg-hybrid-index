@@ -7,8 +7,8 @@
 \subsection{Universe and Snapshot}
 \label{sec:universe}
 
-The candidate universe contains \NRawCompanies firms. These are mid-cap
-constituents drawn from the S\&P MidCap~400, the Russell Midcap and the NIFTY
+The candidate universe contains \NRawCompanies firms: mid-cap constituents
+drawn from the S\&P MidCap~400, the Russell Midcap and the NIFTY
 Midcap~150 \cite{nse_midcap150}, plus \NLarge S\&P~500 large caps that serve only as
 a reference group in normalisation. All fundamentals and trailing market
 statistics were downloaded from Yahoo Finance \cite{yahoo_finance, yfinance}
@@ -31,7 +31,7 @@ The ESG schema declares \NIndDeclared indicators (\NIndDeclaredE E,
 the first available source in a fixed priority order, and the source is
 recorded:
 \begin{enumerate}
-\item EPA Toxics Release Inventory (US facilities).
+\item EPA Toxics Release Inventory (TRI), US facilities.
 \item ISS governance QualityScores redistributed by Yahoo Finance, namely
   audit, board, compensation, shareholder-rights and overall risk on a 1--10
   scale, stored as $(10-r)\times 10$ so that higher means better.
@@ -71,8 +71,9 @@ variation.}
 During cleaning, continuous variables are winsorised at the 1st/99th
 percentile (2.5th/97.5th for valuation ratios). ESG, financial and market
 indicators are then winsorised again at the 1st/99th percentile and
-standardised with a robust $z$-score,
-$z=(x-\operatorname{med}(x))/(1.4826\,\mathrm{MAD}(x))$, clipped to $[-3,3]$
+standardised with a robust $z$-score based on the median absolute deviation
+(MAD), $z=(x-\operatorname{med}(x))/(1.4826\,\mathrm{MAD}(x))$, clipped to
+$[-3,3]$
 \cite{iglewicz_1993}. For the operational, risk-adjusted, value, growth and
 stability factors, each indicator is first converted to a within-sector
 percentile; indicators that fail a Shapiro--Wilk normality test ($p<0.05$)
@@ -95,7 +96,7 @@ not affect the index.
 \textbf{Eight financial factors.}
 \begin{itemize}
 \item \emph{Financial}: profitability, margins, cash, payout.
-\item \emph{Operational}: revenue per employee, R\&D intensity, FCF and gross
+\item \emph{Operational}: revenue per employee, R\&D intensity, free cash flow (FCF) and gross
   margin, headcount.
 \item \emph{Risk-adjusted}: 1-year Sharpe and Sortino ratios, maximum
   drawdown, Amihud illiquidity \cite{amihud_2002}, skewness, kurtosis.
@@ -178,11 +179,12 @@ are shared.
 \label{sec:insample_design}
 
 We report conventional diagnostics on the snapshot cross-section:
-variance-inflation factors, PCA, and agreement between profiles. We also
+variance-inflation factors (VIFs), principal component analysis (PCA), and
+agreement between profiles. We also
 re-run the pipeline's former validation designs, to measure how much they
 inflate apparent quality. Those designs are:
 \begin{enumerate}
-\item Rank ``ICs'' against 1-, 3- and 6-month \emph{trailing} returns, which
+\item Rank information coefficients (``ICs'') against 1-, 3- and 6-month \emph{trailing} returns, which
   end on the snapshot date.
 \item ICs against a \texttt{forward\_quality\_proxy}. Despite its name, this is
   a \emph{contemporaneous} composite of ROA, ROE, margins, growth and
@@ -224,7 +226,7 @@ Confidence intervals for H1--H3 come from 5{,}000 firm-level bootstrap
 resamples (1{,}000--2{,}000 for secondary analyses); in H3, the portfolio is
 re-formed in each resample. All other analyses are secondary: factor ICs by horizon (Holm-corrected within horizon), portfolios
 by profile, and ESG--risk partial correlations and rank regressions with
-sector and country fixed effects and HC3 errors.
+sector and country fixed effects and heteroskedasticity-robust (HC3) errors.
 
 \textbf{Power.} With $N=\NOOS$, a two-sided test at $\alpha=0.05$ has 80\%
 power only for $|\rho|\ge\MDEOOS$. ICs of the size usually reported for
@@ -297,8 +299,9 @@ evaluation code are hashed (SHA-256). The package
 (\texttt{preregistration/window2}) was pushed to the public project
 repository on \PreregFrozen, and that push is its timestamp. At the time of
 writing the window is still open, and no outcome in it has been computed.
-H1--H3
-carry over unchanged. H2 and H4 update their controls to what is observable
+The plan
+keeps H1--H3, adds H4 (Section~\ref{sec:ext_design}) and applies the Holm
+correction across all four. In H2 and H4 the controls are what is observable
 at the anchor date, namely six months of realised volatility, beta and
 return. The evaluation script refuses to run before the window closes or if
 any registered file has changed. A dry run of the same code on
