@@ -61,3 +61,15 @@ Reference check (same day, against publisher records):
 
 Also: double negative in the double-sort sentence (§V-D) reworded; Appendix B
 given body text.
+
+## Final proofread (2026-11-04)
+
+| Location | Was | Now |
+|---|---|---|
+| §V-A Redundancy | "The pillars are nearly unrelated" (E–S ρ = 0.42) | E and S moderately correlated; both nearly unrelated to G |
+| §VI-C | "beyond trailing volatility and 8 other characteristics" | 8 characteristics *including* trailing volatility (`CONTROLS` in step 27 has 8 entries) |
+| §VI-A | S pillar carries the "whole" forward risk signal | "the" forward risk signal (matches "mostly" in §V-C) |
+| §V-C, G pillar bullet | "none with volatility" while partial ρ = −0.125 | Refers explicitly to the regression coefficient |
+| Tables III, VI | OOS IC interval differs from Table V without explanation | Captions state 1,000 vs 5,000 resamples (`25_out_of_sample_evaluation.py`) |
+| §V-E | "−7.0 pp below the universe" (double negative) | "relative to the universe is already −7.0 pp" |
+| Style | Sentences opening with numerals; "high-release"; "only positive result"; "Dr." in IEEE author block | Reworded |

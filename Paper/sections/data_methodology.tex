@@ -151,7 +151,7 @@ the following (full list in Appendix~\ref{app:audit}):
 \begin{enumerate}
 \item \textbf{Double direction flips.} \texttt{scope1\_emissions} and
   \texttt{esg\_risk\_rating} were already stored as ``higher is better''
-  scores, and were flipped again. This rewarded high-release and high-governance-risk firms. The
+  scores, and were flipped again. This rewarded high-emission and high-governance-risk firms. The
   Spearman correlation between the pre- and post-audit E pillars is
   \RhoPrePostE; for G it is \RhoPrePostG.
 \item \textbf{Synthetic noise in imputation.} Median imputation added
@@ -204,8 +204,8 @@ closes and compute:
 \end{itemize}
 Returns are demeaned within country, because the two markets had different
 index returns (\IdxRetUS\% and \IdxRetIndia\%). Sector-and-country
-neutralisation is reported as a robustness check. \NExited firms were
-acquired during the window (\ExitedTickers) and have no end price. For them,
+neutralisation is reported as a robustness check. During the window,
+\NExited firms were acquired (\ExitedTickers) and have no end price. For them,
 we report bounds that assign the 5th or 95th percentile of the return
 distribution.
 
