@@ -116,3 +116,7 @@ command-line flags were replaced by plain-language descriptions:
 | Conclusion, Reproducibility | `run_all.py --skip-download`, Step 25 `--refresh`, Step 28 `evaluate` | one prose sentence; the repository documents each step |
 
 No numbers changed. Both builds: 0 errors/overfull/undefined/bib warnings, 14 pages; anonymity check 0; 325 tests pass; registration hashes match.
+
+## Named submission build (2026-11-05)
+
+The venue is not double-blind. The anonymous option was removed from `Paper/Thesis.tex`; `Paper/Submission.tex` now builds the same named paper (three authors, affiliations, repository link https://github.com/Shashwat1729/esg-hybrid-index). The two PDFs have identical text; both build with 0 errors/overfull/undefined/bib warnings at 14 pages.

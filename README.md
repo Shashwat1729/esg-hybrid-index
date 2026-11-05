@@ -188,7 +188,7 @@ flowchart LR
 │   ├── RESEARCH_AUDIT.md       # leakage/bias/formula audit + verified numbers
 │   ├── PAPER_CODE_RECONCILIATION.md # Paper ↔ code ↔ output line-by-line
 │   └── DEMO.md                 # HF Spaces exact steps, Space card, troubleshooting
-├── Paper/                 # IEEE conference paper: Thesis.tex (named), Submission.tex (anonymised)
+├── Paper/                 # IEEE conference paper: Thesis.tex and Submission.tex (same named paper)
 ├── Thesis_report/         # BITS Pilani thesis (LaTeX, Figures/ 24 PNGs, Missing_Packages/)
 ├── requirements.txt       # pinned (pandas 2.2.2, numpy 1.26.4, scipy, sklearn, statsmodels…)
 ├── pytest.ini             # 308 tests, markers slow/integration
@@ -296,7 +296,7 @@ python app.py --server-name 0.0.0.0 --server-port 7860
 | [`Project.md`](Project.md) | Architecture, directory map, entry points |
 | `reports/research_summary.txt` | Auto-generated 22-section report (743 lines) |
 
-Paper: `Paper/Thesis.tex` (IEEE, named) and `Paper/Submission.tex` (same paper, anonymised for double-blind review); Thesis: `Thesis_report/main.tex` (BITS) — all compile from the same `reports/`.
+Paper: `Paper/Thesis.tex` (IEEE, named) and `Paper/Submission.tex` (same named paper, submission build); Thesis: `Thesis_report/main.tex` (BITS) — all compile from the same `reports/`.
 
 ```bash
 cd Paper && pdflatex Submission && bibtex Submission && pdflatex Submission && pdflatex Submission
