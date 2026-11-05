@@ -6,84 +6,67 @@
 
 \subsection{Public-Data ESG Is Mostly Financial Quality}
 
-The construct-validity audit has a simple explanation. When direct disclosure
-is missing, each proxy is chosen for a plausible link between a financial
-ratio and an ESG outcome: margins and emissions \cite{konar2001does}, revenue
-per employee and satisfaction \cite{edmans_2011}, cash returned and community
-investment. Each link is defensible in isolation. Aggregated, however, they
-turn the E and S pillars into a within-sector profitability and payout score.
-That score is largely spanned by the financial factors, and it carries the
-index's forward risk signal. The G pillar, built on third-party
-governance assessments, is the only component that adds information roughly
-orthogonal to the rest, yet that information did not predict risk or
-returns in our window. The practical
-implications are:
-\begin{enumerate}
-\item report provenance and redundancy per pillar, not just coverage;
-\item do not describe proxy E and S pillars as environmental or social
-  performance;
-\item treat governance scores as the only component that currently adds
-  independent information.
-\end{enumerate}
+The construct-validity result has a simple explanation. When direct
+disclosure is missing, each proxy is chosen for a plausible link between a
+financial ratio and an ESG outcome, such as margins and emissions
+\cite{konar2001does}, revenue per employee and satisfaction
+\cite{edmans_2011}, or cash returned and community investment. Each link is
+defensible in isolation, but together they turn the E and S pillars into a
+within-sector profitability and payout score. That score is largely spanned
+by the financial factors, and it is what carries the index's forward risk
+signal. The G pillar, built on third-party governance assessments, is the
+only component that adds roughly orthogonal information, although that
+information did not predict risk or returns in our window. Index builders
+should therefore report provenance and redundancy per pillar alongside
+coverage, and should not describe proxy E and S pillars as environmental or
+social performance.
 
 \subsection{Why In-Sample Evidence Misled}
 
-The four validation pitfalls of Section~\ref{sec:res_insample} share a structure: the
-validation target was not independent of the thing being validated.
-\begin{itemize}
-\item Trailing returns overlap the price history used by the risk-adjusted
-  and stability factors.
-\item The ``forward'' quality proxy shares inputs with the factors, and the
-  isotonic correction was fitted to it.
-\item The bootstrap perturbed scores instead of data, so it measured the
-  injected noise.
-\end{itemize}
-Every such design yields favourable numbers whether or not the index works.
-This is the mechanism behind the replication failures documented for factor
-research \cite{harvey_2016, bailey_2017}. The defence is procedural: freeze
-the construction at a date, and test on outcomes that occur after that date.
+The four validation pitfalls of Section~\ref{sec:res_insample} share one
+feature: the validation target was not independent of what was being
+validated. Trailing returns overlap the price history used by the
+risk-adjusted and stability factors; the ``forward'' quality proxy shares
+inputs with the factors, and the isotonic correction was fitted to it; and
+the bootstrap perturbed scores rather than data, so it measured its own
+noise. Each of these designs yields favourable numbers whether or not the
+index works, which is the mechanism behind many replication failures in
+factor research \cite{harvey_2016, bailey_2017}. The defence is procedural:
+freeze the construction at a date and test it on outcomes that occur after
+that date.
 
 \subsection{ESG as a Risk Tilt, and Its Price}
 
 The forward evidence supports a risk channel, but a narrow one. Higher ESG
-predicts lower volatility beyond \NControls risk characteristics, trailing
-volatility among them, in line with \cite{albuquerque_2019}. It does not predict
-beta or drawdowns once sector and country are controlled. The decomposition
-in Section~\ref{sec:res_mechanism} limits what this channel can be credited
-to:
-\begin{itemize}
-\item the measured ESG cells carry none of the signal;
-\item the proxy-heavy S pillar carries it;
-\item recent realised volatility absorbs much of it.
-\end{itemize}
-The defensible reading is that public-data ESG, as built here, is a
-slow-moving low-risk characteristic assembled from financial data. It is not
-evidence that environmental or social performance lowers risk. The evidence
-also does not support a return channel over six months. In a window in which
-both markets rose, the risk tilt was expensive, because an ESG-only screen
-loaded on real estate, utilities and energy and held no technology or
-healthcare firms.
-This is the trade-off that equilibrium models predict: sustainable
-assets can serve as hedges while offering lower expected returns
-\cite{pastor_2021, pedersen_2021}. A single six-month window cannot estimate
-a premium. It can, however, show the size of the regime risk that an
-ESG-tilted mid-cap portfolio takes on relative to its universe.
+predicts lower volatility beyond \NControls risk characteristics, including
+trailing volatility, in line with \cite{albuquerque_2019}, but it does not
+predict beta or drawdowns once sector and country are controlled. The
+decomposition of Section~\ref{sec:res_mechanism} also limits what the channel
+can be credited to, because the signal comes from the proxy-heavy S pillar
+rather than from measured cells and is largely absorbed by recent realised
+volatility. The defensible reading is that public-data ESG, as built here,
+is a slow-moving low-risk characteristic assembled from financial data, not
+evidence that environmental or social performance lowers risk.
+
+The evidence also does not support a return channel over six months. In a
+window in which both markets rose, the risk tilt was expensive, because an
+ESG-only screen loaded on real estate, utilities and energy and held no
+technology or healthcare firms. This is the trade-off that equilibrium models
+predict, in which sustainable assets serve as hedges while offering lower
+expected returns \cite{pastor_2021, pedersen_2021}. A single six-month window
+cannot estimate a premium, but it does show the size of the regime risk that
+an ESG-tilted mid-cap portfolio takes on relative to its universe.
 
 \subsection{Implications for Index Builders}
 
-Five recommendations follow from the evidence.
-\begin{enumerate}
-\item \emph{Provenance per cell and redundancy per pillar} should be standard
-  disclosures for any ESG index built from public data.
-\item \emph{Freeze and date} the construction, and treat any number computed
-  on the snapshot cross-section as descriptive.
-\item \emph{Report OOS results with power.} Report the minimum detectable
-  effect: with a few hundred firms, a single cross-section can reject only
-  large effects.
-\item \emph{Attribute signals to sources.} Before an out-of-sample effect is
-  credited to ESG, re-estimate it separately on measured, proxy and imputed
-  cells, and control for recent risk.
-\item \emph{Generate the paper from the code.} In this project, every
-  discrepancy between the manuscript and the pipeline found by the audit was
-  a hand-copied or hand-written number.
-\end{enumerate}
+Three practices follow from the evidence and cost little to adopt. First,
+provenance per cell and redundancy per pillar should be standard disclosures
+for any ESG index built from public data. Second, the construction should be
+frozen and dated, with any number computed on the snapshot cross-section
+treated as descriptive, and out-of-sample results should be reported with
+their minimum detectable effect, since a few hundred firms can reject only
+large effects. Third, before an out-of-sample effect is credited to ESG, it
+should be re-estimated separately on measured, proxy and imputed cells and
+controlled for recent risk. Generating the paper from the code also helps:
+every discrepancy between manuscript and pipeline that our audit found was a
+number copied or written by hand.

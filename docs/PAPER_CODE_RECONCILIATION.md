@@ -119,4 +119,18 @@ No numbers changed. Both builds: 0 errors/overfull/undefined/bib warnings, 14 pa
 
 ## Named submission build (2026-11-05)
 
-The venue is not double-blind. The anonymous option was removed from `Paper/Thesis.tex`; `Paper/Submission.tex` now builds the same named paper (three authors, affiliations, repository link https://github.com/Shashwat1729/esg-hybrid-index). The two PDFs have identical text; both build with 0 errors/overfull/undefined/bib warnings at 14 pages.
+The venue is not double-blind. The anonymous option was removed from `Paper/Thesis.tex`; `Paper/Submission.tex` now builds the same named paper (three authors, affiliations, repository link https://github.com/Shashwat1729/esg-hybrid-index). The two PDFs have identical text; both build with 0 errors/overfull/undefined/bib warnings.
+
+## Prose and structure revision (2026-11-05)
+
+Writing-only revision guided by the academic-paper skill's writing-quality checklist, Wikipedia's "Signs of AI writing" and Cochrane's "Writing Tips for Ph.D. Students". No result, macro value, table or figure changed.
+
+- Lists cut from 29 to 4: only the contribution list, the H1-H3 hypotheses and the two appendix lists remain. Everything else is now connected prose.
+- Bold and italic run-in labels removed from the body.
+- The abstract is now a single IEEE paragraph of at most 250 words.
+- Each Results subsection now opens with its finding, keeps only the numbers that carry the argument in the text, and points to the tables for the rest.
+- The Discussion no longer restates the Results.
+- The Conclusion is two paragraphs instead of a question-and-answer list.
+- Future work keeps only the steps that extend the findings: the registered window, repeated hold-out cycles, and measured E/S data.
+- Limitations merged from 8 bullets into 3 paragraphs.
+- Page count fell from 14 to 12. Both builds are clean, 325 tests pass and the registration hashes match.

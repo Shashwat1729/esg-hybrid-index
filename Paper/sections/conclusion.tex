@@ -5,51 +5,37 @@
 \label{sec:conclusion}
 
 We built a transparent nine-factor ESG--financial index for \NMid US and
-Indian mid-caps and audited it end to end. The audit answers four questions.
-\begin{enumerate}
-\item \emph{What does public-data ESG measure?} Its E and S pillars are
-  mostly financial quality measured within sector (other factors explain
-  \RSqE and \RSqS of their variance). Only the governance pillar carries
-  largely independent information.
-\item \emph{Is common in-sample evidence informative?} No. Trailing-return
-  ``ICs'', a contemporaneous ``forward'' proxy, a correction fitted to that
-  proxy and a misapplied bootstrap together made a composite with no
-  demonstrable predictive power look strong.
-\item \emph{What happens out of sample?} The composite does not predict
-  returns (IC $=\HOneEst$), and its top-\TopN portfolio does not beat the
-  universe. Higher ESG does predict lower future volatility beyond trailing
-  volatility (partial $\rho=\HTwoEst$, Holm $p=\HTwoHolm$). In a rising
-  market this risk tilt was costly: an ESG-only top-\TopN screen had an excess
-  return of \ExESGFull~pp.
-\item \emph{Is that risk signal ESG?} Only in name. It survives \NControls known risk
-  characteristics and sector effects (\HFourEst), but it sits in the
-  proxy-built S pillar, not in measured cells (\PartMeas), adds \CVDeltaESG to an
-  out-of-fold volatility forecast, and falls to \RecFirst given recent
-  realised volatility.
-\end{enumerate}
+Indian mid-caps and audited it end to end. Its E and S pillars turn out to
+be mostly within-sector financial quality, with other factors explaining
+\RSqE and \RSqS of their variance, and only the governance pillar carries
+largely independent information. The in-sample evidence that made the index
+look strong came from validation targets that were not independent of the
+index. Out of sample, the composite does not predict returns
+(IC $=\HOneEst$), but higher ESG predicts lower future volatility beyond
+trailing volatility (partial $\rho=\HTwoEst$, Holm $p=\HTwoHolm$) and beyond
+\NControls known risk characteristics and sector effects. That risk signal
+comes from the proxy-built S pillar rather than from measured cells
+(\PartMeas), adds \CVDeltaESG to an out-of-fold volatility forecast, and
+falls to \RecFirst given recent realised volatility. In a rising market the
+tilt was costly, with an ESG-only top-\TopN screen returning \ExESGFull~pp
+relative to the universe.
 
-The contribution is as much methodological as empirical. Transparency is
-necessary but not sufficient for validity. Provenance per cell, redundancy
-per pillar, a dated construction and an out-of-sample test with fixed
-hypotheses are cheap to implement and should accompany any ESG index built
-from public data.
-
-\textbf{Future work.} Future work should:
-\begin{itemize}
-\item evaluate the pre-registered window (\PreregAnchor to \PreregEnd), which
-  will confirm or refute H2 and H4 against recent-volatility controls;
-\item repeat the snapshot--hold-out cycle quarterly, to accumulate power;
-\item replace financial proxies with measured E and S data (EPA TRI, BRSR
-  filings for Indian firms, and text-mined sustainability reports
-  \cite{luccioni_2020});
-\item test whether the ESG--volatility association persists across market
-  regimes, and whether measured E and S data share it.
-\end{itemize}
+The contribution is as much methodological as empirical. Provenance per
+cell, redundancy per pillar, a dated construction and an out-of-sample test
+with fixed hypotheses are cheap to implement, and together they separate a
+transparent composite from a valid one. The natural next step is the
+pre-registered window (\PreregAnchor to \PreregEnd), which will confirm or
+refute the risk result against recent-volatility controls. Beyond it, the
+same snapshot--hold-out cycle can be repeated each quarter to accumulate
+power, and replacing the financial proxies with measured E and S data, such
+as EPA TRI records, the Business Responsibility and Sustainability Reports
+(BRSR) of Indian firms and text-mined sustainability reports
+\cite{luccioni_2020}, would show whether genuine environmental and social
+measurement shares the risk signal.
 
 \textbf{Reproducibility.} The code, configuration, cached raw data, frozen
 pre-audit outputs and the registration package are in the project
-repository\RepoNote.
-A single command rebuilds every table, figure and number in this paper
-from the \SnapshotDate snapshot and the cached post-snapshot prices. The
-same pipeline can re-download the prices and, once the second window has
-closed, runs the registered test; the repository documents each step.
+repository\RepoNote. A single command rebuilds every table, figure and
+number in this paper from the \SnapshotDate snapshot and the cached
+post-snapshot prices, and the repository documents each step, including the
+evaluation of the registered window once it has closed.

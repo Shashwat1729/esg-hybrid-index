@@ -4,57 +4,39 @@
 \section{Limitations and Threats to Validity}
 \label{sec:limitations}
 
-\begin{enumerate}
-\item \textbf{One window, one cross-section.} The OOS test covers
-  \TradingDaysUS trading days in a rising market. With $N=\NOOS$, only
-  $|\rho|\ge\MDEOOS$ is detectable at 80\% power. H1 and H3 therefore exclude
-  large effects, not small ones, and the risk result (H2) may not generalise
-  to other regimes. The registered second window adds a second, independent
-  period; repeating the snapshot--hold-out cycle beyond it is the most direct
-  way to accumulate power.
-\item \textbf{Hypotheses fixed after the window ended.} The hypotheses and
-  analysis code were fixed before OOS prices were downloaded, but after the
-  calendar window had passed, and they were not externally registered. Two
-  further facts bear on this. First, the profile weights were revised in
-  July~2026, inside the window. Second, the authors' general knowledge of
-  market conditions could not be excluded. The safeguards are the frozen
-  snapshot artefacts and full reporting of alternative weightings (the
-  February~2026 weights, and \WShareNeg\% of random weightings, give the
-  same return conclusion). The mechanism analyses of
-  Section~\ref{sec:res_mechanism} were specified after H1--H3 had been
-  evaluated and are exploratory. The second window
-  (Section~\ref{sec:prereg_design}) was registered before it opened, so that
-  H2 and H4 can be confirmed or refuted there.
-\item \textbf{Proxy ESG.} Our E and S pillars are not measurements of
-  environmental or social performance (Section~\ref{sec:res_construct}). The
-  findings concern public-data ESG as constructed here. They do not
-  necessarily transfer to vendor ratings, which have their own validity
-  problems \cite{berg_2022, christensen_2022}.
-\item \textbf{Governance data dependence.} The governance pillar relies on ISS
-  scores redistributed by a free data interface. They are available for
-  \NISSFirms of \NMid firms and are sector-imputed otherwise. Their continued
-  availability is not guaranteed.
-\item \textbf{Universe construction.} The candidate list was assembled from
-  index constituents at the time of collection. It is not a point-in-time
-  membership history, so earlier-period survivorship cannot be excluded. The
-  investability filter and the OOS survivorship bounds address only the
-  evaluation window.
-\item \textbf{Multi-market pooling.} US and Indian firms are scored against a
-  common reference, including \NLarge large caps. Country-neutral returns
-  remove market-level differences in outcomes but not differences in
-  disclosure regimes. The ESG--volatility association has the same sign in
-  both country subsamples (Table~\ref{tab:ext_robust}), but at $N=\NIndia$
-  the Indian estimates are imprecise.
-\item \textbf{Transaction costs and capacity.} Portfolio results are
-  equal-weighted and single-period. We deduct stylised round-trip costs
-  (Section~\ref{sec:res_null}), but do not model market impact at scale.
-\item \textbf{Provenance split.} The measured/proxy/imputed sub-scores average
-  indicator ranks with equal weights, not with the pillar and materiality
-  weights of the composite. They show where the signal lives, not how the
-  composite would behave with only one data source. The measured cells are
-  mostly governance items, so a null for measured cells is not a test of
-  measured environmental data. That test requires emissions and workforce
-  disclosures (e.g.\ the Business Responsibility and Sustainability Reports,
-  BRSR, of the Indian firms), which we leave to future
-  work.
-\end{enumerate}
+The main limitation is that the OOS test covers one window of \TradingDaysUS
+trading days in a rising market. With $N=\NOOS$, only $|\rho|\ge\MDEOOS$ is
+detectable at 80\% power, so H1 and H3 exclude large effects rather than
+small ones, and the risk result may not generalise to other regimes. In
+addition, the hypotheses and analysis code were fixed before OOS prices were
+downloaded but after the calendar window had passed, the profile weights
+were revised inside the window, and the authors' general knowledge of market
+conditions cannot be excluded. The frozen snapshot artefacts and the full
+reporting of alternative weightings limit these risks, since the
+February~2026 weights and \WShareNeg\% of random weightings give the same
+return conclusion. The mechanism analyses of Section~\ref{sec:res_mechanism}
+are exploratory. The second window (Section~\ref{sec:prereg_design}) was
+registered before it opened precisely so that H2 and H4 can be confirmed or
+refuted there.
+
+The findings concern public-data ESG as constructed here. Our E and S
+pillars are not measurements of environmental or social performance, and the
+results need not transfer to vendor ratings, which have their own validity
+problems \cite{berg_2022, christensen_2022}. The measured cells are mostly
+governance items, so the null for measured cells is not a test of measured
+environmental data. The governance pillar itself depends on ISS scores
+redistributed by a free data interface, which cover \NISSFirms of \NMid
+firms and may not remain available. The provenance sub-scores also average
+indicator ranks with equal weights, so they show where the signal lives
+rather than how the composite would behave with a single data source.
+
+Three design choices affect generality. The candidate list was taken from
+index constituents at the time of collection rather than from a
+point-in-time membership history, so survivorship before the evaluation
+window cannot be excluded. US and Indian firms are scored against a common
+reference that includes \NLarge large caps; country-neutral returns remove
+market-level differences in outcomes but not in disclosure regimes, and with
+$N=\NIndia$ the Indian estimates are imprecise, although they have the same
+sign as the US ones (Table~\ref{tab:ext_robust}). Finally, portfolio results
+are equal-weighted and single-period, with stylised round-trip costs and no
+model of market impact at scale.

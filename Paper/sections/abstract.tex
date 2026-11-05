@@ -3,36 +3,27 @@
 % =============================================================================
 \begin{abstract}
 Open research pipelines increasingly build environmental, social and
-governance (ESG) scores for mid-cap firms from
-public data. We ask what such scores measure and how they should be
-validated. We build a reproducible nine-factor ESG--financial index for
-\NMid US and Indian mid-caps with cell-level provenance, and audit it.
-
-\emph{Construct validity is weak.} Only \NIndUsed of \NIndDeclared ESG
-indicators carry information. Most E and S cells are financial proxies, and
-the other factors explain $R^2=\RSqE$ and \RSqS of those pillars.
-
-\emph{In-sample validation misleads.} Trailing-return information coefficients (``ICs''), a
-contemporaneous ``forward'' proxy and a misapplied bootstrap made the index
-look strong.
-
-\emph{Out of sample, the index does not predict returns.} In a hold-out
-window (\SnapshotDate to \OOSEndDate, $N=\NOOS$) with hypotheses fixed in
-advance, the composite's IC is \HOneEst (95\% CI $[\HOneLo,\HOneHi]$). The IC
-is negative under \WShareNeg\% of random weightings.
-
-\emph{ESG predicts lower volatility, but not as ESG.} Higher ESG predicts
-lower volatility beyond trailing volatility (partial $\rho=\HTwoEst$, Holm
-$p=\HTwoHolm$), and the effect survives \NControls risk controls and sector
-effects. The signal
-sits in the proxy-built S pillar; measured ESG data show none of it (partial
-$\rho=\PartMeas$). It adds only \CVDeltaESG to out-of-fold $R^2$ and weakens
-given recent volatility. Meanwhile, an ESG-only top-\TopN portfolio trailed
-the universe by \ExESGFullAbs percentage points.
-
-Public-data ESG thus acts as a slow-moving low-risk tilt, not as ESG
-information or alpha. We pre-register a confirmatory second window, and one
-command regenerates every number in the paper.
+governance (ESG) scores for mid-cap firms from public data. We ask what such
+scores measure and how they should be validated, using a reproducible
+nine-factor ESG--financial index for \NMid US and Indian mid-caps in which
+every data cell records its source. Construct validity is weak: only
+\NIndUsed of \NIndDeclared ESG indicators carry information, most E and S
+cells are financial proxies, and the other factors explain $R^2=\RSqE$ and
+\RSqS of those two pillars. Common in-sample evidence, namely trailing-return
+information coefficients (ICs), a contemporaneous ``forward'' proxy and a
+misapplied bootstrap, made the index look strong. In a hold-out window
+(\SnapshotDate to \OOSEndDate, $N=\NOOS$) with hypotheses fixed in advance,
+the composite does not predict returns (IC $=\HOneEst$, 95\% CI
+$[\HOneLo,\HOneHi]$), and the IC is negative under \WShareNeg\% of random
+weightings. Higher ESG does predict lower volatility beyond trailing
+volatility (partial $\rho=\HTwoEst$, Holm $p=\HTwoHolm$), and the effect
+survives \NControls risk controls and sector effects. The signal comes from
+the proxy-built S pillar, while measured ESG data show none of it (partial
+$\rho=\PartMeas$); it adds \CVDeltaESG to out-of-fold $R^2$ and weakens given
+recent volatility. An ESG-only top-\TopN portfolio trailed the universe by
+\ExESGFullAbs percentage points. Public-data ESG therefore behaves as a
+slow-moving low-risk tilt. We pre-register a confirmatory second window, and
+a single command regenerates every number in the paper.
 \end{abstract}
 
 \begin{IEEEkeywords}

@@ -8,52 +8,44 @@
 \label{sec:universe}
 
 The candidate universe contains \NRawCompanies firms: mid-cap constituents
-drawn from the S\&P MidCap~400, the Russell Midcap and the NIFTY
-Midcap~150 \cite{nse_midcap150}, plus \NLarge S\&P~500 large caps that serve only as
-a reference group in normalisation. All fundamentals and trailing market
-statistics were downloaded from Yahoo Finance \cite{yahoo_finance, yfinance}
-and SEC EDGAR \cite{sec_edgar} and are dated at the close of \SnapshotDate.
-We verified the date by matching every cached last price to the exchange
-close. We apply one investability filter: a firm must have traded on the
-snapshot date. This removes \NDroppedNotTrading firms (\DroppedNotTrading)
-that had already been acquired or delisted. Their presence would have let the
-evaluation window ``see'' corporate events that were already known. The
-scored universe has \NScored firms, of which \NMid are mid-caps (\NUS US,
-\NIndia India) in \NSectors sectors. All analysis below concerns the mid-caps.
-Indian monetary fields are converted at the \SnapshotDate close of INR/USD
-(\FXRate); ratios are unaffected.
+of the S\&P MidCap~400, the Russell Midcap and the NIFTY Midcap~150
+\cite{nse_midcap150}, plus \NLarge S\&P~500 large caps that serve only as a
+reference group in normalisation. Fundamentals and trailing market statistics
+come from Yahoo Finance \cite{yahoo_finance, yfinance} and SEC EDGAR
+\cite{sec_edgar} and are dated at the close of \SnapshotDate, which we
+verified by matching every cached last price to the exchange close. A firm
+must have traded on the snapshot date to be scored. This filter removes
+\NDroppedNotTrading firms (\DroppedNotTrading) that had already been acquired
+or delisted and whose inclusion would have let the evaluation window
+``see'' corporate events that were already known. The scored universe has
+\NScored firms, of which \NMid are mid-caps (\NUS US, \NIndia India) in
+\NSectors sectors; all analysis concerns the mid-caps. Indian monetary fields
+are converted at the \SnapshotDate close of INR/USD (\FXRate).
 
 \subsection{Public-Data ESG with Cell-Level Provenance}
 \label{sec:esg}
 
 The ESG schema declares \NIndDeclared indicators (\NIndDeclaredE E,
-\NIndDeclaredS S, \NIndDeclaredG G). Each company--indicator cell is filled by
-the first available source in a fixed priority order, and the source is
-recorded:
-\begin{enumerate}
-\item EPA Toxics Release Inventory (TRI), US facilities.
-\item ISS governance QualityScores redistributed by Yahoo Finance, namely
-  audit, board, compensation, shareholder-rights and overall risk on a 1--10
-  scale, stored as $(10-r)\times 10$ so that higher means better.
-\item SEC XBRL filing items.
-\item Yahoo ownership and analyst-coverage fields.
-\item Binary membership of public initiatives (CDP, SBTi, RE100, UN Global
-  Compact).
-\item Financial proxies: within-sector percentiles of financial ratios, each
-  with a published rationale.
-\item Within-sector median.
-\item Global median.
-\end{enumerate}
-No random noise is added at any tier. The mapping from each indicator to its
-actual source is given in Appendix~\ref{app:indicators}.
-Table~\ref{tab:provenance} summarises the outcome for the mid-cap universe.
-Only \NIndUsed indicators receive cross-sectional variation. No mid-cap
-matched an EPA facility record, and the Sustainalytics pillar scores that
-Yahoo once exposed are no longer populated. Consequently the E and S pillars
-consist almost entirely of financial ratios and financial proxies. The G
-pillar's largest source is ISS scores (\ISSShareG\% of cells, available for
-\NISSFirms of \NMid firms), followed by ownership and analyst-coverage
-fields.
+\NIndDeclaredS S, \NIndDeclaredG G). Each company--indicator cell is filled
+by the first available source in a fixed order, and the source is recorded.
+The order runs from direct measurement to imputation: the EPA Toxics Release
+Inventory (TRI) for US facilities; ISS governance QualityScores redistributed
+by Yahoo Finance (audit, board, compensation, shareholder-rights and overall
+risk on a 1--10 scale, stored as $(10-r)\times 10$ so that higher is
+better); SEC XBRL filing items; Yahoo ownership and analyst-coverage fields;
+membership of public initiatives (CDP, SBTi, RE100, UN Global Compact);
+within-sector percentiles of financial ratios, each with a published
+rationale; and finally the sector or global median. No random noise is added
+at any stage. Appendix~\ref{app:indicators} gives the source of each
+indicator.
+
+Table~\ref{tab:provenance} shows the outcome. Only \NIndUsed indicators vary
+across firms. No mid-cap matched an EPA facility record, and the
+Sustainalytics pillar scores that Yahoo once exposed are no longer
+populated, so the E and S pillars consist almost entirely of financial
+ratios and proxies. The G pillar draws mainly on ISS scores (\ISSShareG\% of
+cells, available for \NISSFirms of \NMid firms), followed by ownership and
+analyst-coverage fields.
 
 \begin{table}[t]
 \centering
@@ -68,73 +60,61 @@ variation.}
 \subsection{Factor Scores}
 \label{sec:factors}
 
-During cleaning, continuous variables are winsorised at the 1st/99th
-percentile (2.5th/97.5th for valuation ratios). ESG, financial and market
-indicators are then winsorised again at the 1st/99th percentile and
-standardised with a robust $z$-score based on the median absolute deviation
-(MAD), $z=(x-\operatorname{med}(x))/(1.4826\,\mathrm{MAD}(x))$, clipped to
-$[-3,3]$
+Continuous variables are winsorised at the 1st/99th percentile (2.5th/97.5th
+for valuation ratios) and standardised with a robust $z$-score based on the
+median absolute deviation (MAD),
+$z=(x-\operatorname{med}(x))/(1.4826\,\mathrm{MAD}(x))$, clipped to $[-3,3]$
 \cite{iglewicz_1993}. For the operational, risk-adjusted, value, growth and
-stability factors, each indicator is first converted to a within-sector
-percentile; indicators that fail a Shapiro--Wilk normality test ($p<0.05$)
-receive normal scores instead of $z$-scores. The financial, operational,
-growth, value and stability scores are finally blended 70:30 with their own
-within-sector percentiles. Lower-is-better indicators are sign-flipped only
-when they are stored as raw magnitudes. Section~\ref{sec:audit} shows why
-this qualification matters.
+stability factors, indicators are first converted to within-sector
+percentiles, and indicators that fail a Shapiro--Wilk normality test
+($p<0.05$) receive normal scores. The financial, operational, growth, value
+and stability scores are then blended 70:30 with their own within-sector
+percentiles. Lower-is-better indicators are sign-flipped only when they are
+stored as raw magnitudes; Section~\ref{sec:audit} shows why this matters.
 
-\textbf{ESG composite.} Indicators are averaged within categories (e.g.\
-emissions, energy, labour, board), categories are weighted into E, S and G,
-and the pillars are combined with sector-specific SASB materiality weights
-(Appendix~\ref{app:sasb}) \cite{khan_2016, sasb_2023}. Before the G pillar
-is formed, governance values are quantile-harmonised by source so that the
-scales of ISS and SEC-derived inputs do not differ. The composite is re-standardised to mean 50
-and standard deviation 10 over the scored firms and clipped to $[0,100]$;
-because aggregation uses ranks (Eq.~\eqref{eq:composite}), this scale does
-not affect the index.
+Within the ESG block, indicators are averaged within categories (e.g.\
+emissions, labour, board), categories are weighted into E, S and G, and the
+pillars are combined with sector-specific SASB materiality weights
+(Appendix~\ref{app:sasb}) \cite{khan_2016, sasb_2023}. Governance values are
+quantile-harmonised by source before the G pillar is formed, so that ISS and
+SEC-derived inputs share a scale.
 
-\textbf{Eight financial factors.}
-\begin{itemize}
-\item \emph{Financial}: profitability, margins, cash, payout.
-\item \emph{Operational}: revenue per employee, R\&D intensity, free cash flow (FCF) and gross
-  margin, headcount.
-\item \emph{Risk-adjusted}: 1-year Sharpe and Sortino ratios, maximum
-  drawdown, Amihud illiquidity \cite{amihud_2002}, skewness, kurtosis.
-\item \emph{Growth}: revenue, earnings and sustainable growth.
-\item \emph{Value}: inverted P/E, P/B, P/S, EV/EBITDA, EV/revenue.
-\item \emph{Stability}: liquidity, leverage, 30-day volatility.
-\item \emph{Market}: liquidity, beta and volatility, and 1-, 3- and 6-month
-  momentum.
-\item \emph{Sector position}: the within-sector percentile of the average
-  within-sector $z$-score of four raw size and efficiency ratios.
-\end{itemize}
-Market score is computed but receives zero weight in every profile. This
-avoids scoring firms on the same trailing returns that earlier versions of the
-pipeline used as the validation target.
+The eight financial factors are conventional. The financial factor covers
+profitability, margins, cash and payout; the operational factor revenue per
+employee, R\&D intensity, free cash flow (FCF), gross margin and headcount;
+the risk-adjusted factor one-year Sharpe and Sortino ratios, maximum
+drawdown, Amihud illiquidity \cite{amihud_2002}, skewness and kurtosis; the
+growth factor revenue, earnings and sustainable growth; the value factor
+inverted P/E, P/B, P/S, EV/EBITDA and EV/revenue; and the stability factor
+liquidity, leverage and 30-day volatility. A sector-position factor measures
+size and efficiency relative to sector peers. A market factor (liquidity,
+beta, volatility and 1- to 6-month momentum) is computed but receives zero
+weight in every profile, so that firms are not scored on the trailing
+returns that earlier versions of the pipeline used as the validation target.
 
 \subsection{Aggregation and Investor Profiles}
 \label{sec:aggregation}
 
 For profile $p$ with weights $w^{(p)}$, the preference score is a weighted
-mean of factor percentiles:
+mean of factor percentiles,
 \begin{equation}
 C^{(p)}_i=\sum_k w^{(p)}_k\,\frac{100\,\operatorname{rank}(F_{ik})}{N},
 \qquad \sum_k w^{(p)}_k=1,
 \label{eq:composite}
 \end{equation}
-with average ranks for ties and median fill for missing factors. The ranks
-are taken over the $N=\NScored$ scored firms, so the \NLarge large caps act
-as a fixed reference group. Table~\ref{tab:weights} lists the effective
-weights of the three profiles. The balanced profile puts \WBalESG\% on ESG.
-The equal-weight portfolio of the top
+with average ranks for ties and median fill for missing factors. Ranks are
+taken over the $N=\NScored$ scored firms, so the \NLarge large caps act as a
+fixed reference group. Table~\ref{tab:weights} lists the weights of the three
+profiles; the balanced profile puts \WBalESG\% on ESG. The index portfolio is
+the equal-weighted set of the top
 $\lceil \TopPct\%\cdot N_{\mathrm{mid}}\rceil=\TopN$ mid-caps
-($N_{\mathrm{mid}}=\NMid$) is the index portfolio.
+($N_{\mathrm{mid}}=\NMid$).
 
-\emph{Weight provenance.} The profile weights were set by the authors using
-in-sample rank correlations with \emph{trailing} momentum, a practice we
-criticise in Section~\ref{sec:res_insample}. They were last revised in
-July~2026, after the snapshot. For this reason the OOS analysis also reports
-the February~2026 weights, which predate the snapshot, and equal weights.
+The profile weights were set by the authors from in-sample rank correlations
+with \emph{trailing} momentum, a practice we criticise in
+Section~\ref{sec:res_insample}, and were last revised in July~2026, after the
+snapshot. The OOS analysis therefore also reports the February~2026 weights,
+which predate the snapshot, and equal weights.
 
 \begin{table}[t]
 \centering
@@ -148,28 +128,19 @@ the February~2026 weights, which predate the snapshot, and equal weights.
 \label{sec:audit}
 
 Before any OOS number was computed, we audited the pipeline and corrected
-the following (full list in Appendix~\ref{app:audit}):
-\begin{enumerate}
-\item \textbf{Double direction flips.} The Scope~1 emissions and ESG
-  risk-rating indicators were already stored as ``higher is better''
-  scores, and were flipped again. This rewarded high-emission and high-governance-risk firms. The
-  Spearman correlation between the pre- and post-audit E pillars is
-  \RhoPrePostE; for G it is \RhoPrePostG.
-\item \textbf{Synthetic noise in imputation.} Median imputation added
-  multiplicative Gaussian noise, and registry memberships were encoded as
-  noisy scores rather than 0/1.
-\item \textbf{Fitting to the validation target.} A ``monotonicity
-  correction'' fitted each factor by isotonic regression to the proxy
-  later used to validate it (Section~\ref{sec:res_insample}).
-\item \textbf{Hidden score transforms.} An undocumented gate set the bottom
-  30\% of firms by financial score to zero, and an exponent of 1.5 was
-  applied to preference scores. Both were removed.
-\item \textbf{Stale inputs and look-ahead.} A live, non-snapshot FX rate was
-  used, and delisted firms were retained (Section~\ref{sec:universe}).
-\end{enumerate}
-The corrected balanced composite has a rank correlation of \RhoPrePostBal
-with the pre-audit composite, and \OverlapPrePost of \TopN top-\TopN names
-are shared.
+its errors (Appendix~\ref{app:audit} gives the full list). The most
+consequential was a double direction flip: the Scope~1 emissions and ESG
+risk-rating indicators were already stored as ``higher is better'' scores
+and were flipped again, which rewarded high-emission and high-governance-risk
+firms. The Spearman correlation between the pre- and post-audit E pillars is
+\RhoPrePostE, and for G it is \RhoPrePostG. The audit also removed
+multiplicative Gaussian noise from median imputation, a ``monotonicity
+correction'' that fitted each factor by isotonic regression to the proxy
+later used to validate it, an undocumented gate that set the bottom 30\% of
+firms by financial score to zero, an exponent of 1.5 on preference scores,
+and a live, non-snapshot FX rate. After these corrections the balanced
+composite has a rank correlation of \RhoPrePostBal with the pre-audit
+version, but only \OverlapPrePost of the \TopN top names are shared.
 
 % -----------------------------------------------------------------------------
 \section{Validation Design}
@@ -178,42 +149,32 @@ are shared.
 \subsection{In-Sample Diagnostics}
 \label{sec:insample_design}
 
-We report conventional diagnostics on the snapshot cross-section:
-variance-inflation factors (VIFs), principal component analysis (PCA), and
-agreement between profiles. We also
-re-run the pipeline's former validation designs, to measure how much they
-inflate apparent quality. Those designs are:
-\begin{enumerate}
-\item Rank information coefficients (``ICs'') against 1-, 3- and 6-month \emph{trailing} returns, which
-  end on the snapshot date.
-\item ICs against a ``forward quality proxy''. Despite its name, this is
-  a \emph{contemporaneous} composite of ROA, ROE, margins, growth and
-  liquidity, inputs shared with several factors.
-\item Quintile monotonicity tests against the same proxy.
-\end{enumerate}
+On the snapshot cross-section we report conventional diagnostics:
+variance-inflation factors (VIFs), principal component analysis (PCA) and
+agreement between profiles. We also re-run the pipeline's former validation
+designs to measure how much they inflate apparent quality. These are rank
+information coefficients (ICs) against 1-, 3- and 6-month \emph{trailing}
+returns, which end on the snapshot date; ICs against a ``forward quality
+proxy'', which is in fact a \emph{contemporaneous} composite of ROA, ROE,
+margins, growth and liquidity that shares inputs with several factors; and
+quintile monotonicity tests against the same proxy.
 
 \subsection{Out-of-Sample Test}
 \label{sec:oos_design}
 
-\textbf{Window and outcomes.} Scores are fixed at the \SnapshotDate close.
-Outcomes are measured over the window (\SnapshotDate,\,\OOSEndDate]: \TradingDaysUS US
-and \TradingDaysIndia Indian trading days. We use split- and dividend-adjusted
-closes and compute:
-\begin{itemize}
-\item returns at 1 and 3 months and over the full window;
-\item realised volatility, maximum drawdown, and beta against the S\&P~500
-  or NIFTY~50.
-\end{itemize}
-Returns are demeaned within country, because the two markets had different
-index returns (\IdxRetUS\% and \IdxRetIndia\%). Sector-and-country
-neutralisation is reported as a robustness check. During the window,
-\NExited firms were acquired (\ExitedTickers) and have no end price. For them,
-we report bounds that assign the 5th or 95th percentile of the return
-distribution.
+Scores are fixed at the \SnapshotDate close, and outcomes are measured over
+(\SnapshotDate,\,\OOSEndDate], which spans \TradingDaysUS US and
+\TradingDaysIndia Indian trading days. From split- and dividend-adjusted
+closes we compute returns at one and three months and over the full window,
+together with realised volatility, maximum drawdown and beta against the
+S\&P~500 or NIFTY~50. Returns are demeaned within country, because the two
+markets had different index returns (\IdxRetUS\% and \IdxRetIndia\%);
+sector-and-country neutralisation is a robustness check. \NExited firms were
+acquired during the window (\ExitedTickers) and have no end price, so we
+report bounds that assign them the 5th or 95th percentile return.
 
-\textbf{Hypotheses.} Three hypotheses were fixed before outcomes were
-computed. All are one-sided, with Holm correction across the family
-\cite{holm_1979}.
+Three hypotheses were fixed before outcomes were computed. All are
+one-sided, with Holm correction across the family \cite{holm_1979}.
 \begin{itemize}
 \item[\textbf{H1}] The balanced composite has a positive rank IC with the
   country-neutral full-window return.
@@ -223,71 +184,62 @@ computed. All are one-sided, with Holm correction across the family
   universe.
 \end{itemize}
 Confidence intervals for H1--H3 come from 5{,}000 firm-level bootstrap
-resamples (1{,}000--2{,}000 for secondary analyses); in H3, the portfolio is
-re-formed in each resample. All other analyses are secondary: factor ICs by horizon (Holm-corrected within horizon), portfolios
-by profile, and ESG--risk partial correlations and rank regressions with
-sector and country fixed effects and heteroskedasticity-robust (HC3) errors.
+resamples (1{,}000--2{,}000 for secondary analyses), and in H3 the portfolio
+is re-formed in each resample. Secondary analyses cover factor ICs by
+horizon (Holm-corrected within horizon), portfolios by profile, and
+ESG--risk partial correlations and rank regressions with sector and country
+fixed effects and heteroskedasticity-robust (HC3) errors.
 
-\textbf{Power.} With $N=\NOOS$, a two-sided test at $\alpha=0.05$ has 80\%
-power only for $|\rho|\ge\MDEOOS$. ICs of the size usually reported for
-single factors ($0.02$--$0.10$ \cite{grinold_kahn_2000}) are therefore not
-detectable in one cross-section. A null for H1 means ``no large effect'',
-not ``no effect''.
+With $N=\NOOS$, a two-sided test at $\alpha=0.05$ has 80\% power only for
+$|\rho|\ge\MDEOOS$. ICs of the size usually reported for single factors
+($0.02$--$0.10$ \cite{grinold_kahn_2000}) are therefore not detectable in one
+cross-section, and a null for H1 means ``no large effect'' rather than ``no
+effect''.
 
-\textbf{Transparency about the design.} The window had already ended when
-the hypotheses were written down, and the design is not externally
-pre-registered \cite{nosek_2018}. Its safeguards are procedural:
-\begin{itemize}
-\item universe, weights and scores are frozen artefacts dated at the snapshot;
-\item prices after the snapshot were downloaded only after the hypotheses and
-  code were fixed;
-\item all alternative weightings are reported.
-\end{itemize}
+The window had already ended when the hypotheses were written down, and the
+design was not externally pre-registered \cite{nosek_2018}. Its safeguards
+are procedural: universe, weights and scores are frozen artefacts dated at
+the snapshot, post-snapshot prices were downloaded only after the hypotheses
+and code were fixed, and all alternative weightings are reported.
 
 \subsection{Secondary Analyses: Is the Risk Signal ESG?}
 \label{sec:ext_design}
 
 If H2 holds, three alternative explanations must be ruled out before the
-effect can be attributed to ESG. All tests below are exploratory and were
+effect can be attributed to ESG. These tests are exploratory and were
 specified after H1--H3 had been evaluated.
-\begin{enumerate}
-\item \emph{Known factors.} ESG may proxy for a known low-risk
-  characteristic \cite{ang_2006, frazzini_pedersen_2014, asness_2019}. We
-  regress the percentile rank of realised volatility on
-  the ESG rank and on the ranks of trailing volatility, trailing beta, size,
-  quality (profitability score), leverage (debt/equity), liquidity (log
-  dollar volume), six-month momentum and value (price/book), with sector and
-  country fixed effects and HC3 errors (\emph{H4}). We also ask whether ESG
-  improves an out-of-fold forecast of realised volatility
-  (\CVFolds-fold cross-validation, \CVRepeats repeats), and we double-sort
-  firms on trailing volatility (terciles within country) and ESG (above or
-  below the median within each tercile).
-\item \emph{Provenance.} The signal may come from the financial proxies
-  rather than from measured ESG data. For each firm we average the
-  percentile ranks of its indicator cells separately by source: \emph{measured}
-  (ISS, SEC, public registry; \CellsMeas cells per firm on average),
-  \emph{proxy} (financial-statement proxies; \CellsProxy) and \emph{imputed}
-  (sector or global medians; \CellsImp). We then re-run the risk tests on
-  each sub-score.
-\item \emph{Stale volatility.} ESG may simply be a slow-moving record of past
-  volatility. We split the window at \SplitDate and ask whether ESG predicts
-  second-half volatility given \emph{first-half} realised volatility, which
-  the scores never saw but an investor would have.
-\end{enumerate}
-Firms whose realised volatility fell below a quarter of their trailing
-volatility (\PinnedTickers) were trading at announced takeover prices; we
-report results without them, by country, with winsorised volatility, and
-without utilities and real estate.
 
-For the return null we report three checks:
-\begin{itemize}
-\item the distribution of the OOS IC over \WDraws weight vectors drawn
-  uniformly from the simplex, and over a sweep of the ESG weight from 0 to 1;
-\item month-by-month ICs;
-\item top-\TopN excess returns net of round-trip costs of \CostBpsUS~bps (US) and
-  \CostBpsIndia~bps (India, including securities transaction tax), and three times
-  those costs.
-\end{itemize}
+The first is that ESG proxies for a known low-risk characteristic
+\cite{ang_2006, frazzini_pedersen_2014, asness_2019}. We regress the
+percentile rank of realised volatility on the ESG rank and on the ranks of
+trailing volatility, trailing beta, size, quality (profitability score),
+leverage (debt/equity), liquidity (log dollar volume), six-month momentum and
+value (price/book), with sector and country fixed effects and HC3 errors
+(\emph{H4}). We also ask whether ESG improves an out-of-fold volatility
+forecast (\CVFolds-fold cross-validation, \CVRepeats repeats), and we
+double-sort firms on trailing volatility (terciles within country) and ESG.
+
+The second is that the signal comes from the financial proxies rather than
+from measured ESG data. For each firm we average the percentile ranks of its
+indicator cells separately by source: \emph{measured} (ISS, SEC, public
+registry; \CellsMeas cells per firm on average), \emph{proxy}
+(financial-statement proxies; \CellsProxy) and \emph{imputed} (sector or
+global medians; \CellsImp). We then re-run the risk tests on each sub-score.
+
+The third is that ESG is a slow-moving record of past volatility. We split
+the window at \SplitDate and ask whether ESG predicts second-half volatility
+given \emph{first-half} realised volatility, which the scores never saw but
+an investor would have.
+
+Firms whose realised volatility fell below a quarter of their trailing
+volatility (\PinnedTickers) were trading at announced takeover prices. We
+report results without them, by country, with winsorised volatility, and
+without utilities and real estate. For the return null, we report the OOS
+IC over \WDraws weight vectors drawn uniformly from the simplex and over a
+sweep of the ESG weight from 0 to 1, month-by-month ICs, and top-\TopN
+excess returns net of round-trip costs of \CostBpsUS~bps (US) and
+\CostBpsIndia~bps (India, including securities transaction tax), and of
+three times those costs.
 
 \subsection{Pre-Registered Second Window}
 \label{sec:prereg_design}
@@ -295,28 +247,22 @@ For the return null we report three checks:
 To make the next test confirmatory, we froze the \NMid firm scores and a
 four-hypothesis analysis plan on \PreregFrozen, before the second window
 (\PreregAnchor,\,\PreregEnd] opened. The plan, the frozen scores and the
-evaluation code are hashed (SHA-256). The package was pushed to the public project
-repository on \PreregFrozen, and that push is its timestamp. At the time of
-writing the window is still open, and no outcome in it has been computed.
-The plan
-keeps H1--H3, adds H4 (Section~\ref{sec:ext_design}) and applies the Holm
-correction across all four. In H2 and H4 the controls are what is observable
-at the anchor date, namely six months of realised volatility, beta and
-return. The evaluation code refuses to run before the window closes or if
-any registered file has changed. A dry run of the same code on
-(\DryAnchor,\,\DryEnd] is included in the registration.
+evaluation code are hashed (SHA-256), and the package was pushed to the
+public project repository on \PreregFrozen; that push is its timestamp. At
+the time of writing the window is still open and no outcome in it has been
+computed. The plan keeps H1--H3, adds H4 (Section~\ref{sec:ext_design}) and
+applies the Holm correction across all four. In H2 and H4 the controls are
+those observable at the anchor date, namely six months of realised
+volatility, beta and return. The evaluation code refuses to run before the
+window closes or if any registered file has changed. A dry run of the same
+code on (\DryAnchor,\,\DryEnd] is included in the registration.
 
 \subsection{Rank Uncertainty}
 \label{sec:rank_design}
 
-Rank intervals combine two sources of uncertainty, estimated over
-$B=\BootN$ draws:
-\begin{itemize}
-\item \emph{sampling}: the reference universe used for percentiles is
-  resampled with replacement;
-\item \emph{weights}: profile weights are drawn from a
-  Dirichlet($\kappa w$) with $\kappa=\BootKappa$, i.e.\ about $\pm20\%$
-  relative variation for a 0.2 weight.
-\end{itemize}
+Rank intervals combine two sources of uncertainty over $B=\BootN$ draws. The
+reference universe used for percentiles is resampled with replacement, and
+the profile weights are drawn from a Dirichlet($\kappa w$) with
+$\kappa=\BootKappa$, about $\pm20\%$ relative variation for a weight of 0.2.
 The re-implementation reproduces the deployed composite with Spearman
 $\rho=\BootRecon$.

@@ -5,65 +5,50 @@
 \label{sec:intro}
 
 Sustainable-investment assets reached about \$30~trillion in the markets
-covered by the most recent global review \cite{gsia_2022}. Yet the environmental,
-social and governance (ESG) ratings that steer this capital disagree strongly across providers: the average
-pairwise correlation is about $0.54$ \cite{berg_2022, chatterji_2016}. Ratings
-are also proprietary, so their construction cannot be inspected
-\cite{kotsantonis_2019, christensen_2022}. The gap is widest for mid-caps.
-Large caps increasingly face mandatory sustainability reporting, while
-mid-caps are covered by fewer analysts and data vendors, even though they are
-large enough to be investable.
+covered by the most recent global review \cite{gsia_2022}, yet the
+environmental, social and governance (ESG) ratings that steer this capital
+disagree strongly across providers, with an average pairwise correlation of
+about $0.54$ \cite{berg_2022, chatterji_2016}. The ratings are also
+proprietary, so their construction cannot be inspected
+\cite{kotsantonis_2019, christensen_2022}. The problem is most acute for
+mid-caps. Large caps increasingly face mandatory sustainability reporting,
+whereas mid-caps are followed by fewer analysts and data vendors even though
+they are large enough to be investable.
 
-A natural response, and a growing practice in open-source quantitative
-research, is to build ESG scores from public data. Such pipelines combine
-regulatory filings, free governance scores and financial-statement ratios
-with documented economic rationales, such as ``higher operating margin within
-a sector implies lower emissions intensity''
-\cite{konar2001does, edmans_2011, damato_2022}. These pipelines are
-transparent, but transparency is not validity. Two questions are rarely asked
-of them:
-\begin{enumerate}
-\item What does the resulting ``ESG'' score measure, once each input's actual
-  source is traced?
-\item Is the evidence usually offered for such indices valid, i.e.\ can it
-  tell a good composite from a bad one?
-\end{enumerate}
+A natural response, now common in open-source quantitative research, is to
+build ESG scores from public data. Such pipelines combine regulatory filings,
+free governance scores and financial-statement ratios, each justified by an
+economic rationale such as ``higher operating margin within a sector implies
+lower emissions intensity'' \cite{konar2001does, edmans_2011, damato_2022}.
+They are transparent, but transparency does not establish validity. Two
+questions are rarely asked of them: what the resulting score measures once
+each input is traced to its actual source, and whether the evidence usually
+offered for such indices can distinguish a good composite from a bad one.
 
-We study both questions on a concrete, fully reproducible system: a nine-factor
-ESG--financial composite index for \NMid mid-cap equities in the US and India,
-scored on a data snapshot taken at the close of \SnapshotDate. The index
-combines ESG pillars weighted by Sustainability Accounting Standards Board
-(SASB) materiality \cite{khan_2016, sasb_2023} with eight
-financial factors and three investor profiles. It follows composite-indicator
-practice \cite{oecd_2008}: robust normalisation, explicit weights and
-provenance tracking. Every data cell carries a source label, and every number
-in this paper is generated from pipeline outputs by a single script.
+We study both questions on a fully reproducible system: a nine-factor
+ESG--financial index for \NMid mid-cap equities in the US and India, scored
+on a data snapshot taken at the close of \SnapshotDate. The index weights its
+ESG pillars by Sustainability Accounting Standards Board (SASB) materiality
+\cite{khan_2016, sasb_2023}, combines them with eight financial factors under
+three investor profiles, and follows composite-indicator practice
+\cite{oecd_2008}. Every data cell carries a source label, and every number in
+the paper is generated from the pipeline outputs. An end-to-end audit of the
+pipeline found implementation errors that changed the scores materially, most
+importantly two indicators whose direction was flipped twice, and a family of
+validation designs that report favourable numbers whether or not the index
+works. We corrected the former and replaced the latter with an
+out-of-sample (OOS) test whose universe, weights and hypotheses were fixed
+before any post-snapshot price was downloaded.
 
-We then audited the pipeline end to end, as one would audit any published
-index. The audit found implementation errors that changed the scores
-materially. The most consequential were indicators whose direction was
-flipped twice, which rewarded high emitters and high governance-risk firms.
-It also found a family of \emph{validation} errors: designs that report
-favourable numbers whether or not the index works. We fixed the
-implementation errors and replaced the validation evidence with a genuine
-out-of-sample (OOS) test. The universe, weights and three hypotheses were
-fixed from the snapshot before any post-snapshot price was downloaded.
-
-\textbf{Research questions.} Accordingly, we ask:
-\begin{itemize}
-\item[\textbf{RQ1}] (Construct validity) What does a public-data ESG score for
-  mid-caps measure, and how much of it is financial information already present
-  in the other factors?
-\item[\textbf{RQ2}] (Validation) How far do common in-sample validation designs
-  overstate the quality of an ESG--financial composite?
-\item[\textbf{RQ3}] (Out of sample) Over the following \TradingDaysUS trading
-  days, does the composite predict returns, and does its ESG component predict
-  risk?
-\item[\textbf{RQ4}] (Mechanism) If ESG predicts risk, is that ESG
-  information, a known risk factor, or past volatility carried forward?
-\end{itemize}
-Figure~\ref{fig:overview} shows how the study design maps onto these
-questions.
+The study answers four research questions. RQ1 asks what a public-data ESG
+score for mid-caps measures, and how much of it is financial information
+already contained in the other factors. RQ2 asks how far common in-sample
+validation designs overstate the quality of such a composite. RQ3 asks
+whether, over the following \TradingDaysUS trading days, the composite
+predicts returns and its ESG component predicts risk. RQ4 asks whether any
+risk signal reflects ESG information, a known risk characteristic, or past
+volatility carried forward. Figure~\ref{fig:overview} maps the study design
+onto these questions.
 
 \begin{figure*}[t]
 \centering
@@ -74,44 +59,35 @@ plan and code were hashed before it opened, provides a confirmatory test.}
 \label{fig:overview}
 \end{figure*}
 
-\textbf{Contributions.}
+The paper makes four contributions.
 \begin{enumerate}
-\item \emph{An open, provenance-tracked index pipeline} for US and Indian
-  mid-caps. It is reproducible from public sources, and its paper artefacts are
-  generated from its outputs (Section~\ref{sec:data}).
 \item \emph{A construct-validity audit of public-data ESG.} Only \NIndUsed of
-  \NIndDeclared declared indicators carry information. The E and S pillars are
-  mostly re-expressed financial ratios ($R^2$ on the other factors of \RSqE and
-  \RSqS). Only governance, built from Institutional Shareholder Services (ISS)
-  scores (\NISSFirms firms) and ownership data,
-  is close to orthogonal to them ($R^2=\RSqG$) (Section~\ref{sec:res_construct}).
-\item \emph{A quantification of in-sample validation pitfalls.} These are
-  trailing-return ``returns'', a contemporaneous ``forward'' proxy, a
-  correction fitted to the validation target, and a misapplied bootstrap.
-  They made a composite with no OOS predictive power look like a strong one
-  (Section~\ref{sec:res_insample}).
-\item \emph{A hold-out test with hypotheses fixed in advance}, Holm-corrected
-  inference, bootstrap intervals and survivorship bounds. The composite does
-  not predict returns, under the deployed or almost any other weights; the
-  ESG component predicts lower risk (Sections~\ref{sec:res_oos}
-  and~\ref{sec:res_null}).
-\item \emph{A decomposition of the ESG risk signal} by factor, data source
-  and horizon. The signal survives \NControls known risk characteristics and sector
-  effects. But it lives in the proxy-built S pillar, not in measured ESG data,
-  adds little to a volatility forecast, and fades given recent realised
-  volatility (Section~\ref{sec:res_mechanism}).
-\item \emph{A pre-registered second window}, with hashed scores, plan and
-  code, which turns the next six months into a confirmatory test
-  (Section~\ref{sec:prereg_design}).
+  \NIndDeclared declared indicators carry information, and the E and S
+  pillars are largely re-expressed financial ratios. Governance, built from
+  Institutional Shareholder Services (ISS) scores and ownership data, is the
+  only pillar close to orthogonal to the financial factors
+  (Section~\ref{sec:res_construct}).
+\item \emph{A quantification of in-sample validation pitfalls.} Trailing
+  returns, a contemporaneous ``forward'' proxy, a correction fitted to the
+  validation target and a misapplied bootstrap made a composite with no OOS
+  predictive power look strong (Section~\ref{sec:res_insample}).
+\item \emph{A hold-out test with hypotheses fixed in advance.} The composite
+  does not predict returns under the deployed or almost any other weights,
+  whereas its ESG component predicts lower volatility. Tracing that signal to
+  its data sources shows that it comes from financial proxies and recent
+  risk, not from measured ESG data (Sections~\ref{sec:res_oos}
+  to~\ref{sec:res_null}).
+\item \emph{An open, provenance-tracked pipeline with a pre-registered second
+  window.} The scores, analysis plan and code for the next six months were
+  hashed and published before that window opened, which makes it a
+  confirmatory test (Section~\ref{sec:prereg_design}).
 \end{enumerate}
 
-The results are negative on returns and qualified on risk. ESG as built here
-does predict risk, as the view that ESG operates mainly through risk
-suggests \cite{albuquerque_2019, lins_2017}. But the part of the score that
-does so is financial information and slow-moving volatility, not
-environmental or social measurement. The results also bear out warnings
-about false discoveries and backtest overfitting in factor research
-\cite{harvey_2016, bailey_2017}. Our practical message is simple. A
-transparent composite can still be invalid. The evidence that tells the two
-apart is out-of-sample, and even then it must be traced back to its data
-sources before it is credited to ESG.
+The results are negative for returns and qualified for risk. The risk
+finding agrees with the view that ESG operates mainly through risk
+\cite{albuquerque_2019, lins_2017}, but in our data the part of the score
+responsible is financial information and slow-moving volatility. The results
+also bear out warnings about false discoveries and backtest overfitting in
+factor research \cite{harvey_2016, bailey_2017}: a transparent composite can
+still be invalid, and only out-of-sample evidence, traced back to its data
+sources, separates the two.

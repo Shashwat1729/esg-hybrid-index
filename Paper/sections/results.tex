@@ -7,79 +7,57 @@
 \subsection{RQ1: What the ESG Score Measures}
 \label{sec:res_construct}
 
-\textbf{Sources.} Table~\ref{tab:provenance} shows how little of the ESG
-schema is populated by ESG data. The E pillar has four informative
-indicators:
-\begin{itemize}
-\item three within-sector financial percentiles: operating margin, standing
-  in for emissions; revenue-to-market-value, standing in for renewable share;
-  and gross margin, standing in for waste;
-\item one binary flag for public climate commitments.
-\end{itemize}
-The S pillar has seven indicators, six of them financial. Examples are
-revenue per employee (which enters twice, once as a ratio and once as a
-proxy for employee satisfaction), dividend-plus-FCF yield for community
-investment, and payout-plus-current-ratio for supply-chain audits. The G
-pillar differs. ISS governance risk scores fill \ISSShareG\% of its cells,
-and the rest are ownership, analyst-coverage and SEC items or imputations.
+Little of the ESG schema is filled with ESG data (Table~\ref{tab:provenance}).
+The E pillar has four informative indicators: within-sector percentiles of
+operating margin, revenue-to-market-value and gross margin, standing in for
+emissions, renewable share and waste, and one binary flag for public climate
+commitments. Six of the seven S indicators are financial; revenue per
+employee even enters twice, once directly and once as a proxy for employee
+satisfaction. The G pillar is different, because ISS governance risk scores
+fill \ISSShareG\% of its cells.
 
-\textbf{Redundancy.} Regressing each pillar on the other seven factor scores
-gives $R^2=\RSqE$ (E), \RSqS (S) and \RSqG (G); for the composite it is
-\RSqESG. The ESG composite has a Spearman correlation of \RhoESGFin with the
-financial score. E and S are moderately correlated ($\rho=\RhoES$), and both
-are nearly unrelated to G (E--G $\rho=\RhoEG$, S--G $\rho=\RhoSG$). Hence ``ESG'' here is
-two different objects:
-\begin{itemize}
-\item E and S: financial quality measured within sector;
-\item G: largely independent third-party governance information.
-\end{itemize}
-Conventional diagnostics do not reveal this. The maximum VIF among factor
-scores is only \VIFMax (\VIFMaxFactor), and the first three principal
-components explain \PCAFirstThree\% of factor variance, which looks like a
-well-conditioned, multidimensional factor set. The redundancy sits
-\emph{inside} the ESG block, where the financial proxies duplicate
-information already present in the financial factors.
+The consequence is that E and S largely duplicate the financial factors.
+Regressing each pillar on the other seven factor scores gives $R^2=\RSqE$
+for E and \RSqS for S, against \RSqG for G, and the ESG composite has a
+Spearman correlation of \RhoESGFin with the financial score. E and S are
+moderately correlated with each other ($\rho=\RhoES$) and nearly unrelated
+to G ($\rho=\RhoEG$ and \RhoSG). The label ``ESG'' thus covers two different
+objects: a within-sector measure of financial quality (E and S) and largely
+independent third-party governance information (G). Conventional diagnostics
+miss this. The maximum VIF among factor scores is only \VIFMax
+(\VIFMaxFactor), and the first three principal components explain
+\PCAFirstThree\% of factor variance, which looks like a well-conditioned
+factor set; the redundancy sits inside the ESG block.
 
-\textbf{Profiles.} The three investor profiles are highly concordant. The
-balanced composite has Spearman correlations of \RhoProfEB with the
-ESG-first and \RhoProfBF with the financial-first composite. The top-\TopN
-lists share \OverlapEB and \OverlapBF names with the balanced list,
-respectively. Changing the ESG
-weight from \WFinFirstESG\% to \WESGFirstESG\% therefore changes the ranking
-far less than the labels suggest.
+The three investor profiles also differ less than their names suggest. The
+balanced composite has Spearman correlations of \RhoProfEB and \RhoProfBF
+with the ESG-first and financial-first composites, and its top-\TopN list
+shares \OverlapEB and \OverlapBF names with them, even though the ESG weight
+ranges from \WFinFirstESG\% to \WESGFirstESG\%.
 
 \subsection{RQ2: In-Sample Validation Overstates Quality}
 \label{sec:res_insample}
 
-Table~\ref{tab:insample} reports the pipeline's former validation evidence
-next to the OOS outcome. The balanced composite's in-sample correlation with
-the trailing six-month return is \InSampleICBalSixM. This is not evidence of
-prediction: the ``returns'' end on the snapshot date, and the composite
-contains risk-adjusted and stability scores built from the same price
-history. The correlation with the contemporaneous quality proxy is
-\InSampleICBalQuality. It is inflated further by shared inputs, since the
-proxy is built from ROA, ROE, margins and growth, which also feed the
-financial, growth and operational factors. Out of sample, all three profiles
-have negative point ICs, and every confidence interval contains zero.
+The pipeline's former validation evidence looked strong, and none of it
+survives out of sample (Table~\ref{tab:insample}). The balanced composite's
+correlation with the trailing six-month return is \InSampleICBalSixM, but
+those returns end on the snapshot date and overlap the price history used by
+the risk-adjusted and stability factors. Its correlation with the
+contemporaneous quality proxy is \InSampleICBalQuality, inflated by inputs
+that the proxy shares with the financial, growth and operational factors.
+Out of sample, all three profiles have negative point ICs, and every
+confidence interval contains zero.
 
-Table~\ref{tab:prepost} isolates three further artefacts.
-\begin{enumerate}
-\item The isotonic monotonicity correction was fitted to the quality proxy.
-  With it, \MonoPre of \MonoTotal factors were ``monotonic'' in that proxy;
-  without it, \MonoPost are.
-\item The former ``Bayesian bootstrap'' multiplied each firm's score by
-  i.i.d.\ Exponential(1) noise. The resulting rank intervals had a median
-  width of \PreCIWidthMedian positions out of \PreNFirmsBoot. The paper
-  nonetheless reported perfect rank stability (Kendall $\tau=1$) from a
-  separate calculation.
-\item The corrected composite shares only \OverlapPrePost of its top-\TopN
-  names with the pre-audit version, although the Spearman correlation of the
-  two is \RhoPrePostBal. The direction errors changed the E pillar most
-  (pre--post $\rho=\RhoPrePostE$).
-\end{enumerate}
-None of these artefacts changed the OOS conclusion: the pre-audit composite
-also has no predictive power (IC $=\ICPreAuditFull$). They changed only the
-\emph{evidence} that was offered for the composite.
+Two further designs inflated the evidence (Table~\ref{tab:prepost}). With
+the isotonic correction fitted to the quality proxy, \MonoPre of \MonoTotal
+factors were ``monotonic'' in that proxy; without it, \MonoPost are. The
+former ``Bayesian bootstrap'' multiplied each score by i.i.d.\
+Exponential(1) noise and so measured the injected noise; its rank intervals
+had a median width of \PreCIWidthMedian positions out of \PreNFirmsBoot,
+while the earlier draft reported perfect rank stability (Kendall $\tau=1$)
+from a separate calculation. These problems affected the evidence rather
+than the conclusion: the pre-audit composite also has no predictive power
+(IC $=\ICPreAuditFull$).
 
 \begin{table}[t]
 \centering
@@ -106,10 +84,10 @@ Section~\ref{sec:audit}. Pre-audit rank intervals come from the former
 \subsection{RQ3: Out-of-Sample Evidence}
 \label{sec:res_oos}
 
-Over the window, the S\&P~500 returned \IdxRetUS\% and the NIFTY~50
-\IdxRetIndia\%. The equal-weighted mid-cap universes returned \UnivRetUS\%
-(US) and \UnivRetIndia\% (India). Table~\ref{tab:primary} reports the three
-primary hypotheses.
+Over the window the S\&P~500 returned \IdxRetUS\% and the NIFTY~50
+\IdxRetIndia\%, and the equal-weighted mid-cap universes returned
+\UnivRetUS\% (US) and \UnivRetIndia\% (India). Table~\ref{tab:primary}
+reports the three primary hypotheses.
 
 \begin{table}[t]
 \centering
@@ -121,55 +99,46 @@ $N=\NOOS$ firms with a full-window return).}
 \resizebox{\columnwidth}{!}{\input{generated/tab_oos_primary}}
 \end{table}
 
-\textbf{H1 and H3 (returns): not supported.} The balanced composite's IC with
-the country-neutral full-window return is \HOneEst (95\% CI
-$[\HOneLo,\HOneHi]$). Its top-\TopN portfolio beat the universe by
-\HThreeEst percentage points (pp), with CI $[\HThreeLo,\HThreeHi]$.
-Neither conclusion depends on the \NExited M\&A exits, which have no end
-price and are dropped from these estimates. Assigning them the 5th or 95th
-percentile return puts the IC in $[\BoundICLow,\BoundICHigh]$ and the excess
-in $[\BoundExLow,\BoundExHigh]$~pp. The excess turns negative under both
-bounds because the top-ranked firm (CTRA) was among the exits: the bounds
-keep it in the portfolio, whereas the main estimate replaces it with the
-next-ranked firm.
+The composite does not predict returns, so H1 and H3 are not supported. Its
+IC with the country-neutral full-window return is \HOneEst (95\% CI
+$[\HOneLo,\HOneHi]$), and its top-\TopN portfolio beat the universe by
+\HThreeEst percentage points (pp), with CI $[\HThreeLo,\HThreeHi]$. The
+\NExited firms acquired during the window do not change this. Assigning them
+the 5th or 95th percentile return puts the IC in
+$[\BoundICLow,\BoundICHigh]$ and the excess return in
+$[\BoundExLow,\BoundExHigh]$~pp; the excess turns negative under both bounds
+because the top-ranked firm (CTRA) was among the exits and the bounds keep it
+in the portfolio.
 
-\textbf{H2 (risk): supported.} Controlling for trailing volatility, higher
-ESG predicts lower realised volatility: partial $\rho=\HTwoEst$, 95\% CI
-$[\HTwoLo,\HTwoHi]$, Holm $p=\HTwoHolm$. The effect is economically modest.
-Trailing volatility alone has a rank correlation of \RhoVolPersist with
-realised volatility, so most of the raw ESG--volatility association
+ESG does predict risk, so H2 is supported. Controlling for trailing
+volatility, higher ESG predicts lower realised volatility, with partial
+$\rho=\HTwoEst$ (95\% CI $[\HTwoLo,\HTwoHi]$, Holm $p=\HTwoHolm$). The effect
+is modest relative to the persistence of volatility itself: trailing
+volatility alone has a rank correlation of \RhoVolPersist with realised
+volatility, so most of the raw ESG--volatility association
 ($\rho=\RhoESGVolRaw$) is past volatility carried forward.
 
-\textbf{Secondary evidence.} Figure~\ref{fig:oos_ic} and
-Table~\ref{tab:oos_ic} give ICs for all factors and composites. No composite
-has a positive IC at any horizon. The only Holm-significant full-window IC is
-negative, for the S pillar (\ICSFull). At one month, the financial and market
-scores have significantly \emph{negative} ICs, consistent with short-term
-reversal. Table~\ref{tab:oos_risk} decomposes the risk effect:
-\begin{itemize}
-\item In rank regressions with trailing volatility, trailing beta, size, and
-  sector and country fixed effects, the composite (\RegVolESG, $p=\RegVolPESG$)
-  and the S pillar (\RegVolS, $p=\RegVolPS$) predict lower realised
-  volatility.
-\item The G pillar has a pooled partial correlation of \PartBetaG with
-  realised \emph{beta} but no volatility coefficient in the regression
-  (\RegVolG, $p=\RegVolPG$).
-  The beta association is a pooling effect: it disappears once sector and
-  country fixed effects are added (Table~\ref{tab:ext_controls}).
-\item The E pillar predicts neither.
-\item The part of ESG that is orthogonal to the other factors predicts
-  neither at the 5\% level.
-\end{itemize}
-The forward risk signal is therefore carried mostly by the financial-proxy S
-pillar. Section~\ref{sec:res_mechanism} asks what that signal is.
+The secondary results locate the signal (Figure~\ref{fig:oos_ic} and
+Tables~\ref{tab:oos_ic} and~\ref{tab:oos_risk}). No composite has a positive
+IC at any horizon, and the only Holm-significant full-window IC is negative,
+for the S pillar (\ICSFull). At one month the financial and market scores
+have significantly \emph{negative} ICs, consistent with short-term reversal.
+In rank regressions with trailing volatility, beta, size, and sector and
+country effects, both the composite (\RegVolESG, $p=\RegVolPESG$) and the S
+pillar (\RegVolS, $p=\RegVolPS$) predict lower realised volatility, whereas
+the E pillar, the G pillar and the part of ESG orthogonal to the other
+factors do not. The G pillar's pooled association with realised beta
+(\PartBetaG) disappears once sector and country effects are added
+(Table~\ref{tab:ext_controls}). The forward risk signal is therefore carried
+mainly by the financial-proxy S pillar.
 
-\textbf{The cost of the tilt.} Table~\ref{tab:oos_port} shows what the risk
-tilt cost in a rising market. The top-\TopN ESG-only portfolio's excess return
-over the universe was \ExESGFull~pp (CI $[\ExESGFullLo,\ExESGFullHi]$). Adjusting for
-trailing beta leaves \ExESGBA~pp. Sector-and-country neutralisation reduces
-the gap to \ExESGSN~pp (CI $[\ExESGSNLo,\ExESGSNHi]$): more than half of the
-shortfall is a sector bet. The portfolio overweights real estate, utilities
-and energy, and holds no technology or healthcare firms, the two
+The risk tilt was costly in a rising market (Table~\ref{tab:oos_port}). The
+top-\TopN ESG-only portfolio returned \ExESGFull~pp relative to the universe
+(CI $[\ExESGFullLo,\ExESGFullHi]$), or \ExESGBA~pp after adjusting for
+trailing beta. Sector-and-country neutralisation reduces the gap to
+\ExESGSN~pp (CI $[\ExESGSNLo,\ExESGSNHi]$), so more than half of the
+shortfall is a sector bet: the portfolio overweights real estate, utilities
+and energy and holds no technology or healthcare firms, the two
 best-performing sectors of the window.
 
 \begin{figure}[t]
@@ -219,10 +188,10 @@ beta, size, and sector and country effects (HC3).}
 \subsection{RQ4: Where the Risk Signal Comes From}
 \label{sec:res_mechanism}
 
-H2 is the only supported hypothesis, so we test it hardest.
-Figure~\ref{fig:mechanism} summarises the evidence, and
-Tables~\ref{tab:ext_controls} and~\ref{tab:ext_robust} give the details. The
-answer has three parts.
+Because H2 is the only supported hypothesis, we test it against the three
+alternative explanations of Section~\ref{sec:ext_design}
+(Figure~\ref{fig:mechanism}, Tables~\ref{tab:ext_controls}
+and~\ref{tab:ext_robust}).
 
 \begin{figure*}[t]
 \centering
@@ -236,54 +205,42 @@ over (\DryAnchor,\,\DryEnd] given the preceding months. 95\% intervals.}
 \label{fig:mechanism}
 \end{figure*}
 
-\textbf{It survives known risk factors.} With full controls (trailing
-volatility and beta, size, quality, leverage, liquidity, momentum, value, and
-sector and country effects), the ESG coefficient is \HFourEst (95\% CI
-$[\HFourLo,\HFourHi]$, one-sided $p=\HFourP$; H4). Two further checks agree.
-\begin{itemize}
-\item \emph{Double sort.} Within trailing-volatility terciles, high-ESG
-  minus low-ESG realised volatility averaged \DSAvg~pp (CI
-  $[\DSLo,\DSHi]$). The gap grows from \DSLowTerc~pp in the calmest tercile
-  to \DSHighTerc~pp in the most volatile.
-\item \emph{Robustness.} The effect holds without the \NPinned takeover-pinned
-  firms, with winsorised volatility, without utilities and real estate, and
-  has the same sign in both countries (US \HTwoUS, India \HTwoIndia).
-\end{itemize}
-The ESG--beta association does not survive: it falls from \BetaTrailESG
-($p=\BetaTrailESGP$) with the trailing control to \BetaFullESG
-($p=\BetaFullESGP$) with full controls. No ESG measure predicts drawdowns.
+The signal survives known risk characteristics. With all controls and
+sector and country effects, the ESG coefficient is \HFourEst (95\% CI
+$[\HFourLo,\HFourHi]$, one-sided $p=\HFourP$; H4). A double sort agrees:
+within trailing-volatility terciles, high-ESG firms had \DSAvg~pp lower
+realised volatility than low-ESG firms on average (CI $[\DSLo,\DSHi]$), and
+the gap widens from \DSLowTerc~pp in the calmest tercile to \DSHighTerc~pp in
+the most volatile. The result holds without the \NPinned takeover-pinned
+firms, with winsorised volatility and without utilities and real estate, and
+it has the same sign in both countries (US \HTwoUS, India \HTwoIndia). The
+ESG--beta association does not survive full controls (\BetaFullESG,
+$p=\BetaFullESGP$), and no ESG measure predicts drawdowns.
 
-\textbf{It is not in the measured ESG data.} The signal sits in the S pillar
-(\HFourS, $p=\HFourSP$), whose inputs are almost all financial proxies. The
-G pillar (\HFourG) carries none of it. Splitting each firm's cells by source
-makes this sharper:
-\begin{itemize}
-\item \emph{Measured cells} (ISS, SEC, registry) have partial
-  $\rho=\PartMeas$ with realised volatility (CI $[\PartMeasLo,\PartMeasHi]$),
-  and are nearly independent of the financial factors ($R^2=\RSqMeas$).
-\item \emph{Proxy cells} are largely financial ($R^2=\RSqProxy$) and have
-  partial $\rho=\PartProxy$ (CI $[\PartProxyLo,\PartProxyHi]$): the same sign
-  as the S pillar, but imprecise once pooled across pillars.
-\item \emph{Imputed cells} have a strong raw association (\PartImp), which
-  is a sector effect: it vanishes once sector fixed effects are included
-  (Table~\ref{tab:ext_controls}).
-\end{itemize}
-The two non-imputed sub-scores are almost unrelated ($\rho=\RhoMeasProxy$).
-Adding measured-cell ESG to the out-of-fold volatility forecast changes $R^2$
-by \CVDeltaMeas.
+The signal does not come from measured ESG data. It sits in the S pillar
+(\HFourS, $p=\HFourSP$), whose inputs are almost all financial proxies,
+while the G pillar carries none of it (\HFourG). Splitting each firm's cells
+by source makes the point directly. Measured cells (ISS, SEC, registry) are
+nearly independent of the financial factors ($R^2=\RSqMeas$) and have
+partial $\rho=\PartMeas$ with realised volatility (CI
+$[\PartMeasLo,\PartMeasHi]$). Proxy cells are largely financial
+($R^2=\RSqProxy$) and have the same sign as the S pillar, though imprecisely
+($\rho=\PartProxy$, CI $[\PartProxyLo,\PartProxyHi]$). Imputed cells show a
+strong raw association (\PartImp) that vanishes once sector fixed effects
+are included. Adding measured-cell ESG to the out-of-fold volatility
+forecast changes $R^2$ by \CVDeltaMeas.
 
-\textbf{It is small, and partly stale volatility.} Adding the composite to a
+The signal is small and partly stale volatility. Adding the composite to a
 cross-validated volatility forecast raises out-of-fold $R^2$ from \CVBaseRSq
 to \CVESGRSq, an improvement in \CVShareImproved\% of repeats but only
-\CVDeltaESG in size. Recent volatility erodes it further. Given pre-snapshot
-volatility, ESG's partial correlation with second-half volatility is
-\RecTrail. Given first-half realised volatility it is \RecFirst (CI
-$[\RecFirstLo,\RecFirstHi]$, $p=\RecFirstP$), and given both it is \RecBoth.
-The monthly partial correlations are negative in \MonNegPartial of
-\NMonths months, but each is small (\MonPartMin to \MonPartMax). ESG
-therefore behaves like a slow-moving summary of a firm's risk profile. It
-adds a little beyond long-horizon trailing volatility and little beyond
-recent volatility.
+\CVDeltaESG in size. Given pre-snapshot volatility, ESG's partial
+correlation with second-half volatility is \RecTrail; given first-half
+realised volatility, which an investor would have observed, it falls to
+\RecFirst (CI $[\RecFirstLo,\RecFirstHi]$, $p=\RecFirstP$). The monthly
+partial correlations are negative in \MonNegPartial of \NMonths months but
+small. ESG therefore behaves like a slow-moving summary of a firm's risk
+profile, adding a little beyond long-horizon trailing volatility and little
+beyond recent volatility.
 
 \begin{table}[t]
 \centering
@@ -312,30 +269,19 @@ volatility after \SplitDate, given earlier volatility.}
 \subsection{Robustness of the Return Null}
 \label{sec:res_null}
 
-The failure of H1 is not a consequence of the chosen weights
-(Figure~\ref{fig:ext_weights}).
-\begin{itemize}
-\item \emph{Random weights.} Across \WDraws weight vectors drawn uniformly
-  from the simplex, the OOS IC has median \WICMedian (2.5--97.5\% range
-  $[\WICLo,\WICHi]$) and is positive in only \WSharePos\% of draws. Around
-  the deployed weights ($\kappa=\BootKappa$), it is positive in
-  \WKapSharePos\% of draws.
-\item \emph{ESG weight.} More ESG weight lowers the IC (rank correlation
-  \WCorrESGIC across draws). The IC moves from \SweepICZero with no ESG to
-  \SweepICOne with ESG only.
-\item \emph{Low volatility without ESG.} The top-\TopN portfolio has lower
-  realised volatility than the universe in \WShareLowVol\% of draws, whatever
-  the ESG weight (rank correlation \WCorrESGVol). With no ESG weight, its
-  volatility relative to the universe is already \SweepVolZero~pp. The
-  composite's low-risk profile comes from its risk-adjusted and stability
-  factors, not from ESG.
-\item \emph{Over time.} Monthly ICs of the balanced composite are negative
-  in \MonNegICBal of \NMonths months (range \MonICMin to \MonICMax).
-\item \emph{Costs.} Round-trip costs for the top-\TopN portfolio are
-  \CostRT~pp, which leaves a net excess of \NetExBase~pp (\NetExStress~pp at
-  three times the costs). The sign of H3 is thus unaffected, and it remains
-  insignificant.
-\end{itemize}
+The failure of H1 does not depend on the chosen weights
+(Figure~\ref{fig:ext_weights}). Across \WDraws weight vectors drawn uniformly
+from the simplex, the OOS IC has median \WICMedian and is positive in only
+\WSharePos\% of draws. More ESG weight lowers the IC, which moves from
+\SweepICZero with no ESG to \SweepICOne with ESG only. The low risk of the
+index portfolio does not come from ESG either: its realised volatility is
+below the universe's in \WShareLowVol\% of draws whatever the ESG weight, and
+already \SweepVolZero~pp relative to the universe with no ESG weight, because
+the risk-adjusted and stability factors select calm firms. Monthly ICs of the
+balanced composite are negative in \MonNegICBal of \NMonths months, and
+round-trip costs of \CostRT~pp leave a net excess of \NetExBase~pp
+(\NetExStress~pp at three times the costs), which does not change the H3
+conclusion.
 
 \begin{figure*}[t]
 \centering
@@ -352,15 +298,14 @@ universe on the same sweep. Dotted line: deployed ESG weight.}
 \subsection{Rank Uncertainty}
 \label{sec:res_rank}
 
-Figure~\ref{fig:rank_ci} and Table~\ref{tab:top} report rank intervals for
-the balanced profile. For the top-\TopN names, the median 95\% interval spans
-\CIWidthTop ranks (maximum \CIWidthTopMax). Weight uncertainty dominates:
-alone it gives \CIWidthTopWeights ranks, against \CIWidthTopSampling for
-universe resampling. Of the \TopN current constituents, \NPTopHalf remain in
-the top-\TopN in at least half of the draws, and the expected overlap between
-the published and a perturbed portfolio is \ExpOverlap names. Rankings near
-the top are therefore reasonably determined \emph{given} the construction;
-the OOS results show that the construction itself does not predict returns.
+Given the construction, rankings near the top are reasonably well determined
+(Figure~\ref{fig:rank_ci} and Table~\ref{tab:top}). For the top-\TopN names,
+the median 95\% rank interval spans \CIWidthTop ranks, and weight
+uncertainty dominates sampling uncertainty (\CIWidthTopWeights against
+\CIWidthTopSampling ranks). Of the \TopN current constituents, \NPTopHalf
+remain in the top-\TopN in at least half of the draws, and a perturbed
+portfolio is expected to share \ExpOverlap names with the published one.
+Stable rankings do not, however, make the construction predictive.
 
 \begin{figure}[t]
 \centering
