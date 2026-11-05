@@ -150,8 +150,8 @@ the February~2026 weights, which predate the snapshot, and equal weights.
 Before any OOS number was computed, we audited the pipeline and corrected
 the following (full list in Appendix~\ref{app:audit}):
 \begin{enumerate}
-\item \textbf{Double direction flips.} \texttt{scope1\_emissions} and
-  \texttt{esg\_risk\_rating} were already stored as ``higher is better''
+\item \textbf{Double direction flips.} The Scope~1 emissions and ESG
+  risk-rating indicators were already stored as ``higher is better''
   scores, and were flipped again. This rewarded high-emission and high-governance-risk firms. The
   Spearman correlation between the pre- and post-audit E pillars is
   \RhoPrePostE; for G it is \RhoPrePostG.
@@ -186,7 +186,7 @@ inflate apparent quality. Those designs are:
 \begin{enumerate}
 \item Rank information coefficients (``ICs'') against 1-, 3- and 6-month \emph{trailing} returns, which
   end on the snapshot date.
-\item ICs against a \texttt{forward\_quality\_proxy}. Despite its name, this is
+\item ICs against a ``forward quality proxy''. Despite its name, this is
   a \emph{contemporaneous} composite of ROA, ROE, margins, growth and
   liquidity, inputs shared with several factors.
 \item Quintile monotonicity tests against the same proxy.
@@ -295,15 +295,14 @@ For the return null we report three checks:
 To make the next test confirmatory, we froze the \NMid firm scores and a
 four-hypothesis analysis plan on \PreregFrozen, before the second window
 (\PreregAnchor,\,\PreregEnd] opened. The plan, the frozen scores and the
-evaluation code are hashed (SHA-256). The package
-(\texttt{preregistration/window2}) was pushed to the public project
+evaluation code are hashed (SHA-256). The package was pushed to the public project
 repository on \PreregFrozen, and that push is its timestamp. At the time of
 writing the window is still open, and no outcome in it has been computed.
 The plan
 keeps H1--H3, adds H4 (Section~\ref{sec:ext_design}) and applies the Holm
 correction across all four. In H2 and H4 the controls are what is observable
 at the anchor date, namely six months of realised volatility, beta and
-return. The evaluation script refuses to run before the window closes or if
+return. The evaluation code refuses to run before the window closes or if
 any registered file has changed. A dry run of the same code on
 (\DryAnchor,\,\DryEnd] is included in the registration.
 

@@ -24,31 +24,31 @@ gap, injury rate, CEO pay ratio and the anti-corruption policy flag.
 \footnotesize
 \begin{tabularx}{\textwidth}{@{}llX@{}}
 \toprule
-Pillar & Indicator (column) & Actual construction \\
+Pillar & Indicator & Actual construction \\
 \midrule
-E & \texttt{scope1\_emissions} & Sector pct.\ of operating margin (higher margin $\Rightarrow$ assumed lower emissions intensity) \cite{konar2001does} \\
-E & \texttt{renewable\_energy\_pct} & Sector pct.\ of revenue / market capitalisation \\
-E & \texttt{waste\_recycling\_pct} & Sector pct.\ of gross margin \cite{guenster2011ecoefficiency} \\
-E & \texttt{carbon\_reduction\_target} & 1 if listed as CDP reporter, SBTi participant or RE100 member, else 0 \\
+E & Scope~1 emissions & Sector pct.\ of operating margin (higher margin $\Rightarrow$ assumed lower emissions intensity) \cite{konar2001does} \\
+E & Renewable-energy share & Sector pct.\ of revenue / market capitalisation \\
+E & Waste recycling rate & Sector pct.\ of gross margin \cite{guenster2011ecoefficiency} \\
+E & Carbon-reduction target & 1 if listed as CDP reporter, SBTi participant or RE100 member, else 0 \\
 \midrule
-S & \texttt{gender\_diversity\_pct} & Sector pct.\ of R\&D / revenue (operating-margin fallback) \\
-S & \texttt{safety\_training\_hours} & Mean of sector pct.\ of log employees and of operating margin \\
-S & \texttt{employee\_satisfaction} & Sector pct.\ of revenue per employee \cite{edmans_2011} \\
-S & \texttt{revenue\_per\_employee} & Revenue per employee (direct ratio; duplicates the previous row's input) \\
-S & \texttt{community\_investment\_pct} & Sector pct.\ of dividend yield + FCF / revenue \\
-S & \texttt{supply\_chain\_audit\_pct} & Sector pct.\ of payout ratio + current ratio \cite{krause2009supply} \\
-S & \texttt{human\_rights\_policy} & 1 if UN Global Compact signatory, else 0 \\
+S & Gender diversity & Sector pct.\ of R\&D / revenue (operating-margin fallback) \\
+S & Safety training hours & Mean of sector pct.\ of log employees and of operating margin \\
+S & Employee satisfaction & Sector pct.\ of revenue per employee \cite{edmans_2011} \\
+S & Revenue per employee & Direct ratio; duplicates the previous row's input \\
+S & Community investment & Sector pct.\ of dividend yield + FCF / revenue \\
+S & Supply-chain audit coverage & Sector pct.\ of payout ratio + current ratio \cite{krause2009supply} \\
+S & Human-rights policy & 1 if UN Global Compact signatory, else 0 \\
 \midrule
-G & \texttt{board\_independence\_pct} & ISS board risk, $(10-r)\times10$; else SEC dividend item; else sector median \\
-G & \texttt{exec\_comp\_esg\_linked} & ISS compensation risk; else SEC share-based compensation item \\
-G & \texttt{shareholder\_rights\_score} & ISS shareholder-rights risk; else sector pct.\ of $1/(\text{D/E})$ + dividend yield \\
-G & \texttt{ethics\_compliance\_score} & ISS audit risk; else sector median \\
-G & \texttt{esg\_risk\_rating} & ISS overall governance risk; else sector median \\
-G & \texttt{tax\_transparency\_score} & SEC effective tax rate (banded); else institutional ownership (\%) \\
-G & \texttt{data\_privacy\_score} & Insider ownership, banded (peak score at 10--30\%) \\
-G & \texttt{esg\_controversy\_score} & Analyst coverage, $20+2.5\times$ count, capped at 90 \\
-G & \texttt{board\_diversity\_pct} & Sector pct.\ of log market cap and inverse beta \cite{adams2009women} \\
-G & \texttt{board\_size} & SEC operating-segment count, banded (8 firms); else sector or global median \\
+G & Board independence & ISS board risk, $(10-r)\times10$; else SEC dividend item; else sector median \\
+G & ESG-linked executive pay & ISS compensation risk; else SEC share-based compensation item \\
+G & Shareholder rights & ISS shareholder-rights risk; else sector pct.\ of $1/(\text{D/E})$ + dividend yield \\
+G & Ethics and compliance & ISS audit risk; else sector median \\
+G & ESG risk rating & ISS overall governance risk; else sector median \\
+G & Tax transparency & SEC effective tax rate (banded); else institutional ownership (\%) \\
+G & Data privacy & Insider ownership, banded (peak score at 10--30\%) \\
+G & ESG controversies & Analyst coverage, $20+2.5\times$ count, capped at 90 \\
+G & Board diversity & Sector pct.\ of log market cap and inverse beta \cite{adams2009women} \\
+G & Board size & SEC operating-segment count, banded (8 firms); else sector or global median \\
 \bottomrule
 \end{tabularx}
 \end{table*}
@@ -58,7 +58,6 @@ G & \texttt{board\_size} & SEC operating-segment count, banded (8 firms); else s
 
 Table~\ref{tab:sasb} gives the pillar weights used to combine the E, S and G
 scores within each sector (Section~\ref{sec:factors}). Each row sums to one.
-The weights are read from \texttt{config/sasb\_materiality.yaml}.
 
 \begin{table}[h]
 \centering
@@ -75,24 +74,24 @@ Materiality Map \cite{sasb_2023}.}
 All corrections below were made before any post-snapshot price was
 downloaded.
 \begin{enumerate}
-\item \emph{ESG direction.} \texttt{scope1\_emissions} and
-  \texttt{esg\_risk\_rating} were removed from the lower-is-better set,
+\item \emph{ESG direction.} The Scope~1 emissions and ESG risk-rating
+  indicators were removed from the lower-is-better set,
   because both are stored as higher-is-better scores.
 \item \emph{Imputation noise.} Multiplicative $\mathcal{N}(1,0.04)$ noise in
   sector and global median imputation was removed.
 \item \emph{Registry data.} Registry memberships are encoded as 0/1 and no
-  longer overwrite continuous emissions and renewable-share columns. A
+  longer overwrite continuous emissions and renewable-share indicators. A
   mapping of a 40--70 score onto the binary anti-corruption flag, which made
   that flag constant, was removed.
 \item \emph{Source precedence.} ISS governance scores now take precedence
-  over SEC financial items mapped onto governance columns. A syntax error in
-  this step had prevented the download script from running.
+  over SEC financial items mapped onto governance indicators. A coding error in
+  this step had prevented the data-collection stage from running.
 \item \emph{Monotonicity correction.} The isotonic fit to the validation
-  proxy is disabled by default (\texttt{monotonicity\_correction: false}).
+  proxy is disabled in all reported results.
 \item \emph{Preference transforms.} The undocumented bottom-30\% quality gate
-  and the power exponent of 1.5 are disabled by default.
+  and the power exponent of 1.5 are disabled in all reported results.
 \item \emph{Snapshot consistency.} FX is taken at the snapshot rate.
-  \texttt{market\_share} is recomputed after currency conversion. Firms that
+  Within-sector revenue share is recomputed after currency conversion. Firms that
   did not trade on the snapshot date are removed.
 \item \emph{Portfolio size.} $N^\star=\lceil 0.07N_{\mathrm{mid}}\rceil$, bounded
   to $[10,50]$, replaces an earlier rounding rule that hard-coded

@@ -98,3 +98,21 @@ Full rereads were repeated until one pass needed no edits. Only wording changed;
 | 3 | App. B, Table XIII | Config path moved out of the small-caps caption and into the body text |
 | 3 | §VI-B | "four artefacts" → "four validation pitfalls" (Section V-B also covers the direction errors, so "four artefacts" miscounted) |
 | 4 | — | No changes |
+
+## Code identifiers removed from the manuscript (2026-11-05)
+
+The paper now refers to the code only through the repository link (withheld in
+the anonymised build). File names, column names, configuration keys and
+command-line flags were replaced by plain-language descriptions:
+
+| Location | Before | After |
+|---|---|---|
+| Appendix A, Table XII | `scope1_emissions`, `board_size`, ... (21 column names) | Scope 1 emissions, Board size, ... |
+| Appendix B | "weights are read from `config/sasb_materiality.yaml`" | removed |
+| Appendix C, items 1, 3-5, 7 | column names, `monotonicity_correction: false`, `market_share`, "download script" | indicator names, "disabled in all reported results", "within-sector revenue share", "data-collection stage" |
+| Sec. III-F, item 1 | `scope1_emissions`, `esg_risk_rating` | Scope 1 emissions and ESG risk-rating indicators |
+| Sec. IV-A | `forward_quality_proxy` | "forward quality proxy" |
+| Sec. IV-D | `(preregistration/window2)`, "evaluation script" | removed, "evaluation code" |
+| Conclusion, Reproducibility | `run_all.py --skip-download`, Step 25 `--refresh`, Step 28 `evaluate` | one prose sentence; the repository documents each step |
+
+No numbers changed. Both builds: 0 errors/overfull/undefined/bib warnings, 14 pages; anonymity check 0; 325 tests pass; registration hashes match.

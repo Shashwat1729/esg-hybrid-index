@@ -49,11 +49,7 @@ from public data.
 \textbf{Reproducibility.} The code, configuration, cached raw data, frozen
 pre-audit outputs and the registration package are in the project
 repository\RepoNote.
-\begin{itemize}
-\item \texttt{run\_all.py --skip-download} rebuilds every table, figure and
-  number in this paper from the \SnapshotDate snapshot and the cached
-  post-snapshot prices.
-\item Step~25 with \texttt{--refresh} re-downloads the prices.
-\item Step~28 (\texttt{evaluate}) runs the registered test once the second
-  window has closed.
-\end{itemize}
+A single command rebuilds every table, figure and number in this paper
+from the \SnapshotDate snapshot and the cached post-snapshot prices. The
+same pipeline can re-download the prices and, once the second window has
+closed, runs the registered test; the repository documents each step.
